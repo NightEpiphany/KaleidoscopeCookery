@@ -92,7 +92,8 @@ public class FruitBasketBlock extends HorizontalDirectionalBlock implements Enti
                 fruitBasket.takeOut(player);
                 return ItemInteractionResult.SUCCESS;
             }
-            if (!player.getMainHandItem().isEmpty()) {
+            ItemStack mainHandItem = player.getMainHandItem();
+            if (!mainHandItem.isEmpty()&& !mainHandItem.is(ModItems.TRANSMUTATION_LUNCH_BAG)) {
                 fruitBasket.putOn(player.getMainHandItem());
                 return ItemInteractionResult.SUCCESS;
             }
@@ -108,6 +109,14 @@ public class FruitBasketBlock extends HorizontalDirectionalBlock implements Enti
                 basket.setItems(handler.items());
             }
         }
+    }
+
+    @Override
+    public @NotNull BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+        if (!level.isClientSide && player.isCreative()) {
+            dropResources(state, level, pos, level.getBlockEntity(pos), player, player.getMainHandItem());
+        }
+        return super.playerWillDestroy(level, pos, state, player);
     }
 
     @Override

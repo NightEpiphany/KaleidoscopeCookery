@@ -75,4 +75,12 @@ public class KitchenwareRacksBlockEntity extends BaseBlockEntity implements IKit
     public ItemStack getItemRight() {
         return itemRight;
     }
+
+    public void setItemLeft(ItemStack itemLeft) {
+        this.itemLeft = itemLeft;
+    }
+
+    public void setItemRight(ItemStack itemRight) {
+        this.itemRight = itemRight;
+    }
 }

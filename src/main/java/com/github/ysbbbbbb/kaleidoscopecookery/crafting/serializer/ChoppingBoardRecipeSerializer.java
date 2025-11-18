@@ -12,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import org.jetbrains.annotations.NotNull;
 
 public class ChoppingBoardRecipeSerializer implements RecipeSerializer<ChoppingBoardRecipe> {
     public static final ResourceLocation EMPTY = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "empty");
@@ -32,12 +33,12 @@ public class ChoppingBoardRecipeSerializer implements RecipeSerializer<ChoppingB
             ChoppingBoardRecipe::new);
 
     @Override
-    public MapCodec<ChoppingBoardRecipe> codec() {
+    public @NotNull MapCodec<ChoppingBoardRecipe> codec() {
         return CODEC;
     }
 
     @Override
-    public StreamCodec<RegistryFriendlyByteBuf, ChoppingBoardRecipe> streamCodec() {
+    public @NotNull StreamCodec<RegistryFriendlyByteBuf, ChoppingBoardRecipe> streamCodec() {
         return STREAM_CODEC;
     }
 }

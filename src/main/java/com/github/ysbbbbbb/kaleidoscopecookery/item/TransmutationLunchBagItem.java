@@ -10,6 +10,8 @@ import com.github.ysbbbbbb.kaleidoscopecookery.util.neo.ItemStackHandler;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
@@ -22,7 +24,6 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -43,8 +44,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 public class TransmutationLunchBagItem extends Item {
     public static final ResourceLocation HAS_ITEMS_PROPERTY = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "has_items");
@@ -55,7 +58,7 @@ public class TransmutationLunchBagItem extends Item {
     private static final String TAG_ITEMS = "Items";
 
     public TransmutationLunchBagItem() {
-        super((new Properties()).stacksTo(1));
+        super((new Item.Properties()).stacksTo(1));
     }
 
     @Environment(EnvType.CLIENT)
@@ -146,18 +149,24 @@ public class TransmutationLunchBagItem extends Item {
         return InteractionResult.sidedSuccess(context.getLevel().isClientSide);
     }
 
+
+    @Override
+    public boolean allowComponentsUpdateAnimation(Player player, InteractionHand hand, ItemStack oldStack, ItemStack newStack) {
+        if (player.isSecondaryUseActive()) {
+            // 摆动动作时，取出物品
+            if (dropContents(oldStack, player)) {
+                this.playDropContentsSound(player);
+                return true;
+            }
+        }
+        return super.allowComponentsUpdateAnimation(player, hand, oldStack, newStack);
+    }
+
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack itemInHand = player.getItemInHand(hand);
-        // 潜行右键使用，取出物品
-        if (player.isSecondaryUseActive() && dropContents(itemInHand, player)) {
-            this.playDropContentsSound(player);
-            player.awardStat(Stats.ITEM_USED.get(this));
-            return InteractionResultHolder.sidedSuccess(itemInHand, level.isClientSide());
-        }
-
-        // 非潜行状态，并且里面有物品
-        if (!player.isSecondaryUseActive() && hasItems(itemInHand)) {
+        // 里面有物品
+        if (hasItems(itemInHand)) {
             boolean hasFood = false;
             ItemStackHandler items = getItems(itemInHand);
             for (int i = 0; i < items.getSlots(); i++) {
@@ -177,13 +186,12 @@ public class TransmutationLunchBagItem extends Item {
     }
 
     @Override
-    @SuppressWarnings("all")
-    public ItemStack finishUsingItem(ItemStack bag, Level level, LivingEntity entity) {
+    public @NotNull ItemStack finishUsingItem(ItemStack bag, Level level, LivingEntity entity) {
         if (!hasItems(bag)) {
             return bag;
         }
         ItemStack food = ItemStack.EMPTY;
-        List<FoodProperties.PossibleEffect> effects = Lists.newArrayList();
+        List<List<FoodProperties.PossibleEffect>> effects = Lists.newArrayList();
 
         ItemStackHandler items = getItems(bag);
         for (int i = 0; i < items.getSlots(); i++) {
@@ -193,11 +201,12 @@ public class TransmutationLunchBagItem extends Item {
             }
 
             // 先检查是不是食物
-            FoodProperties properties = stackInSlot.get(DataComponents.FOOD);
-            if (properties != null) {
+            FoodProperties foodProperties = stackInSlot.get(DataComponents.FOOD);
+            if (foodProperties != null) {
                 // 第一个食物的效果不加入其中，避免重复
                 if (!food.isEmpty()) {
-                    effects.addAll(properties.effects());
+                    List<FoodProperties.PossibleEffect> foodEffects = foodProperties.effects();
+                    effects.add(foodEffects);
                 } else {
                     food = items.extractItem(i, 1, false);
                 }
@@ -209,8 +218,9 @@ public class TransmutationLunchBagItem extends Item {
             if (potionContents != null) {
                 // 第一个药水的效果不加入其中，避免重复
                 if (!food.isEmpty()) {
-                    potionContents.customEffects().stream()
-                            .forEach(e -> effects.add(new FoodProperties.PossibleEffect(e, 1F)));
+                    List<FoodProperties.PossibleEffect> potionEffects = Lists.newArrayList();
+                    potionContents.forEachEffect(e -> potionEffects.add(new FoodProperties.PossibleEffect(e, 1F)));
+                    effects.add(potionEffects);
                 } else {
                     food = items.extractItem(i, 1, false);
                 }
@@ -233,11 +243,35 @@ public class TransmutationLunchBagItem extends Item {
             }
 
             // 处理效果
-            for (var effect : effects) {
-                if (level.isClientSide || effect.probability() <= 0.0F || level.random.nextFloat() >= effect.probability()) {
-                    continue;
+            // 随机选择三个食物的效果
+            boolean hasExtraEffects = false;
+            Collections.shuffle(effects, new Random());
+            int effectsToApply = Math.min(3, effects.size());
+            for (int i = 0; i < effectsToApply; i++) {
+                List<FoodProperties.PossibleEffect> selected = effects.get(i);
+                for (FoodProperties.PossibleEffect effect : selected) {
+                    if (level.isClientSide || effect.probability() <= 0.0F || level.random.nextFloat() >= effect.probability()) {
+                        continue;
+                    }
+                    entity.addEffect(new MobEffectInstance(effect.effect()));
+                    hasExtraEffects = true;
                 }
-                entity.addEffect(new MobEffectInstance(effect.effect()));
+            }
+
+            // 如果有额外效果，那么随机扣除一个物品
+            if (hasExtraEffects) {
+                IntList foodSlots = new IntArrayList();
+                for (int i = 0; i < items.getSlots(); i++) {
+                    ItemStack stackInSlot = items.getStackInSlot(i);
+                    if (!stackInSlot.isEmpty()) {
+                        foodSlots.add(i);
+                    }
+                }
+                if (!foodSlots.isEmpty()) {
+                    int randomIndex = level.random.nextInt(foodSlots.size());
+                    int slotToExtract = foodSlots.getInt(randomIndex);
+                    items.extractItem(slotToExtract, 1, false);
+                }
             }
 
             // 给予成就
@@ -275,9 +309,12 @@ public class TransmutationLunchBagItem extends Item {
             removeOne(bag).ifPresent(stack -> add(bag, slot.safeInsert(stack)));
         } else if (clickItem.getItem().canFitInsideContainerItems() && canAdd(clickItem)) {
             // 否则，放入食物
-            int addCount = add(bag, clickItem);
+            int addCount = add(bag, clickItem, true);
             if (addCount > 0) {
-                slot.safeTake(clickItem.getCount(), addCount, player);
+                ItemStack takeout = slot.safeTake(clickItem.getCount(), addCount, player);
+                if (!takeout.isEmpty()) {
+                    add(bag, takeout);
+                }
                 this.playInsertSound(player);
             }
         }
@@ -334,20 +371,23 @@ public class TransmutationLunchBagItem extends Item {
     }
 
     private static int add(ItemStack bag, ItemStack food) {
+        return add(bag, food, false);
+    }
+
+    private static int add(ItemStack bag, ItemStack food, boolean simulate) {
         if (food.isEmpty() || !food.getItem().canFitInsideContainerItems() || !canAdd(food)) {
             return 0;
         }
         int totalCount = food.getCount();
 
         ItemStackHandler items = getItems(bag);
-        ItemStack remaining = ItemUtils.insertItemStacked(items, food, false);
+        ItemStack remaining = ItemUtils.insertItemStacked(items, food, simulate);
 
         int addCount = totalCount - (remaining.isEmpty() ? 0 : remaining.getCount());
-        if (addCount > 0) {
+        if (!simulate && addCount > 0) {
             setItems(bag, items);
-            return addCount;
         }
-        return 0;
+        return addCount;
     }
 
     private static boolean dropContents(ItemStack bag, Player player) {
@@ -389,7 +429,7 @@ public class TransmutationLunchBagItem extends Item {
             return Optional.empty();
         }
         ItemStackHandler items = getItems(stack);
-        return Optional.of(new ItemContainerTooltip(items.getStacks()));
+        return Optional.of(new ItemContainerTooltip(items));
     }
 
     @Override
@@ -412,7 +452,7 @@ public class TransmutationLunchBagItem extends Item {
                     for (int i = 0; i < Math.min(list.size(), handler.getSlots()); i++) {
                         handler.setStackInSlot(i, list.get(i));
                     }
-                    return new ItemContainer(handler);
+                    return new TransmutationLunchBagItem.ItemContainer(handler);
                 },
                 container -> {
                     ItemStackHandler handler = container.items();
@@ -424,19 +464,19 @@ public class TransmutationLunchBagItem extends Item {
                 }
         );
 
-        public static final StreamCodec<RegistryFriendlyByteBuf, ItemContainer> STREAM_CODEC = new StreamCodec<>() {
+        public static final StreamCodec<RegistryFriendlyByteBuf, TransmutationLunchBagItem.ItemContainer> STREAM_CODEC = new StreamCodec<>() {
             @Override
-            public @NotNull ItemContainer decode(RegistryFriendlyByteBuf buffer) {
+            public TransmutationLunchBagItem.@NotNull ItemContainer decode(RegistryFriendlyByteBuf buffer) {
                 CompoundTag compoundTag = buffer.readNbt();
                 ItemStackHandler handler = new ItemStackHandler(MAX_SIZE);
                 if (compoundTag != null) {
                     handler.deserializeNBT(buffer.registryAccess(), compoundTag);
                 }
-                return new ItemContainer(handler);
+                return new TransmutationLunchBagItem.ItemContainer(handler);
             }
 
             @Override
-            public void encode(RegistryFriendlyByteBuf buffer, ItemContainer value) {
+            public void encode(RegistryFriendlyByteBuf buffer, TransmutationLunchBagItem.ItemContainer value) {
                 CompoundTag compoundTag = value.items().serializeNBT(buffer.registryAccess());
                 buffer.writeNbt(compoundTag);
             }

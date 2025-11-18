@@ -1,6 +1,6 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.event.recipe;
 
-import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.OilPotBlock;
+import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.OilPotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.MillstoneBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModEvents;
@@ -64,17 +64,19 @@ public class MillstoneSpecialFinishEvent {
         if (!blockState.is(ModBlocks.OIL_POT)) {
             return;
         }
-        // 如果油壶满了，那么不输出
-        int oilCount = blockState.getValue(OilPotBlock.OIL_COUNT);
-        if (oilCount >= OilPotBlock.MAX_OIL_COUNT) {
-            return;
+        if (level.getBlockEntity(below) instanceof OilPotBlockEntity be) {
+            // 如果油壶满了，那么不输出
+            int oilCount = be.getOilCount();
+            if (oilCount >= OilPotBlockEntity.MAX_OIL_COUNT) {
+                return;
+            }
+            // 不足 8 个时，概率产出
+            RandomSource random = level.getRandom();
+            if (random.nextInt(8) < output.getCount()) {
+               be.setOilCount(oilCount + 1);
+            }
+            millstone.resetWhenTakeout();
         }
-        // 不足 8 个时，概率产出
-        RandomSource random = level.getRandom();
-        if (random.nextInt(8) < output.getCount()) {
-            level.setBlockAndUpdate(below, blockState.setValue(OilPotBlock.OIL_COUNT, oilCount + 1));
-        }
-        millstone.resetWhenTakeout();
     }
 
     private static void handleWithHopper(MillstoneBlockEntity millstone, Level level, ItemStack output) {

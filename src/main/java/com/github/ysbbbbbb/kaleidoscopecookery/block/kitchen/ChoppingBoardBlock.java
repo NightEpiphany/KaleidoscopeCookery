@@ -57,7 +57,7 @@ public class ChoppingBoardBlock extends HorizontalDirectionalBlock implements En
     }
 
     @Override
-    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
+    protected @NotNull MapCodec<? extends HorizontalDirectionalBlock> codec() {
         return CODEC;
     }
 

@@ -4,6 +4,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.misc.RecipeBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.FruitBasketBlockEntity;
+import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.OilPotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.TableBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.KitchenwareRacksBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.PotBlockEntity;
@@ -39,6 +40,7 @@ public class ModPlugin implements IWailaPlugin {
         registration.registerItemStorage(PotComponentProvider.INSTANCE, PotBlockEntity.class);
         registration.registerItemStorage(StockpotComponentProvider.INSTANCE, StockpotBlockEntity.class);
         registration.registerItemStorage(SteamerComponentProvider.INSTANCE, SteamerBlockEntity.class);
+        registration.registerItemStorage(OilPotComponentProvider.INSTANCE, OilPotBlockEntity.class);
     }
 
     @Override
@@ -46,7 +48,6 @@ public class ModPlugin implements IWailaPlugin {
         registration.registerBlockComponent(ShawarmaSpitComponentProvider.INSTANCE, ShawarmaSpitBlock.class);
         registration.registerBlockComponent(ChoppingBoardComponentProvider.INSTANCE, ChoppingBoardBlock.class);
         registration.registerBlockComponent(EnamelBasinComponentProvider.INSTANCE, EnamelBasinBlock.class);
-        registration.registerBlockComponent(OilPotComponentProvider.INSTANCE, OilPotBlock.class);
 
         registration.registerItemStorageClient(FruitBasketComponentProvider.INSTANCE);
         registration.registerItemStorageClient(KitchenwareRackComponentProvider.INSTANCE);

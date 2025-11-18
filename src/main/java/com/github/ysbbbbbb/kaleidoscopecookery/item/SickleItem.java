@@ -1,15 +1,20 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.item;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.block.crop.RiceCropBlock;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.neo.SimpleTier;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BushBlock;
@@ -20,8 +25,17 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 public class SickleItem extends SwordItem {
-    private static final Tiers SICKLE_TIER = Tiers.STONE;
+    private static final SimpleTier SICKLE_TIER = new SimpleTier(
+            BlockTags.INCORRECT_FOR_STONE_TOOL,
+            2000, // 耐久度
+            4.0F, // 挖掘速度
+            1.0F, // 伤害加成
+            5, // 附魔值
+            () -> Ingredient.of(Items.FLINT)
+    );
 
     public SickleItem() {
         super(SICKLE_TIER,  new Properties());
@@ -113,5 +127,10 @@ public class SickleItem extends SwordItem {
             }
         }
         return false;
+    }
+
+    @Override
+    public void appendHoverText(ItemStack pStack, TooltipContext context, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+        pTooltipComponents.add(Component.translatable("tooltip.kaleidoscope_cookery.sickle").withStyle(ChatFormatting.GRAY));
     }
 }

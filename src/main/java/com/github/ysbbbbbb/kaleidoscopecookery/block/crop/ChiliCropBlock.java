@@ -9,6 +9,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.NotNull;
 
 public class ChiliCropBlock extends BaseCropBlock {
     public ChiliCropBlock() {
@@ -16,7 +17,7 @@ public class ChiliCropBlock extends BaseCropBlock {
     }
 
     @Override
-    public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+    public @NotNull InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (state.getValue(AGE) >= this.getMaxAge()) {
             // 20% 几率掉落青椒
             if (level.getRandom().nextInt(5) == 0) {

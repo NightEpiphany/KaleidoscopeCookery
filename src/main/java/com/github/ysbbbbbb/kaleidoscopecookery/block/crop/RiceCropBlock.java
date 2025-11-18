@@ -2,6 +2,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.block.crop;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModSounds;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -36,10 +37,12 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Predicate;
 
 
 public class RiceCropBlock extends BaseCropBlock implements SimpleWaterloggedBlock {
@@ -49,6 +52,8 @@ public class RiceCropBlock extends BaseCropBlock implements SimpleWaterloggedBlo
 
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final IntegerProperty LOCATION = IntegerProperty.create("location", DOWN, UP);
+
+    private static final Predicate<LivingEntity> RICE_GROWTH_BOOSTER = e -> e.isAlive() && e.getType().is(TagMod.RICE_GROWTH_BOOSTER);
 
     private static final VoxelShape BASE_SHAPE = Block.box(2, 0, 2, 14, 16, 14);
     private static final VoxelShape EMPTY_SHAPE = Shapes.empty();
@@ -74,7 +79,7 @@ public class RiceCropBlock extends BaseCropBlock implements SimpleWaterloggedBlo
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos) {
+    public @NotNull BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos) {
         if (state.getValue(WATERLOGGED)) {
             level.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
@@ -150,7 +155,7 @@ public class RiceCropBlock extends BaseCropBlock implements SimpleWaterloggedBlo
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
+    public @NotNull VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) {
         if (!isThreeBlock(state) && state.getValue(LOCATION) == MIDDLE) {
             return SHAPE_BY_AGE[state.getValue(AGE)];
         }
@@ -193,7 +198,12 @@ public class RiceCropBlock extends BaseCropBlock implements SimpleWaterloggedBlo
             // 生长速度慢 2 倍
             float speed = getGrowthSpeed(this, serverLevel, pos) / 2;
             // 如果稻田附加 3x3 区域有鱼，那么速度翻倍
-            List<AbstractFish> fish = serverLevel.getEntitiesOfClass(AbstractFish.class, new AABB(pos).inflate(1, 0, 1));
+            List<AbstractFish> fish = serverLevel
+                    .getEntitiesOfClass(
+                            AbstractFish.class,
+                            new AABB(pos).inflate(1, 0, 1),
+                            RICE_GROWTH_BOOSTER
+                    );
             if (!fish.isEmpty()) {
                 float size = (float) (Math.log(fish.size()) / Math.log(2));
                 speed = speed + speed * size;
@@ -224,7 +234,7 @@ public class RiceCropBlock extends BaseCropBlock implements SimpleWaterloggedBlo
     }
 
     @Override
-    public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+    public @NotNull InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         return InteractionResult.PASS;
     }
 
@@ -234,12 +244,12 @@ public class RiceCropBlock extends BaseCropBlock implements SimpleWaterloggedBlo
     }
 
     @Override
-    public FluidState getFluidState(BlockState state) {
+    public @NotNull FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @Override
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder lootParamsBuilder) {
+    public @NotNull List<ItemStack> getDrops(BlockState state, LootParams.Builder lootParamsBuilder) {
         if (state.getValue(LOCATION) != DOWN) {
             return Collections.emptyList();
         }
@@ -247,7 +257,7 @@ public class RiceCropBlock extends BaseCropBlock implements SimpleWaterloggedBlo
     }
 
     @Override
-    public ItemStack pickupBlock(Player player, LevelAccessor levelAccessor, BlockPos pos, BlockState state) {
+    public @NotNull ItemStack pickupBlock(Player player, LevelAccessor levelAccessor, BlockPos pos, BlockState state) {
         if (state.getValue(BlockStateProperties.WATERLOGGED)) {
             levelAccessor.setBlock(pos, state.setValue(BlockStateProperties.WATERLOGGED, false), Block.UPDATE_ALL);
             if (state.getValue(LOCATION) == DOWN) {

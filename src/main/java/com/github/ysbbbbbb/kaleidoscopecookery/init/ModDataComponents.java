@@ -49,6 +49,15 @@ public class ModDataComponents {
                     .build()
     );
 
+    public static final DataComponentType<Integer> OIL_POT_OIL_COUNT = Registry.register(
+            BuiltInRegistries.DATA_COMPONENT_TYPE,
+            ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "oil_pot_oil_count"),
+            DataComponentType.<Integer>builder()
+                    .persistent(Codec.INT)
+                    .networkSynchronized(ByteBufCodecs.VAR_INT)
+                    .build()
+    );
+
     public static void registerDataComponents() {
         // 注册方法，用于确保类被加载
     }

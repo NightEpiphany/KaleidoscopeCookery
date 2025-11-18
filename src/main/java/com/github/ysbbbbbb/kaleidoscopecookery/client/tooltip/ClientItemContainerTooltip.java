@@ -1,7 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.tooltip;
 
-
 import com.github.ysbbbbbb.kaleidoscopecookery.inventory.tooltip.ItemContainerTooltip;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.neo.IItemHandler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -17,8 +17,9 @@ public class ClientItemContainerTooltip implements ClientTooltipComponent {
     private @Nullable MutableComponent emptyTip = null;
 
     public ClientItemContainerTooltip(ItemContainerTooltip containerTooltip) {
-        NonNullList<ItemStack> handler = containerTooltip.handler();
-        for (ItemStack stack : handler) {
+        IItemHandler handler = containerTooltip.handler();
+        for (int i = 0; i < handler.getSlots(); i++) {
+            ItemStack stack = handler.getStackInSlot(i);
             if (!stack.isEmpty()) {
                 this.items.add(stack);
             }

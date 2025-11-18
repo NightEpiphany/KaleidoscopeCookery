@@ -43,7 +43,7 @@ public class FruitBasketItem extends BlockItem {
         if (stack.has(ModDataComponents.FRUIT_BASKET_ITEMS)) {
             ItemContainer handler = stack.get(ModDataComponents.FRUIT_BASKET_ITEMS);
             assert handler != null;
-            return Optional.of(new ItemContainerTooltip(handler.items));
+            return Optional.of(new ItemContainerTooltip(new ItemStackHandler(handler.items)));
         }
         return Optional.empty();
     }

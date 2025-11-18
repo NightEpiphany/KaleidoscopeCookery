@@ -1,6 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.event.recipe;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.api.event.MillstoneTakeItemEvent;
+import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.OilPotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.MillstoneBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModEvents;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
@@ -84,7 +85,7 @@ public class MillstoneSpecialRecipeEvent {
 
         // 油壶满了
         int oilCount = OilPotItem.getOilCount(heldItem);
-        if (oilCount >= OilPotItem.MAX_COUNT) {
+        if (oilCount >= OilPotBlockEntity.MAX_OIL_COUNT) {
             millstone.sendActionBarMessage(user, "tip.kaleidoscope_cookery.millstone.oil_pot_is_full");
             event.setResult(false);
             event.setCanceled(true);
