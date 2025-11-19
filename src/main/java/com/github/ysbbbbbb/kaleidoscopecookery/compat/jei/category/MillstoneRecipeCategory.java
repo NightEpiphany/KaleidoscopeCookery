@@ -22,6 +22,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -67,18 +68,15 @@ public class MillstoneRecipeCategory implements IRecipeCategory<RecipeHolder<Mil
         builder.addSlot(RecipeIngredientRole.INPUT, 69, 39).addIngredients(input).setStandardSlotBackground();
         builder.addSlot(RecipeIngredientRole.OUTPUT, 146, 47).addItemStack(output);
 
-        if (recipe.getCarrier() != Ingredient.EMPTY) {
-            builder.addSlot(RecipeIngredientRole.INPUT, 115, 36).addIngredients(recipe.getCarrier());
-        }
     }
 
     @Override
-    public RecipeType<RecipeHolder<MillstoneRecipe>> getRecipeType() {
+    public @NotNull RecipeType<RecipeHolder<MillstoneRecipe>> getRecipeType() {
         return TYPE;
     }
 
     @Override
-    public Component getTitle() {
+    public @NotNull Component getTitle() {
         return TITLE;
     }
 

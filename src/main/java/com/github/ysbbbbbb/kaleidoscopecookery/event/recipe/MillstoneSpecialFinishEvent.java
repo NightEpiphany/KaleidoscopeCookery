@@ -13,6 +13,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
+@Deprecated(forRemoval = true, since = "1.1.1")
 public class MillstoneSpecialFinishEvent {
 
     public static void onMillstoneTakeItem() {

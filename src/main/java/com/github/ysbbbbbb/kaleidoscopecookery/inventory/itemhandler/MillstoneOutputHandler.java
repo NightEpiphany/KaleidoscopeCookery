@@ -5,6 +5,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.util.neo.IItemHandler;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+@Deprecated
 public class MillstoneOutputHandler implements IItemHandler {
     private final MillstoneBlockEntity millstone;
 
@@ -34,7 +35,7 @@ public class MillstoneOutputHandler implements IItemHandler {
         if (amount == 0) {
             return ItemStack.EMPTY;
         }
-        if (!millstone.getCarrier().isEmpty()) {
+        if (!millstone.getOutput().isEmpty()) {
             return ItemStack.EMPTY;
         }
         ItemStack output = millstone.getOutput();

@@ -19,6 +19,7 @@ import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
 
+@Deprecated(forRemoval = true, since = "1.1.1")
 public class MillstoneSpecialRecipeEvent {
 
     public static void onMillstoneTakeItem() {

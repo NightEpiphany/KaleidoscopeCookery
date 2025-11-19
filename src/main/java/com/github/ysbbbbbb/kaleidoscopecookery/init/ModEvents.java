@@ -2,21 +2,20 @@ package com.github.ysbbbbbb.kaleidoscopecookery.init;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.api.event.ActionEventCallback;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.SpecialRecipeItemEvent;
-import com.github.ysbbbbbb.kaleidoscopecookery.event.recipe.MillstoneSpecialFinishEvent;
-import com.github.ysbbbbbb.kaleidoscopecookery.event.recipe.MillstoneSpecialRecipeEvent;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 
 // 所有的自定义事件
 public class ModEvents {
 
+    @Deprecated
     public static final Event<ActionEventCallback.MillstoneFinish> MILLSTONE_FINISH =
             EventFactory.createArrayBacked(ActionEventCallback.MillstoneFinish.class, call -> action -> {
                 for (ActionEventCallback.MillstoneFinish listener : call) {
                     listener.onMillstoneFinish(action);
                 }
             });
-
+    @Deprecated
     public static final Event<ActionEventCallback.MillstoneTakeItem> MILLSTONE_TAKE_ITEM =
             EventFactory.createArrayBacked(ActionEventCallback.MillstoneTakeItem.class, call -> action -> {
                 for (ActionEventCallback.MillstoneTakeItem listener : call) {
@@ -55,8 +54,6 @@ public class ModEvents {
             });
 
     public static void init() {
-        MillstoneSpecialRecipeEvent.onMillstoneTakeItem();
-        MillstoneSpecialFinishEvent.onMillstoneTakeItem();
         SpecialRecipeItemEvent.onCheckItemEvent();
         SpecialRecipeItemEvent.onDeductItemEvent();
     }
