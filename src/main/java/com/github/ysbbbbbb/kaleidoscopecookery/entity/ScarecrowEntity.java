@@ -33,6 +33,7 @@ import net.minecraft.world.level.block.LanternBlock;
 import net.minecraft.world.level.block.SkullBlock;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -84,7 +85,7 @@ public class ScarecrowEntity extends LivingEntity {
     }
 
     @Override
-    public InteractionResult interactAt(Player player, Vec3 vec3, InteractionHand hand) {
+    public @NotNull InteractionResult interactAt(Player player, Vec3 vec3, InteractionHand hand) {
         ItemStack itemInHand = player.getItemInHand(hand);
         if (itemInHand.is(Items.NAME_TAG)) {
             return InteractionResult.PASS;
@@ -446,12 +447,12 @@ public class ScarecrowEntity extends LivingEntity {
     }
 
     @Override
-    public Iterable<ItemStack> getArmorSlots() {
+    public @NotNull Iterable<ItemStack> getArmorSlots() {
         return this.armorItems;
     }
 
     @Override
-    public ItemStack getItemBySlot(EquipmentSlot slot) {
+    public @NotNull ItemStack getItemBySlot(EquipmentSlot slot) {
         return switch (slot.getType()) {
             case HAND -> this.handItems.get(slot.getIndex());
             case ARMOR -> this.armorItems.get(slot.getIndex());
@@ -476,12 +477,12 @@ public class ScarecrowEntity extends LivingEntity {
     }
 
     @Override
-    public HumanoidArm getMainArm() {
+    public @NotNull HumanoidArm getMainArm() {
         return HumanoidArm.RIGHT;
     }
 
     @Override
-    public LivingEntity.Fallsounds getFallSounds() {
+    public LivingEntity.@NotNull Fallsounds getFallSounds() {
         return new LivingEntity.Fallsounds(SoundEvents.ARMOR_STAND_FALL, SoundEvents.ARMOR_STAND_FALL);
     }
 
