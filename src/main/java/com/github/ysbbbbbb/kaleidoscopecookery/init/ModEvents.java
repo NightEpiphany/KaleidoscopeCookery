@@ -53,6 +53,13 @@ public class ModEvents {
                 }
             });
 
+    public static final Event<ActionEventCallback.FarmlandTrample> FARMLAND_TRAMPLE =
+            EventFactory.createArrayBacked(ActionEventCallback.FarmlandTrample.class, call -> (event) -> {
+                for (ActionEventCallback.FarmlandTrample listener : call) {
+                    listener.onFarmlandTrample(event);
+                }
+            });
+
     public static void init() {
         SpecialRecipeItemEvent.onCheckItemEvent();
         SpecialRecipeItemEvent.onDeductItemEvent();

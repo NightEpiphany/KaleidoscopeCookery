@@ -3,7 +3,10 @@ package com.github.ysbbbbbb.kaleidoscopecookery.entity;
 import com.github.ysbbbbbb.kaleidoscopecookery.advancements.critereon.ModEventTriggerType;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTrigger;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.neo.ItemStackHandler;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -16,7 +19,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -36,6 +38,7 @@ import net.minecraft.world.level.block.LanternBlock;
 import net.minecraft.world.level.block.SkullBlock;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -49,7 +52,7 @@ public class ScarecrowEntity extends LivingEntity {
             .build("scarecrow");
 
     private static final EntityDataAccessor<CompoundTag> DATA_SHOULDER = SynchedEntityData.defineId(ScarecrowEntity.class, EntityDataSerializers.COMPOUND_TAG);
-    private static final Predicate<Entity> RIDABLE_MINECARTS = e -> e instanceof AbstractMinecart minecart && minecart.getMinecartType() == AbstractMinecart.Type.RIDEABLE;
+    private static final Predicate<Entity> RIDEABLE_MINECARTS = e -> e instanceof AbstractMinecart minecart && minecart.getMinecartType() == AbstractMinecart.Type.RIDEABLE;
     private static final Predicate<Entity> SHOULDER_RIDING_ENTITY = e -> e instanceof ShoulderRidingEntity entity && !entity.isOrderedToSit() && entity.canSitOnShoulder();
     private static final String HAND_ITEMS_TAG = "HandItems";
     private static final String ARMOR_ITEMS_TAG = "ArmorItems";
@@ -90,7 +93,7 @@ public class ScarecrowEntity extends LivingEntity {
     }
 
     @Override
-    public InteractionResult interactAt(Player player, Vec3 vec3, InteractionHand hand) {
+    public @NotNull InteractionResult interactAt(Player player, Vec3 vec3, InteractionHand hand) {
         ItemStack itemInHand = player.getItemInHand(hand);
         if (itemInHand.is(Items.NAME_TAG)) {
             return InteractionResult.PASS;
@@ -121,7 +124,7 @@ public class ScarecrowEntity extends LivingEntity {
         ItemStack headItem = this.getItemBySlot(EquipmentSlot.HEAD);
         if (itemInHand.isEmpty() && !headItem.isEmpty()) {
             this.setItemSlot(EquipmentSlot.HEAD, ItemStack.EMPTY);
-            player.getInventory().placeItemBackInInventory(headItem);
+            ItemUtils.giveItemToPlayer(player, headItem);
             return InteractionResult.SUCCESS;
         }
 
@@ -154,16 +157,16 @@ public class ScarecrowEntity extends LivingEntity {
     private InteractionResult handleHandItems(Player player, ItemStack itemInHand) {
         this.cooldown = 5;
         if (itemInHand.isEmpty()) {
-            ItemStack mainhand = this.getItemInHand(InteractionHand.MAIN_HAND);
+            ItemStack mainHand = this.getItemInHand(InteractionHand.MAIN_HAND);
             ItemStack offhand = this.getItemInHand(InteractionHand.OFF_HAND);
-            if (!mainhand.isEmpty()) {
+            if (!mainHand.isEmpty()) {
                 this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
-                player.getInventory().placeItemBackInInventory(mainhand);
+                ItemUtils.giveItemToPlayer(player, mainHand);
                 return InteractionResult.SUCCESS;
             }
             if (!offhand.isEmpty()) {
                 this.setItemSlot(EquipmentSlot.OFFHAND, ItemStack.EMPTY);
-                player.getInventory().placeItemBackInInventory(offhand);
+                ItemUtils.giveItemToPlayer(player, offhand);
                 return InteractionResult.SUCCESS;
             }
             return InteractionResult.PASS;
@@ -346,8 +349,9 @@ public class ScarecrowEntity extends LivingEntity {
 
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
-        tag.put(HAND_ITEMS_TAG, ContainerHelper.saveAllItems(new CompoundTag(), this.handItems, this.level().registryAccess()));
-        tag.put(ARMOR_ITEMS_TAG, ContainerHelper.saveAllItems(new CompoundTag(), this.armorItems, this.level().registryAccess()));
+        RegistryAccess registryAccess = this.level().registryAccess();
+        tag.put(HAND_ITEMS_TAG, (new ItemStackHandler(this.handItems)).serializeNBT(registryAccess));
+        tag.put(ARMOR_ITEMS_TAG, (new ItemStackHandler(this.armorItems)).serializeNBT(registryAccess));
         if (!this.getShoulderEntity().isEmpty()) {
             tag.put(SHOULDER_ENTITY_TAG, this.getShoulderEntity());
         }
@@ -355,15 +359,29 @@ public class ScarecrowEntity extends LivingEntity {
 
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
+        RegistryAccess registryAccess = this.level().registryAccess();
         super.readAdditionalSaveData(tag);
         if (tag.contains(HAND_ITEMS_TAG)) {
-            CompoundTag compound = tag.getCompound(HAND_ITEMS_TAG);
-            ContainerHelper.loadAllItems(compound, this.handItems, this.level().registryAccess());
+            ItemStackHandler handler = new ItemStackHandler();
+            handler.deserializeNBT(registryAccess, tag.getCompound(HAND_ITEMS_TAG));
+            for (int i = 0; i < this.handItems.size(); ++i) {
+                ItemStack stack = handler.getStackInSlot(i);
+                if (!stack.isEmpty()) {
+                    this.handItems.set(i, stack);
+                }
+            }
         }
         if (tag.contains(ARMOR_ITEMS_TAG)) {
-            CompoundTag compound = tag.getCompound(ARMOR_ITEMS_TAG);
-            ContainerHelper.loadAllItems(compound, this.armorItems, this.level().registryAccess());
+            ItemStackHandler handler = new ItemStackHandler();
+            handler.deserializeNBT(registryAccess, tag.getCompound(ARMOR_ITEMS_TAG));
+            for (int i = 0; i < this.armorItems.size(); ++i) {
+                ItemStack stack = handler.getStackInSlot(i);
+                if (!stack.isEmpty()) {
+                    this.armorItems.set(i, stack);
+                }
+            }
         }
+
         if (tag.contains(SHOULDER_ENTITY_TAG, Tag.TAG_COMPOUND)) {
             this.setShoulderEntity(tag.getCompound(SHOULDER_ENTITY_TAG));
         }
@@ -408,7 +426,7 @@ public class ScarecrowEntity extends LivingEntity {
 
     @Override
     protected void pushEntities() {
-        List<Entity> list = this.level().getEntities(this, this.getBoundingBox(), RIDABLE_MINECARTS);
+        List<Entity> list = this.level().getEntities(this, this.getBoundingBox(), RIDEABLE_MINECARTS);
         for (Entity entity : list) {
             if (this.distanceToSqr(entity) <= 0.2) {
                 entity.push(this);
@@ -447,17 +465,17 @@ public class ScarecrowEntity extends LivingEntity {
     }
 
     @Override
-    public Iterable<ItemStack> getHandSlots() {
+    public @NotNull Iterable<ItemStack> getHandSlots() {
         return this.handItems;
     }
 
     @Override
-    public Iterable<ItemStack> getArmorSlots() {
+    public @NotNull Iterable<ItemStack> getArmorSlots() {
         return this.armorItems;
     }
 
     @Override
-    public ItemStack getItemBySlot(EquipmentSlot slot) {
+    public @NotNull ItemStack getItemBySlot(EquipmentSlot slot) {
         return switch (slot.getType()) {
             case HAND -> this.handItems.get(slot.getIndex());
             case HUMANOID_ARMOR -> this.armorItems.get(slot.getIndex());
@@ -483,12 +501,12 @@ public class ScarecrowEntity extends LivingEntity {
     }
 
     @Override
-    public HumanoidArm getMainArm() {
+    public @NotNull HumanoidArm getMainArm() {
         return HumanoidArm.RIGHT;
     }
 
     @Override
-    public Fallsounds getFallSounds() {
+    public @NotNull Fallsounds getFallSounds() {
         return new Fallsounds(SoundEvents.ARMOR_STAND_FALL, SoundEvents.ARMOR_STAND_FALL);
     }
 

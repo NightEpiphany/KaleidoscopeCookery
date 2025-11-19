@@ -6,11 +6,13 @@ import org.jetbrains.annotations.Nullable;
 
 public interface ActionEventCallback {
 
+    @Deprecated
     @FunctionalInterface
     interface MillstoneFinish {
         void onMillstoneFinish(MillstoneFinishEvent event);
     }
 
+    @Deprecated
     @FunctionalInterface
     interface MillstoneTakeItem {
         void onMillstoneTakeItem(MillstoneTakeItemEvent event);
@@ -34,5 +36,10 @@ public interface ActionEventCallback {
     @FunctionalInterface
     interface PlayerLeftClick {
         void onPlayerLeftClick(@Nullable Player player, InteractionHand hand);
+    }
+
+    @FunctionalInterface
+    interface FarmlandTrample {
+        void onFarmlandTrample(FarmlandTrampleEvent event);
     }
 }

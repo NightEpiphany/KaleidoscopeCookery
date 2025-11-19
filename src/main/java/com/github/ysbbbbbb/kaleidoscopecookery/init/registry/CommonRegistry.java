@@ -27,6 +27,7 @@ public class CommonRegistry {
         PreservationEvent.register();
         ArmorEffectHandler.register();
         AddVillageStructuresEvent.register();
+        ScarecrowFarmlandTrampleEvent.register();
         EntityJoinWorldEvent.register();
         HoeUseEvent.register();
         RightClickEvent.register();

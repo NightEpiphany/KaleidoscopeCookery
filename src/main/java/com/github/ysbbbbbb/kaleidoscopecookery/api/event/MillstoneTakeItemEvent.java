@@ -4,6 +4,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.MillstoneBloc
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
+@Deprecated
 public class MillstoneTakeItemEvent extends ActionEvent implements IActionCancelable {
     private final LivingEntity user;
     private final ItemStack heldItem;
