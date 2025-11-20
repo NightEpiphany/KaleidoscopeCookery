@@ -27,7 +27,7 @@ public class ModCreativeTabs {
                 .icon(() -> BuiltInRegistries.ITEM.get(MAIN_ICON_ID).getDefaultInstance())
                 .displayItems((par, output) -> {
                     // 厨具与杂项
-                output.accept(ModItems.STOVE);
+                    output.accept(ModItems.STOVE);
                     output.accept(ModItems.SHAWARMA_SPIT);
                     output.accept(ModItems.STRAW_BLOCK);
                     output.accept(ModItems.OIL_BLOCK);
@@ -36,34 +36,34 @@ public class ModCreativeTabs {
                     output.accept(ModItems.STOCKPOT_LID);
                     output.accept(ModItems.CHOPPING_BOARD);
                     output.accept(ModItems.MILLSTONE);
-                output.accept(ModItems.STEAMER);
-                output.accept(ModItems.KITCHENWARE_RACKS);
+                    output.accept(ModItems.STEAMER);
+                    output.accept(ModItems.KITCHENWARE_RACKS);
                     output.accept(ModItems.FRUIT_BASKET);
                     output.accept(ModItems.SCARECROW);
                     output.accept(ModItems.ENAMEL_BASIN);
                     output.accept(ModItems.OIL_POT);
-                output.accept(OilPotItem.getFullOilPot());
-                output.accept(ModItems.OIL);
+                    output.accept(OilPotItem.getFullOilPot());
+                    output.accept(ModItems.OIL);
                     output.accept(ModItems.RECIPE_ITEM);
-                output.accept(ModItems.TRANSMUTATION_LUNCH_BAG);
-                output.accept(ModItems.SICKLE);
+                    output.accept(ModItems.TRANSMUTATION_LUNCH_BAG);
                 // 原材料
                     output.accept(ModItems.FLOUR);
-                output.accept(ModItems.RAW_DOUGH);
-                output.accept(ModItems.RAW_NOODLES);
-                output.accept(ModItems.STUFFED_DOUGH_FOOD);
-                output.accept(ModItems.CHILI_RISTRA);
+                    output.accept(ModItems.RAW_DOUGH);
+                    output.accept(ModItems.RAW_NOODLES);
+                    output.accept(ModItems.STUFFED_DOUGH_FOOD);
+                    output.accept(ModItems.CHILI_RISTRA);
                     output.accept(ModItems.RICE_SEED);
                     output.accept(ModItems.WILD_RICE_SEED);
                     output.accept(ModItems.TOMATO_SEED);
                     output.accept(ModItems.CHILI_SEED);
                     output.accept(ModItems.LETTUCE_SEED);
                     // 工具
-                output.accept(ModItems.KITCHEN_SHOVEL);
+                    output.accept(ModItems.KITCHEN_SHOVEL);
                     output.accept(ModItems.GOLD_KITCHEN_KNIFE);
                     output.accept(ModItems.IRON_KITCHEN_KNIFE);
                     output.accept(ModItems.DIAMOND_KITCHEN_KNIFE);
                     output.accept(ModItems.NETHERITE_KITCHEN_KNIFE);
+                    output.accept(ModItems.SICKLE);
                 // 服装
                     output.accept(ModItems.STRAW_HAT);
                     output.accept(ModItems.STRAW_HAT_FLOWER);
@@ -83,7 +83,7 @@ public class ModCreativeTabs {
                     output.accept(ModItems.COOK_STOOL_MANGROVE);
                     output.accept(ModItems.COOK_STOOL_WARPED);
                     // 椅子
-                output.accept(ModItems.CHAIR_OAK);
+                    output.accept(ModItems.CHAIR_OAK);
                     output.accept(ModItems.CHAIR_SPRUCE);
                     output.accept(ModItems.CHAIR_ACACIA);
                     output.accept(ModItems.CHAIR_BAMBOO);
@@ -113,14 +113,14 @@ public class ModCreativeTabs {
                 .icon(() -> BuiltInRegistries.ITEM.get(FOOD_ICON_ID).getDefaultInstance())
                 .displayItems((par, output) -> {
                     // 原材料
-                output.accept(ModItems.TOMATO);
+                    output.accept(ModItems.TOMATO);
                     output.accept(ModItems.RED_CHILI);
                     output.accept(ModItems.GREEN_CHILI);
                     output.accept(ModItems.LETTUCE);
                     output.accept(ModItems.RICE_PANICLE);
                     output.accept(ModItems.CATERPILLAR);
                     // 肉类
-                output.accept(ModItems.SASHIMI);
+                    output.accept(ModItems.SASHIMI);
                     output.accept(ModItems.RAW_LAMB_CHOPS);
                     output.accept(ModItems.COOKED_LAMB_CHOPS);
                     output.accept(ModItems.RAW_COW_OFFAL);
@@ -132,13 +132,13 @@ public class ModCreativeTabs {
                     output.accept(ModItems.RAW_CUT_SMALL_MEATS);
                     output.accept(ModItems.COOKED_CUT_SMALL_MEATS);
                 // 基础食物
-                output.accept(ModItems.DONKEY_BURGER);
-                output.accept(ModItems.MANTOU);
-                output.accept(ModItems.BAOZI);
-                output.accept(ModItems.SAMSA);
-                output.accept(ModItems.MEAT_PIE);
-                output.accept(ModItems.DUMPLING);
-                output.accept(ModItems.FRIED_EGG);
+                    output.accept(ModItems.DONKEY_BURGER);
+                    output.accept(ModItems.MANTOU);
+                    output.accept(ModItems.BAOZI);
+                    output.accept(ModItems.SAMSA);
+                    output.accept(ModItems.MEAT_PIE);
+                    output.accept(ModItems.DUMPLING);
+                    output.accept(ModItems.FRIED_EGG);
                 // 小碗菜和盖饭
                     output.accept(ModItems.COOKED_RICE);
                     output.accept(ModItems.EGG_FRIED_RICE);
@@ -171,11 +171,11 @@ public class ModCreativeTabs {
                     output.accept(ModItems.BORSCHT);
                     output.accept(ModItems.BEEF_MEATBALL_SOUP);
                     output.accept(ModItems.CHICKEN_AND_MUSHROOM_STEW);
-                output.accept(ModItems.DONKEY_SOUP);
+                    output.accept(ModItems.DONKEY_SOUP);
                 // 面条
-                output.accept(ModItems.BEEF_NOODLE);
-                output.accept(ModItems.HUI_NOODLE);
-                output.accept(ModItems.UDON_NOODLE);
+                    output.accept(ModItems.BEEF_NOODLE);
+                    output.accept(ModItems.HUI_NOODLE);
+                    output.accept(ModItems.UDON_NOODLE);
                 // 硬菜
                     FoodBiteRegistry.FOOD_DATA_MAP.keySet().forEach(foodName -> {
                         var foodItem = BuiltInRegistries.ITEM.get(foodName);

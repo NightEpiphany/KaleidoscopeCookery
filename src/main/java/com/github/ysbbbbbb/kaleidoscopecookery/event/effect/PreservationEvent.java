@@ -23,7 +23,6 @@ public class PreservationEvent {
     private static InteractionResultHolder<ItemStack> onUseItem(Player player, Level world, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (stack.isEdible() && player.hasEffect(ModEffects.PRESERVATION)) {
-//        if (stack.isEdible() && player.hasEffect(ModEffects.PRESERVATION) && stack.is(TagMod.PRESERVATION_FOOD)) {
             FoodProperties foodProperties = stack.getItem().getFoodProperties();
             if (foodProperties == null) {
                 return InteractionResultHolder.pass(stack);

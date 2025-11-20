@@ -62,13 +62,6 @@ public class ModBlocks {
     public static final Block RECIPE_BLOCK = new RecipeBlock();
 
 
-
-//    public static RegistryObject<Block> MILLSTONE = BLOCKS.register("millstone", MillstoneBlock::new);
-//    public static RegistryObject<Block> STEAMER = BLOCKS.register("steamer", SteamerBlock::new);
-//
-//    public static RegistryObject<Block> OIL_POT = BLOCKS.register("oil_pot", OilPotBlock::new);
-//    public static RegistryObject<Block> RECIPE_BLOCK = BLOCKS.register("recipe_block", RecipeBlock::new);
-
     // Chairs
     public static final Block CHAIR_OAK = new ChairBlock();
     public static final Block CHAIR_SPRUCE = new ChairBlock();
@@ -120,17 +113,7 @@ public class ModBlocks {
     public static final BlockEntityType<MillstoneBlockEntity> MILLSTONE_BE = BlockEntityType.Builder.of(MillstoneBlockEntity::new, MILLSTONE).build(null);
     public static final BlockEntityType<RecipeBlockEntity> RECIPE_BLOCK_BE = BlockEntityType.Builder.of(RecipeBlockEntity::new, RECIPE_BLOCK).build(null);
     public static final BlockEntityType<SteamerBlockEntity> STEAMER_BE = BlockEntityType.Builder.of(SteamerBlockEntity::new, STEAMER).build(null);
-
-
-
-//    public static RegistryObject<BlockEntityType<MillstoneBlockEntity>> MILLSTONE_BE = BLOCK_ENTITIES.register("millstone",
-//            () -> BlockEntityType.Builder.of(MillstoneBlockEntity::new, MILLSTONE.get()).build(null));
-//
-//    public static RegistryObject<BlockEntityType<RecipeBlockEntity>> RECIPE_BLOCK_BE = BLOCK_ENTITIES.register("recipe_block",
-//            () -> BlockEntityType.Builder.of(RecipeBlockEntity::new, RECIPE_BLOCK.get()).build(null));
-//
-//    public static RegistryObject<BlockEntityType<SteamerBlockEntity>> STEAMER_BE = BLOCK_ENTITIES.register("steamer",
-//            () -> BlockEntityType.Builder.of(SteamerBlockEntity::new, STEAMER.get()).build(null));
+    public static final BlockEntityType<OilPotBlockEntity> OIL_POT_BE = BlockEntityType.Builder.of(OilPotBlockEntity::new, OIL_POT).build(null);
 
     public static void registerBlocks() {
         // Kitchen blocks
@@ -208,5 +191,6 @@ public class ModBlocks {
         Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "recipe_block"), RECIPE_BLOCK_BE);
         Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "millstone"), MILLSTONE_BE);
         Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "steamer"), STEAMER_BE);
+        Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "oil_pot"), OIL_POT_BE);
     }
 }

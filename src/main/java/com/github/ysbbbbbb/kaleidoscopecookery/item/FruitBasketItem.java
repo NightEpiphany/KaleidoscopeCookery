@@ -49,7 +49,7 @@ public class FruitBasketItem extends BlockItem {
                 CompoundTag itemsTag = compound.getCompound(FruitBasketBlockEntity.ITEMS);
                 NonNullList<ItemStack> items = NonNullList.withSize(8, ItemStack.EMPTY);
                 ContainerHelper.loadAllItems(itemsTag, items);
-                return Optional.of(new ItemContainerTooltip(items));
+                return Optional.of(new ItemContainerTooltip(new ItemStackHandler(items)));
             }
         }
         return Optional.empty();

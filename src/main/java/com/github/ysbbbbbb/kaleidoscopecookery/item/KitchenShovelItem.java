@@ -2,9 +2,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.item;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.PotBlockEntity;
-import com.github.ysbbbbbb.kaleidoscopecookery.util.TodoCheck;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -18,6 +16,7 @@ import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
@@ -48,39 +47,29 @@ public class KitchenShovelItem extends ShovelItem {
     }
 
     @Override
-    public InteractionResult useOn(UseOnContext context) {
+    public @NotNull InteractionResult useOn(UseOnContext context) {
+        BlockPos clickedPos = context.getClickedPos();
+        Level level = context.getLevel();
+        Player player = context.getPlayer();
+        ItemStack stack = context.getItemInHand();
+
+        if (level.getBlockEntity(clickedPos) instanceof PotBlockEntity potBlockEntity
+                && player != null && player.isSecondaryUseActive()
+                && potBlockEntity.getStatus() == PotBlockEntity.FINISHED
+                && !potBlockEntity.hasCarrier()) {
+            potBlockEntity.takeOutProduct(level, player, stack);
+            return InteractionResult.SUCCESS;
+        }
+
         InteractionResult result = super.useOn(context);
-        if (result.shouldAwardStats() && hasOil(context.getItemInHand())) {
+        if (hasOil(context.getItemInHand())) {
             setHasOil(context.getItemInHand(), false);
         }
         return result;
     }
 
-    @TodoCheck
-//    @Override
-//    public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
-//        BlockPos clickedPos = context.getClickedPos();
-//        Level level = context.getLevel();
-//        Player player = context.getPlayer();
-//        ItemStack stack = context.getItemInHand();
-//
-//        if (level.getBlockEntity(clickedPos) instanceof PotBlockEntity potBlockEntity
-//            && player != null && player.isSecondaryUseActive()
-//            && potBlockEntity.getStatus() == PotBlockEntity.FINISHED
-//            && !potBlockEntity.hasCarrier()) {
-//            potBlockEntity.takeOutProduct(level, player, stack);
-//            return InteractionResult.SUCCESS;
-//        }
-//
-//        InteractionResult result = super.useOn(context);
-//        if (result.shouldAwardStats() && hasOil(context.getItemInHand())) {
-//            setHasOil(context.getItemInHand(), false);
-//        }
-//        return result;
-//    }
-
     @Override
-    public void appendHoverText(ItemStack stack, @org.jetbrains.annotations.Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, List<Component> tooltip, @NotNull TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.kaleidoscope_cookery.kitchen_shovel").withStyle(ChatFormatting.GRAY));
     }
 }

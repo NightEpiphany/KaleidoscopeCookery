@@ -38,6 +38,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -112,7 +113,7 @@ public class MillstoneBlock extends HorizontalDirectionalBlock implements Entity
         if (player != null && !player.isCreative()) {
             Block.popResource(world, pos, ModItems.MILLSTONE.getDefaultInstance());
         }
-        if (!millstone.getOutput().isEmpty() && millstone.getCarrier().isEmpty()) {
+        if (!millstone.getOutput().isEmpty()) {
             Block.popResource(world, pos, millstone.getOutput());
         }
         if (!millstone.getInput().isEmpty()) {
@@ -129,7 +130,7 @@ public class MillstoneBlock extends HorizontalDirectionalBlock implements Entity
 
     @Override
     @Nullable
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @NotNull BlockState state, @NotNull BlockEntityType<T> blockEntityType) {
         if (level.isClientSide) {
             return null;
         }
@@ -138,7 +139,7 @@ public class MillstoneBlock extends HorizontalDirectionalBlock implements Entity
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+    public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult) {
         if (hand != InteractionHand.MAIN_HAND) {
             return InteractionResult.PASS;
         }
@@ -149,9 +150,6 @@ public class MillstoneBlock extends HorizontalDirectionalBlock implements Entity
             return InteractionResult.PASS;
         }
         ItemStack mainHandItem = player.getMainHandItem();
-        if (millstone.onTakeItem(player, mainHandItem)) {
-            return InteractionResult.SUCCESS;
-        }
         if (millstone.onPutItem(level, mainHandItem)) {
             return InteractionResult.SUCCESS;
         }
@@ -159,33 +157,33 @@ public class MillstoneBlock extends HorizontalDirectionalBlock implements Entity
     }
 
     @Override
-    public void stepOn(Level pLevel, BlockPos pPos, BlockState pState, Entity pEntity) {
+    public void stepOn(@NotNull Level pLevel, @NotNull BlockPos pPos, @NotNull BlockState pState, @NotNull Entity pEntity) {
         // 每 5 tick 检查一次
         if (pEntity instanceof Mob mob && !pLevel.isClientSide && pLevel.getGameTime() % 5 == 4) {
             NinePart part = pState.getValue(PART);
             BlockPos centerPos = pPos.subtract(new Vec3i(part.getPosX(), 0, part.getPosY()));
             BlockEntity blockEntity = pLevel.getBlockEntity(centerPos);
+            // 检查实体的乘客是不是玩家，如果是，那么给予成就
+            if (mob.getFirstPassenger() instanceof ServerPlayer player) {
+                ModTrigger.EVENT.trigger(player, ModEventTriggerType.DRIVE_THE_MILLSTONE);
+            }
             if (blockEntity instanceof MillstoneBlockEntity millstone && !millstone.hasEntity() && millstone.canBindEntity(mob)) {
                 millstone.bindEntity(mob);
-                // 检查实体的乘客是不是玩家，如果是，那么给予成就
-                if (mob.getFirstPassenger() instanceof ServerPlayer player) {
-                    ModTrigger.EVENT.trigger(player, ModEventTriggerType.DRIVE_THE_MILLSTONE);
-                }
             }
         }
     }
 
     @Override
-    public void playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
+    public void playerWillDestroy(@NotNull Level world, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Player player) {
         handleRemove(world, pos, state, player);
         super.playerWillDestroy(world, pos, state, player);
     }
 
-//    @Override
-//    public void onBlockExploded(BlockState state, Level world, BlockPos pos, Explosion explosion) {
-//        handleRemove(world, pos, state, null);
-//        super.onBlockExploded(state, world, pos, explosion);
-//    }
+    @Override
+    public void wasExploded(@NotNull Level level, @NotNull BlockPos pos, @NotNull Explosion explosion) {
+        handleRemove(level, pos, level.getBlockState(pos), null);
+        super.wasExploded(level, pos, explosion);
+    }
 
     @Nullable
     @Override
@@ -203,7 +201,7 @@ public class MillstoneBlock extends HorizontalDirectionalBlock implements Entity
     }
 
     @Override
-    public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+    public void setPlacedBy(@NotNull Level worldIn, @NotNull BlockPos pos, @NotNull BlockState state, @Nullable LivingEntity placer, @NotNull ItemStack stack) {
         super.setPlacedBy(worldIn, pos, state, placer, stack);
         if (worldIn.isClientSide) {
             return;
@@ -226,7 +224,7 @@ public class MillstoneBlock extends HorizontalDirectionalBlock implements Entity
 
     @Nullable
     @Override
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+    public BlockEntity newBlockEntity(@NotNull BlockPos pos, BlockState state) {
         if (state.getValue(PART).isCenter()) {
             return new MillstoneBlockEntity(pos, state);
         }
@@ -234,12 +232,12 @@ public class MillstoneBlock extends HorizontalDirectionalBlock implements Entity
     }
 
     @Override
-    public RenderShape getRenderShape(BlockState state) {
+    public @NotNull RenderShape getRenderShape(@NotNull BlockState state) {
         return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
     @Override
-    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+    public @NotNull VoxelShape getShape(BlockState pState, @NotNull BlockGetter pLevel, @NotNull BlockPos pPos, @NotNull CollisionContext pContext) {
         NinePart value = pState.getValue(PART);
         return switch (value) {
             case LEFT_UP -> LEFT_UP;
@@ -255,7 +253,7 @@ public class MillstoneBlock extends HorizontalDirectionalBlock implements Entity
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(@NotNull ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, @NotNull TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.kaleidoscope_cookery.millstone").withStyle(ChatFormatting.GRAY));
     }
 }

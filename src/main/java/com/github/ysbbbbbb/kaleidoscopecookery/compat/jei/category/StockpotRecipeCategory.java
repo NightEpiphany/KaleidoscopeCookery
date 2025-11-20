@@ -26,6 +26,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -89,12 +90,12 @@ public class StockpotRecipeCategory implements IRecipeCategory<StockpotRecipe> {
     }
 
     @Override
-    public RecipeType<StockpotRecipe> getRecipeType() {
+    public @NotNull RecipeType<StockpotRecipe> getRecipeType() {
         return TYPE;
     }
 
     @Override
-    public Component getTitle() {
+    public @NotNull Component getTitle() {
         return TITLE;
     }
 

@@ -1,12 +1,15 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.entity;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 public class SitEntity extends Entity {
     public static final EntityType<SitEntity> TYPE = EntityType.Builder.<SitEntity>of(SitEntity::new, MobCategory.MISC)
@@ -40,11 +43,11 @@ public class SitEntity extends Entity {
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag tag) {
+    protected void readAdditionalSaveData(@NotNull CompoundTag tag) {
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag tag) {
+    protected void addAdditionalSaveData(@NotNull CompoundTag tag) {
     }
 
     @Override
@@ -52,6 +55,14 @@ public class SitEntity extends Entity {
         if (!this.level().isClientSide) {
             this.checkBelowWorld();
             this.checkPassengers();
+
+            // 每秒检查一次所处位置是否有方块，没有就删除实体
+            if (this.tickCount % 20 == 0) {
+                BlockState blockState = this.level().getBlockState(this.blockPosition());
+                if (!blockState.is(TagMod.SITTABLE)) {
+                    this.discard();
+                }
+            }
         }
     }
 
@@ -67,21 +78,21 @@ public class SitEntity extends Entity {
     }
 
     @Override
-    public boolean skipAttackInteraction(Entity targetEntity) {
+    public boolean skipAttackInteraction(@NotNull Entity targetEntity) {
         return true;
     }
 
     @Override
-    public boolean hurt(DamageSource damageSource, float damageAmount) {
+    public boolean hurt(@NotNull DamageSource damageSource, float damageAmount) {
         return false;
     }
 
     @Override
-    public void move(MoverType moverType, Vec3 movement) {
+    public void move(@NotNull MoverType moverType, @NotNull Vec3 movement) {
     }
 
     @Override
-    public void push(Entity pushedEntity) {
+    public void push(@NotNull Entity pushedEntity) {
     }
 
     @Override
@@ -94,7 +105,7 @@ public class SitEntity extends Entity {
     }
 
     @Override
-    public void thunderHit(ServerLevel serverLevel, LightningBolt lightningBolt) {
+    public void thunderHit(@NotNull ServerLevel serverLevel, @NotNull LightningBolt lightningBolt) {
     }
 
     @Override
@@ -102,7 +113,7 @@ public class SitEntity extends Entity {
     }
 
     @Override
-    public boolean canCollideWith(Entity entity) {
+    public boolean canCollideWith(@NotNull Entity entity) {
         return false;
     }
 }

@@ -8,14 +8,12 @@ import com.mojang.logging.LogUtils;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 
-
 public class KaleidoscopeCookery implements ModInitializer {
     public static final String MOD_ID = "kaleidoscope_cookery";
     public static final Logger LOGGER = LogUtils.getLogger();
 
     @Override
     public void onInitialize() {
-        //ForgeConfigRegistry.INSTANCE.register(MOD_ID, ModConfig.Type.COMMON, GeneralConfig.init());
 
         CommonRegistry.init();
         NetworkHandler.init();

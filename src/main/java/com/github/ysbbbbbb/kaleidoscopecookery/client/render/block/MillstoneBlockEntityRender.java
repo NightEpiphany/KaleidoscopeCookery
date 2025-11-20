@@ -22,6 +22,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 public class MillstoneBlockEntityRender implements BlockEntityRenderer<MillstoneBlockEntity> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(KaleidoscopeCookery.MOD_ID, "textures/block/millstone.png");
@@ -35,8 +36,8 @@ public class MillstoneBlockEntityRender implements BlockEntityRenderer<Millstone
     }
 
     @Override
-    public void render(MillstoneBlockEntity millstone, float partialTick, PoseStack poseStack,
-                       MultiBufferSource buffer, int packedLight, int packedOverlay) {
+    public void render(MillstoneBlockEntity millstone, float partialTick, @NotNull PoseStack poseStack,
+                       @NotNull MultiBufferSource buffer, int packedLight, int packedOverlay) {
         Level level = millstone.getLevel();
         if (level == null) {
             return;
@@ -100,7 +101,7 @@ public class MillstoneBlockEntityRender implements BlockEntityRenderer<Millstone
     }
 
     @Override
-    public boolean shouldRenderOffScreen(MillstoneBlockEntity millstone) {
+    public boolean shouldRenderOffScreen(@NotNull MillstoneBlockEntity millstone) {
         return true;
     }
 }

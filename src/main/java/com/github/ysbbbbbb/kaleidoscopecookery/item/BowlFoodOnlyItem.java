@@ -9,6 +9,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class BowlFoodOnlyItem extends FoodWithEffectsItem implements IHasContain
     }
 
     @Override
-    public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
+    public @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity entity) {
         ItemStack itemStack = super.finishUsingItem(stack, level, entity);
         ItemStack bowl = new ItemStack(Items.BOWL);
         if (itemStack.isEmpty()) {

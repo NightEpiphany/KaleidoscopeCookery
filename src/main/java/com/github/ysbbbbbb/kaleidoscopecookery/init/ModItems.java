@@ -119,7 +119,7 @@ public final class ModItems {
     public static final Item FRIED_EGG = new Item(new Item.Properties().food(ModFoods.FRIED_EGG));
     public static final Item DONKEY_BURGER = new FoodWithEffectsItem(ModFoods.DONKEY_BURGER);
     public static final Item BAOZI = new FoodWithEffectsItem(ModFoods.BAOZI);
-    public static final Item DUMPLING = new FoodWithEffectsItem(ModFoods.DUMPLING);
+    public static final Item DUMPLING = new BowlFoodOnlyItem(ModFoods.DUMPLING);
     public static final Item SAMSA = new FoodWithEffectsItem(ModFoods.SAMSA);
     public static final Item MANTOU = new FoodWithEffectsItem(ModFoods.MANTOU);
     public static final Item MEAT_PIE = new FoodWithEffectsItem(ModFoods.MEAT_PIE);

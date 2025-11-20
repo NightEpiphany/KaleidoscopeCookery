@@ -17,11 +17,12 @@ import java.util.List;
 
 @Mixin(FarmBlock.class)
 public class FarmBlockMixin {
+
     @Inject(
-            method = "turnToDirt(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)V",
-            at = @At("HEAD"), cancellable = true
+            method = "fallOn",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/FarmBlock;turnToDirt(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)V", by = -1, shift = At.Shift.BY), cancellable = true
     )
-    private static void onTurnToDirt(Entity entity, BlockState state, Level level, BlockPos pos, CallbackInfo ci) {
+    private static void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance, CallbackInfo ci) {
         if (level instanceof ServerLevel serverLevel) {
             List<ScarecrowEntity> entities = serverLevel.getEntitiesOfClass(ScarecrowEntity.class, new AABB(pos).inflate(16));
             if (!entities.isEmpty()) {

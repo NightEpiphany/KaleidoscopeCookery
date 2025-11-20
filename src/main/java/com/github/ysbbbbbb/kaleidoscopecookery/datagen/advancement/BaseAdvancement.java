@@ -279,11 +279,6 @@ public class BaseAdvancement {
                 .addCriterion("drive_the_millstone", ModEventTrigger.create(ModEventTriggerType.DRIVE_THE_MILLSTONE))
                 .save(saver, modLoc("millstone"));
 
-        Advancement oilPot = makeTask(ModItems.OIL_POT, "oil_pot")
-                .parent(millstone)
-                .addCriterion("use_millstone_get_oil_pot", ModEventTrigger.create(ModEventTriggerType.USE_MILLSTONE_GET_OIL_POT))
-                .save(saver, modLoc("oil_pot"));
-
         Advancement dough = makeTask(ModItems.RAW_DOUGH, "dough")
                 .parent(millstone)
                 .addCriterion("pull_the_dough", ModEventTrigger.create(ModEventTriggerType.PULL_THE_DOUGH))

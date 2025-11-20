@@ -1,7 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.tooltip;
 
-
 import com.github.ysbbbbbb.kaleidoscopecookery.inventory.tooltip.ItemContainerTooltip;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.forge.IItemHandler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -10,6 +10,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class ClientItemContainerTooltip implements ClientTooltipComponent {
@@ -17,8 +18,9 @@ public class ClientItemContainerTooltip implements ClientTooltipComponent {
     private @Nullable MutableComponent emptyTip = null;
 
     public ClientItemContainerTooltip(ItemContainerTooltip containerTooltip) {
-        NonNullList<ItemStack> handler = containerTooltip.handler();
-        for (ItemStack stack : handler) {
+        IItemHandler handler = containerTooltip.handler();
+        for (int i = 0; i < handler.getSlots(); i++) {
+            ItemStack stack = handler.getStackInSlot(i);
             if (!stack.isEmpty()) {
                 this.items.add(stack);
             }
@@ -38,7 +40,7 @@ public class ClientItemContainerTooltip implements ClientTooltipComponent {
     }
 
     @Override
-    public int getWidth(Font font) {
+    public int getWidth(@NotNull Font font) {
         if (emptyTip != null) {
             return font.width(emptyTip);
         }
@@ -47,7 +49,7 @@ public class ClientItemContainerTooltip implements ClientTooltipComponent {
     }
 
     @Override
-    public void renderImage(Font font, int pX, int pY, GuiGraphics guiGraphics) {
+    public void renderImage(@NotNull Font font, int pX, int pY, @NotNull GuiGraphics guiGraphics) {
         if (emptyTip != null) {
             guiGraphics.drawString(font, emptyTip, pX, pY, ChatFormatting.GRAY.getColor());
         } else {

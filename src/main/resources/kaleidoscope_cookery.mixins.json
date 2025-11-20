@@ -6,8 +6,9 @@
   "refmap": "kaleidoscopecookery-refmap.json",
   "mixins": [
     "FallingBlockEntityMixin",
-    "FarmlandBlockMixin",
+    "FarmBlockMixin",
     "ItemEntityMixin",
+    "LayeredCauldronBlockMixin",
     "LivingEntityMixin",
     "MobBucketItemMixin",
     "PowderSnowBlockMixin",
