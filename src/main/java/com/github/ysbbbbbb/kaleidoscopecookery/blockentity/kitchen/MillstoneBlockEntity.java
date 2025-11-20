@@ -54,7 +54,6 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
     private static final String LIFT_ANGLE_KEY = "LiftAngle";
     private static final String INPUT_ITEM_KEY = "InputItem";
     private static final String OUTPUT_ITEM_KEY = "OutputItem";
-    private static final String CARRIER_INGREDIENT_KEY = "CarrierIngredient";
     private static final String PROGRESS_KEY = "Progress";
 
     private final RecipeManager.CachedCheck<SingleRecipeInput, MillstoneRecipe> quickCheck = RecipeManager.createCheck(ModRecipes.MILLSTONE_RECIPE);
@@ -311,6 +310,10 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
         if (this.level == null || this.level.isClientSide) {
             // 仅在服务器端绑定实体
             return;
+        }
+        // 移除实体的乘客
+        if (mob.getControllingPassenger() != null) {
+            mob.ejectPassengers();
         }
         if (!mob.isAlive()) {
             return;

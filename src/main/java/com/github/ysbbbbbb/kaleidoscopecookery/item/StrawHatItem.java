@@ -1,10 +1,13 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.item;
 
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterials;
-import net.minecraft.world.item.Item;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.*;
+
+import java.util.List;
 
 public class StrawHatItem extends ArmorItem {
+
     private final boolean hasFlower;
 
     public StrawHatItem(boolean hasFlower) {
@@ -14,5 +17,10 @@ public class StrawHatItem extends ArmorItem {
 
     public boolean hasFlower() {
         return hasFlower;
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+        tooltip.add(Component.translatable("tooltip.kaleidoscope_cookery.straw_hat").withStyle(ChatFormatting.GRAY));
     }
 }

@@ -1,5 +1,6 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.item;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.api.item.IHasContainer;
 import com.google.common.collect.Lists;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -13,10 +14,11 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class BowlFoodOnlyItem extends Item {
+public class BowlFoodOnlyItem extends Item implements IHasContainer {
     private final List<MobEffectInstance> effectInstances = Lists.newArrayList();
 
     public BowlFoodOnlyItem(FoodProperties properties) {
@@ -29,7 +31,7 @@ public class BowlFoodOnlyItem extends Item {
     }
 
     @Override
-    public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
+    public @NotNull ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
         ItemStack itemStack = super.finishUsingItem(stack, level, entity);
         ItemStack bowl = new ItemStack(Items.BOWL);
         if (itemStack.isEmpty()) {
@@ -49,5 +51,10 @@ public class BowlFoodOnlyItem extends Item {
         if (!this.effectInstances.isEmpty()) {
             PotionContents.addPotionTooltip(this.effectInstances, tooltipComponents::add, 1.0F, context.tickRate());
         }
+    }
+
+    @Override
+    public Item getContainerItem() {
+        return Items.BOWL;
     }
 }

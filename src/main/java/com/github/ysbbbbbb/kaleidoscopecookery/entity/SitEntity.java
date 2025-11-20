@@ -1,5 +1,6 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.entity;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -7,7 +8,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 public class SitEntity extends Entity {
     public static final EntityType<SitEntity> TYPE = EntityType.Builder.<SitEntity>of(SitEntity::new, MobCategory.MISC)
@@ -32,7 +35,7 @@ public class SitEntity extends Entity {
     }
 
     @Override
-    public Vec3 getPassengerRidingPosition(Entity entity) {
+    public @NotNull Vec3 getPassengerRidingPosition(Entity entity) {
         return super.getPassengerRidingPosition(entity).add(0, -0.0625, 0);
     }
 
@@ -53,6 +56,13 @@ public class SitEntity extends Entity {
         if (!this.level().isClientSide) {
             this.checkBelowWorld();
             this.checkPassengers();
+            // 每秒检查一次所处位置是否有方块，没有就删除实体
+            if (this.tickCount % 20 == 0) {
+                BlockState blockState = this.level().getBlockState(this.blockPosition());
+                if (!blockState.is(TagMod.SITTABLE)) {
+                    this.discard();
+                }
+            }
         }
     }
 

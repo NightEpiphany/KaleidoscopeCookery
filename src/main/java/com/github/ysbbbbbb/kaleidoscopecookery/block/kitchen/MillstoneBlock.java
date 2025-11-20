@@ -165,12 +165,12 @@ public class MillstoneBlock extends HorizontalDirectionalBlock implements Entity
             NinePart part = pState.getValue(PART);
             BlockPos centerPos = pPos.subtract(new Vec3i(part.getPosX(), 0, part.getPosY()));
             BlockEntity blockEntity = pLevel.getBlockEntity(centerPos);
+            if (mob.getFirstPassenger() instanceof ServerPlayer player) {
+                // 检查实体的乘客是不是玩家，如果是，那么给予成就
+                ModTrigger.EVENT.trigger(player, ModEventTriggerType.DRIVE_THE_MILLSTONE);
+            }
             if (blockEntity instanceof MillstoneBlockEntity millstone && !millstone.hasEntity() && millstone.canBindEntity(mob)) {
                 millstone.bindEntity(mob);
-                // 检查实体的乘客是不是玩家，如果是，那么给予成就
-                if (mob.getFirstPassenger() instanceof ServerPlayer player) {
-                    ModTrigger.EVENT.trigger(player, ModEventTriggerType.DRIVE_THE_MILLSTONE);
-                }
             }
         }
     }

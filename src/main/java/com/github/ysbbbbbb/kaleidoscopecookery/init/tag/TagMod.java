@@ -27,10 +27,6 @@ public interface TagMod {
      */
     TagKey<Item> EXTINGUISH_STOVE = itemTag("extinguish_stove");
     /**
-     * 可以视作本模组锅铲炒菜的工具
-     */
-    TagKey<Item> KITCHEN_SHOVEL = itemTag("kitchen_shovel");
-    /**
      * 任意可以用作炒锅油的物品
      */
     TagKey<Item> OIL = itemTag("oil");
@@ -47,13 +43,43 @@ public interface TagMod {
      */
     TagKey<Item> KITCHEN_KNIFE = itemTag("kitchen_knife");
     /**
+     * 可以视作本模组锅铲炒菜的工具
+     */
+    TagKey<Item> KITCHEN_SHOVEL = itemTag("kitchen_shovel");
+    /**
      * 农夫套装
      */
     TagKey<Item> FARMER_ARMOR = itemTag("farmer_armor");
     /**
-     * 保鲜效果能够作用的食物
+     * 可以加入汤锅炒锅的原料
      */
-    TagKey<Item> PRESERVATION_FOOD = itemTag("preservation_food");
+    TagKey<Item> POT_INGREDIENT = itemTag("pot_ingredient");
+    /**
+     * 取出原料所识别的容器
+     */
+    TagKey<Item> INGREDIENT_CONTAINER = itemTag("ingredient_container");
+    /**
+     * 返回碗容器的物品，程序内嵌了本模组和原版所有的碗装食物的支持
+     * <p>
+     * 所以这个 tag 只需要添加其他不符合上述设定的碗容器食物即可
+     */
+    TagKey<Item> BOWL_CONTAINER = itemTag("bowl_container");
+    /**
+     * 返回桶容器的物品
+     */
+    TagKey<Item> BUCKET_CONTAINER = itemTag("bucket_container");
+    /**
+     * 返回玻璃瓶容器的物品
+     */
+    TagKey<Item> GLASS_BOTTLE_CONTAINER = itemTag("glass_bottle_container");
+    /**
+     * 本模组所有可以进食的食物
+     */
+    TagKey<Item> MEALS = itemTag("meals");
+    /**
+     * 本模组可以放置出来的食物
+     */
+    TagKey<Item> FEASTS = itemTag("feasts");
     /**
      * 寒带疾行效果可以提速的方块
      */
@@ -72,7 +98,22 @@ public interface TagMod {
      * 默认是任何具有 LIT 标签的方块或拥有此 tag 的方块，故这里需要添加的是没有 LIT 标签的热源方块
      */
     TagKey<Block> HEAT_SOURCE_BLOCKS_WITHOUT_LIT = blockTag("heat_source_blocks_without_lit");
-
+    /**
+     * 厨娘凳
+     */
+    TagKey<Block> COOK_STOOL = blockTag("cook_stool");
+    /**
+     * 椅子
+     */
+    TagKey<Block> CHAIR = blockTag("chair");
+    /**
+     * 餐桌
+     */
+    TagKey<Block> TABLE = blockTag("table");
+    /**
+     * 可以坐在上面的方块
+     */
+    TagKey<Block> SITTABLE = blockTag("sittable");
     /**
      * 被本模组当做猪油来源的实体
      */
@@ -89,28 +130,6 @@ public interface TagMod {
      * 饱腹代偿效果抵御效果较差的伤害来源
      */
     TagKey<DamageType> SATIATED_SHIELD_WEAKNESS = damageTypeTag("satiated_shield_weakness");
-    /**
-     * 返回碗容器的物品，程序内嵌了本模组和原版所有的碗装食物的支持
-     * <p>
-     * 所以这个 tag 只需要添加其他不符合上述设定的碗容器食物即可
-     */
-    TagKey<Item> BOWL_CONTAINER = itemTag("bowl_container");
-    /**
-     * 返回桶容器的物品
-     */
-    TagKey<Item> BUCKET_CONTAINER = itemTag("bucket_container");
-    /**
-     * 返回玻璃瓶容器的物品
-     */
-    TagKey<Item> GLASS_BOTTLE_CONTAINER = itemTag("glass_bottle_container");
-    /**
-     * 石磨取出面团所使用的容器
-     */
-    TagKey<Item> MILLSTONE_DOUGH_CONTAINER = itemTag("millstone_dough_container");
-
-    static TagKey<DamageType> damageTypeTag(String name) {
-        return TagKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, name));
-    }
 
     static TagKey<Item> itemTag(String name) {
         return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, name));
@@ -122,5 +141,9 @@ public interface TagMod {
 
     static TagKey<EntityType<?>> entityTag(String name) {
         return TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, name));
+    }
+
+    static TagKey<DamageType> damageTypeTag(String name) {
+        return TagKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, name));
     }
 }

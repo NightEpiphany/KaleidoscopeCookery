@@ -6,18 +6,6 @@ import org.jetbrains.annotations.Nullable;
 
 public interface ActionEventCallback {
 
-    @Deprecated
-    @FunctionalInterface
-    interface MillstoneFinish {
-        void onMillstoneFinish(MillstoneFinishEvent event);
-    }
-
-    @Deprecated
-    @FunctionalInterface
-    interface MillstoneTakeItem {
-        void onMillstoneTakeItem(MillstoneTakeItemEvent event);
-    }
-
     @FunctionalInterface
     interface CheckSpecialItem{
         void onCheckItemEvent(RecipeItemEvent.CheckItem event);
