@@ -45,6 +45,20 @@ public class ModEvents {
                 }
             });
 
+    public static final Event<ActionEventCallback.StockMatchRecipePre> STOCKPOT_RECIPE_PRE =
+            EventFactory.createArrayBacked(ActionEventCallback.StockMatchRecipePre.class, call -> (event) -> {
+                for (ActionEventCallback.StockMatchRecipePre listener : call) {
+                    listener.onStockMatchRecipePre(event);
+                }
+            });
+
+    public static final Event<ActionEventCallback.StockMatchRecipePost> STOCKPOT_RECIPE_POST =
+            EventFactory.createArrayBacked(ActionEventCallback.StockMatchRecipePost.class, call -> (event) -> {
+                for (ActionEventCallback.StockMatchRecipePost listener : call) {
+                    listener.onStockMatchRecipePost(event);
+                }
+            });
+
     public static void init() {
         SpecialRecipeItemEvent.onCheckItemEvent();
         SpecialRecipeItemEvent.onDeductItemEvent();

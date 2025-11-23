@@ -2,8 +2,12 @@ package com.github.ysbbbbbb.kaleidoscopecookery.item;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteBlock;
 import com.google.common.collect.Lists;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,6 +27,7 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -40,7 +45,7 @@ public class BowlFoodBlockItem extends BlockItem {
     }
 
     @Override
-    public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
+    public @NotNull ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
         if (level instanceof ServerLevel serverLevel && this.getBlock() instanceof FoodBiteBlock foodBiteBlock) {
             LootParams.Builder builder = (new LootParams.Builder(serverLevel))
                     .withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(entity.blockPosition()))
@@ -78,7 +83,11 @@ public class BowlFoodBlockItem extends BlockItem {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+        ResourceLocation id = BuiltInRegistries.ITEM.getKey(stack.getItem());
+        String key = "tooltip.%s.%s.maxim".formatted(id.getNamespace(), id.getPath());
+        tooltip.add(Component.translatable(key).withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC));
         if (!this.effectInstances.isEmpty()) {
+            tooltip.add(CommonComponents.space());
             PotionContents.addPotionTooltip(this.effectInstances, tooltip::add, 1.0F, context.tickRate());
         }
     }

@@ -30,4 +30,14 @@ public interface ActionEventCallback {
     interface FarmlandTrample {
         void onFarmlandTrample(FarmlandTrampleEvent event);
     }
+
+    @FunctionalInterface
+    interface StockMatchRecipePre {
+        void onStockMatchRecipePre(StockpotMatchRecipeEvent.Pre event);
+    }
+
+    @FunctionalInterface
+    interface StockMatchRecipePost {
+        void onStockMatchRecipePost(StockpotMatchRecipeEvent.Post event);
+    }
 }

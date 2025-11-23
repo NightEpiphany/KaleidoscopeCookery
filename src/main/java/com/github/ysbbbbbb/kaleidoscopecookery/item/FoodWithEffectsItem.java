@@ -1,7 +1,11 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.item;
 
 import com.google.common.collect.Lists;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
@@ -25,7 +29,11 @@ public class FoodWithEffectsItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+        ResourceLocation id = BuiltInRegistries.ITEM.getKey(stack.getItem());
+        String key = "tooltip.%s.%s.maxim".formatted(id.getNamespace(), id.getPath());
+        tooltip.add(Component.translatable(key).withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC));
         if (!this.effectInstances.isEmpty()) {
+            tooltip.add(CommonComponents.space());
             PotionContents.addPotionTooltip(this.effectInstances, tooltip::add, 1.0F, context.tickRate());
         }
     }

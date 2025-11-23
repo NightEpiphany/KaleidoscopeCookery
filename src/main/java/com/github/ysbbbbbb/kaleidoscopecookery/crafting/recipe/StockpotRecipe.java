@@ -15,6 +15,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+import static com.github.ysbbbbbb.kaleidoscopecookery.crafting.serializer.StockpotRecipeSerializer.*;
+import static com.github.ysbbbbbb.kaleidoscopecookery.crafting.serializer.StockpotRecipeSerializer.DEFAULT_COOKING_BUBBLE_COLOR;
+import static com.github.ysbbbbbb.kaleidoscopecookery.crafting.serializer.StockpotRecipeSerializer.DEFAULT_FINISHED_BUBBLE_COLOR;
+
 public record StockpotRecipe(NonNullList<Ingredient> ingredients,
                              ResourceLocation soupBase, ItemStack result, int time,
                              Ingredient carrier, ResourceLocation cookingTexture, ResourceLocation finishedTexture,
@@ -25,6 +29,12 @@ public record StockpotRecipe(NonNullList<Ingredient> ingredients,
         this(NonNullList.of(Ingredient.EMPTY, BaseRecipe.fillInputs(ingredients)),
                 soupBase, result, time, carrier, cookingTexture, finishedTexture,
                 cookingBubbleColor, finishedBubbleColor);
+    }
+
+    public StockpotRecipe(NonNullList<Ingredient> ingredients, ItemStack result, int time, ItemStack container) {
+        this(ingredients, DEFAULT_SOUP_BASE, result, time, Ingredient.of(container),
+                DEFAULT_COOKING_TEXTURE, DEFAULT_FINISHED_TEXTURE,
+                DEFAULT_COOKING_BUBBLE_COLOR, DEFAULT_FINISHED_BUBBLE_COLOR);
     }
 
     @Override

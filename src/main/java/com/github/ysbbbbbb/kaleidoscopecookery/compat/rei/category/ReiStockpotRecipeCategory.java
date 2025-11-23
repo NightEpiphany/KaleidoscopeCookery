@@ -2,6 +2,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.compat.rei.category;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.recipe.soupbase.ISoupBase;
+import com.github.ysbbbbbb.kaleidoscopecookery.compat.farmersdelight.FarmersDelightCompat;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.rei.ReiUtil;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.StockpotRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.soupbase.SoupBaseManager;
@@ -110,7 +111,7 @@ public class ReiStockpotRecipeCategory implements DisplayCategory<ReiStockpotRec
 
     public static void registerDisplays(DisplayRegistry registry) {
         List<RecipeHolder<StockpotRecipe>> list = new ArrayList<>(registry.getRecipeManager().getAllRecipesFor(ModRecipes.STOCKPOT_RECIPE));
-        //FarmersDelightCompat.getTransformRecipeForJei(Minecraft.getInstance().level, list);
+        FarmersDelightCompat.getTransformRecipeForJei(Minecraft.getInstance().level, list);
 
         list.forEach(r -> {
             List<EntryIngredient> inputs = ReiUtil.ofIngredients(r.value().getIngredients());

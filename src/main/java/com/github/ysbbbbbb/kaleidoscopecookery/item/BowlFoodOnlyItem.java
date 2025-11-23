@@ -18,11 +18,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class BowlFoodOnlyItem extends Item implements IHasContainer {
+public class BowlFoodOnlyItem extends FoodWithEffectsItem implements IHasContainer {
     private final List<MobEffectInstance> effectInstances = Lists.newArrayList();
 
     public BowlFoodOnlyItem(FoodProperties properties) {
-        super(new Properties().food(properties));
+        super(properties);
         properties.effects().forEach(effect -> {
             if (effect.probability() >= 1F) {
                 effectInstances.add(effect.effect());
@@ -44,13 +44,6 @@ public class BowlFoodOnlyItem extends Item implements IHasContainer {
             level.addFreshEntity(itemEntity);
         }
         return itemStack;
-    }
-
-    @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        if (!this.effectInstances.isEmpty()) {
-            PotionContents.addPotionTooltip(this.effectInstances, tooltipComponents::add, 1.0F, context.tickRate());
-        }
     }
 
     @Override

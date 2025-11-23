@@ -5,7 +5,6 @@ import com.github.ysbbbbbb.kaleidoscopecookery.init.ModEvents;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.FruitBasketItem;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.TransmutationLunchBagItem;
-import com.github.ysbbbbbb.kaleidoscopecookery.util.neo.IItemHandler;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.neo.ItemStackHandler;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -27,7 +26,6 @@ public class SpecialRecipeItemEvent {
                 ItemStackHandler items = TransmutationLunchBagItem.getItems(stack);
                 addItems(event, items);
                 TransmutationLunchBagItem.setItems(stack, items);
-                return;
             }
         });
 
@@ -49,7 +47,6 @@ public class SpecialRecipeItemEvent {
                 ItemStackHandler items = TransmutationLunchBagItem.getItems(stack);
                 deductItems(event, items);
                 TransmutationLunchBagItem.setItems(stack, items);
-                return;
             }
         });
     }
