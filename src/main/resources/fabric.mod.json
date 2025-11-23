@@ -32,5 +32,8 @@
     "fabric": "*",
     "fabric-api": "*",
     "minecraft": "${minecraft_version}"
+  },
+  "breaks": {
+    "farmersdelight": "<=1.21.1-3.0.0+refabricated"
   }
 }
