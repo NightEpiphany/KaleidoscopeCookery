@@ -1,5 +1,6 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.api.event;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.event.SpecialRecipeItemEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.event.IEvent;
 import it.unimi.dsi.fastutil.objects.Reference2IntMap;
 import net.minecraft.world.item.Item;
@@ -17,6 +18,15 @@ public abstract class RecipeItemEvent implements IEvent {
 
     public ItemStack getStack() {
         return stack;
+    }
+
+    public static void register() {
+        CALLBACK.register(event -> {
+            if (event instanceof DeductItem deductItem)
+                SpecialRecipeItemEvent.onDeductItemEvent(deductItem);
+            if (event instanceof CheckItem checkItem)
+                SpecialRecipeItemEvent.onCheckItemEvent(checkItem);
+        });
     }
 
     public void post() {

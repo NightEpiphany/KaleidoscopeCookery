@@ -48,7 +48,7 @@ public class CookingPotCompat {
 
         // 开始寻找农夫乐事的厨锅配方进行匹配
         NonNullList<ItemStack> items = event.getContainer().getItems();
-        RecipeWrapper wrapper = new RecipeWrapper(new ItemStackHandler(items.toArray(new ItemStack[0])));
+        RecipeWrapper wrapper = new RecipeWrapper(new ItemStackHandler(items.toArray(ItemStack[]::new)));
         recipeManager.getRecipeFor(ModRecipeTypes.COOKING.get(), wrapper, event.getLevel()).ifPresent(recipe -> {
             // 如果找到匹配的农夫乐事厨锅配方，则将其转换为本模组汤锅配方
             event.setOutput(transformRecipe(recipe, event.getLevel()));

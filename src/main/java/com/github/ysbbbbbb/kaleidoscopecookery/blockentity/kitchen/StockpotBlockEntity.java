@@ -244,12 +244,12 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
     private void setRecipe(Level levelIn) {
         StockpotContainer container = this.getContainer();
 
-//        // 触发事件，允许其他 mod 修改配方
-//        StockpotMatchRecipeEvent.Pre preEvent = new StockpotMatchRecipeEvent.Pre(levelIn, this, container);
-//        MinecraftForge.EVENT_BUS.post(preEvent);
-//        if (preEvent.getOutput() != null) {
-//            this.applyRecipe(levelIn, container, preEvent.getOutput());
-//        }
+        // 触发事件，允许其他 mod 修改配方
+        StockpotMatchRecipeEvent.Pre preEvent = new StockpotMatchRecipeEvent.Pre(levelIn, this, container);
+        preEvent.post();
+        if (preEvent.getOutput() != null) {
+            this.applyRecipe(levelIn, container, preEvent.getOutput());
+        }
 
         this.quickCheck.getRecipeFor(container, levelIn).ifPresentOrElse(recipe -> {
             this.applyRecipe(levelIn, container, recipe);
@@ -261,12 +261,12 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
             this.takeoutCount = 1;
         });
 
-//        // 触发事件，允许其他 mod 在配方匹配后进行操作
-//        StockpotMatchRecipeEvent.Post postEvent = new StockpotMatchRecipeEvent.Post(levelIn, this, container, this.recipe);
-//        MinecraftForge.EVENT_BUS.post(postEvent);
-//        if (postEvent.getOutput() != null) {
-//            this.applyRecipe(levelIn, container, postEvent.getOutput());
-//        }
+        // 触发事件，允许其他 mod 在配方匹配后进行操作
+        StockpotMatchRecipeEvent.Post postEvent = new StockpotMatchRecipeEvent.Post(levelIn, this, container, this.recipe);
+        postEvent.post();
+        if (postEvent.getOutput() != null) {
+            this.applyRecipe(levelIn, container, postEvent.getOutput());
+        }
     }
 
     private void applyRecipe(Level level, StockpotContainer container, StockpotRecipe recipe) {

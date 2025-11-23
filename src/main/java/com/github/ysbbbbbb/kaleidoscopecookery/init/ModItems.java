@@ -28,7 +28,7 @@ public final class ModItems {
     public static final Item SICKLE = new SickleItem();
 
     // 油
-    public static final Item OIL = new Item(new Item.Properties());
+    public static final Item OIL = new WithTooltipsItem(new Item.Properties(), "oil");
     public static final Item OIL_POT = new OilPotItem();
     public static final Item OIL_BLOCK = new BlockItem(ModBlocks.OIL_BLOCK, new Item.Properties());
     public static final Item ENAMEL_BASIN = new BlockItem(ModBlocks.ENAMEL_BASIN, new Item.Properties());
@@ -107,7 +107,7 @@ public final class ModItems {
     public static final Item GREEN_CHILI = new ChiliItem(1);
     public static final Item LETTUCE = new Item(new Item.Properties().food(ModFoods.LETTUCE));
     public static final Item RICE_PANICLE = new Item(new Item.Properties());
-    public static final Item CATERPILLAR = new Item(new Item.Properties().food(ModFoods.CATERPILLAR));
+    public static final Item CATERPILLAR = new WithTooltipsItem(new Item.Properties().food(ModFoods.CATERPILLAR), "caterpillar");
 
     // 面类食材
     public static final Item RAW_DOUGH = new RawDoughItem();

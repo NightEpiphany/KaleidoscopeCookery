@@ -152,18 +152,6 @@ public class TransmutationLunchBagItem extends Item {
     }
 
     @Override
-    public boolean allowNbtUpdateAnimation(Player player, InteractionHand hand, ItemStack oldStack, ItemStack newStack) {
-        if (player.isSecondaryUseActive()) {
-            // 摆动动作时，取出物品
-            if (dropContents(oldStack, player)) {
-                this.playDropContentsSound(player);
-                return true;
-            }
-        }
-        return super.allowNbtUpdateAnimation(player, hand, oldStack, newStack);
-    }
-
-    @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
         ItemStack itemInHand = player.getItemInHand(hand);
         // 里面有物品
@@ -390,7 +378,7 @@ public class TransmutationLunchBagItem extends Item {
         return addCount;
     }
 
-    private static boolean dropContents(ItemStack bag, Player player) {
+    public static boolean dropContents(ItemStack bag, Player player) {
         if (!hasItems(bag)) {
             return false;
         }
@@ -419,7 +407,7 @@ public class TransmutationLunchBagItem extends Item {
         pEntity.playSound(SoundEvents.BUNDLE_INSERT, 0.8F, 0.8F + pEntity.level().getRandom().nextFloat() * 0.4F);
     }
 
-    private void playDropContentsSound(Entity pEntity) {
+    public void playDropContentsSound(Entity pEntity) {
         pEntity.playSound(SoundEvents.BUNDLE_DROP_CONTENTS, 0.8F, 0.8F + pEntity.level().getRandom().nextFloat() * 0.4F);
     }
 
