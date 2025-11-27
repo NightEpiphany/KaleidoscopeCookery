@@ -7,10 +7,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.api.event.RecipeItemEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.PotBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.PotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.StockpotBlockEntity;
-import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
-import com.github.ysbbbbbb.kaleidoscopecookery.init.ModDataComponents;
-import com.github.ysbbbbbb.kaleidoscopecookery.init.ModEvents;
-import com.github.ysbbbbbb.kaleidoscopecookery.init.ModRecipes;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.FoodBiteRegistry;
 import com.github.ysbbbbbb.kaleidoscopecookery.inventory.tooltip.RecipeItemTooltip;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
@@ -35,6 +32,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.*;
@@ -108,23 +106,26 @@ public class RecipeItem extends BlockItem {
 
     @Override
     public @NotNull InteractionResult useOn(UseOnContext context) {
-        ItemStack itemInHand = context.getItemInHand();
-        BlockPos clickedPos = context.getClickedPos();
-        BlockEntity blockEntity = context.getLevel().getBlockEntity(clickedPos);
-        RecipeManager recipeManager = context.getLevel().getRecipeManager();
-        if (blockEntity == null) {
-            return super.useOn(context);
+        if (!context.getLevel().isClientSide) {
+            ItemStack itemInHand = context.getItemInHand();
+            BlockPos clickedPos = context.getClickedPos();
+            BlockEntity blockEntity = context.getLevel().getBlockEntity(clickedPos);
+            RecipeManager recipeManager = context.getLevel().getRecipeManager();
+            if (blockEntity == null) {
+                return super.useOn(context);
+            }
+            Player player = context.getPlayer();
+            if (player == null) {
+                return super.useOn(context);
+            }
+            if (hasRecipe(itemInHand)) {
+                return this.onPutRecipe(blockEntity, player, itemInHand);
+            } else {
+                InteractionHand hand = context.getHand();
+                return this.onRecordRecipe(context.getLevel(), player, blockEntity, recipeManager, itemInHand, hand);
+            }
         }
-        Player player = context.getPlayer();
-        if (player == null) {
-            return super.useOn(context);
-        }
-        if (hasRecipe(itemInHand)) {
-            return this.onPutRecipe(blockEntity, player, itemInHand);
-        } else {
-            InteractionHand hand = context.getHand();
-            return this.onRecordRecipe(context.getLevel(), player, blockEntity, recipeManager, itemInHand, hand);
-        }
+        return super.useOn(context);
     }
 
     private InteractionResult onPutRecipe(BlockEntity blockEntity, Player player, ItemStack itemInHand) {
@@ -246,6 +247,7 @@ public class RecipeItem extends BlockItem {
 
     private InteractionResult onRecordRecipe(Level level, Player player, BlockEntity blockEntity, RecipeManager recipeManager,
                                              ItemStack itemInHand, InteractionHand hand) {
+        //2n-65 就很离谱
         if (blockEntity instanceof PotBlockEntity pot && pot.getStatus() == IPot.PUT_INGREDIENT) {
             List<ItemStack> inputs = pot.getInputs().stream().filter(s -> !s.isEmpty()).toList();
             if (inputs.isEmpty()) {
@@ -255,8 +257,14 @@ public class RecipeItem extends BlockItem {
             ItemStack recordStack = itemInHand.copyWithCount(1);
             int count = itemInHand.getCount();
             if (count > 1) {
-                ItemStack returnStack = itemInHand.copyWithCount(count - 1);
-                ItemUtils.getItemToLivingEntity(player, returnStack);
+                level.addFreshEntity(
+                        new ItemEntity(
+                                level,
+                                player.getX(),
+                                player.getY(),
+                                player.getZ(),
+                                new ItemStack(ModItems.RECIPE_ITEM, count - 1))
+                );
             }
             recipeManager.getRecipeFor(ModRecipes.POT_RECIPE, pot.getInput(), level).ifPresentOrElse(recipe -> {
                 ItemStack resultItem = recipe.value().getResultItem(level.registryAccess());
@@ -278,8 +286,14 @@ public class RecipeItem extends BlockItem {
             ItemStack recordStack = itemInHand.copyWithCount(1);
             int count = itemInHand.getCount();
             if (count > 1) {
-                ItemStack returnStack = itemInHand.copyWithCount(count - 1);
-                ItemUtils.getItemToLivingEntity(player, returnStack);
+                level.addFreshEntity(
+                        new ItemEntity(
+                                level,
+                                player.getX(),
+                                player.getY(),
+                                player.getZ(),
+                                new ItemStack(ModItems.RECIPE_ITEM, count - 1))
+                );
             }
             recipeManager.getRecipeFor(ModRecipes.STOCKPOT_RECIPE, stockpot.getContainer(), level).ifPresentOrElse(recipe -> {
                 ItemStack resultItem = recipe.value().getResultItem(level.registryAccess());
