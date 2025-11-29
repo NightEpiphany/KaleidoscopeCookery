@@ -33,7 +33,7 @@ public class AddVillageStructuresEvent {
     private static boolean initializationAttempted = false;
 
     public static void addVillageStructures() {
-        ServerLifecycleEvents.SERVER_STARTED.register(minecraftServer -> {
+        ServerLifecycleEvents.SERVER_STARTING.register(minecraftServer -> {
             var registryAccess = minecraftServer.registryAccess();
 
             addBuildingToPool(registryAccess, PLAINS, "village/houses/plains_kitchen", 4);
