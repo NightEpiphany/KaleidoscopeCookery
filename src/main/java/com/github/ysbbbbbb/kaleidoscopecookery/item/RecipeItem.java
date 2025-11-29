@@ -257,13 +257,16 @@ public class RecipeItem extends BlockItem {
             ItemStack recordStack = itemInHand.copyWithCount(1);
             int count = itemInHand.getCount();
             if (count > 1) {
+                ItemEntity itemEntity = new ItemEntity(
+                        level,
+                        player.getX(),
+                        player.getY(),
+                        player.getZ(),
+                        new ItemStack(ModItems.RECIPE_ITEM, count - 1));
+                itemEntity.setPickUpDelay(0);
+                itemEntity.setDeltaMovement(itemEntity.getDeltaMovement().multiply(0.0F, 1.0F, 0.0F));
                 level.addFreshEntity(
-                        new ItemEntity(
-                                level,
-                                player.getX(),
-                                player.getY(),
-                                player.getZ(),
-                                new ItemStack(ModItems.RECIPE_ITEM, count - 1))
+                       itemEntity
                 );
             }
             recipeManager.getRecipeFor(ModRecipes.POT_RECIPE, pot.getInput(), level).ifPresentOrElse(recipe -> {
@@ -286,13 +289,16 @@ public class RecipeItem extends BlockItem {
             ItemStack recordStack = itemInHand.copyWithCount(1);
             int count = itemInHand.getCount();
             if (count > 1) {
+                ItemEntity itemEntity = new ItemEntity(
+                        level,
+                        player.getX(),
+                        player.getY(),
+                        player.getZ(),
+                        new ItemStack(ModItems.RECIPE_ITEM, count - 1));
+                itemEntity.setPickUpDelay(0);
+                itemEntity.setDeltaMovement(itemEntity.getDeltaMovement().multiply(0.0F, 1.0F, 0.0F));
                 level.addFreshEntity(
-                        new ItemEntity(
-                                level,
-                                player.getX(),
-                                player.getY(),
-                                player.getZ(),
-                                new ItemStack(ModItems.RECIPE_ITEM, count - 1))
+                        itemEntity
                 );
             }
             recipeManager.getRecipeFor(ModRecipes.STOCKPOT_RECIPE, stockpot.getContainer(), level).ifPresentOrElse(recipe -> {

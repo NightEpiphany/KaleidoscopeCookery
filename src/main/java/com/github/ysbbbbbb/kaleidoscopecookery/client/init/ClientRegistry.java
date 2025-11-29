@@ -35,6 +35,7 @@ public class ClientRegistry {
         ItemProperties.register(ModItems.RAW_DOUGH, RawDoughItem.PULL_PROPERTY, RecipeItem::getTexture);
         ItemProperties.register(ModItems.OIL_POT, OilPotItem.HAS_OIL_PROPERTY, OilPotItem::getTexture);
         ItemProperties.register(ModItems.TRANSMUTATION_LUNCH_BAG, TransmutationLunchBagItem.HAS_ITEMS_PROPERTY, TransmutationLunchBagItem::getTexture);
+        ItemProperties.register(ModItems.RAW_DOUGH, RawDoughItem.PULL_PROPERTY, RawDoughItem::getTexture);
     }
 
     private static void registerClientEvents() {

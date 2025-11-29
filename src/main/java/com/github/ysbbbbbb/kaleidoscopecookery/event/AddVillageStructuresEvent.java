@@ -3,7 +3,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.event;
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
@@ -32,7 +32,8 @@ public class AddVillageStructuresEvent {
     private static boolean initializationAttempted = false;
 
     public static void register() {
-        ServerTickEvents.START_WORLD_TICK.register(minecraftServer -> {
+        // 服务器启动时添加建筑，注意只需要在初始化时执行一遍。在服务端不能为此消耗额外内存。
+        ServerLifecycleEvents.SERVER_STARTED.register(minecraftServer -> {
             var registryAccess = minecraftServer.registryAccess();
 
             addBuildingToPool(registryAccess, PLAINS, "village/houses/plains_kitchen", 4);

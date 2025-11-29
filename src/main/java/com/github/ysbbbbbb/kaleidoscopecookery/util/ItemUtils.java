@@ -78,7 +78,7 @@ public class ItemUtils {
         if (!stack.isEmpty()) {
             IItemHandler inventory = new PlayerMainInvWrapper(player.getInventory());
             Level level = player.level();
-            ItemStack remainder = stack;
+            ItemStack remainder = stack.copy();
             if (preferredSlot >= 0 && preferredSlot < inventory.getSlots()) {
                 remainder = inventory.insertItem(preferredSlot, stack, false);
             }
