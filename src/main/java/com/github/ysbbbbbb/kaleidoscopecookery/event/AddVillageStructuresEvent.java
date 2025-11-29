@@ -33,7 +33,7 @@ public class AddVillageStructuresEvent {
 
     public static void register() {
         // 服务器启动时添加建筑，注意只需要在初始化时执行一遍。在服务端不能为此消耗额外内存。
-        ServerLifecycleEvents.SERVER_STARTED.register(minecraftServer -> {
+        ServerLifecycleEvents.SERVER_STARTING.register(minecraftServer -> {
             var registryAccess = minecraftServer.registryAccess();
 
             addBuildingToPool(registryAccess, PLAINS, "village/houses/plains_kitchen", 4);
