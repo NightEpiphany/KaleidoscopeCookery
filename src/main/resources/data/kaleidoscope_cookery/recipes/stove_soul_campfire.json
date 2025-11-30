@@ -3,7 +3,7 @@
   "category": "redstone",
   "key": {
     "#": {
-      "tag": "forge:cobblestone"
+      "item": "minecraft:cobblestone"
     },
     "F": {
       "item": "minecraft:soul_campfire"
