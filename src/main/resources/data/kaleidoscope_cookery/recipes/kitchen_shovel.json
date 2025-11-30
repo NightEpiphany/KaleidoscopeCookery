@@ -3,10 +3,10 @@
   "category": "equipment",
   "key": {
     "I": {
-      "tag": "forge:ingots/iron"
+      "item": "minecraft:iron_ingot"
     },
     "N": {
-      "tag": "forge:nuggets/iron"
+      "item": "minecraft:iron_nugget"
     },
     "S": {
       "item": "minecraft:stick"

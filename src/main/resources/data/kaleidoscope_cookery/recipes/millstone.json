@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "F": {
-      "tag": "forge:fences/wooden"
+      "tag": "minecraft:wooden_fences"
     },
     "G": {
       "item": "minecraft:grindstone"

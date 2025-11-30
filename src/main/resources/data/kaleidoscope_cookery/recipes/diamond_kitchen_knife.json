@@ -3,7 +3,7 @@
   "category": "equipment",
   "key": {
     "#": {
-      "tag": "forge:gems/diamond"
+      "item": "minecraft:diamond"
     },
     "S": {
       "item": "minecraft:stick"
