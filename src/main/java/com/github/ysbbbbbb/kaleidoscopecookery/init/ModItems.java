@@ -24,7 +24,7 @@ public final class ModItems {
     public static final Item KITCHENWARE_RACKS = new BlockItem(ModBlocks.KITCHENWARE_RACKS, new Item.Properties());
     public static final Item SHAWARMA_SPIT = new BlockItem(ModBlocks.SHAWARMA_SPIT, new Item.Properties());
     public static final Item MILLSTONE = new BlockItem(ModBlocks.MILLSTONE, new Item.Properties());
-    public static final Item STEAMER = new BlockItem(ModBlocks.STEAMER, new Item.Properties());
+    public static final Item STEAMER = new SteamerItem();
     public static final Item SICKLE = new SickleItem();
 
     // 油

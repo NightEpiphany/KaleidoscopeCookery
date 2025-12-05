@@ -1,6 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.item;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
+import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.SteamerBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.SteamerBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import net.fabricmc.api.EnvType;
@@ -9,9 +10,12 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -40,14 +44,21 @@ public class SteamerItem extends BlockItem {
         Level level = context.getLevel();
         Direction face = context.getClickedFace();
         BlockPos clickedPos = context.getClickedPos();
-        // 点击顶部才能放置
-        if (face != Direction.UP) {
+        // 点击顶部和侧面才能放置
+        if (face == Direction.DOWN) {
             return false;
         }
         BlockEntity blockEntity = level.getBlockEntity(clickedPos);
         ItemStack stack = context.getItemInHand();
-        if (blockEntity instanceof SteamerBlockEntity steamer && stack.is(this) && stack.getCount() == 1) {
-            steamer.mergeItem(stack);
+        if (stack.is(this) && stack.getCount() == 1) {
+            if (blockEntity instanceof SteamerBlockEntity steamer)
+                steamer.mergeItem(stack);
+            else {
+                CompoundTag data = stack.getOrCreateTagElement(BlockItem.BLOCK_ENTITY_TAG);
+                NonNullList<ItemStack> items = NonNullList.withSize(8, ItemStack.EMPTY);
+                ContainerHelper.loadAllItems(data, items);
+                if (!items.get(4).isEmpty()) { return context.getLevel().setBlock(context.getClickedPos(), state.setValue(SteamerBlock.HALF, false), 11); }
+            }
         }
         return super.placeBlock(context, state);
     }
@@ -61,7 +72,10 @@ public class SteamerItem extends BlockItem {
     public static float getTexture(ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity entity, int seed) {
         CompoundTag data = BlockItem.getBlockEntityData(stack);
         if (data != null) {
-            return HAS;
+            NonNullList<ItemStack> items = NonNullList.withSize(8, ItemStack.EMPTY);
+            ContainerHelper.loadAllItems(data, items);
+            if (!items.get(0).isEmpty() || !items.get(4).isEmpty())
+                return HAS;
         }
         return NONE;
     }

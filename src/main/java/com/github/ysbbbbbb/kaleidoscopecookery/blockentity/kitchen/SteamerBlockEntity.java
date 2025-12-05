@@ -32,6 +32,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
@@ -355,7 +356,7 @@ public class SteamerBlockEntity extends BaseBlockEntity implements ISteamer {
     }
 
     @Override
-    public void load(CompoundTag tag) {
+    public void load(@NotNull CompoundTag tag) {
         super.load(tag);
         this.items.clear();
         ContainerHelper.loadAllItems(tag, this.items);
@@ -372,7 +373,7 @@ public class SteamerBlockEntity extends BaseBlockEntity implements ISteamer {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
+    protected void saveAdditional(@NotNull CompoundTag tag) {
         super.saveAdditional(tag);
         ContainerHelper.saveAllItems(tag, this.items, true);
         tag.putIntArray(COOKING_PROGRESS_TAG, this.cookingProgress);
