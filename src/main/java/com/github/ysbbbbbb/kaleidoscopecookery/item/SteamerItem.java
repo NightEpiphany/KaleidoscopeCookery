@@ -44,7 +44,7 @@ public class SteamerItem extends BlockItem {
         Direction face = context.getClickedFace();
         BlockPos clickedPos = context.getClickedPos();
         // 点击顶部才能放置
-        if (face == Direction.DOWN) {
+        if (face != Direction.UP) {
             return false;
         }
         BlockEntity blockEntity = level.getBlockEntity(clickedPos);

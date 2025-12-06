@@ -1,14 +1,15 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen;
 
-import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.OilPotBlockEntity;
+import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.OilPotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.OilPotItem;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.*;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -39,7 +40,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class OilPotBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock {
+import static com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.OilPotBlockEntity.MAX_OIL_COUNT;
+
+public class OilPotBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock, WorldlyContainerHolder {
     public static final MapCodec<OilPotBlock> CODEC = simpleCodec(p -> new OilPotBlock());
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final BooleanProperty HAS_OIL = BooleanProperty.create("has_oil");
@@ -109,7 +112,7 @@ public class OilPotBlock extends HorizontalDirectionalBlock implements SimpleWat
         // 如果是油，那么添加油
         if (mainHandItem.is(ModItems.OIL)) {
             int currentOilCount = oilPot.getOilCount();
-            int needOilCount = OilPotBlockEntity.MAX_OIL_COUNT - currentOilCount;
+            int needOilCount = MAX_OIL_COUNT - currentOilCount;
             if (needOilCount <= 0) {
                 return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
             }
@@ -156,7 +159,7 @@ public class OilPotBlock extends HorizontalDirectionalBlock implements SimpleWat
     @Override
     public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
         if (level.getBlockEntity(pos) instanceof OilPotBlockEntity be) {
-            double signal = (double) be.getOilCount() / (double) OilPotBlockEntity.MAX_OIL_COUNT;
+            double signal = (double) be.getOilCount() / (double) MAX_OIL_COUNT;
             int baseSignal = be.getOilCount() > 0 ? 1 : 0;
             return Mth.floor(signal * 14.0) + baseSignal;
         }
@@ -194,5 +197,80 @@ public class OilPotBlock extends HorizontalDirectionalBlock implements SimpleWat
     @Nullable
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
         return new OilPotBlockEntity(pPos, pState);
+    }
+
+    @Override
+    public @NotNull WorldlyContainer getContainer(BlockState state, LevelAccessor level, BlockPos pos) {
+        if (level.getBlockEntity(pos) instanceof OilPotBlockEntity oilPot && oilPot.getOilCount() < MAX_OIL_COUNT) {
+            return new InputContainer(state, level, pos);
+        }
+        return new EmptyContainer();
+    }
+
+    static class EmptyContainer extends SimpleContainer implements WorldlyContainer {
+        public EmptyContainer() {
+            super(0);
+        }
+
+        @Override
+        public int @NotNull [] getSlotsForFace(Direction side) {
+            return new int[0];
+        }
+
+        @Override
+        public boolean canPlaceItemThroughFace(int index, ItemStack itemStack, @Nullable Direction direction) {
+            return false;
+        }
+
+        @Override
+        public boolean canTakeItemThroughFace(int index, ItemStack stack, Direction direction) {
+            return false;
+        }
+    }
+
+    static class InputContainer extends SimpleContainer implements WorldlyContainer {
+        private final BlockState state;
+        private final LevelAccessor level;
+        private final BlockPos pos;
+        private boolean changed;
+
+        public InputContainer(BlockState state, LevelAccessor level, BlockPos pos) {
+            super(1);
+            this.state = state;
+            this.level = level;
+            this.pos = pos;
+        }
+
+        @Override
+        public int getMaxStackSize() {
+            return MAX_OIL_COUNT;
+        }
+
+        @Override
+        public int @NotNull [] getSlotsForFace(Direction side) {
+            return side == Direction.UP ? new int[]{0} : new int[0];
+        }
+
+        @Override
+        public boolean canPlaceItemThroughFace(int index, ItemStack itemStack, @Nullable Direction direction) {
+            return !this.changed && direction == Direction.UP && itemStack.is(ModItems.OIL);
+        }
+
+        @Override
+        public boolean canTakeItemThroughFace(int index, ItemStack stack, Direction direction) {
+            return false;
+        }
+
+        @Override
+        public void setChanged() {
+            ItemStack itemStack = this.getItem(0);
+            if (!itemStack.isEmpty() && itemStack.is(ModItems.OIL) && this.level.getBlockEntity(this.pos) instanceof OilPotBlockEntity oilPot && level.nextSubTickCount() % 3 == 0) {
+                this.changed = true;
+                oilPot.setOilCount(oilPot.getOilCount() + itemStack.getCount());
+                oilPot.refresh();
+                if (this.level.getBlockState(pos) == this.state)
+                    this.level.playSound(null, this.pos, SoundEvents.HONEY_BLOCK_PLACE, SoundSource.BLOCKS, 0.56f, 0.985f);
+            }
+        }
     }
 }

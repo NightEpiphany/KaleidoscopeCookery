@@ -1,20 +1,12 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.compat.jade.block;
 
-import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.OilPotBlock;
-import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.OilPotBlockEntity;
+import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.OilPotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.jade.ModPlugin;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import snownee.jade.api.Accessor;
-import snownee.jade.api.BlockAccessor;
-import snownee.jade.api.IBlockComponentProvider;
-import snownee.jade.api.ITooltip;
-import snownee.jade.api.config.IPluginConfig;
-import snownee.jade.api.ui.IElementHelper;
 import snownee.jade.api.view.*;
 
 import java.util.Collections;
