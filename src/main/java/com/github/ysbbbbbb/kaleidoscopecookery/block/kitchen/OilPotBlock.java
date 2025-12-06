@@ -5,9 +5,10 @@ import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.OilPotItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.*;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -37,7 +38,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class OilPotBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock {
+import static com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.OilPotBlockEntity.MAX_OIL_COUNT;
+
+public class OilPotBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock, WorldlyContainerHolder {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final BooleanProperty HAS_OIL = BooleanProperty.create("has_oil");
 
@@ -186,5 +189,80 @@ public class OilPotBlock extends HorizontalDirectionalBlock implements SimpleWat
     @Nullable
     public BlockEntity newBlockEntity(@NotNull BlockPos pPos, @NotNull BlockState pState) {
         return new OilPotBlockEntity(pPos, pState);
+    }
+
+    @Override
+    public @NotNull WorldlyContainer getContainer(@NotNull BlockState state, LevelAccessor level, @NotNull BlockPos pos) {
+        if (level.getBlockEntity(pos) instanceof OilPotBlockEntity oilPot && oilPot.getOilCount() < MAX_OIL_COUNT) {
+            return new InputContainer(state, level, pos);
+        }
+        return new EmptyContainer();
+    }
+
+    static class EmptyContainer extends SimpleContainer implements WorldlyContainer {
+        public EmptyContainer() {
+            super(0);
+        }
+
+        @Override
+        public int @NotNull [] getSlotsForFace(@NotNull Direction side) {
+            return new int[0];
+        }
+
+        @Override
+        public boolean canPlaceItemThroughFace(int index, @NotNull ItemStack itemStack, @Nullable Direction direction) {
+            return false;
+        }
+
+        @Override
+        public boolean canTakeItemThroughFace(int index, @NotNull ItemStack stack, @NotNull Direction direction) {
+            return false;
+        }
+    }
+
+    static class InputContainer extends SimpleContainer implements WorldlyContainer {
+        private final BlockState state;
+        private final LevelAccessor level;
+        private final BlockPos pos;
+        private boolean changed;
+
+        public InputContainer(BlockState state, LevelAccessor level, BlockPos pos) {
+            super(1);
+            this.state = state;
+            this.level = level;
+            this.pos = pos;
+        }
+
+        @Override
+        public int getMaxStackSize() {
+            return MAX_OIL_COUNT;
+        }
+
+        @Override
+        public int @NotNull [] getSlotsForFace(@NotNull Direction side) {
+            return side == Direction.UP ? new int[]{0} : new int[0];
+        }
+
+        @Override
+        public boolean canPlaceItemThroughFace(int index, @NotNull ItemStack itemStack, @Nullable Direction direction) {
+            return !this.changed && direction == Direction.UP && itemStack.is(ModItems.OIL);
+        }
+
+        @Override
+        public boolean canTakeItemThroughFace(int index, @NotNull ItemStack stack, @NotNull Direction direction) {
+            return false;
+        }
+
+        @Override
+        public void setChanged() {
+            ItemStack itemStack = this.getItem(0);
+            if (!itemStack.isEmpty() && itemStack.is(ModItems.OIL) && this.level.getBlockEntity(this.pos) instanceof OilPotBlockEntity oilPot && level.nextSubTickCount() % 3 == 0) {
+                this.changed = true;
+                oilPot.setOilCount(oilPot.getOilCount() + 1);
+                oilPot.refresh();
+                if (this.level.getBlockState(pos) == this.state)
+                    this.level.playSound(null, this.pos, SoundEvents.HONEY_BLOCK_PLACE, SoundSource.BLOCKS, 0.56f, 0.985f);
+            }
+        }
     }
 }
