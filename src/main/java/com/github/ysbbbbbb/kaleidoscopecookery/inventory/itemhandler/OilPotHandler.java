@@ -18,6 +18,10 @@ public class OilPotHandler extends ItemStackHandler {
         }
     }
 
+    public void setOilCount(int count) {
+        setStackInSlot(0, new ItemStack(ModItems.OIL, count));
+    }
+
     @Override
     public boolean isItemValid(int slot, @NotNull ItemStack stack) {
         return stack.is(ModItems.OIL);

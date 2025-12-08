@@ -1,0 +1,35 @@
+package com.github.ysbbbbbb.kaleidoscopecookery.event;
+
+import com.github.ysbbbbbb.kaleidoscopecookery.init.ModEvents;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LevelEvent;
+import net.minecraft.world.level.block.NetherWartBlock;
+import net.minecraft.world.level.block.state.BlockState;
+
+/**
+ * 镰刀收割地狱疣事件特判
+ */
+public class SickleHarvestNetherWartEvent {
+
+    public static void register() {
+        ModEvents.SICKLE_HARVEST.register(event -> {
+            BlockState harvestState = event.getHarvestState();
+            if (harvestState.is(Blocks.NETHER_WART)) {
+                boolean isMaxAge = harvestState.getValue(NetherWartBlock.AGE) >= 3;
+                if (isMaxAge) {
+                    var player = event.getPlayer();
+                    var pos = event.getHarvestPos();
+                    var level = player.level();
+                    if (player instanceof ServerPlayer serverPlayer) {
+                        serverPlayer.gameMode.destroyBlock(pos);
+                        level.levelEvent(null, LevelEvent.PARTICLES_DESTROY_BLOCK, pos, Block.getId(harvestState));
+                        level.setBlock(pos, Blocks.NETHER_WART.defaultBlockState(), Block.UPDATE_ALL);
+                    }
+                    event.setCostDurability(true);
+                }
+                event.setCanceled(true);
+        }});
+    }
+}

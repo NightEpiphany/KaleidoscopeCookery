@@ -5,6 +5,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -32,19 +33,36 @@ public class SimplePotRecipeProvider extends ModRecipeProvider {
         PotRecipeBuilder.builder().addInput(Items.RABBIT).setResult(Items.COOKED_RABBIT).save(consumer);
 
         addSingleItemRecipe(Items.EGG, ModItems.FRIED_EGG, "egg", consumer);
+        addSingleItemRecipe(ModItems.STUFFED_DOUGH_FOOD, ModItems.MEAT_PIE, "stuffed_dough_food", consumer);
+    }
+
+    public void addSingleItemRecipe(TagKey<Item> inputItem, Item outputItem, String idInput, RecipeOutput consumer) {
+        this.addSingleItemRecipe(inputItem, outputItem, idInput, Ingredient.EMPTY, consumer);
     }
 
     public void addSingleItemRecipe(ItemLike inputItem, Item outputItem, String idInput, RecipeOutput consumer) {
         this.addSingleItemRecipe(inputItem, outputItem, idInput, Ingredient.EMPTY, consumer);
     }
 
+    @SuppressWarnings("all")
+    public void addSingleItemRecipe(TagKey<Item> inputItem, Item outputItem, String idInput, Ingredient carrier, RecipeOutput consumer) {
+        for (int i = 1; i <= 9; i++) {
+            TagKey<Item>[] inputs = this.getItemsWithCount(inputItem, i);
+            ItemStack output = new ItemStack(outputItem, i);
+            String idOutput = this.getRecipeIdWithCount(outputItem, i);
+            String id = String.format("%s_to_%s", idInput, idOutput);
+            PotRecipeBuilder.builder().addInput(inputs).setResult(output).setCarrier(carrier).save(consumer, id);
+        }
+    }
+
+    @SuppressWarnings("all")
     public void addSingleItemRecipe(ItemLike inputItem, Item outputItem, String idInput, Ingredient carrier, RecipeOutput consumer) {
         for (int i = 1; i <= 9; i++) {
             ItemLike[] inputs = this.getItemsWithCount(inputItem, i);
             ItemStack output = new ItemStack(outputItem, i);
             String idOutput = this.getRecipeIdWithCount(outputItem, i);
             String id = String.format("%s_to_%s", idInput, idOutput);
-            PotRecipeBuilder.builder().addInput((Object) inputs).setResult(output).setCarrier(carrier).save(consumer, id);
+            PotRecipeBuilder.builder().addInput(inputs).setResult(output).setCarrier(carrier).save(consumer, id);
         }
     }
 }

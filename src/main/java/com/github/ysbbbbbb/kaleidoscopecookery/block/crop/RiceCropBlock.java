@@ -109,6 +109,11 @@ public class RiceCropBlock extends BaseCropBlock implements SimpleWaterloggedBlo
         return state;
     }
 
+    @Override
+    protected boolean mayPlaceOn(BlockState state, BlockGetter level, BlockPos pos) {
+        return super.mayPlaceOn(state, level, pos) || state.is(TagMod.RICE_PLANTABLE);
+    }
+
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {

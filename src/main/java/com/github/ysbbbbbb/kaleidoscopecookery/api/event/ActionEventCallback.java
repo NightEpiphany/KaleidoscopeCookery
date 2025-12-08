@@ -40,4 +40,9 @@ public interface ActionEventCallback {
     interface StockMatchRecipePost {
         void onStockMatchRecipePost(StockpotMatchRecipeEvent.Post event);
     }
+
+    @FunctionalInterface
+    interface SickleHarvest {
+        void onSickleHarvest(SickleHarvestEvent event);
+    }
 }

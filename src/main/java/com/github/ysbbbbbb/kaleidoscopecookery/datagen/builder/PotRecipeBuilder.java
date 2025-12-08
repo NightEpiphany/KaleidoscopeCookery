@@ -46,6 +46,11 @@ public class PotRecipeBuilder implements RecipeBuilder {
         return this;
     }
 
+    public PotRecipeBuilder setCarrier(TagKey<Item> tagKey) {
+        this.carrier = Ingredient.of(tagKey);
+        return this;
+    }
+
     public PotRecipeBuilder setCarrier(ItemLike itemLike) {
         this.carrier = Ingredient.of(itemLike);
         return this;
@@ -56,7 +61,7 @@ public class PotRecipeBuilder implements RecipeBuilder {
         return this;
     }
 
-    @SuppressWarnings("all")
+    @SuppressWarnings({"varargs", "all"})
     public PotRecipeBuilder addInput(Object... ingredients) {
         for (Object ingredient : ingredients) {
             if (ingredient instanceof ItemLike itemLike) {

@@ -40,27 +40,12 @@ public class BaseAdvancement {
         AdvancementHolder oil = makeTask(ModItems.OIL, "oil")
                 .parent(ironKnife)
                 .addCriterion("kill_pig", KilledTrigger.TriggerInstance.playerKilledEntity(
-                        EntityPredicate.Builder.entity().of(EntityType.PIG),
+                        EntityPredicate.Builder.entity().of(TagMod.PIG_OIL_SOURCE),
                         DamageSourcePredicate.Builder.damageType().direct(EntityPredicate.Builder.entity().equipment(
                                 EntityEquipmentPredicate.Builder.equipment().mainhand(
                                         ItemPredicate.Builder.item().of(TagMod.KITCHEN_KNIFE))
                         ))
                 ))
-                .addCriterion("kill_piglin", KilledTrigger.TriggerInstance.playerKilledEntity(
-                        EntityPredicate.Builder.entity().of(EntityType.PIGLIN),
-                        DamageSourcePredicate.Builder.damageType().direct(EntityPredicate.Builder.entity().equipment(
-                                EntityEquipmentPredicate.Builder.equipment().mainhand(
-                                        ItemPredicate.Builder.item().of(TagMod.KITCHEN_KNIFE))
-                        ))
-                ))
-                .addCriterion("kill_zombified_piglin", KilledTrigger.TriggerInstance.playerKilledEntity(
-                        EntityPredicate.Builder.entity().of(EntityType.ZOMBIFIED_PIGLIN),
-                        DamageSourcePredicate.Builder.damageType().direct(EntityPredicate.Builder.entity().equipment(
-                                EntityEquipmentPredicate.Builder.equipment().mainhand(
-                                        ItemPredicate.Builder.item().of(TagMod.KITCHEN_KNIFE))
-                        ))
-                ))
-                .requirements(AdvancementRequirements.Strategy.OR)
                 .save(saver, modLoc("oil"));
 
         AdvancementHolder choppingBoard = makeTask(ModItems.CHOPPING_BOARD, "chopping_board")
@@ -100,7 +85,9 @@ public class BaseAdvancement {
 
         AdvancementHolder farmerSet = makeTask(ModItems.FARMER_CHEST_PLATE, "farmer_set")
                 .parent(strawHat)
-                .addCriterion("has_straw_hat", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.STRAW_HAT, ModItems.STRAW_HAT_FLOWER))
+                .addCriterion("has_straw_hat", InventoryChangeTrigger.TriggerInstance.hasItems(
+                        ItemPredicate.Builder.item().of(TagMod.STRAW_HAT).build()
+                ))
                 .addCriterion("has_farmer_chestplate", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.FARMER_CHEST_PLATE))
                 .addCriterion("has_farmer_leggings", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.FARMER_LEGGINGS))
                 .addCriterion("has_farmer_boots", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.FARMER_BOOTS))
@@ -253,5 +240,32 @@ public class BaseAdvancement {
                 .parent(scarecrow)
                 .addCriterion("place_head_on_scarecrow", ModEventTrigger.create(ModEventTriggerType.PLACE_HEAD_ON_SCARECROW))
                 .save(saver, modLoc("scarecrow_head"));
+
+        // 饭袋成就，独立的
+        AdvancementHolder lunchBag = makeGoal(ModItems.TRANSMUTATION_LUNCH_BAG, "transmutation_lunch_bag")
+                .parent(root)
+                .addCriterion("use_transmutation_lunch_bag", ModEventTrigger.create(ModEventTriggerType.USE_TRANSMUTATION_LUNCH_BAG))
+                .save(saver, modLoc("transmutation_lunch_bag"));
+
+        // 石磨、蒸笼系列成就
+        AdvancementHolder millstone = makeTask(ModItems.MILLSTONE, "millstone")
+                .parent(root)
+                .addCriterion("drive_the_millstone", ModEventTrigger.create(ModEventTriggerType.DRIVE_THE_MILLSTONE))
+                .save(saver, modLoc("millstone"));
+
+        AdvancementHolder dough = makeTask(ModItems.RAW_DOUGH, "dough")
+                .parent(millstone)
+                .addCriterion("pull_the_dough", ModEventTrigger.create(ModEventTriggerType.PULL_THE_DOUGH))
+                .save(saver, modLoc("dough"));
+
+        AdvancementHolder steamer = makeTask(ModItems.STEAMER, "steamer")
+                .parent(dough)
+                .addCriterion("use_steamer", ModEventTrigger.create(ModEventTriggerType.USE_STEAMER))
+                .save(saver, modLoc("steamer"));
+
+        AdvancementHolder baozi = makeGoal(ModItems.BAOZI, "baozi")
+                .parent(steamer)
+                .addCriterion("meat_buns_beat_dogs", ModEventTrigger.create(ModEventTriggerType.MEAT_BUNS_BEAT_DOGS))
+                .save(saver, modLoc("baozi"));
     }
 }

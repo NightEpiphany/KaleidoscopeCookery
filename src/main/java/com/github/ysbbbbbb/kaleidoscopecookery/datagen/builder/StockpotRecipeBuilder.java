@@ -21,7 +21,7 @@ import java.util.Objects;
 
 public class StockpotRecipeBuilder implements RecipeBuilder {
     private static final String NAME = "stockpot";
-    private final List<Ingredient> ingredients = Lists.newArrayList();
+    private List<Ingredient> ingredients = Lists.newArrayList();
     private ItemStack result = ItemStack.EMPTY;
     private int time = StockpotRecipeSerializer.DEFAULT_TIME;
     private Ingredient carrier = StockpotRecipeSerializer.DEFAULT_CARRIER;
@@ -56,11 +56,6 @@ public class StockpotRecipeBuilder implements RecipeBuilder {
         return this;
     }
 
-    public StockpotRecipeBuilder setCarrier(ItemLike carrier) {
-        this.carrier = Ingredient.of(carrier);
-        return this;
-    }
-
     public StockpotRecipeBuilder setResult(Item result) {
         this.result = new ItemStack(result, 3);
         return this;
@@ -82,6 +77,11 @@ public class StockpotRecipeBuilder implements RecipeBuilder {
 
     public StockpotRecipeBuilder setTime(int time) {
         this.time = time;
+        return this;
+    }
+
+    public StockpotRecipeBuilder setCarrier(ItemLike carrier) {
+        this.carrier = Ingredient.of(carrier);
         return this;
     }
 

@@ -50,7 +50,14 @@ public class OilPotBlockEntity extends BaseBlockEntity {
         return oilCount;
     }
 
-    public void setOilCount(int oilCount) {
+    public void updateCap() {
+        this.invHandler.setOilCount(this.oilCount);
+    }
+
+    /**
+     * 仅给 OilPotHandler 使用，避免循环调用
+     */
+    public void setOilCountWithoutCapUpdate(int oilCount) {
         this.oilCount = oilCount;
         this.refresh();
 
@@ -68,6 +75,14 @@ public class OilPotBlockEntity extends BaseBlockEntity {
         if (hasOil && oilCount <= 0) {
             level.setBlock(this.worldPosition, state.setValue(HAS_OIL, false), Block.UPDATE_ALL);
         }
+    }
+
+    /**
+     * 普通的设置油量方法，还会顺带更新 cap
+     */
+    public void setOilCount(int oilCount) {
+        this.setOilCountWithoutCapUpdate(oilCount);
+        this.updateCap();
     }
 
     @Deprecated

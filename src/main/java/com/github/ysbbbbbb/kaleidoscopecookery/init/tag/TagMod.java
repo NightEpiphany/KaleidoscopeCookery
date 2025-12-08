@@ -93,6 +93,10 @@ public interface TagMod {
      */
     TagKey<Block> CAT_LIE_ON_BLOCKS = blockTag("cat_lie_on_blocks");
     /**
+     * 镰刀收割黑名单
+     */
+    TagKey<Block> SICKLE_HARVEST_BLACKLIST = blockTag("sickle_harvest_blacklist");
+    /**
      * 可以当做本模组热源的方块
      * <p>
      * 默认是任何具有 LIT 标签的方块或拥有此 tag 的方块，故这里需要添加的是没有 LIT 标签的热源方块
@@ -110,6 +114,10 @@ public interface TagMod {
      * 餐桌
      */
     TagKey<Block> TABLE = blockTag("table");
+    /**
+     * 可以种植水稻的方块
+     */
+    TagKey<Block> RICE_PLANTABLE = blockTag("rice_plantable");
     /**
      * 可以坐在上面的方块
      */

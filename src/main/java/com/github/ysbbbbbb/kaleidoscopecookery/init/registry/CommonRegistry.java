@@ -31,6 +31,7 @@ public class CommonRegistry {
         AddVillageStructuresEvent.register();
         ScarecrowFarmlandTrampleEvent.register();
         EntityJoinWorldEvent.register();
+        SickleHarvestNetherWartEvent.register();
         HoeUseEvent.register();
         RightClickEvent.register();
         LeftClickEvent.register();
