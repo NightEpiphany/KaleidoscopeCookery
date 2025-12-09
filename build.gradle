@@ -67,29 +67,6 @@ repositories {
         }
     }
 
-
-//    maven {
-//        name = "Greenhouse Maven"
-//        url = 'https://repo.greenhouse.house/releases/'
-//    }
-//    maven {
-//        url "https://mvn.devos.one/releases/" // Porting Lib
-////        content {
-////            excludeGroup "io.github.fabricators_of_create"
-////        }
-//    }
-//    maven {
-//        url "https://maven.jamieswhiteshirt.com/libs-release" // Reach Entity Attributes (Required by Porting Lib)
-//        content {
-//            includeGroup "com.jamieswhiteshirt"
-//        }
-//    }
-//    maven {
-//        url "https://jitpack.io/" // Fabric ASM
-//        content {
-//            excludeGroup "io.github.fabricators_of_create"
-//        }
-//    }
 }
 
 repositories {
@@ -167,6 +144,10 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
     modImplementation("maven.modrinth:forge-config-api-port:${project.forge_config_api_port_version}")
     modImplementation("mezz.jei:jei-${project.minecraft_version}-fabric:${project.jei_version}")
+
+    //FTB
+    modImplementation "curse.maven:ftb-library-fabric-438495:7296747"
+    modImplementation "curse.maven:ftb-ultimine-fabric-448231:6899416"
 
     // REI 前置
     modImplementation "me.shedaniel.cloth:cloth-config-fabric:11.1.106"
