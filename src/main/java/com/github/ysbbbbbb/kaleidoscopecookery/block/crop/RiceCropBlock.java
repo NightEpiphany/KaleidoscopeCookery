@@ -130,6 +130,11 @@ public class RiceCropBlock extends BaseCropBlock implements SimpleWaterloggedBlo
     }
 
     @Override
+    public boolean mayPlaceOn(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
+        return super.mayPlaceOn(state, level, pos) || state.is(TagMod.RICE_PLANTABLE);
+    }
+
+    @Override
     public boolean canSurvive(@NotNull BlockState state, LevelReader levelReader, @NotNull BlockPos pos) {
         if (levelReader.getRawBrightness(pos, 0) < 8 && !levelReader.canSeeSky(pos)) {
             return false;

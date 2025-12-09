@@ -1,6 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.init.registry;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.api.event.RecipeItemEvent;
+import com.github.ysbbbbbb.kaleidoscopecookery.api.event.SickleHarvestEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.dispenser.OilPotDispenseBehavior;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.farmersdelight.FarmersDelightCompat;
@@ -38,6 +39,7 @@ public class CommonRegistry {
         ExtraLootTableDrop.register();
         ArmorEffectEvent.register();
         RecipeItemEvent.register();
+        SickleHarvestEvent.register();
         AddVillageStructuresEvent.addVillageStructures();
     }
 

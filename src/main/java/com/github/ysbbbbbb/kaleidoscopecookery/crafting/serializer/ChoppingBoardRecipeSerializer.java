@@ -9,10 +9,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
+import org.jetbrains.annotations.NotNull;
 
 public class ChoppingBoardRecipeSerializer implements RecipeSerializer<ChoppingBoardRecipe> {
     @Override
-    public ChoppingBoardRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
+    public ChoppingBoardRecipe fromJson(@NotNull ResourceLocation recipeId, @NotNull JsonObject json) {
         Ingredient ingredient;
         if (GsonHelper.isArrayNode(json, "ingredient")) {
             ingredient = Ingredient.fromJson(GsonHelper.getAsJsonArray(json, "ingredient"), false);
@@ -26,7 +27,7 @@ public class ChoppingBoardRecipeSerializer implements RecipeSerializer<ChoppingB
     }
 
     @Override
-    public ChoppingBoardRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+    public ChoppingBoardRecipe fromNetwork(@NotNull ResourceLocation recipeId, @NotNull FriendlyByteBuf buffer) {
         Ingredient ingredient = Ingredient.fromNetwork(buffer);
         ItemStack result = buffer.readItem();
         int cutCount = buffer.readVarInt();
@@ -35,7 +36,7 @@ public class ChoppingBoardRecipeSerializer implements RecipeSerializer<ChoppingB
     }
 
     @Override
-    public void toNetwork(FriendlyByteBuf buffer, ChoppingBoardRecipe recipe) {
+    public void toNetwork(@NotNull FriendlyByteBuf buffer, ChoppingBoardRecipe recipe) {
         recipe.getIngredient().toNetwork(buffer);
         buffer.writeItem(recipe.getResult());
         buffer.writeVarInt(recipe.getCutCount());

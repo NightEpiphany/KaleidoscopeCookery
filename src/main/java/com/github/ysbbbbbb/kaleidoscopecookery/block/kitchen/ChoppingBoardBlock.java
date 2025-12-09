@@ -29,9 +29,12 @@ import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -58,6 +61,19 @@ public class ChoppingBoardBlock extends HorizontalDirectionalBlock implements En
             levelAccessor.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(levelAccessor));
         }
         return super.updateShape(state, direction, neighborState, levelAccessor, pos, neighborPos);
+    }
+
+    @Override
+    public @NotNull List<ItemStack> getDrops(@NotNull BlockState state, LootParams.@NotNull Builder params) {
+        var drops = super.getDrops(state, params);
+        BlockEntity parameter = params.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
+        if (parameter instanceof ChoppingBoardBlockEntity choppingBoard) {
+            // 如果切制次数还是 0，那么上面的东西正常掉落
+            if (choppingBoard.getCurrentCutCount() == 0 && !choppingBoard.getCurrentCutStack().isEmpty()) {
+                drops.add(choppingBoard.getCurrentCutStack().copyWithCount(1));
+            }
+        }
+        return drops;
     }
 
     @Override
