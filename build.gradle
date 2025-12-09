@@ -54,6 +54,16 @@ repositories {
         name = "ModMaven"
         url = "https://modmaven.dev"
     }
+    maven {
+        name = "Greenhouse Maven"
+        url = 'https://maven.greenhouse.lgbt/releases/'
+    }
+    maven {
+        url "https://jitpack.io/" // Fabric ASM
+        content {
+            excludeGroup "io.github.fabricators_of_create"
+        }
+    }
 }
 
 dependencies {
@@ -64,7 +74,11 @@ dependencies {
     }
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    // modImplementation("maven.modrinth:forge-config-api-port:${project.forge_config_api_port_version}")
+    modImplementation("vectorwing:FarmersDelight:${fdrf_version}") {
+        exclude(group: "net.fabricmc")
+    }
+    modImplementation "curse.maven:ftb-ultimine-fabric-448231:7188393"
+    modImplementation "curse.maven:ftb-library-fabric-438495:7260615"
     modImplementation("mezz.jei:jei-${project.minecraft_version}-fabric:${project.jei_version}")
     modImplementation "curse.maven:jade-324717:6738760"
     modImplementation "curse.maven:roughly-enough-items-310111:6199139"
