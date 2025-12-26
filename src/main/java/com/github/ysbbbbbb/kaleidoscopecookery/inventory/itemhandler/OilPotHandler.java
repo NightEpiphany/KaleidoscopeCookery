@@ -40,6 +40,6 @@ public class OilPotHandler extends ItemStackHandler {
     @Override
     protected void onContentsChanged(int slot) {
         ItemStack stackInSlot = getStackInSlot(slot);
-        oilPot.setOilCount(stackInSlot.getCount());
+        oilPot.setOilCountWithoutCapUpdate(stackInSlot.getCount());
     }
 }
