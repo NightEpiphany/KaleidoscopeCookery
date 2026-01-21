@@ -4,6 +4,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.api.event.RecipeItemEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.event.SickleHarvestEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.dispenser.OilPotDispenseBehavior;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteBlock;
+import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteOneByTwoBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.farmersdelight.FarmersDelightCompat;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.harvest.HarvestCompat;
 import com.github.ysbbbbbb.kaleidoscopecookery.datagen.lootable.GiftLootTables;
@@ -17,7 +18,11 @@ import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.ai.behavior.GiveGiftToHero;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 
 public class CommonRegistry {
     public static void init() {
@@ -47,12 +52,27 @@ public class CommonRegistry {
         FoodBiteRegistry.init();
 
         FoodBiteRegistry.FOOD_DATA_MAP.forEach((resourceLocation, data) -> {
-            FoodBiteBlock block = new FoodBiteBlock(data.blockFood(), data.maxBites(), data.animateTick());
-            Registry.register(BuiltInRegistries.BLOCK, resourceLocation, block);
+            FoodBiteBlock biteBlock = getFoodBiteBlock(data);
+            Registry.register(BuiltInRegistries.BLOCK, resourceLocation, biteBlock);
 
-            BowlFoodBlockItem item = new BowlFoodBlockItem(block, data.itemFood());
-            Registry.register(BuiltInRegistries.ITEM, resourceLocation, item);
+            Block block = BuiltInRegistries.BLOCK.get(resourceLocation);
+            Registry.register(BuiltInRegistries.ITEM, resourceLocation, new BowlFoodBlockItem(block, data.itemFood()));
         });
+    }
+
+    private static @NotNull FoodBiteBlock getFoodBiteBlock(FoodBiteRegistry.FoodData data) {
+        FoodBiteBlock biteBlock;
+        if (data.blockType() == FoodBiteRegistry.BlockType.ONE_BY_TWO) {
+            biteBlock = new FoodBiteOneByTwoBlock(data.blockFood(), data.maxBites(), data.animateTick());
+        } else {
+            biteBlock = new FoodBiteBlock(data.blockFood(), data.maxBites(), data.animateTick());
+        }
+
+        VoxelShape aabb = data.getAABB();
+        if (aabb != null) {
+            biteBlock.setAABB(aabb);
+        }
+        return biteBlock;
     }
 
     private static void modCompat() {
