@@ -1,0 +1,39 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "carrier": {
+    "item": "minecraft:bowl"
+  },
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 13551903,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_star",
+  "ingredients": [
+    {
+      "tag": "forge:vegetables/tomato"
+    },
+    {
+      "tag": "forge:vegetables/tomato"
+    },
+    {
+      "tag": "forge:vegetables/lettuce"
+    },
+    {
+      "tag": "forge:vegetables/lettuce"
+    },
+    {
+      "tag": "forge:hot_spices"
+    },
+    {
+      "tag": "forge:hot_spices"
+    },
+    {
+      "item": "kaleidoscope_nether:star_dust"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "item": "kaleidoscope_nether:star_stew"
+  },
+  "soup_base": "minecraft:water",
+  "time": 300
+}

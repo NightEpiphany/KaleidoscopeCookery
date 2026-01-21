@@ -41,8 +41,12 @@ public class SickleItem extends SwordItem {
             BlockTags.NEEDS_STONE_TOOL
     );
 
+    public SickleItem(Tier tier, int attackDamageModifier, float attackSpeedModifier, Properties properties) {
+        super(tier, attackDamageModifier, attackSpeedModifier, properties);
+    }
+
     public SickleItem() {
-        super(SICKLE_TIER, 3, -2.4F, new Item.Properties());
+        this(SICKLE_TIER, 0, -2.4F, new Properties());
     }
 
     @Override

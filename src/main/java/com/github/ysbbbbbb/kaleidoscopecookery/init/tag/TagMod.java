@@ -11,6 +11,10 @@ import net.minecraft.world.level.block.Block;
 
 public interface TagMod {
     /**
+     * 不允许加入汤锅、炒锅的物品
+     */
+    TagKey<Item> INGREDIENT_BLOCKLIST = itemTag("ingredient_blocklist");
+    /**
      * 本模组的物品标签，用于成就
      */
     TagKey<Item> COOKERY_MOD_ITEMS = itemTag("cookery_mod_items");

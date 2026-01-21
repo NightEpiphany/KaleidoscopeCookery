@@ -1,0 +1,13 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "ingredients": [
+    {
+      "item": "farmersdelight:salmon_slice"
+    }
+  ],
+  "result": {
+    "item": "farmersdelight:cooked_salmon_slice"
+  },
+  "stir_fry_count": 3,
+  "time": 200
+}

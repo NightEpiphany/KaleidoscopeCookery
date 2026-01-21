@@ -67,6 +67,8 @@ public interface TagCommon {
     TagKey<Item> SUMMER_CROPS = seasonsItemTag("summer_crops");
     TagKey<Item> AUTUMN_CROPS = seasonsItemTag("autumn_crops");
     TagKey<Item> WINTER_CROPS = seasonsItemTag("winter_crops");
+    TagKey<Item> CROPS_CABBAGE = itemTag("crops/cabbage");
+
 
     TagKey<Block> SPRING_CROPS_BLOCK = seasonsBlockTag("spring_crops");
     TagKey<Block> SUMMER_CROPS_BLOCK = seasonsBlockTag("summer_crops");
@@ -80,6 +82,7 @@ public interface TagCommon {
     TagKey<Block> HUMID_HUMID = eclipticSeasonsTag("crops/humid_humid");
 
     // 农夫乐事
+    TagKey<Block> FD_HEAT_SOURCES = TagKey.create(Registries.BLOCK, new ResourceLocation("farmersdelight:heat_sources"));
     TagKey<Item> FD_KNIVES = TagKey.create(Registries.ITEM, new ResourceLocation("farmersdelight:tools/knives"));
 
     // FTB 连锁

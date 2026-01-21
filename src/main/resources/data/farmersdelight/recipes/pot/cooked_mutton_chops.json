@@ -1,0 +1,13 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "ingredients": [
+    {
+      "item": "farmersdelight:mutton_chops"
+    }
+  ],
+  "result": {
+    "item": "farmersdelight:cooked_mutton_chops"
+  },
+  "stir_fry_count": 3,
+  "time": 200
+}

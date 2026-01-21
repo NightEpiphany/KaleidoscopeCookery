@@ -28,10 +28,6 @@ public class AddVillageStructuresEvent {
     private static final ResourceLocation DESERT = new ResourceLocation("minecraft:village/desert/houses");
     private static final ResourceLocation TAIGA = new ResourceLocation("minecraft:village/taiga/houses");
 
-    // 标记是否已成功初始化，避免重复尝试
-    private static boolean initializationSuccessful = false;
-    private static boolean initializationAttempted = false;
-
     public static void addVillageStructures() {
         ServerLifecycleEvents.SERVER_STARTING.register(minecraftServer -> {
             var registryAccess = minecraftServer.registryAccess();
@@ -48,10 +44,6 @@ public class AddVillageStructuresEvent {
      * 参考自：<a href="https://gist.github.com/TelepathicGrunt/4fdbc445ebcbcbeb43ac748f4b18f342">GitHub TelepathicGrunt</a>
      */
     public static void addBuildingToPool(RegistryAccess registryAccess, ResourceLocation poolId, String structId, int weight) {
-        // 如果之前已经失败，直接返回
-        if (initializationAttempted && !initializationSuccessful) {
-            return;
-        }
 
         try {
             var templatePools = registryAccess.registry(Registries.TEMPLATE_POOL);
@@ -78,34 +70,10 @@ public class AddVillageStructuresEvent {
                 pool.templates.add(piece);
             }
 
-            // 尝试使用反射更新 rawTemplates 字段，使用多个可能的字段名
             List<Pair<StructurePoolElement, Integer>> newRawTemplates = Lists.newArrayList(pool.rawTemplates);
             newRawTemplates.add(Pair.of(piece, weight));
 
-            String[] possibleFieldNames = {"rawTemplates", "field_16864", "elementCounts"};
-            boolean fieldFound = false;
-
-            for (String fieldName : possibleFieldNames) {
-                try {
-                    Field rawTemplatesField = StructureTemplatePool.class.getDeclaredField(fieldName);
-                    rawTemplatesField.setAccessible(true);
-                    rawTemplatesField.set(pool, newRawTemplates);
-                    fieldFound = true;
-                    KaleidoscopeCookery.LOGGER.debug("Successfully updated field '{}' for pool: {}", fieldName, poolId);
-                    initializationSuccessful = true;
-                    break;
-                } catch (NoSuchFieldException e) {
-                    KaleidoscopeCookery.LOGGER.debug("Field '{}' not found, trying next possible field name", fieldName);
-                } catch (Exception e) {
-                    KaleidoscopeCookery.LOGGER.warn("Failed to set field '{}' for pool {}: {}", fieldName, poolId, e.getMessage());
-                }
-            }
-
-            if (!fieldFound) {
-                KaleidoscopeCookery.LOGGER.error("Failed to find any valid field for rawTemplates in StructureTemplatePool. Tried: {}", String.join(", ", possibleFieldNames));
-                initializationSuccessful = false;
-                initializationAttempted = true;
-            }
+            pool.rawTemplates = newRawTemplates;
 
         } catch (Exception e) {
             KaleidoscopeCookery.LOGGER.error("Failed to add village structure to pool {}: {}", poolId, e.getMessage());

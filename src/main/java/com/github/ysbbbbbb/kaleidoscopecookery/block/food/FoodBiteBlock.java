@@ -27,14 +27,19 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class FoodBiteBlock extends FoodBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
-    private final FoodProperties foodProperties;
-    private final IntegerProperty bites;
-    private final int maxBites;
-    private FoodBiteAnimateTicks.AnimateTick animateTick = null;
+    protected final FoodProperties foodProperties;
+    protected final IntegerProperty bites;
+    protected final int maxBites;
+    protected FoodBiteAnimateTicks.AnimateTick animateTick = null;
+
+    protected VoxelShape aabb = FoodBlock.AABB;
 
     public FoodBiteBlock(FoodProperties foodProperties, int maxBites, FoodBiteAnimateTicks.AnimateTick animateTick) {
         super();
@@ -53,6 +58,11 @@ public class FoodBiteBlock extends FoodBlock {
         this(foodProperties, 3, null);
     }
 
+    public FoodBiteBlock setAABB(VoxelShape aabb) {
+        this.aabb = aabb;
+        return this;
+    }
+
     public IntegerProperty getBites() {
         return bites;
     }
@@ -62,14 +72,19 @@ public class FoodBiteBlock extends FoodBlock {
     }
 
     @Override
-    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+    public void animateTick(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull RandomSource random) {
         if (animateTick != null) {
             animateTick.animateTick(state, level, pos, random);
         }
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+        return this.aabb;
+    }
+
+    @Override
+    public @NotNull InteractionResult use(BlockState state, @NotNull Level level, @NotNull BlockPos pos, Player player, @NotNull InteractionHand hand, BlockHitResult hit) {
         ItemStack itemInHand = player.getItemInHand(hand);
         int bites = state.getValue(this.bites);
         if (bites >= getMaxBites()) {
@@ -87,7 +102,7 @@ public class FoodBiteBlock extends FoodBlock {
         return eat(level, pos, state, player);
     }
 
-    private InteractionResult eat(Level level, BlockPos pos, BlockState state, Player player) {
+    protected InteractionResult eat(Level level, BlockPos pos, BlockState state, Player player) {
         if (!player.canEat(foodProperties.canAlwaysEat())) {
             return InteractionResult.PASS;
         }
@@ -112,23 +127,23 @@ public class FoodBiteBlock extends FoodBlock {
         builder.add(FACING);
     }
 
-    private void createBitesBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    protected void createBitesBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(bites, FACING);
     }
 
     @Override
-    public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+    public int getAnalogOutputSignal(BlockState state, @NotNull Level level, @NotNull BlockPos pos) {
         int value = state.getValue(bites);
         return (3 - value) * 5;
     }
 
     @Override
-    public boolean hasAnalogOutputSignal(BlockState state) {
+    public boolean hasAnalogOutputSignal(@NotNull BlockState state) {
         return true;
     }
 
     @Override
-    public boolean isPathfindable(BlockState state, BlockGetter blockGetter, BlockPos pos, PathComputationType pathType) {
+    public boolean isPathfindable(@NotNull BlockState state, @NotNull BlockGetter blockGetter, @NotNull BlockPos pos, @NotNull PathComputationType pathType) {
         return false;
     }
 

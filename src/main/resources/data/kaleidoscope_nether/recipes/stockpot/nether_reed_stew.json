@@ -1,0 +1,33 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "carrier": {
+    "item": "minecraft:bowl"
+  },
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 255,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_blue",
+  "ingredients": [
+    {
+      "item": "betternether:nether_reed_stem"
+    },
+    {
+      "item": "betternether:nether_reed_stem"
+    },
+    {
+      "item": "betternether:nether_reed_stem"
+    },
+    {
+      "item": "betternether:nether_reed_stem"
+    },
+    {
+      "item": "betternether:nether_reed_stem"
+    }
+  ],
+  "result": {
+    "count": 3,
+    "item": "kaleidoscope_nether:nether_reed_stew"
+  },
+  "soup_base": "minecraft:water",
+  "time": 350
+}

@@ -1,0 +1,12 @@
+{
+  "type": "kaleidoscope_cookery:chopping_board",
+  "cut_count": 2,
+  "ingredient": {
+    "item": "farmersdelight:apple_pie"
+  },
+  "model_id": "kaleidoscope_cookery:apple_pie",
+  "result": {
+    "count": 4,
+    "item": "farmersdelight:apple_pie_slice"
+  }
+}

@@ -52,6 +52,7 @@ public class ModCreativeTabs {
                     output.accept(ModItems.RAW_NOODLES);
                     output.accept(ModItems.STUFFED_DOUGH_FOOD);
                     output.accept(ModItems.CHILI_RISTRA);
+                    output.accept(ModItems.STRUNG_MUSHROOMS);
                     output.accept(ModItems.RICE_SEED);
                     output.accept(ModItems.WILD_RICE_SEED);
                     output.accept(ModItems.TOMATO_SEED);
@@ -131,6 +132,8 @@ public class ModCreativeTabs {
                     output.accept(ModItems.COOKED_DONKEY_MEAT);
                     output.accept(ModItems.RAW_CUT_SMALL_MEATS);
                     output.accept(ModItems.COOKED_CUT_SMALL_MEATS);
+                    output.accept(ModItems.RAW_MEATBALL);
+                    output.accept(ModItems.COOKED_MEATBALL);
                 // 基础食物
                     output.accept(ModItems.DONKEY_BURGER);
                     output.accept(ModItems.MANTOU);
@@ -178,6 +181,10 @@ public class ModCreativeTabs {
                     output.accept(ModItems.UDON_NOODLE);
                 // 硬菜
                     FoodBiteRegistry.FOOD_DATA_MAP.keySet().forEach(foodName -> {
+                        // 棕色蘑菇汤之前加入厚切火腿片
+                        if (foodName.equals(FoodBiteRegistry.BROWN_MUSHROOM_POT_SOUP)) {
+                            output.accept(ModItems.COLD_CUT_HAM_SLICES);
+                        }
                         var foodItem = BuiltInRegistries.ITEM.get(foodName);
                         output.accept(foodItem);
                     });

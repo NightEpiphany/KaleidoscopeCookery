@@ -1,0 +1,25 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "carrier": {
+    "item": "minecraft:bowl"
+  },
+  "ingredients": [
+    {
+      "tag": "forge:raw_bacon"
+    },
+    {
+      "tag": "forge:raw_bacon"
+    },
+    {
+      "tag": "forge:eggs"
+    },
+    {
+      "tag": "forge:eggs"
+    }
+  ],
+  "result": {
+    "item": "farmersdelight:bacon_and_eggs"
+  },
+  "stir_fry_count": 3,
+  "time": 200
+}

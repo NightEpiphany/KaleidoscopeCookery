@@ -1,0 +1,37 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "carrier": {
+    "item": "minecraft:bowl"
+  },
+  "ingredients": [
+    {
+      "tag": "forge:crops/onion"
+    },
+    {
+      "tag": "forge:eggs"
+    },
+    {
+      "tag": "forge:bread"
+    },
+    {
+      "item": "minecraft:carrot"
+    },
+    {
+      "item": "minecraft:carrot"
+    },
+    {
+      "item": "minecraft:chicken"
+    },
+    {
+      "item": "minecraft:potato"
+    },
+    {
+      "item": "minecraft:potato"
+    }
+  ],
+  "result": {
+    "item": "farmersdelight:roast_chicken_block"
+  },
+  "stir_fry_count": 3,
+  "time": 200
+}

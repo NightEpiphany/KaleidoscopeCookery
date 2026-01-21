@@ -1,11 +1,14 @@
 package com.github.ysbbbbbb.kaleidoscopecookery;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.config.GeneralConfig;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.ExtraLootTableDrop;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.CommonRegistry;
 import com.github.ysbbbbbb.kaleidoscopecookery.network.NetworkHandler;
 import com.mojang.logging.LogUtils;
+import fuzs.forgeconfigapiport.api.config.v2.ForgeConfigRegistry;
 import net.fabricmc.api.ModInitializer;
+import net.minecraftforge.fml.config.ModConfig;
 import org.slf4j.Logger;
 
 public class KaleidoscopeCookery implements ModInitializer {
@@ -14,6 +17,7 @@ public class KaleidoscopeCookery implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        ForgeConfigRegistry.INSTANCE.register(MOD_ID, ModConfig.Type.COMMON, GeneralConfig.init());
 
         CommonRegistry.init();
         NetworkHandler.init();
