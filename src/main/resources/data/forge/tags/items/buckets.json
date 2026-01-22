@@ -1,0 +1,10 @@
+{
+  "values": [
+    "#forge:buckets/empty",
+    "#forge:buckets/water",
+    "#forge:buckets/lava",
+    "#forge:buckets/milk",
+    "#forge:buckets/powder_snow",
+    "#forge:buckets/entity_water"
+  ]
+}
