@@ -5,7 +5,11 @@
   "name": "Kaleidoscope Cookery Refabricated",
   "description": "Cook all kinds of delicious food!",
   "authors": ["ysbb", "tartaric_acid", "NightEpiphany"],
-  "contact": {},
+  "contact": {
+    "homepage": "https://modrinth.com/mod/kaleidoscope-cookery-refabricated",
+    "sources": "https://github.com/NightEpiphany/KaleidoscopeCookery",
+    "issues": "https://github.com/NightEpiphany/KaleidoscopeCookery/issues"
+  },
   "license": "BSD-3-Clause + CC BY-NC-SA 4.0",
   "icon": "assets/kaleidoscope_cookery/cover.png",
   "environment": "*",
@@ -36,5 +40,9 @@
     "fabric-api": "*",
     "minecraft": "${minecraft_version}",
     "forgeconfigapiport": "*"
+  },
+  "suggests": {
+    "jei": "*",
+    "farmersdelight": "*"
   }
 }

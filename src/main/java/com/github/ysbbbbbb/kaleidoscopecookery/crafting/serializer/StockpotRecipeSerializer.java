@@ -15,6 +15,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -39,7 +40,7 @@ public class StockpotRecipeSerializer implements RecipeSerializer<StockpotRecipe
     }
 
     @Override
-    public StockpotRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
+    public @NotNull StockpotRecipe fromJson(@NotNull ResourceLocation recipeId, @NotNull JsonObject json) {
         JsonArray ingredients = GsonHelper.getAsJsonArray(json, "ingredients");
         List<Ingredient> inputs = Lists.newArrayList();
         for (JsonElement e : ingredients) {

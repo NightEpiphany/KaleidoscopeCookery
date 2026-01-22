@@ -1,8 +1,5 @@
 {
   "type": "kaleidoscope_cookery:pot",
-  "carrier": {
-    "item": "minecraft:bowl"
-  },
   "ingredients": [
     {
       "tag": "forge:raw_bacon"
