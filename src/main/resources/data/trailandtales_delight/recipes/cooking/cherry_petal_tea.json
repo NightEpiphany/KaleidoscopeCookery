@@ -1,0 +1,29 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "carrier": {
+    "item": "minecraft:glass_bottle"
+  },
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 16753920,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_pink",
+  "ingredients": [
+    {
+      "item": "trailandtales_delight:dried_cherry_petal"
+    },
+    {
+      "item": "trailandtales_delight:dried_cherry_petal"
+    },
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "item": "minecraft:potion"
+    }
+  ],
+  "result": {
+    "item": "trailandtales_delight:cherry_petal_tea"
+  },
+  "soup_base": "minecraft:water",
+  "time": 300
+}

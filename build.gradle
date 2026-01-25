@@ -133,6 +133,9 @@ dependencies {
     modImplementation("vectorwing:FarmersDelight:${fdrf_version}") {
         exclude(group: "net.fabricmc")
     }
+    modImplementation "curse.maven:trail-tales-delight-1198527:6492800"
+    modImplementation "curse.maven:brewin-and-chewin-fabric-807512:5467339"
+    modImplementation "curse.maven:rustic-delight-1106612:6140476"
 
     modImplementation(include("io.github.fabricators_of_create.Porting-Lib:transfer:2.3.14+1.20.1"))
     modImplementation(include("io.github.fabricators_of_create.Porting-Lib:base:2.3.14+1.20.1"))

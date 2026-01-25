@@ -1,0 +1,29 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "carrier": {
+    "item": "minecraft:glass_bottle"
+  },
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 9234167,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_brown",
+  "ingredients": [
+    {
+      "item": "trailandtales_delight:baked_torchflower_seeds"
+    },
+    {
+      "item": "trailandtales_delight:baked_pitcher_pod"
+    },
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "item": "minecraft:potion"
+    }
+  ],
+  "result": {
+    "item": "trailandtales_delight:ancient_coffee"
+  },
+  "soup_base": "minecraft:water",
+  "time": 300
+}

@@ -1,0 +1,29 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "carrier": {
+    "item": "minecraft:bowl"
+  },
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 128640,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_brown",
+  "ingredients": [
+    {
+      "tag": "brewinandchewin:cheese_wedges"
+    },
+    {
+      "tag": "forge:vegetables/onion"
+    },
+    {
+      "tag": "forge:vegetables"
+    },
+    {
+      "tag": "forge:bread"
+    }
+  ],
+  "result": {
+    "item": "brewinandchewin:creamy_onion_soup"
+  },
+  "soup_base": "minecraft:water",
+  "time": 300
+}

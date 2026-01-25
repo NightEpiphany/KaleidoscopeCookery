@@ -50,6 +50,10 @@ public class ChoppingBoardBlockEntityRender implements BlockEntityRenderer<Chopp
         BakedModel model = itemRenderer.getItemModelShaper().getModelManager().getModel(cacheModel);
         RenderType renderType = Sheets.cutoutBlockSheet();
         VertexConsumer vertexConsumer = ItemRenderer.getFoilBufferDirect(buffer, renderType, true, false);
+        if (model == null) {
+            KaleidoscopeCookery.LOGGER.error("Model:{} is null. It is possible that static chopping board model resource is missing!", cacheModel);
+            return;
+        }
         itemRenderer.renderModelLists(model, ItemStack.EMPTY, packedLight, packedOverlay, poseStack, vertexConsumer);
         poseStack.popPose();
     }

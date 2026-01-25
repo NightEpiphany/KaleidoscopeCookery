@@ -1,0 +1,74 @@
+{
+	"format_version": "1.9.0",
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "kaleidoscope_cookery:chopping_board/pitcher_pod/pitcher_pod",
+		"particle": "kaleidoscope_cookery:chopping_board/pitcher_pod/pitcher_pod"
+	},
+	"elements": [
+		{
+			"from": [8.5, -1.6, 7],
+			"to": [9.5, 0.4, 9],
+			"rotation": {"angle": -22.5, "axis": "z", "origin": [13, 0.5, 11]},
+			"faces": {
+				"north": {"uv": [5, 13, 7, 15], "texture": "#0"},
+				"east": {"uv": [1, 12, 2, 14], "texture": "#0"},
+				"south": {"uv": [1, 13, 3, 15], "texture": "#0"},
+				"west": {"uv": [5, 11, 7, 13], "texture": "#0"},
+				"up": {"uv": [4, 13, 5, 15], "texture": "#0"},
+				"down": {"uv": [1, 13, 3, 14], "texture": "#0"}
+			}
+		},
+		{
+			"from": [6, 1.2, 7],
+			"to": [7, 3.2, 9],
+			"rotation": {"angle": 22.5, "axis": "z", "origin": [10, 3.5, 11]},
+			"faces": {
+				"north": {"uv": [5, 13, 7, 15], "texture": "#0"},
+				"east": {"uv": [3, 11, 5, 13], "texture": "#0"},
+				"south": {"uv": [1, 13, 3, 15], "texture": "#0"},
+				"west": {"uv": [3, 13, 4, 15], "texture": "#0"},
+				"up": {"uv": [5, 13, 6, 15], "texture": "#0"},
+				"down": {"uv": [1, 13, 3, 14], "texture": "#0"}
+			}
+		}
+	],
+	"gui_light": "front",
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [66, 0, 0],
+			"translation": [0, 0.5, -5],
+			"scale": [0.55, 0.55, 0.55]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [66, 0, 0],
+			"translation": [0, 0.5, -5],
+			"scale": [0.55, 0.55, 0.55]
+		},
+		"firstperson_righthand": {
+			"rotation": [-175.58, -79.14, -172.05],
+			"translation": [5.5, 1.75, 0],
+			"scale": [0.68, 0.68, 0.68]
+		},
+		"firstperson_lefthand": {
+			"rotation": [-175.58, -79.14, -172.05],
+			"translation": [5.5, 1.75, 0],
+			"scale": [0.68, 0.68, 0.68]
+		},
+		"ground": {
+			"translation": [0, 2, -2.75],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"gui": {
+			"translation": [0, -1.75, 0]
+		},
+		"head": {
+			"rotation": [0, -180, 0],
+			"translation": [0, 13, 7]
+		},
+		"fixed": {
+			"rotation": [0, -180, 0],
+			"translation": [0, -4.25, 6.5]
+		}
+	}
+}
