@@ -12,7 +12,8 @@
     "LivingEntityMixin",
     "MobBucketItemMixin",
     "PowderSnowBlockMixin",
-    "VillagerMixin"
+    "VillagerMixin",
+    "compact.RecipeParserMixin"
   ],
   "client": [
     "ItemRendererMixin",
