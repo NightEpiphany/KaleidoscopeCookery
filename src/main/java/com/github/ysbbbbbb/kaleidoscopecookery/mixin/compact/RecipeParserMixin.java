@@ -2,7 +2,6 @@ package com.github.ysbbbbbb.kaleidoscopecookery.mixin.compact;
 
 import com.google.gson.JsonObject;
 import com.llamalad7.mixinextras.sugar.Local;
-import mezz.jei.api.recipe.IRecipeManager;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -15,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 // feat:当不加载乐事兼容时禁止数据文件的无用加载
 @Mixin(ShapedRecipe.class)
-public abstract class RecipeParserMixin implements IRecipeManager {
+public abstract class RecipeParserMixin {
 
     @Unique
     private static final String FARMERS_DELIGHT = "farmersdelight";

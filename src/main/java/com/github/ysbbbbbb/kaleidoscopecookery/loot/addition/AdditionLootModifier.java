@@ -46,7 +46,7 @@ public class AdditionLootModifier extends LootModifier {
         ResourceLocation currentLootTable = context.getQueriedLootTableId();
         if (!currentLootTable.equals(lootTableAdd) && typeAreEquals(context) && idAreEquals(context)) {
             LootTable additionTable = context.getResolver().getLootTable(lootTableAdd);
-            additionTable.getRandomItemsRaw(context, LootTable.createStackSplitter(context.getLevel(), generatedLoot::add));
+            //additionTable.getRandomItemsRaw(context, LootTable.createStackSplitter(context.getLevel(), generatedLoot::add));
         }
         return generatedLoot;
     }
