@@ -5,12 +5,13 @@ import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.BaseBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import org.jspecify.annotations.NonNull;
 
 public class KitchenwareRacksBlockEntity extends BaseBlockEntity implements IKitchenwareRacks {
     private static final String LEFT_ITEM = "LeftItem";
@@ -53,23 +54,18 @@ public class KitchenwareRacksBlockEntity extends BaseBlockEntity implements IKit
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
-        tag.put(LEFT_ITEM, itemLeft.save(new CompoundTag()));
-        tag.put(RIGHT_ITEM, itemRight.save(new CompoundTag()));
+    protected void saveAdditional(@NonNull ValueOutput valueOutput) {
+        super.saveAdditional(valueOutput);
+        valueOutput.storeNullable(LEFT_ITEM, ItemStack.CODEC, this.itemLeft);
+        valueOutput.storeNullable(RIGHT_ITEM, ItemStack.CODEC, this.itemRight);
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
-        this.itemLeft = ItemStack.of(tag.getCompound(LEFT_ITEM));
-        this.itemRight = ItemStack.of(tag.getCompound(RIGHT_ITEM));
+    protected void loadAdditional(@NonNull ValueInput valueInput) {
+        super.loadAdditional(valueInput);
+        this.itemLeft = valueInput.read(LEFT_ITEM, ItemStack.CODEC).orElse(ItemStack.EMPTY);
+        this.itemRight = valueInput.read(RIGHT_ITEM, ItemStack.CODEC).orElse(ItemStack.EMPTY);
     }
-
-//    @Override
-//    public AABB getRenderBoundingBox() {
-//        return new AABB(this.worldPosition);
-//    }
 
     @Override
     public ItemStack getItemLeft() {

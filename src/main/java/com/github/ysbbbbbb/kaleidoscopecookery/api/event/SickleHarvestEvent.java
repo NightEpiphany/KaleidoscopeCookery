@@ -1,13 +1,16 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.api.event;
 
-import com.github.ysbbbbbb.kaleidoscopecookery.event.SickleHarvestNetherWartEvent;
-import com.github.ysbbbbbb.kaleidoscopecookery.util.event.CancellableEvent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class SickleHarvestEvent extends CancellableEvent {
+/**
+ * 镰刀收割事件，在使用镰刀尝试检查方块是否可破坏时触发
+ * <p>
+ * 可以取消，取消后当前方块不会执行镰刀默认的收割行为
+ */
+public class SickleHarvestEvent extends ActionEvent implements IActionCancelable {
     private final ItemStack sickle;
     private final BlockPos harvestPos;
     private final BlockState harvestState;
@@ -21,20 +24,12 @@ public class SickleHarvestEvent extends CancellableEvent {
         this.harvestState = harvestState;
     }
 
-    public static void register() {
-        CALLBACK.register(event -> {
-            if (event instanceof SickleHarvestEvent sickleHarvestEvent)
-                SickleHarvestNetherWartEvent.onSickleHarvestNetherWart(sickleHarvestEvent);
-        });
-    }
-
-    @Override
-    public void post() {
-        CALLBACK.invoker().post(this);
-    }
-
     public ItemStack getSickle() {
         return sickle;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     public BlockPos getHarvestPos() {
@@ -47,10 +42,6 @@ public class SickleHarvestEvent extends CancellableEvent {
 
     public boolean isCostDurability() {
         return costDurability;
-    }
-
-    public Player getPlayer() {
-        return player;
     }
 
     /**

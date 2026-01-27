@@ -11,9 +11,8 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
-
 public class ColdCutHamSlicesModel extends Model {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(KaleidoscopeCookery.MOD_ID, "cold_cut_ham_slices"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "cold_cut_ham_slices"), "main");
 
     private final ModelPart food;
     private final ModelPart base;
@@ -104,9 +103,9 @@ public class ColdCutHamSlicesModel extends Model {
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        food.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-        base.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
+        food.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
+        base.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
     }
 
     public void updateBites(int bites) {

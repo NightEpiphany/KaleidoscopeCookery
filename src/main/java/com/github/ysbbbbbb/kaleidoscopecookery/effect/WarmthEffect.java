@@ -2,10 +2,12 @@ package com.github.ysbbbbbb.kaleidoscopecookery.effect;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import org.jspecify.annotations.NonNull;
 
 public class WarmthEffect extends BaseEffect {
     public WarmthEffect(int color) {
@@ -13,15 +15,15 @@ public class WarmthEffect extends BaseEffect {
     }
 
     @Override
-    public boolean isDurationEffectTick(int duration, int amplifier) {
+    public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
         // 为了避免卡顿，每秒检查一次
-        return duration % 20 == 0;
+        return duration % 25 == 0;
     }
 
     @Override
-    public void applyEffectTick(LivingEntity livingEntity, int amplifier) {
+    public boolean applyEffectTick(@NonNull ServerLevel serverLevel, @NonNull LivingEntity livingEntity, int amplifier) {
         if (livingEntity.getHealth() >= livingEntity.getMaxHealth()) {
-            return;
+            return true;
         }
         // 当玩家周围 5x5x3 范围内有热源时，恢复玩家生命值
         BlockPos.MutableBlockPos mutable = livingEntity.blockPosition().mutable();
@@ -33,7 +35,7 @@ public class WarmthEffect extends BaseEffect {
                     if (hasLit || blockState.is(TagMod.WARMTH_HEAT_SOURCE_BLOCKS)) {
                         livingEntity.heal(1);
                         // 找到热源后立即返回，避免重复恢复
-                        return;
+                        return true;
                     }
                 }
             }
@@ -45,5 +47,6 @@ public class WarmthEffect extends BaseEffect {
                 livingEntity.heal(0.5F);
             }
         }
+        return true;
     }
 }

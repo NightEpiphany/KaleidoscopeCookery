@@ -29,6 +29,6 @@ public class ModModelLoading {
     private static ResourceLocation handleModelId(ResourceLocation input) {
         String namespace = input.getNamespace();
         String path = input.getPath();
-        return new ResourceLocation(namespace, path.substring(MODELS.length(), path.length() - JSON.length()));
+        return ResourceLocation.fromNamespaceAndPath(namespace, path.substring(MODELS.length(), path.length() - JSON.length()));
     }
 }

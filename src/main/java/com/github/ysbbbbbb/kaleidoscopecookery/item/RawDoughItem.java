@@ -11,24 +11,25 @@ import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 public class RawDoughItem extends Item {
-    public static final ResourceLocation PULL_PROPERTY = new ResourceLocation(KaleidoscopeCookery.MOD_ID, "pull");
+    public static final Identifier PULL_PROPERTY = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "pull");
     private static final int MIN_USE_DURATION = 30;
 
     public RawDoughItem() {
@@ -47,25 +48,25 @@ public class RawDoughItem extends Item {
     }
 
     @Override
-    public int getUseDuration(@NotNull ItemStack pStack) {
+    public int getUseDuration(@NonNull ItemStack stack, @NonNull LivingEntity entity) {
         return 72000;
     }
 
     @Override
-    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack pStack) {
-        return UseAnim.BOW;
+    public @NonNull ItemUseAnimation getUseAnimation(@NonNull ItemStack itemStack) {
+        return ItemUseAnimation.BOW;
     }
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level worldIn, Player playerIn, @NotNull InteractionHand handIn) {
+    public @NonNull InteractionResult use(@NonNull Level worldIn, Player playerIn, @NonNull InteractionHand handIn) {
         ItemStack stack = playerIn.getItemInHand(handIn);
         playerIn.startUsingItem(handIn);
-        return InteractionResultHolder.consume(stack);
+        return InteractionResult.CONSUME;
     }
 
     @Override
-    public void releaseUsing(ItemStack stack, @NotNull Level worldIn, @NotNull LivingEntity entityLiving, int timeLeft) {
-        int time = stack.getUseDuration() - timeLeft;
+    public boolean releaseUsing(ItemStack stack, @NonNull Level worldIn, @NonNull LivingEntity entityLiving, int timeLeft) {
+        int time = stack.getUseDuration(entityLiving) - timeLeft;
         if (time >= MIN_USE_DURATION) {
             int count = stack.getCount();
             ItemStack noodles = new ItemStack(ModItems.RAW_NOODLES, count);
@@ -77,11 +78,13 @@ public class RawDoughItem extends Item {
             if (entityLiving instanceof ServerPlayer serverPlayer) {
                 ModTrigger.EVENT.trigger(serverPlayer, ModEventTriggerType.PULL_THE_DOUGH);
             }
+            return false;
         }
+        return true;
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack stack, @org.jetbrains.annotations.Nullable Level level, List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.translatable("tooltip.kaleidoscope_cookery.raw_dough").withStyle(ChatFormatting.GRAY));
+    public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext tooltip, @NonNull TooltipDisplay tooltipDisplay, @NonNull Consumer<Component> consumer, @NonNull TooltipFlag tooltipFlag) {
+        consumer.accept(Component.translatable("tooltip.kaleidoscope_cookery.raw_dough").withStyle(ChatFormatting.GRAY));
     }
 }

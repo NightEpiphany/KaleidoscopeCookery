@@ -16,8 +16,8 @@ import java.nio.charset.StandardCharsets;
 
 public class ItemRenderReplacerReloadListener implements SimpleSynchronousResourceReloadListener {
     public static final ItemRenderReplacer INSTANCE = new ItemRenderReplacer();
-    private static final ResourceLocation FILE_PATH = new ResourceLocation(KaleidoscopeCookery.MOD_ID, "models/item_render_replacer.json");
-    private static final ResourceLocation ID = new ResourceLocation(KaleidoscopeCookery.MOD_ID, "item_render_replacer");
+    private static final ResourceLocation FILE_PATH = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "models/item_render_replacer.json");
+    private static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "item_render_replacer");
 
     @Override
     public void onResourceManagerReload(ResourceManager resourceManager) {

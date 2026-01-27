@@ -5,7 +5,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.api.recipe.soupbase.ISoupBase;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.render.soupbase.FluidSoupBaseRender;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -18,12 +18,12 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.Vec3;
 
 public class FluidSoupBase implements ISoupBase {
-    protected final ResourceLocation name;
+    protected final Identifier name;
     protected final Item bucketItem;
     protected final Fluid fluid;
     protected final int bubbleColor;
 
-    public FluidSoupBase(ResourceLocation name, Item bucketItem, int bubbleColor) {
+    public FluidSoupBase(Identifier name, Item bucketItem, int bubbleColor) {
         this.name = name;
         this.bucketItem = bucketItem;
         if (bucketItem instanceof BucketItem bucket) {
@@ -35,7 +35,7 @@ public class FluidSoupBase implements ISoupBase {
     }
 
     @Override
-    public ResourceLocation getName() {
+    public Identifier getName() {
         return name;
     }
 

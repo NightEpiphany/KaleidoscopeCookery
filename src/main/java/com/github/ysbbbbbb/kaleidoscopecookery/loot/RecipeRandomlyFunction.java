@@ -1,5 +1,6 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.loot;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.PotRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.StockpotRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModLootModifier;
@@ -8,41 +9,47 @@ import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.FoodBiteRegistry;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.RecipeItem;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.google.gson.*;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public class RecipeRandomlyFunction extends LootItemConditionalFunction {
+    public static final Identifier ID = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "recipe_randomly");
+    public static final MapCodec<RecipeRandomlyFunction> CODEC = RecordCodecBuilder.mapCodec(instance -> commonFields(instance).and(
+                    RecipeItem.RecipeRecord.CODEC.listOf().optionalFieldOf("recipes", List.of()).forGetter(f -> f.possibleRecipes)
+            ).apply(instance, RecipeRandomlyFunction::new)
+    );
     private final List<RecipeItem.RecipeRecord> possibleRecipes;
 
-    protected RecipeRandomlyFunction(LootItemCondition[] predicates, Collection<RecipeItem.RecipeRecord> possibleRecipes) {
+    protected RecipeRandomlyFunction(List<LootItemCondition> predicates, List<RecipeItem.RecipeRecord> possibleRecipes) {
         super(predicates);
         this.possibleRecipes = ImmutableList.copyOf(possibleRecipes);
     }
 
     @Override
-    public LootItemFunctionType getType() {
+    public @NotNull LootItemFunctionType<RecipeRandomlyFunction> getType() {
         return ModLootModifier.RECIPE_RANDOMLY;
     }
 
     @Override
-    protected ItemStack run(ItemStack stack, LootContext context) {
+    protected @NotNull ItemStack run(@NonNull ItemStack stack, LootContext context) {
         RandomSource randomsource = context.getRandom();
         RecipeItem.RecipeRecord record;
         // 如果配置了配方，则从配置的配方中随机一个
@@ -53,39 +60,45 @@ public class RecipeRandomlyFunction extends LootItemConditionalFunction {
         }
 
         // 否则从所有模型食物中随机一个
-        List<ResourceLocation> keys = FoodBiteRegistry.FOOD_DATA_MAP.keySet().stream().toList();
+        List<Identifier> keys = FoodBiteRegistry.FOOD_DATA_MAP.keySet().stream().toList();
         if (keys.isEmpty()) {
             return stack;
         }
-        ResourceLocation randomKey = keys.get(randomsource.nextInt(keys.size()));
+        Identifier randomKey = keys.get(randomsource.nextInt(keys.size()));
         Item result = FoodBiteRegistry.getItem(randomKey);
         RegistryAccess registryAccess = context.getLevel().registryAccess();
 
         // 炒锅配方
-        List<PotRecipe> potRecipes = context.getLevel().getRecipeManager().getAllRecipesFor(ModRecipes.POT_RECIPE);
-        for (PotRecipe recipe : potRecipes) {
+        var potRecipes = context.getLevel().recipeAccess().getAllOfType(ModRecipes.POT_RECIPE);
+        for (var recipeHolder : potRecipes) {
+            PotRecipe recipe = recipeHolder.value();
             ItemStack resultItem = recipe.getResultItem(registryAccess);
             if (!resultItem.is(result)) {
                 continue;
             }
-            List<ItemStack> inputs = recipe.getIngredients().stream()
-                    .filter(i -> !i.isEmpty())
-                    .map(i -> i.getItems()[0]).toList();
+            List<ItemStack> inputs = new ArrayList<>(List.of());
+            for (Ingredient ingredient : recipe.getIngredients()) {
+                if (ingredient.isEmpty()) continue;
+                ingredient.items().forEach(itemHolder -> inputs.add(new ItemStack(itemHolder.value())));
+            }
             record = new RecipeItem.RecipeRecord(inputs, resultItem, RecipeItem.POT);
             RecipeItem.setRecipe(stack, record);
             return stack;
         }
 
         // 汤锅配方
-        List<StockpotRecipe> stockpotRecipes = context.getLevel().getRecipeManager().getAllRecipesFor(ModRecipes.STOCKPOT_RECIPE);
-        for (StockpotRecipe recipe : stockpotRecipes) {
+        var stockpotRecipes = context.getLevel().recipeAccess().getAllOfType(ModRecipes.STOCKPOT_RECIPE);
+        for (var recipeHolder : stockpotRecipes) {
+            StockpotRecipe recipe = recipeHolder.value();
             ItemStack resultItem = recipe.getResultItem(registryAccess);
             if (!resultItem.is(result)) {
                 continue;
             }
-            List<ItemStack> inputs = recipe.getIngredients().stream()
-                    .filter(i -> !i.isEmpty())
-                    .map(i -> i.getItems()[0]).toList();
+            List<ItemStack> inputs = new ArrayList<>(List.of());
+            for (Ingredient ingredient : recipe.getIngredients()) {
+                if (ingredient.isEmpty()) continue;
+                ingredient.items().forEach(itemHolder -> inputs.add(new ItemStack(itemHolder.value())));
+            }
             record = new RecipeItem.RecipeRecord(inputs, resultItem, RecipeItem.STOCKPOT);
             RecipeItem.setRecipe(stack, record);
             return stack;
@@ -94,30 +107,30 @@ public class RecipeRandomlyFunction extends LootItemConditionalFunction {
         return stack;
     }
 
-    public static RecipeRandomlyFunction.Builder randomRecipe() {
-        return new RecipeRandomlyFunction.Builder();
+    public static Builder randomRecipe() {
+        return new Builder();
     }
 
-    public static class Builder extends LootItemConditionalFunction.Builder<RecipeRandomlyFunction.Builder> {
+    public static class Builder extends LootItemConditionalFunction.Builder<Builder> {
         private final List<RecipeItem.RecipeRecord> recipes = Lists.newArrayList();
 
         @Override
-        protected RecipeRandomlyFunction.Builder getThis() {
+        protected @NotNull Builder getThis() {
             return this;
         }
 
-        public RecipeRandomlyFunction.Builder withRecord(RecipeItem.RecipeRecord record) {
+        public Builder withRecord(RecipeItem.RecipeRecord record) {
             this.recipes.add(record);
             return this;
         }
 
-        public RecipeRandomlyFunction.Builder pot(ItemLike output, ItemLike... input) {
+        public Builder pot(ItemLike output, ItemLike... input) {
             List<ItemStack> list = Arrays.stream(input).map(ItemStack::new).toList();
             RecipeItem.RecipeRecord record = new RecipeItem.RecipeRecord(list, new ItemStack(output), RecipeItem.POT);
             return withRecord(record);
         }
 
-        public RecipeRandomlyFunction.Builder stockpot(ItemLike output, ItemLike... input) {
+        public Builder stockpot(ItemLike output, ItemLike... input) {
             List<ItemStack> list = Arrays.stream(input).map(ItemStack::new).toList();
             RecipeItem.RecipeRecord record = new RecipeItem.RecipeRecord(list, new ItemStack(output), RecipeItem.STOCKPOT);
             return withRecord(record);
@@ -126,79 +139,6 @@ public class RecipeRandomlyFunction extends LootItemConditionalFunction {
         @Override
         public LootItemFunction build() {
             return new RecipeRandomlyFunction(this.getConditions(), this.recipes);
-        }
-    }
-
-    public static class Serializer extends LootItemConditionalFunction.Serializer<RecipeRandomlyFunction> {
-        @Override
-        public void serialize(JsonObject json, RecipeRandomlyFunction function, JsonSerializationContext context) {
-            super.serialize(json, function, context);
-            if (function.possibleRecipes.isEmpty()) {
-                return;
-            }
-            JsonArray records = new JsonArray();
-            for (RecipeItem.RecipeRecord record : function.possibleRecipes) {
-                JsonObject root = new JsonObject();
-                JsonObject output = new JsonObject();
-                JsonArray inputs = new JsonArray();
-
-                root.addProperty("type", record.type().toString());
-
-                output.addProperty("item", BuiltInRegistries.ITEM.getKey(record.output().getItem()).toString());
-                output.addProperty("count", record.output().getCount());
-                root.add("output", output);
-
-                for (ItemStack input : record.input()) {
-                    JsonObject inputJson = new JsonObject();
-                    inputJson.addProperty("item", BuiltInRegistries.ITEM.getKey(input.getItem()).toString());
-                    inputs.add(inputJson);
-                }
-                root.add("inputs", inputs);
-                records.add(root);
-            }
-            json.add("records", records);
-        }
-
-        @Override
-        public RecipeRandomlyFunction deserialize(JsonObject object, JsonDeserializationContext context, LootItemCondition[] conditions) {
-            if (!object.has("records")) {
-                return new RecipeRandomlyFunction(conditions, Collections.emptyList());
-            }
-            JsonArray records = object.getAsJsonArray("records");
-            if (records.size() <= 0) {
-                return new RecipeRandomlyFunction(conditions, Collections.emptyList());
-            }
-
-            List<RecipeItem.RecipeRecord> recipeRecords = Lists.newArrayList();
-            for (int i = 0; i < records.size(); i++) {
-                JsonObject record = records.get(i).getAsJsonObject();
-
-                ResourceLocation type = new ResourceLocation(record.get("type").getAsString());
-
-                JsonObject outputJson = record.getAsJsonObject("output");
-                Item item = BuiltInRegistries.ITEM.get(new ResourceLocation(GsonHelper.getAsString(outputJson, "item")));
-                int count = GsonHelper.getAsInt(outputJson, "count", 1);
-                if (item == null) {
-                    throw new JsonSyntaxException("No such item " + GsonHelper.getAsString(outputJson, "item"));
-                }
-                if (count <= 0) {
-                    throw new JsonSyntaxException("Item count must be positive");
-                }
-                ItemStack output = new ItemStack(item, count);
-
-                JsonArray inputsJson = record.getAsJsonArray("inputs");
-                List<ItemStack> inputs = Lists.newArrayList();
-                for (int j = 0; j < inputsJson.size(); j++) {
-                    JsonObject inputJson = inputsJson.get(j).getAsJsonObject();
-                    Item inputItem = BuiltInRegistries.ITEM.get(new ResourceLocation(GsonHelper.getAsString(inputJson, "item")));
-                    if (inputItem == null) {
-                        throw new JsonSyntaxException("No such item " + GsonHelper.getAsString(inputJson, "item"));
-                    }
-                    inputs.add(new ItemStack(inputItem));
-                }
-                recipeRecords.add(new RecipeItem.RecipeRecord(inputs, output, type));
-            }
-            return new RecipeRandomlyFunction(conditions, recipeRecords);
         }
     }
 }

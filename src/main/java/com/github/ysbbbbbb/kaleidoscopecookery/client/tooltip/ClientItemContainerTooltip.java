@@ -1,7 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.tooltip;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.inventory.tooltip.ItemContainerTooltip;
-import com.github.ysbbbbbb.kaleidoscopecookery.util.forge.IItemHandler;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.neo.IItemHandler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -10,7 +10,6 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class ClientItemContainerTooltip implements ClientTooltipComponent {
@@ -35,30 +34,27 @@ public class ClientItemContainerTooltip implements ClientTooltipComponent {
         if (emptyTip != null) {
             return 10;
         }
-        int row = (items.size() - 1) / 8 + 1;
-        return 20 * row;
+        return 20;
     }
 
     @Override
-    public int getWidth(@NotNull Font font) {
+    public int getWidth(Font font) {
         if (emptyTip != null) {
             return font.width(emptyTip);
         }
-        int maxInRow = Math.min(items.size(), 8);
-        return maxInRow * 20;
+        return items.size() * 20;
     }
 
     @Override
-    public void renderImage(@NotNull Font font, int pX, int pY, @NotNull GuiGraphics guiGraphics) {
+    public void renderImage(Font font, int pX, int pY, GuiGraphics guiGraphics) {
         if (emptyTip != null) {
             guiGraphics.drawString(font, emptyTip, pX, pY, ChatFormatting.GRAY.getColor());
         } else {
             int i = 0;
             for (ItemStack stack : this.items) {
-                int xOffset = pX + (i % 8) * 20;
-                int yOffset = pY + (i / 8) * 20;
-                guiGraphics.renderFakeItem(stack, xOffset, yOffset);
-                guiGraphics.renderItemDecorations(font, stack, xOffset, yOffset);
+                int xOffset = pX + i * 20;
+                guiGraphics.renderFakeItem(stack, xOffset, pY);
+                guiGraphics.renderItemDecorations(font, stack, xOffset, pY);
                 i++;
             }
         }

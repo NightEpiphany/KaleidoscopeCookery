@@ -8,22 +8,19 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -32,6 +29,8 @@ import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 public class ChiliRistraBlock extends Block {
     public static final BooleanProperty IS_HEAD = BooleanProperty.create("is_head");
@@ -41,9 +40,9 @@ public class ChiliRistraBlock extends Block {
     private static final VoxelShape AABB_BODY = Block.box(3.5, 0, 3.5, 12.5, 16, 12.5);
 
     public ChiliRistraBlock() {
-        super(BlockBehaviour.Properties.of()
+        super(Properties.of()
                 .mapColor(MapColor.COLOR_RED)
-                .noCollission()
+                .noCollision()
                 .instabreak()
                 .sound(SoundType.GRASS)
                 .pushReaction(PushReaction.DESTROY));
@@ -53,13 +52,13 @@ public class ChiliRistraBlock extends Block {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+    public @NonNull InteractionResult useItemOn(@NonNull ItemStack stack, @NonNull BlockState state, @NonNull Level level, @NonNull BlockPos pos, @NonNull Player player, @NonNull InteractionHand hand, @NonNull BlockHitResult hitResult) {
         if (hand != InteractionHand.MAIN_HAND) {
-            return InteractionResult.PASS;
+            return InteractionResult.TRY_WITH_EMPTY_HAND;
         }
         ItemStack mainHandItem = player.getMainHandItem();
         if (!mainHandItem.isEmpty() && !mainHandItem.is(ModItems.RED_CHILI)) {
-            return InteractionResult.PASS;
+            return InteractionResult.TRY_WITH_EMPTY_HAND;
         }
         if (state.getValue(SHEARED)) {
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
@@ -84,36 +83,46 @@ public class ChiliRistraBlock extends Block {
                     0.25, 0.25, 0.25,
                     0.05);
         }
-        return super.use(state, level, pos, player, hand, hitResult);
+        return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
     }
 
+
     @Override
-    public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
-        if (!level.isClientSide && entity instanceof Mob mob && mob.getMobType() == MobType.UNDEAD) {
+    protected void entityInside(@NonNull BlockState blockState, Level level, @NonNull BlockPos blockPos, @NonNull Entity entity, @NonNull InsideBlockEffectApplier insideBlockEffectApplier, boolean bl) {
+        if (!level.isClientSide() && entity instanceof Mob mob && mob.getType().is(EntityTypeTags.UNDEAD)) {
             mob.hurt(level.damageSources().magic(), 2.0F);
         }
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor levelAccessor, BlockPos currentPos, BlockPos neighborPos) {
-        if (direction == Direction.DOWN.getOpposite() && !state.canSurvive(levelAccessor, currentPos)) {
-            levelAccessor.scheduleTick(currentPos, this, 1);
+    public @NotNull BlockState updateShape(
+            @NonNull BlockState state,
+            @NonNull LevelReader levelReader,
+            @NonNull ScheduledTickAccess scheduledTickAccess,
+            @NonNull BlockPos blockPos,
+            @NonNull Direction direction,
+            @NonNull BlockPos neighborPos,
+            @NonNull BlockState neighborState,
+            @NonNull RandomSource randomSource
+    ) {
+        if (direction == Direction.DOWN.getOpposite() && !state.canSurvive(levelReader, blockPos)) {
+            scheduledTickAccess.scheduleTick(blockPos, this, 1);
         }
         if (direction == Direction.DOWN) {
             return state.setValue(IS_HEAD, !neighborState.is(this));
         }
-        return super.updateShape(state, direction, neighborState, levelAccessor, currentPos, neighborPos);
+        return super.updateShape(state, levelReader, scheduledTickAccess, blockPos, direction, neighborPos, neighborState, randomSource);
     }
 
     @Override
-    public boolean canSurvive(BlockState state, LevelReader levelReader, BlockPos pos) {
+    public boolean canSurvive(@NonNull BlockState state, LevelReader levelReader, BlockPos pos) {
         BlockPos belowPos = pos.relative(Direction.DOWN.getOpposite());
         BlockState belowState = levelReader.getBlockState(belowPos);
         return belowState.is(this) || belowState.isFaceSturdy(levelReader, belowPos, Direction.DOWN);
     }
 
     @Override
-    public void tick(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource random) {
+    public void tick(BlockState state, @NonNull ServerLevel serverLevel, @NonNull BlockPos pos, @NonNull RandomSource random) {
         if (!state.canSurvive(serverLevel, pos)) {
             serverLevel.destroyBlock(pos, true);
         }
@@ -125,7 +134,7 @@ public class ChiliRistraBlock extends Block {
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
+    public VoxelShape getShape(BlockState state, @NonNull BlockGetter blockGetter, @NonNull BlockPos pos, @NonNull CollisionContext collisionContext) {
         return state.getValue(IS_HEAD) ? AABB_HEAD : AABB_BODY;
     }
 }

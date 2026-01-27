@@ -1,45 +1,44 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.crafting.serializer;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.ChoppingBoardRecipe;
-import com.google.gson.JsonObject;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.ShapedRecipe;
 import org.jetbrains.annotations.NotNull;
 
 public class ChoppingBoardRecipeSerializer implements RecipeSerializer<ChoppingBoardRecipe> {
+    public static final Identifier EMPTY = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "empty");
+    public static final MapCodec<ChoppingBoardRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
+            instance.group(
+                    Ingredient.CODEC.fieldOf("ingredient").forGetter(ChoppingBoardRecipe::getIngredient),
+                    ItemStack.CODEC.fieldOf("result").forGetter(ChoppingBoardRecipe::getResult),
+                    Codec.INT.optionalFieldOf("cut_count", 3).forGetter(ChoppingBoardRecipe::getCutCount),
+                    Identifier.CODEC.optionalFieldOf("model_id", EMPTY).forGetter(ChoppingBoardRecipe::getModelId)
+            ).apply(instance, ChoppingBoardRecipe::new)
+    );
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, ChoppingBoardRecipe> STREAM_CODEC = StreamCodec.composite(
+            Ingredient.CONTENTS_STREAM_CODEC, ChoppingBoardRecipe::getIngredient,
+            ItemStack.STREAM_CODEC, ChoppingBoardRecipe::getResult,
+            ByteBufCodecs.INT, ChoppingBoardRecipe::getCutCount,
+            Identifier.STREAM_CODEC, ChoppingBoardRecipe::getModelId,
+            ChoppingBoardRecipe::new);
+
     @Override
-    public ChoppingBoardRecipe fromJson(@NotNull ResourceLocation recipeId, @NotNull JsonObject json) {
-        Ingredient ingredient;
-        if (GsonHelper.isArrayNode(json, "ingredient")) {
-            ingredient = Ingredient.fromJson(GsonHelper.getAsJsonArray(json, "ingredient"), false);
-        } else {
-            ingredient = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "ingredient"), false);
-        }
-        ItemStack result = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
-        int cutCount = GsonHelper.getAsInt(json, "cut_count", 3);
-        ResourceLocation modelId = new ResourceLocation(GsonHelper.getAsString(json, "model_id", ""));
-        return new ChoppingBoardRecipe(recipeId, ingredient, result, cutCount, modelId);
+    public @NotNull MapCodec<ChoppingBoardRecipe> codec() {
+        return CODEC;
     }
 
     @Override
-    public ChoppingBoardRecipe fromNetwork(@NotNull ResourceLocation recipeId, @NotNull FriendlyByteBuf buffer) {
-        Ingredient ingredient = Ingredient.fromNetwork(buffer);
-        ItemStack result = buffer.readItem();
-        int cutCount = buffer.readVarInt();
-        ResourceLocation modelId = buffer.readResourceLocation();
-        return new ChoppingBoardRecipe(recipeId, ingredient, result, cutCount, modelId);
-    }
-
-    @Override
-    public void toNetwork(@NotNull FriendlyByteBuf buffer, ChoppingBoardRecipe recipe) {
-        recipe.getIngredient().toNetwork(buffer);
-        buffer.writeItem(recipe.getResult());
-        buffer.writeVarInt(recipe.getCutCount());
-        buffer.writeResourceLocation(recipe.getModelId());
+    public @NotNull StreamCodec<RegistryFriendlyByteBuf, ChoppingBoardRecipe> streamCodec() {
+        return STREAM_CODEC;
     }
 }

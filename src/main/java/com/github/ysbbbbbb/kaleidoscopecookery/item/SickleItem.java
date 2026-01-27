@@ -2,21 +2,22 @@ package com.github.ysbbbbbb.kaleidoscopecookery.item;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.api.event.SickleHarvestEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.crop.RiceCropBlock;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.ModEvents;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
-import com.github.ysbbbbbb.kaleidoscopecookery.util.forge.SimpleTier;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.BlockTags;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BushBlock;
@@ -26,32 +27,18 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
-import java.util.List;
+import java.util.function.Consumer;
 
-public class SickleItem extends SwordItem {
-    private static final SimpleTier SICKLE_TIER = new SimpleTier(
-            1,
-            2000, // 耐久度
-            4.0F, // 挖掘速度
-            1.0F, // 伤害加成
-            5, // 附魔值
-            () -> Ingredient.of(Items.FLINT),
-            BlockTags.NEEDS_STONE_TOOL
-    );
+public class SickleItem extends Item {
 
-    public SickleItem(Tier tier, int attackDamageModifier, float attackSpeedModifier, Properties properties) {
-        super(tier, attackDamageModifier, attackSpeedModifier, properties);
+    public SickleItem(Properties properties) {
+        super(properties);
     }
 
     public SickleItem() {
-        this(SICKLE_TIER, 0, -2.4F, new Properties());
-    }
-
-    @Override
-    public boolean canAttackBlock(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player) {
-        return true;
+        this(new Properties().stacksTo(1));
     }
 
     @Override
@@ -84,9 +71,13 @@ public class SickleItem extends SwordItem {
                 player.getX(), player.getY(), player.getZ(),
                 SoundEvents.PLAYER_ATTACK_SWEEP, player.getSoundSource(),
                 1.0F, 1.0F);
-        player.sweepAttack();
-        stack.hurtAndBreak(breakCount, player, p -> p.broadcastBreakEvent(EquipmentSlot.MAINHAND));
-        player.getCooldowns().addCooldown(this, 10);
+        double d = -Mth.sin(player.getYRot() * (float) (Math.PI / 180.0));
+        double e = Mth.cos(player.getYRot() * (float) (Math.PI / 180.0));
+        if (player.level() instanceof ServerLevel) {
+            ((ServerLevel)player.level()).sendParticles(ParticleTypes.SWEEP_ATTACK, player.getX() + d, player.getY(0.5), player.getZ() + e, 0, d, 0.0, e, 0.0);
+        }
+        stack.hurtAndBreak(breakCount, player, EquipmentSlot.MAINHAND);
+        player.getCooldowns().addCooldown(stack, 10);
         return InteractionResult.SUCCESS;
     }
 
@@ -107,7 +98,7 @@ public class SickleItem extends SwordItem {
         Block block = blockState.getBlock();
         // 触发事件
         SickleHarvestEvent event = new SickleHarvestEvent(player, stack, newPos, blockState);
-        event.post();
+        ModEvents.SICKLE_HARVEST.invoker().onSickleHarvest(event);
         if (event.isCanceled()) {
             return event.isCostDurability();
         }
@@ -148,7 +139,7 @@ public class SickleItem extends SwordItem {
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("tooltip.kaleidoscope_cookery.sickle").withStyle(ChatFormatting.GRAY));
+    public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext tooltip, @NonNull TooltipDisplay tooltipDisplay, @NonNull Consumer<Component> consumer, @NonNull TooltipFlag tooltipFlag) {
+        consumer.accept(Component.translatable("tooltip.kaleidoscope_cookery.sickle").withStyle(ChatFormatting.GRAY));
     }
 }

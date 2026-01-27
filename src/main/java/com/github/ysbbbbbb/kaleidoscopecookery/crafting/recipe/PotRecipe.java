@@ -1,54 +1,64 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
+import com.github.ysbbbbbb.kaleidoscopecookery.crafting.container.SimpleInput;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModRecipes;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.RecipeMatcher;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.SimpleContainer;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 
-public record PotRecipe(ResourceLocation id, int time, int stirFryCount, Ingredient carrier,
-                        NonNullList<Ingredient> ingredients, ItemStack result) implements BaseRecipe<SimpleContainer> {
-    public PotRecipe(ResourceLocation id, int time, int stirFryCount, Ingredient carrier,
+public record PotRecipe(int time, int stirFryCount, Ingredient carrier,
+                        NonNullList<Ingredient> ingredients, ItemStack result) implements BaseRecipe<SimpleInput> {
+    public PotRecipe(int time, int stirFryCount, Ingredient carrier,
                      List<Ingredient> ingredients, ItemStack result) {
-        this(id, time, stirFryCount, carrier, NonNullList.of(Ingredient.EMPTY,
+        this(time, stirFryCount, carrier, NonNullList.of(Ingredient.of(ItemStack.EMPTY.getItem()),
                 BaseRecipe.fillInputs(ingredients)), result);
     }
 
     @Override
-    public boolean matches(SimpleContainer container, Level level) {
-        return RecipeMatcher.findMatches(container.items, ingredients) != null;
+    public boolean matches(SimpleInput simpleInput, @NonNull Level level) {
+        return RecipeMatcher.findMatches(simpleInput.getInputs(), ingredients) != null;
     }
 
     @Override
-    public NonNullList<Ingredient> getIngredients() {
+    public @NonNull RecipeSerializer<? extends Recipe<SimpleInput>> getSerializer() {
+        return ModRecipes.POT_SERIALIZER;
+    }
+
+
+    public @NotNull NonNullList<Ingredient> getIngredients() {
         return ingredients;
     }
 
     @Override
-    public ItemStack getResultItem(RegistryAccess registryAccess) {
+    public @NonNull RecipeType<? extends Recipe<SimpleInput>> getType() {
+        return ModRecipes.POT_RECIPE;
+    }
+
+    @Override
+    public @NonNull PlacementInfo placementInfo() {
+        return PlacementInfo.NOT_PLACEABLE;
+    }
+
+    @Override
+    public @NonNull RecipeBookCategory recipeBookCategory() {
+        return Registry.register(BuiltInRegistries.RECIPE_BOOK_CATEGORY, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "pot"), new RecipeBookCategory());
+    }
+
+
+    @Override
+    public ItemStack getResultItem(HolderLookup.Provider registryAccess) {
         return this.result;
     }
 
-    @Override
-    public ResourceLocation getId() {
-        return this.id;
-    }
-
-    @Override
-    public RecipeSerializer<?> getSerializer() {
-        return ModRecipes.POT_SERIALIZER;
-    }
-
-    @Override
-    public RecipeType<?> getType() {
-        return ModRecipes.POT_RECIPE;
-    }
 }

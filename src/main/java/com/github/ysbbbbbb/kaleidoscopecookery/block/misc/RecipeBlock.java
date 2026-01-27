@@ -2,21 +2,19 @@ package com.github.ysbbbbbb.kaleidoscopecookery.block.misc;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.RecipeBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModSoundType;
-import com.github.ysbbbbbb.kaleidoscopecookery.util.TodoCheck;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.AttachFace;
@@ -28,14 +26,16 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 
 public class RecipeBlock extends FaceAttachedHorizontalDirectionalBlock implements EntityBlock, SimpleWaterloggedBlock {
+    public static final MapCodec<RecipeBlock> CODEC = simpleCodec(p -> new RecipeBlock());
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     private static final VoxelShape CEILING_AABB_X = Block.box(1.5D, 15.75D, 3.0D, 14.5D, 16.0D, 13.0D);
@@ -49,7 +49,7 @@ public class RecipeBlock extends FaceAttachedHorizontalDirectionalBlock implemen
     private static final VoxelShape EAST_AABB = Block.box(0.0D, 1.5D, 3.0D, 0.25D, 14.5D, 13.0D);
 
     public RecipeBlock() {
-        super(BlockBehaviour.Properties.of()
+        super(Properties.of()
                 .mapColor(MapColor.COLOR_YELLOW)
                 .instabreak()
                 .noOcclusion()
@@ -61,42 +61,52 @@ public class RecipeBlock extends FaceAttachedHorizontalDirectionalBlock implemen
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+    public @NotNull InteractionResult useItemOn(@NonNull ItemStack stack, @NonNull BlockState state, @NonNull Level level, @NonNull BlockPos pos, @NonNull Player player, @NonNull InteractionHand hand, @NonNull BlockHitResult hitResult) {
         // 空手右击取下来
         if (hand != InteractionHand.MAIN_HAND) {
-            return InteractionResult.PASS;
+            return InteractionResult.TRY_WITH_EMPTY_HAND;
         }
         ItemStack mainHandItem = player.getMainHandItem();
         if (!mainHandItem.isEmpty()) {
-            return InteractionResult.PASS;
+            return InteractionResult.TRY_WITH_EMPTY_HAND;
         }
-        if (level.isClientSide) {
+        if (level.isClientSide()) {
             return InteractionResult.SUCCESS;
         }
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (blockEntity instanceof RecipeBlockEntity recipeBlockEntity) {
-            ItemStack itemStack = recipeBlockEntity.getItems().get(0);
+            ItemStack itemStack = recipeBlockEntity.getItems().getStackInSlot(0);
             if (itemStack.isEmpty()) {
-                return InteractionResult.PASS;
+                return InteractionResult.TRY_WITH_EMPTY_HAND;
             }
             player.setItemInHand(hand, itemStack.copy());
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
             level.playSound(null, pos, ModSoundType.RECIPE_BLOCK.getBreakSound(), player.getSoundSource(), 1.0F, 1.0F);
             return InteractionResult.SUCCESS;
         }
-        return super.use(state, level, pos, player, hand, hitResult);
+        return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor levelAccessor, BlockPos pos, BlockPos neighborPos) {
+    public @NotNull BlockState updateShape(
+            @NonNull BlockState state,
+            @NonNull LevelReader levelReader,
+            @NonNull ScheduledTickAccess scheduledTickAccess,
+            @NonNull BlockPos blockPos,
+            @NonNull Direction direction,
+            @NonNull BlockPos neighborPos,
+            @NonNull BlockState neighborState,
+            @NonNull RandomSource randomSource
+    ) {
         if (state.getValue(WATERLOGGED)) {
-            levelAccessor.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(levelAccessor));
+            scheduledTickAccess.scheduleTick(blockPos, Fluids.WATER, Fluids.WATER.getTickDelay(levelReader));
         }
-        return super.updateShape(state, direction, neighborState, levelAccessor, pos, neighborPos);
+
+        return super.updateShape(state, levelReader, scheduledTickAccess, blockPos, direction, neighborPos, neighborState, randomSource);
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+    public @NotNull VoxelShape getShape(BlockState state, @NonNull BlockGetter pLevel, @NonNull BlockPos pPos, @NonNull CollisionContext pContext) {
         Direction facing = state.getValue(FACING);
         return switch (state.getValue(FACE)) {
             case FLOOR -> facing.getAxis() == Direction.Axis.X ? FLOOR_AABB_X : FLOOR_AABB_Z;
@@ -111,6 +121,11 @@ public class RecipeBlock extends FaceAttachedHorizontalDirectionalBlock implemen
     }
 
     @Override
+    protected @NotNull MapCodec<? extends FaceAttachedHorizontalDirectionalBlock> codec() {
+        return CODEC;
+    }
+
+    @Override
     public @Nullable BlockState getStateForPlacement(BlockPlaceContext context) {
         FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
         BlockState stateForPlacement = super.getStateForPlacement(context);
@@ -121,27 +136,28 @@ public class RecipeBlock extends FaceAttachedHorizontalDirectionalBlock implemen
     }
 
     @Override
-    public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, @Nullable LivingEntity livingEntity, ItemStack stack) {
-        if (!pLevel.isClientSide) {
+    public void setPlacedBy(Level pLevel, @NonNull BlockPos pPos, @NonNull BlockState pState, @Nullable LivingEntity livingEntity, @NonNull ItemStack stack) {
+        if (!pLevel.isClientSide()) {
             BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
             if (blockEntity instanceof RecipeBlockEntity recipeBlockEntity) {
-                recipeBlockEntity.getItems().set(0, stack.copyWithCount(1));
+                recipeBlockEntity.getItems().setStackInSlot(0, stack.copyWithCount(1));
             }
         }
     }
 
-    @TodoCheck
-//    @Override
-//    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player) {
-//        BlockEntity blockEntity = level.getBlockEntity(pos);
-//        if (blockEntity instanceof RecipeBlockEntity recipeBlockEntity) {
-//            ItemStack itemStack = recipeBlockEntity.getItems().get(0);
-//            if (!itemStack.isEmpty()) {
-//                return itemStack.copy();
-//            }
-//        }
-//        return super.getCloneItemStack(state, target, level, pos, player);
-//    }
+
+
+    @Override
+    protected @NonNull ItemStack getCloneItemStack(LevelReader levelReader, @NonNull BlockPos blockPos, @NonNull BlockState blockState, boolean bl) {
+        BlockEntity blockEntity = levelReader.getBlockEntity(blockPos);
+        if (blockEntity instanceof RecipeBlockEntity recipeBlockEntity) {
+            ItemStack itemStack = recipeBlockEntity.getItems().getStackInSlot(0);
+            if (!itemStack.isEmpty()) {
+                return itemStack.copy();
+            }
+        }
+        return super.getCloneItemStack(levelReader, blockPos, blockState, bl);
+    }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
@@ -149,23 +165,23 @@ public class RecipeBlock extends FaceAttachedHorizontalDirectionalBlock implemen
     }
 
     @Override
-    public FluidState getFluidState(BlockState state) {
+    public @NotNull FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @Override
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder lootParamsBuilder) {
+    public @NotNull List<ItemStack> getDrops(@NonNull BlockState state, LootParams.@NonNull Builder lootParamsBuilder) {
         List<ItemStack> drops = super.getDrops(state, lootParamsBuilder);
         BlockEntity parameter = lootParamsBuilder.getParameter(LootContextParams.BLOCK_ENTITY);
         if (parameter instanceof RecipeBlockEntity recipeBlock) {
-            drops.add(recipeBlock.getItems().get(0).copyWithCount(1));
+            drops.add(recipeBlock.getItems().getStackInSlot(0).copyWithCount(1));
         }
         return drops;
     }
 
     @Override
     @Nullable
-    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
+    public BlockEntity newBlockEntity(@NonNull BlockPos pPos, @NonNull BlockState pState) {
         return new RecipeBlockEntity(pPos, pState);
     }
 }

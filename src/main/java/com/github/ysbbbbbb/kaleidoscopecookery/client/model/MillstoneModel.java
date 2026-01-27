@@ -10,10 +10,9 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.NotNull;
 
 public class MillstoneModel extends Model {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(KaleidoscopeCookery.MOD_ID, "millstone"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "millstone"), "main");
     private final ModelPart base;
     private final ModelPart wheel;
     private final ModelPart roll;
@@ -62,9 +61,9 @@ public class MillstoneModel extends Model {
     }
 
     @Override
-    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        base.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-        wheel.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
+        base.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
+        wheel.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
     }
 
     public ModelPart getWheel() {

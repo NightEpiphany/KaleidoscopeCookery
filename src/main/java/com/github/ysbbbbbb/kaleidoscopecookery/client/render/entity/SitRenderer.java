@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 
 public class SitRenderer extends EntityRenderer<SitEntity> {
-    private static final ResourceLocation EMPTY = new ResourceLocation(KaleidoscopeCookery.MOD_ID, "textures/entity/empty.png");
+    private static final ResourceLocation EMPTY = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "textures/entity/empty.png");
 
     public SitRenderer(EntityRendererProvider.Context context) {
         super(context);

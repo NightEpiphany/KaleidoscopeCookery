@@ -1,7 +1,0 @@
-{
-  "values": [
-    "kaleidoscope_cookery:raw_cow_offal",
-    "minecraft:beef",
-    { id: "farmersdelight:minced_beef", required:false }
-  ]
-}

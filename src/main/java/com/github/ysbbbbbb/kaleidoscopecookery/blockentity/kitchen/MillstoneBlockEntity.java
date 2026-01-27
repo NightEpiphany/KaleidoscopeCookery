@@ -9,14 +9,12 @@ import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModRecipes;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModSounds;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
-import com.github.ysbbbbbb.kaleidoscopecookery.util.forge.ItemStackHandler;
-import net.minecraft.Util;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.neo.ItemStackHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
@@ -25,24 +23,27 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.world.Container;
-import net.minecraft.world.SimpleContainer;
+import net.minecraft.util.Util;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.animal.horse.AbstractChestedHorse;
-import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.entity.animal.equine.AbstractChestedHorse;
+import net.minecraft.world.entity.animal.equine.AbstractHorse;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 import java.util.UUID;
@@ -57,18 +58,20 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
     private static final String OUTPUT_ITEM_KEY = "OutputItem";
     private static final String PROGRESS_KEY = "Progress";
 
-    private final RecipeManager.CachedCheck<Container, MillstoneRecipe> quickCheck = RecipeManager.createCheck(ModRecipes.MILLSTONE_RECIPE);
+    private final RecipeManager.CachedCheck<SingleRecipeInput, MillstoneRecipe> quickCheck = RecipeManager.createCheck(ModRecipes.MILLSTONE_RECIPE);
 
     private UUID entityId = Util.NIL_UUID;
     // 缓存的角度，避免动画突兀的跳动变化
     private float cacheRot = 0f;
     private float rotSpeedTick = 200f;
     private float liftAngle = 5f;
+    @NotNull
     private ItemStack input = ItemStack.EMPTY;
+    @NotNull
     private ItemStack output = ItemStack.EMPTY;
     private int progress = 0;
-
-    private @Nullable Mob bindEntity;
+    // 绑定的实体
+    private @Nullable EntityReference<Mob> bindRef;
     private Vec3 offset = Vec3.ZERO;
 
     public MillstoneBlockEntity(BlockPos pos, BlockState state) {
@@ -85,7 +88,7 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
         if (!(this.level instanceof ServerLevel serverLevel)) {
             return;
         }
-        if (Util.NIL_UUID.equals(this.entityId)) {
+        if (Util.NIL_UUID.equals(entityId)) {
             return;
         }
 
@@ -109,12 +112,13 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
         float rot = this.getRotation(level, 0);
         Vec3 center = Vec3.atBottomCenterOf(this.getBlockPos());
         double maxDistanceSqr = 5 * 5;
+        Mob bindEntity = getBindMob(level);
         // 服务器端检查实体是否还存在
         if (bindEntity == null) {
             // 必须距离磨盘足够近才可以（5 格）
             if (serverLevel.getEntity(entityId) instanceof Mob mob
-                    && mob.isAlive() && mob.distanceToSqr(center) < maxDistanceSqr
-                    && this.canBindEntity(mob)) {
+                && mob.isAlive() && mob.distanceToSqr(center) < maxDistanceSqr
+                && this.canBindEntity(mob)) {
                 this.bindEntity(mob);
             } else {
                 this.entityId = Util.NIL_UUID;
@@ -124,12 +128,12 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
                 return;
             }
         } else if (!bindEntity.isAlive()
-                || bindEntity.distanceToSqr(center) >= maxDistanceSqr
-                || bindEntity.fallDistance > 0.5f
-                || bindEntity.isInWall()
-                || this.saddleEntityIsControlling(bindEntity)) {
+                   || bindEntity.distanceToSqr(center) >= maxDistanceSqr
+                   || bindEntity.fallDistance > 0.5f
+                   || bindEntity.isInWall()
+                   || this.saddleEntityIsControlling(bindEntity)) {
             this.entityId = Util.NIL_UUID;
-            this.bindEntity = null;
+            this.bindRef = null;
             this.cacheRot = rot;
             this.liftAngle = 0f;
             this.refresh();
@@ -141,11 +145,14 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
                 .add(this.offset)
                 .yRot(rot * Mth.DEG_TO_RAD)
                 .add(center);
-        this.bindEntity.moveTo(pos.x, pos.y, pos.z, -rot - 90, 0);
+        if (bindEntity == null) return;
+        bindEntity.setPosRaw(pos.x, pos.y, pos.z);
+        bindEntity.setYRot(rot - 90);
+        bindEntity.setXRot(0);
+        bindEntity.setOldPosAndRot();
 
         // 如果实体带有库存，那么可以尝试往磨盘里放物品
-        if (this.bindEntity.tickCount % 10 == 0 && this.output.isEmpty() && this.input.isEmpty() && this.progress <= 0) {
-            boolean[] entityHasInventory = new boolean[1];
+        if (bindEntity.tickCount % 10 == 0 && this.output.isEmpty() && this.input.isEmpty() && this.progress <= 0) {
             // Fabric暂时只能支持驴和骡使用物品栏
             if (bindEntity instanceof AbstractChestedHorse chestedHorse) {
                 ItemStackHandler handler = new ItemStackHandler(chestedHorse.inventory.items);
@@ -231,19 +238,19 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
 
         // 当进度为 0 时，检查输入输出
         if (this.progress <= 0 && !this.input.isEmpty() && this.output.isEmpty()) {
-            SimpleContainer container = new SimpleContainer(this.input);
-            this.quickCheck.getRecipeFor(container, level).ifPresentOrElse(recipe -> {
-                this.output = recipe.assemble(container, level.registryAccess());
-                // 依据输入数量决定输出数量
-                this.output.setCount(this.output.getCount() * this.input.getCount());
-                this.input = ItemStack.EMPTY;
-                this.refresh();
-            }, () -> {
-                // 几乎不太可能，但是此时把输入转向输出
-                this.output = this.input.copyAndClear();
-                this.input = ItemStack.EMPTY;
-                this.refresh();
-            });
+            SingleRecipeInput container = new SingleRecipeInput(this.input);
+                this.quickCheck.getRecipeFor(container, serverLevel).ifPresentOrElse(recipe -> {
+                    this.output = recipe.value().assemble(container, level.registryAccess());
+                    // 依据输入数量决定输出数量
+                    this.output.setCount(this.output.getCount() * this.input.getCount());
+                    this.input = ItemStack.EMPTY;
+                    this.refresh();
+                }, () -> {
+                    // 几乎不太可能，但是此时把输入转向输出
+                    this.output = this.input.copyAndClear();
+                    this.input = ItemStack.EMPTY;
+                    this.refresh();
+                });
         }
     }
 
@@ -257,16 +264,19 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
         if (this.progress > 0 && !this.input.isEmpty()) {
             return false;
         }
-        SimpleContainer container = new SimpleContainer(putOnItem);
-        return this.quickCheck.getRecipeFor(container, level).map(recipe -> {
-            this.input = putOnItem.split(MAX_INPUT_COUNT);
-            this.progress = Math.max(Math.round(this.rotSpeedTick), 1);
-            this.refresh();
-            level.playSound(null, this.worldPosition,
-                    SoundEvents.STONE_HIT, SoundSource.BLOCKS, 0.8f,
-                    level.random.nextFloat() * 0.2f + 0.9f);
-            return true;
-        }).orElse(false);
+        SingleRecipeInput container = new SingleRecipeInput(putOnItem);
+        if (level instanceof ServerLevel serverLevel) {
+            return this.quickCheck.getRecipeFor(container, serverLevel).map(recipe -> {
+                this.input = putOnItem.split(MAX_INPUT_COUNT);
+                this.progress = Math.max(Math.round(this.rotSpeedTick), 1);
+                this.refresh();
+                level.playSound(null, this.worldPosition,
+                        SoundEvents.STONE_HIT, SoundSource.BLOCKS, 0.8f,
+                        level.random.nextFloat() * 0.2f + 0.9f);
+                return true;
+            }).orElse(false);
+        }
+        return false;
     }
 
     public void resetWhenTakeout() {
@@ -276,7 +286,7 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
     }
 
     public boolean saddleEntityIsControlling(Mob mob) {
-        if (!(mob instanceof Saddleable saddleable)) {
+        if (!(mob instanceof AbstractHorse saddleable)) {
             return false;
         }
         // 骑乘的生物不能被绑定
@@ -300,30 +310,28 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
             return false;
         }
         // 如果是可驯服生物，必须已经被驯服才行
-        if (mob instanceof AbstractHorse horse) {
-            return horse.isTamed();
-        }
-        if (mob instanceof TamableAnimal tamableAnimal) {
-            return tamableAnimal.isTame();
-        }
-        if (mob instanceof OwnableEntity ownable) {
-            return ownable.getOwnerUUID() != null;
-        }
-        return true;
+        return switch (mob) {
+            case AbstractHorse horse -> horse.isTamed();
+            case TamableAnimal tamableAnimal -> tamableAnimal.isTame();
+            case OwnableEntity ownable -> ownable.getOwner() != null;
+            default -> true;
+        };
     }
 
     public void bindEntity(Mob mob) {
-        if (this.level == null || this.level.isClientSide) {
+        if (this.level == null || this.level.isClientSide()) {
             // 仅在服务器端绑定实体
             return;
+        }
+        // 移除实体的乘客
+        if (mob.getControllingPassenger() != null) {
+            mob.ejectPassengers();
         }
         if (!mob.isAlive()) {
             return;
         }
-        if (mob.hasControllingPassenger())
-            mob.getFirstPassenger().ejectPassengers();
         this.entityId = mob.getUUID();
-        this.bindEntity = mob;
+        this.setBindMob(mob);
         // 缓存角度纠正
         float rot = this.getRotation(this.level, 0);
         this.cacheRot = this.cacheRot - (rot - this.cacheRot);
@@ -343,38 +351,36 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
         }
     }
 
+
     @Override
-    protected void saveAdditional(@NotNull CompoundTag tag) {
-        super.saveAdditional(tag);
-        tag.putUUID(ENTITY_ID_KEY, entityId);
-        tag.putFloat(CACHE_ROT_KEY, cacheRot);
-        tag.putFloat(ROT_SPEED_TICK_KEY, rotSpeedTick);
-        tag.putFloat(LIFT_ANGLE_KEY, liftAngle);
+    protected void saveAdditional(@NonNull ValueOutput valueOutput) {
+        super.saveAdditional(valueOutput);
+        EntityReference.store(this.bindRef, valueOutput, ENTITY_ID_KEY);
+        valueOutput.putString(ENTITY_ID_KEY, this.entityId.toString());
+        valueOutput.putFloat(CACHE_ROT_KEY, this.cacheRot);
+        valueOutput.putFloat(ROT_SPEED_TICK_KEY, rotSpeedTick);
+        valueOutput.putFloat(LIFT_ANGLE_KEY, liftAngle);
         if (!input.isEmpty()) {
-            tag.put(INPUT_ITEM_KEY, input.save(new CompoundTag()));
-        } else {
-            tag.put(INPUT_ITEM_KEY, new CompoundTag());
+            valueOutput.store(INPUT_ITEM_KEY, ItemStack.CODEC, this.input);
         }
         if (!output.isEmpty()) {
-            tag.put(OUTPUT_ITEM_KEY, output.save(new CompoundTag()));
-        } else {
-            tag.put(OUTPUT_ITEM_KEY, new CompoundTag());
+            valueOutput.store(OUTPUT_ITEM_KEY, ItemStack.CODEC, this.output);
         }
-        tag.putInt(PROGRESS_KEY, this.progress);
+        valueOutput.putInt(PROGRESS_KEY, this.progress);
     }
 
     @Override
-    public void load(@NotNull CompoundTag tag) {
-        super.load(tag);
-        this.entityId = tag.getUUID(ENTITY_ID_KEY);
-        this.cacheRot = tag.getFloat(CACHE_ROT_KEY);
-        this.rotSpeedTick = tag.getFloat(ROT_SPEED_TICK_KEY);
-        this.liftAngle = tag.getFloat(LIFT_ANGLE_KEY);
-        this.input = tag.getCompound(INPUT_ITEM_KEY).isEmpty() ? ItemStack.EMPTY : ItemStack.of(tag.getCompound(INPUT_ITEM_KEY));
-        this.output = tag.getCompound(OUTPUT_ITEM_KEY).isEmpty() ? ItemStack.EMPTY : ItemStack.of(tag.getCompound(OUTPUT_ITEM_KEY));
-        this.progress = tag.getInt(PROGRESS_KEY);
+    protected void loadAdditional(@NonNull ValueInput valueInput) {
+        super.loadAdditional(valueInput);
+        this.bindRef = EntityReference.read(valueInput, ENTITY_ID_KEY);
+        this.entityId =  UUID.fromString(valueInput.getStringOr(ENTITY_ID_KEY, Util.NIL_UUID.toString()));
+        this.cacheRot = valueInput.getFloatOr(CACHE_ROT_KEY, 0f);
+        this.rotSpeedTick = valueInput.getFloatOr(ROT_SPEED_TICK_KEY, 200f);
+        this.liftAngle = valueInput.getFloatOr(LIFT_ANGLE_KEY, 5f);
+        this.input = valueInput.read(INPUT_ITEM_KEY, ItemStack.CODEC).orElse(ItemStack.EMPTY);
+        this.output = valueInput.read(OUTPUT_ITEM_KEY, ItemStack.CODEC).orElse(ItemStack.EMPTY);
+        this.progress = valueInput.getIntOr(PROGRESS_KEY, 0);
     }
-
 
     public boolean hasEntity() {
         return !Util.NIL_UUID.equals(this.entityId);
@@ -388,16 +394,25 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
         return this.liftAngle;
     }
 
-    public ItemStack getInput() {
+    public @NonNull ItemStack getInput() {
         return this.input;
     }
 
-    public ItemStack getOutput() {
+    public @NonNull ItemStack getOutput() {
         return this.output;
     }
 
     public float getProgressPercent() {
         float total = Math.max(this.rotSpeedTick, 1);
         return (total - this.progress) / total;
+    }
+
+    public void setBindMob(@Nullable Mob mob) {
+        this.bindRef = EntityReference.of(mob);
+    }
+
+    @Nullable
+    public Mob getBindMob(Level level) {
+        return EntityReference.get(this.bindRef, level, Mob.class);
     }
 }

@@ -6,6 +6,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.MillstoneBloc
 import com.github.ysbbbbbb.kaleidoscopecookery.client.model.MillstoneModel;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.resources.ItemRenderReplacer;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.resources.ItemRenderReplacerReloadListener;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.neo.IBlockEntityRendererExtension;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -15,6 +16,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -22,10 +24,10 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
+import net.minecraft.world.phys.AABB;
 
-public class MillstoneBlockEntityRender implements BlockEntityRenderer<MillstoneBlockEntity> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(KaleidoscopeCookery.MOD_ID, "textures/block/millstone.png");
+public class MillstoneBlockEntityRender implements BlockEntityRenderer<MillstoneBlockEntity>, IBlockEntityRendererExtension<MillstoneBlockEntity> {
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "textures/block/millstone.png");
 
     private final BlockEntityRendererProvider.Context context;
     private final MillstoneModel bodyModel;
@@ -36,8 +38,8 @@ public class MillstoneBlockEntityRender implements BlockEntityRenderer<Millstone
     }
 
     @Override
-    public void render(MillstoneBlockEntity millstone, float partialTick, @NotNull PoseStack poseStack,
-                       @NotNull MultiBufferSource buffer, int packedLight, int packedOverlay) {
+    public void render(MillstoneBlockEntity millstone, float partialTick, PoseStack poseStack,
+                       MultiBufferSource buffer, int packedLight, int packedOverlay) {
         Level level = millstone.getLevel();
         if (level == null) {
             return;
@@ -74,7 +76,7 @@ public class MillstoneBlockEntityRender implements BlockEntityRenderer<Millstone
         poseStack.mulPose(Axis.ZN.rotationDegrees(180));
         poseStack.mulPose(Axis.YN.rotationDegrees(180 - facingDeg));
         VertexConsumer checkerBoardBuff = bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE));
-        bodyModel.renderToBuffer(poseStack, checkerBoardBuff, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+        bodyModel.renderToBuffer(poseStack, checkerBoardBuff, combinedLightIn, combinedOverlayIn);
         poseStack.popPose();
 
         this.bodyModel.getWheel().yRot = 0;
@@ -101,7 +103,18 @@ public class MillstoneBlockEntityRender implements BlockEntityRenderer<Millstone
     }
 
     @Override
-    public boolean shouldRenderOffScreen(@NotNull MillstoneBlockEntity millstone) {
+    public boolean shouldRenderOffScreen(MillstoneBlockEntity millstone) {
         return true;
+    }
+
+
+    @Override
+    public AABB getRenderBoundingBox(MillstoneBlockEntity blockEntity) {
+        BlockPos pos = blockEntity.getBlockPos();
+        return getAABB(pos.offset(-3, 0, -3), pos.offset(3, 1, 3));
+    }
+
+    private static AABB getAABB(BlockPos pStart, BlockPos pEnd) {
+        return new AABB(pStart.getX(), pStart.getY(), pStart.getZ(), pEnd.getX(), pEnd.getY(), pEnd.getZ());
     }
 }

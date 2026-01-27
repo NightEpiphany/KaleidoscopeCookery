@@ -1,10 +1,10 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.config;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class GeneralConfig {
-    public static ForgeConfigSpec init() {
-        ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
+    public static ModConfigSpec init() {
+        ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
         general(builder);
         return builder.build();
     }
@@ -12,10 +12,10 @@ public class GeneralConfig {
     /**
      * 饱腹代偿属性可能在某些整合里过于 OP，故提供一个开关来关闭它。
      */
-    public static ForgeConfigSpec.BooleanValue SATIATED_SHIELD_ABSORB_ENABLED;
-    public static ForgeConfigSpec.BooleanValue SATIATED_SHIELD_ABSORB_EXCESS_DAMAGE;
+    public static ModConfigSpec.BooleanValue SATIATED_SHIELD_ABSORB_ENABLED;
+    public static ModConfigSpec.BooleanValue SATIATED_SHIELD_ABSORB_EXCESS_DAMAGE;
 
-    private static void general(ForgeConfigSpec.Builder builder) {
+    private static void general(ModConfigSpec.Builder builder) {
         builder.push("cookery");
 
         builder.comment("Whether enabling the Satiated Shield effect.");

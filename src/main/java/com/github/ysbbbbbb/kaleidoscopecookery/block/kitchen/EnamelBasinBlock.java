@@ -2,23 +2,19 @@ package com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.KitchenShovelItem;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -40,6 +36,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 
@@ -68,17 +65,17 @@ public class EnamelBasinBlock extends Block implements SimpleWaterloggedBlock {
     }
 
     @Override
-    public @NotNull BlockState updateShape(BlockState state, @NotNull Direction direction, @NotNull BlockState neighborState, @NotNull LevelAccessor levelAccessor, @NotNull BlockPos pos, @NotNull BlockPos neighborPos) {
+    protected @NonNull BlockState updateShape(@NonNull BlockState state, @NonNull LevelReader levelReader, @NonNull ScheduledTickAccess scheduledTickAccess, @NonNull BlockPos blockPos, @NonNull Direction direction, @NonNull BlockPos neighborPos, @NonNull BlockState neighborState, @NonNull RandomSource randomSource) {
         if (state.getValue(WATERLOGGED)) {
-            levelAccessor.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(levelAccessor));
+            scheduledTickAccess.scheduleTick(blockPos, Fluids.WATER, Fluids.WATER.getTickDelay(levelReader));
         }
-        return super.updateShape(state, direction, neighborState, levelAccessor, pos, neighborPos);
+        return super.updateShape(state, levelReader, scheduledTickAccess, blockPos, direction, neighborPos, neighborState, randomSource);
     }
 
     @Override
-    public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult) {
+    public @NotNull InteractionResult useItemOn(@NonNull ItemStack stack, @NonNull BlockState state, @NonNull Level level, @NonNull BlockPos pos, @NonNull Player player, @NonNull InteractionHand hand, @NonNull BlockHitResult hitResult) {
         if (hand != InteractionHand.MAIN_HAND) {
-            super.use(state, level, pos, player, hand, hitResult);
+            super.useItemOn(stack, state, level, pos, player, hand, hitResult);
         }
         ItemStack mainHandItem = player.getMainHandItem();
         // 先判断棍子敲
@@ -119,7 +116,7 @@ public class EnamelBasinBlock extends Block implements SimpleWaterloggedBlock {
         if (mainHandItem.is(ModItems.KITCHEN_SHOVEL)) {
             return onShovelClick(state, level, pos, player, mainHandItem);
         }
-        return super.use(state, level, pos, player, hand, hitResult);
+        return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
     }
 
     @NotNull
@@ -169,17 +166,17 @@ public class EnamelBasinBlock extends Block implements SimpleWaterloggedBlock {
     }
 
     @Override
-    public @NotNull VoxelShape getShape(BlockState state, @NotNull BlockGetter blockGetter, @NotNull BlockPos pos, @NotNull CollisionContext collisionContext) {
+    public @NotNull VoxelShape getShape(BlockState state, @NonNull BlockGetter blockGetter, @NonNull BlockPos pos, @NonNull CollisionContext collisionContext) {
         return state.getValue(HAS_LID) ? AABB : AABB_NO_LID;
     }
 
     @Override
-    public boolean hasAnalogOutputSignal(@NotNull BlockState state) {
+    public boolean hasAnalogOutputSignal(@NonNull BlockState state) {
         return true;
     }
 
     @Override
-    public int getAnalogOutputSignal(BlockState state, @NotNull Level level, @NotNull BlockPos pos) {
+    public int getAnalogOutputSignal(BlockState state, @NonNull Level level, @NonNull BlockPos pos, @NonNull Direction direction) {
         int count = state.getValue(OIL_COUNT);
         int baseValue = count > 0 ? 1 : 0;
         double ratio = (double) count / MAX_OIL_COUNT;
@@ -187,7 +184,7 @@ public class EnamelBasinBlock extends Block implements SimpleWaterloggedBlock {
     }
 
     @Override
-    public @NotNull List<ItemStack> getDrops(@NotNull BlockState pState, LootParams.@NotNull Builder params) {
+    public @NotNull List<ItemStack> getDrops(@NonNull BlockState pState, LootParams.@NonNull Builder params) {
         List<ItemStack> stacks = super.getDrops(pState, params);
         BlockState state = params.getOptionalParameter(LootContextParams.BLOCK_STATE);
         if (state == null || !state.is(this)) {
@@ -198,10 +195,5 @@ public class EnamelBasinBlock extends Block implements SimpleWaterloggedBlock {
             stacks.add(new ItemStack(ModItems.OIL, oilCount));
         }
         return stacks;
-    }
-
-    @Override
-    public void appendHoverText(@NotNull ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.translatable("tooltip.kaleidoscope_cookery.enamel_basin").withStyle(ChatFormatting.GRAY));
     }
 }

@@ -1,16 +1,15 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.block.decoration;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.entity.SitEntity;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.InteractionHand;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
@@ -29,10 +28,12 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 
 public class CookStoolBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock {
+    public static final MapCodec<CookStoolBlock> CODEC = simpleCodec(p -> new CookStoolBlock());
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     private static final VoxelShape NORTH_SOUTH = Block.box(2, 0, 3, 14, 7, 13);
@@ -51,31 +52,33 @@ public class CookStoolBlock extends HorizontalDirectionalBlock implements Simple
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor levelAccessor, BlockPos pos, BlockPos neighborPos) {
-        if (state.getValue(WATERLOGGED)) {
-            levelAccessor.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(levelAccessor));
-        }
-        return super.updateShape(state, direction, neighborState, levelAccessor, pos, neighborPos);
+    protected @NonNull MapCodec<? extends HorizontalDirectionalBlock> codec() {
+        return CODEC;
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if (player.isSecondaryUseActive()) {
-            return InteractionResult.PASS;
+    protected @NonNull BlockState updateShape(BlockState blockState, @NonNull LevelReader levelReader, @NonNull ScheduledTickAccess scheduledTickAccess, @NonNull BlockPos blockPos, @NonNull Direction direction, @NonNull BlockPos blockPos2, @NonNull BlockState blockState2, @NonNull RandomSource randomSource) {
+        if (blockState.getValue(WATERLOGGED)) {
+            scheduledTickAccess.scheduleTick(blockPos, Fluids.WATER, Fluids.WATER.getTickDelay(levelReader));
         }
+        return super.updateShape(blockState, levelReader, scheduledTickAccess, blockPos, direction, blockPos2, blockState2, randomSource);
+    }
+
+    @Override
+    public @NonNull InteractionResult useWithoutItem(@NonNull BlockState state, Level level, @NonNull BlockPos pos, @NonNull Player player, @NonNull BlockHitResult hitResult) {
         List<SitEntity> entities = level.getEntitiesOfClass(SitEntity.class, new AABB(pos));
         if (entities.isEmpty()) {
             SitEntity entitySit = new SitEntity(level, pos);
             entitySit.setYRot(state.getValue(FACING).toYRot());
             level.addFreshEntity(entitySit);
-            player.startRiding(entitySit, true);
+            player.startRiding(entitySit, true, false);
             return InteractionResult.SUCCESS;
         }
-        return super.use(state, level, pos, player, hand, hitResult);
+        return super.useWithoutItem(state, level, pos, player, hitResult);
     }
 
     @Override
-    public void destroy(LevelAccessor levelAccessor, BlockPos pos, BlockState state) {
+    public void destroy(LevelAccessor levelAccessor, @NonNull BlockPos pos, @NonNull BlockState state) {
         levelAccessor.getEntitiesOfClass(SitEntity.class, new AABB(pos)).forEach(Entity::discard);
     }
 
@@ -94,12 +97,12 @@ public class CookStoolBlock extends HorizontalDirectionalBlock implements Simple
     }
 
     @Override
-    public FluidState getFluidState(BlockState state) {
+    public @NonNull FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
+    public @NonNull VoxelShape getShape(BlockState state, @NonNull BlockGetter blockGetter, @NonNull BlockPos pos, @NonNull CollisionContext collisionContext) {
         if (state.getValue(FACING).getAxis() == Direction.Axis.Z) {
             return NORTH_SOUTH;
         }

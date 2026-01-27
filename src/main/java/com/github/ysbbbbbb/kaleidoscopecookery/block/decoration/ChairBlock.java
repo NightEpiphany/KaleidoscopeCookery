@@ -3,9 +3,11 @@ package com.github.ysbbbbbb.kaleidoscopecookery.block.decoration;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.ChairBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.entity.SitEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.BlockDrop;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -14,9 +16,7 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -36,6 +36,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 
@@ -43,6 +44,7 @@ import static com.github.ysbbbbbb.kaleidoscopecookery.util.CarpetColor.getCarpet
 import static com.github.ysbbbbbb.kaleidoscopecookery.util.CarpetColor.getColorByCarpet;
 
 public class ChairBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock {
+    public static final MapCodec<ChairBlock> CODEC = simpleCodec(p -> new ChairBlock());
     public static final BooleanProperty HAS_CARPET = BooleanProperty.create("has_carpet");
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
@@ -67,20 +69,27 @@ public class ChairBlock extends HorizontalDirectionalBlock implements SimpleWate
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor levelAccessor, BlockPos pos, BlockPos neighborPos) {
-        if (state.getValue(WATERLOGGED)) {
-            levelAccessor.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(levelAccessor));
-        }
-        return super.updateShape(state, direction, neighborState, levelAccessor, pos, neighborPos);
+    protected @NonNull MapCodec<? extends HorizontalDirectionalBlock> codec() {
+        return CODEC;
     }
 
+
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        ItemStack itemInHand = player.getItemInHand(hand);
-        if (hand == InteractionHand.MAIN_HAND && itemInHand.is(ItemTags.WOOL_CARPETS)) {
-            return useWithCarpets(state, level, pos, player, itemInHand);
-        } else {
-            return tryToSitOn(state, level, pos, player);
+    protected @NonNull BlockState updateShape(@NonNull BlockState state, @NonNull LevelReader levelReader, @NonNull ScheduledTickAccess scheduledTickAccess, @NonNull BlockPos blockPos, @NonNull Direction direction, @NonNull BlockPos neighborPos, @NonNull BlockState neighborState, @NonNull RandomSource randomSource) {
+        if (state.getValue(WATERLOGGED)) {
+            scheduledTickAccess.scheduleTick(blockPos, Fluids.WATER, Fluids.WATER.getTickDelay(levelReader));
+        }
+        return super.updateShape(state, levelReader, scheduledTickAccess, blockPos, direction, neighborPos, neighborState, randomSource);
+    }
+
+
+    @Override
+    protected @NonNull InteractionResult useItemOn(@NonNull ItemStack itemStack, @NonNull BlockState blockState, @NonNull Level level, @NonNull BlockPos blockPos, @NonNull Player player, @NonNull InteractionHand interactionHand, @NonNull BlockHitResult blockHitResult) {
+        ItemStack itemInHand = player.getItemInHand(interactionHand);
+        if (interactionHand == InteractionHand.MAIN_HAND && itemInHand.is(ItemTags.WOOL_CARPETS)) {
+            return useWithCarpets(blockState, level, blockPos, player, itemInHand);
+        }else {
+            return tryToSitOn(blockState, level, blockPos, player);
         }
     }
 
@@ -91,10 +100,10 @@ public class ChairBlock extends HorizontalDirectionalBlock implements SimpleWate
             SitEntity entitySit = new SitEntity(level, pos, 0.5125);
             entitySit.setYRot(state.getValue(FACING).toYRot());
             level.addFreshEntity(entitySit);
-            player.startRiding(entitySit, true);
+            player.startRiding(entitySit, true, false);
             return InteractionResult.SUCCESS;
         }
-        return InteractionResult.PASS;
+        return InteractionResult.TRY_WITH_EMPTY_HAND;
     }
 
     @NotNull
@@ -102,7 +111,7 @@ public class ChairBlock extends HorizontalDirectionalBlock implements SimpleWate
         @Nullable DyeColor dyeColor = getColorByCarpet(itemInHand.getItem());
         boolean hasCarpet = state.getValue(HAS_CARPET);
         if (dyeColor == null) {
-            return InteractionResult.PASS;
+            return InteractionResult.TRY_WITH_EMPTY_HAND;
         }
 
         // 第一种情况，椅子上没有地毯
@@ -132,16 +141,16 @@ public class ChairBlock extends HorizontalDirectionalBlock implements SimpleWate
             return InteractionResult.SUCCESS;
         }
 
-        return InteractionResult.PASS;
+        return InteractionResult.TRY_WITH_EMPTY_HAND;
     }
 
     @Override
-    public void destroy(LevelAccessor levelAccessor, BlockPos pos, BlockState state) {
+    public void destroy(LevelAccessor levelAccessor, @NonNull BlockPos pos, @NonNull BlockState state) {
         levelAccessor.getEntitiesOfClass(SitEntity.class, new AABB(pos)).forEach(Entity::discard);
     }
 
     @Override
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder lootParamsBuilder) {
+    public @NonNull List<ItemStack> getDrops(@NonNull BlockState state, LootParams.@NonNull Builder lootParamsBuilder) {
         List<ItemStack> drops = super.getDrops(state, lootParamsBuilder);
         BlockEntity parameter = lootParamsBuilder.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
         if (state.getValue(HAS_CARPET) && parameter instanceof ChairBlockEntity chairBlockEntity) {
@@ -166,12 +175,12 @@ public class ChairBlock extends HorizontalDirectionalBlock implements SimpleWate
     }
 
     @Override
-    public FluidState getFluidState(BlockState state) {
+    public @NonNull FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
+    public @NonNull VoxelShape getShape(BlockState state, @NonNull BlockGetter blockGetter, @NonNull BlockPos pos, @NonNull CollisionContext collisionContext) {
         return switch (state.getValue(FACING)) {
             case SOUTH -> SOUTH;
             case EAST -> EAST;
@@ -182,7 +191,7 @@ public class ChairBlock extends HorizontalDirectionalBlock implements SimpleWate
 
     @Override
     @Nullable
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+    public BlockEntity newBlockEntity(@NonNull BlockPos pos, BlockState state) {
         if (state.getValue(HAS_CARPET)) {
             return new ChairBlockEntity(pos, state);
         }

@@ -57,7 +57,7 @@ public class FluidSoupBaseRender implements ISoupBaseRender {
         }
         // 如果没有找到渲染处理器，使用默认水纹理作为后备
         TextureAtlas atlas = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS);
-        return atlas.getSprite(new ResourceLocation("minecraft", "block/water_still"));
+        return atlas.getSprite(ResourceLocation.fromNamespaceAndPath("minecraft", "block/water_still"));
     }
 
     private int getFluidColor(Fluid fluid) {

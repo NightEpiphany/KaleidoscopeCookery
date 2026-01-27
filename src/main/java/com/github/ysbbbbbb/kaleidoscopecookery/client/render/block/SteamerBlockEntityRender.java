@@ -18,7 +18,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
@@ -30,7 +29,7 @@ public class SteamerBlockEntityRender implements BlockEntityRenderer<SteamerBloc
     }
 
     @Override
-    public void render(@NotNull SteamerBlockEntity steamer, float partialTick, @NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight, int packedOverlay) {
+    public void render(SteamerBlockEntity steamer, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
         ClientLevel level = Minecraft.getInstance().level;
         if (level == null) {
             return;
@@ -50,7 +49,7 @@ public class SteamerBlockEntityRender implements BlockEntityRenderer<SteamerBloc
                 continue;
             }
             BakedModel model;
-            Map<ResourceLocation, ResourceLocation> map = ItemRenderReplacerReloadListener.INSTANCE.steamer();
+            Map<ResourceLocation, Object> map = ItemRenderReplacerReloadListener.INSTANCE.steamer();
             ResourceLocation key = BuiltInRegistries.ITEM.getKey(stack.getItem());
             boolean hasCustom = map.containsKey(key);
             model = ItemRenderReplacer.getModel(steamer.getLevel(), stack, map);

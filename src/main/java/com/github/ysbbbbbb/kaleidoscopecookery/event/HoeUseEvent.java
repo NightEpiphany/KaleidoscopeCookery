@@ -9,6 +9,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.ItemStack;
@@ -30,7 +31,7 @@ public class HoeUseEvent {
 
         // 判断是否为锄头
         if (!(stack.getItem() instanceof HoeItem)) {
-            return InteractionResult.PASS;
+            return InteractionResult.TRY_WITH_EMPTY_HAND;
         }
 
         BlockState state = level.getBlockState(pos);
@@ -38,7 +39,7 @@ public class HoeUseEvent {
 
         // 判断目标方块是否为泥土/草方块等
         if (!(block == Blocks.DIRT || block == Blocks.GRASS_BLOCK || block == Blocks.DIRT_PATH)) {
-            return InteractionResult.PASS;
+            return InteractionResult.TRY_WITH_EMPTY_HAND;
         }
 
         // 判断方块上方是否为水或含水
@@ -47,14 +48,14 @@ public class HoeUseEvent {
         boolean isWater = fluidState.is(FluidTags.WATER);
 
         if (!isWater) {
-            return InteractionResult.PASS;
+            return InteractionResult.TRY_WITH_EMPTY_HAND;
         }
 
         // 替换为耕地
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             level.setBlockAndUpdate(pos, Blocks.FARMLAND.defaultBlockState());
             level.playSound(null, pos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
-            stack.hurtAndBreak(1, player, (p) -> p.broadcastBreakEvent(hand));
+            stack.hurtAndBreak(1, player, hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
             ModTrigger.EVENT.trigger(player, ModEventTriggerType.USE_HOE_ON_WATER_FIELD);
         }
         return InteractionResult.SUCCESS;

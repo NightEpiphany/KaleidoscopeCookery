@@ -1,23 +1,26 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.mixin;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.SteamerBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.SteamerBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import com.google.common.collect.Lists;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.FallingBlockEntity;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.TagValueInput;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -39,12 +42,12 @@ public abstract class FallingBlockEntityMixin extends Entity {
             method = "tick",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/world/entity/item/FallingBlockEntity;spawnAtLocation(Lnet/minecraft/world/level/ItemLike;)Lnet/minecraft/world/entity/item/ItemEntity;",
+                    target = "Lnet/minecraft/world/entity/item/FallingBlockEntity;spawnAtLocation(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/level/ItemLike;)Lnet/minecraft/world/entity/item/ItemEntity;",
                     ordinal = 1
             ),
             cancellable = true
     )
-    private void onSpawnAtLocation(CallbackInfo ci, @Local(ordinal = 0) BlockPos pos) {
+    private void onSpawnAtLocation(CallbackInfo ci, @Local(ordinal = 0) BlockPos pos, @Local ServerLevel serverLevel) {
         FallingBlockEntity self = (FallingBlockEntity) (Object) this;
         BlockState blockState = self.getBlockState();
         // 如果是蒸笼
@@ -56,9 +59,9 @@ public abstract class FallingBlockEntityMixin extends Entity {
             }
             ci.cancel();
             // 换成自己的掉落物
-            List<ItemStack> drops = dropAsItem(blockState, self.blockData);
+            List<ItemStack> drops = dropAsItem(blockState, self.blockData, self.level());
             for (ItemStack drop : drops) {
-                self.spawnAtLocation(drop);
+                self.spawnAtLocation(serverLevel, drop);
             }
         }
     }
@@ -69,14 +72,14 @@ public abstract class FallingBlockEntityMixin extends Entity {
         int[] cookingProgress = new int[8];
         int[] cookingTime = new int[8];
         if (steamerTag != null) {
-            if (steamerTag.contains(SteamerBlockEntity.ITEMS_TAG, Tag.TAG_LIST)) {
-                ContainerHelper.loadAllItems(steamerTag, items);
+            if (steamerTag.getList(SteamerBlockEntity.ITEMS_TAG).isPresent()) {
+                ContainerHelper.loadAllItems(TagValueInput.create(ProblemReporter.DISCARDING, level.registryAccess(), steamerTag), items);
             }
-            if (steamerTag.contains(SteamerBlockEntity.COOKING_PROGRESS_TAG, Tag.TAG_INT_ARRAY)) {
-                cookingProgress = steamerTag.getIntArray(SteamerBlockEntity.COOKING_PROGRESS_TAG);
+            if (steamerTag.getIntArray(SteamerBlockEntity.COOKING_PROGRESS_TAG).isPresent()) {
+                cookingProgress = steamerTag.getIntArray(SteamerBlockEntity.COOKING_PROGRESS_TAG).get();
             }
-            if (steamerTag.contains(SteamerBlockEntity.COOKING_TIME_TAG, Tag.TAG_INT_ARRAY)) {
-                cookingTime = steamerTag.getIntArray(SteamerBlockEntity.COOKING_TIME_TAG);
+            if (steamerTag.getIntArray(SteamerBlockEntity.COOKING_TIME_TAG).isPresent()) {
+                cookingTime = steamerTag.getIntArray(SteamerBlockEntity.COOKING_TIME_TAG).get();
             }
         }
         level.setBlock(pos, level.getBlockState(pos).setValue(HALF, false), Block.UPDATE_ALL);
@@ -101,25 +104,25 @@ public abstract class FallingBlockEntityMixin extends Entity {
     }
 
     @Unique
-    public List<ItemStack> dropAsItem(BlockState blockState, @Nullable CompoundTag steamerTag) {
+    public List<ItemStack> dropAsItem(BlockState blockState, @Nullable CompoundTag steamerTag, Level level) {
         NonNullList<ItemStack> items = NonNullList.withSize(8, ItemStack.EMPTY);
         int[] cookingProgress = new int[8];
         int[] cookingTime = new int[8];
         if (steamerTag != null) {
-            if (steamerTag.contains(SteamerBlockEntity.ITEMS_TAG, Tag.TAG_LIST)) {
-                ContainerHelper.loadAllItems(steamerTag, items);
+            if (steamerTag.getList(SteamerBlockEntity.ITEMS_TAG).isPresent()) {
+                ContainerHelper.loadAllItems(TagValueInput.create(ProblemReporter.DISCARDING, level.registryAccess(), steamerTag), items);
             }
-            if (steamerTag.contains(SteamerBlockEntity.COOKING_PROGRESS_TAG, Tag.TAG_INT_ARRAY)) {
-                cookingProgress = steamerTag.getIntArray(SteamerBlockEntity.COOKING_PROGRESS_TAG);
+            if (steamerTag.getIntArray(SteamerBlockEntity.COOKING_PROGRESS_TAG).isPresent()) {
+                cookingProgress = steamerTag.getIntArray(SteamerBlockEntity.COOKING_PROGRESS_TAG).get();
             }
-            if (steamerTag.contains(SteamerBlockEntity.COOKING_TIME_TAG, Tag.TAG_INT_ARRAY)) {
-                cookingTime = steamerTag.getIntArray(SteamerBlockEntity.COOKING_TIME_TAG);
+            if (steamerTag.getIntArray(SteamerBlockEntity.COOKING_TIME_TAG).isPresent()) {
+                cookingTime = steamerTag.getIntArray(SteamerBlockEntity.COOKING_TIME_TAG).get();
             }
         }
 
         List<ItemStack> drops = Lists.newArrayList();
         // 先看看是单层还是双层
-        boolean half = blockState.getValue(HALF);
+        boolean half = blockState.getValue(SteamerBlock.HALF);
         // 全为空？那么直接返回
         ItemStack first = ModItems.STEAMER.getDefaultInstance();
         if (items.stream().allMatch(ItemStack::isEmpty)) {
@@ -133,14 +136,14 @@ public abstract class FallingBlockEntityMixin extends Entity {
         // 只需要保存物品和进度即可
         CompoundTag tag1 = new CompoundTag();
         CompoundTag tag2 = new CompoundTag();
-        SteamerBlockEntity.saveSplit(tag1, tag2, items, cookingProgress, cookingTime);
+        SteamerBlockEntity.saveSplit(tag1, tag2, level, items, cookingProgress, cookingTime);
 
-        BlockItem.setBlockEntityData(first, ModBlocks.STEAMER_BE, tag1);
+        PortHelper.setBlockEntityData(first, ModBlocks.STEAMER_BE, tag1, level);
         drops.add(first);
 
         if (!half) {
             ItemStack second = ModItems.STEAMER.getDefaultInstance();
-            BlockItem.setBlockEntityData(second, ModBlocks.STEAMER_BE, tag2);
+            PortHelper.setBlockEntityData(second, ModBlocks.STEAMER_BE, tag2, level);
             drops.add(second);
         }
         return drops;

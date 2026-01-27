@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.joml.Matrix4f;
 
 public interface ISoupBaseRender {
@@ -22,7 +22,6 @@ public interface ISoupBaseRender {
      * @param y         汤底的高度
      */
     static void renderSurface(TextureAtlasSprite sprite, int color, PoseStack poseStack, MultiBufferSource buffer, int light, float y) {
-        // FIXME：有问题，不能支持半透明渲染
         VertexConsumer vertexConsumer = buffer.getBuffer(Sheets.solidBlockSheet());
         Matrix4f matrix = poseStack.last().pose();
 
@@ -30,34 +29,30 @@ public interface ISoupBaseRender {
         float min = 3 / 16f, max = 1 - 3 / 16f;
 
         // 渲染一个平面
-        vertexConsumer.vertex(matrix, min, y, min)
-                .color(color)
-                .uv(sprite.getU0(), sprite.getV0())
-                .overlayCoords(OverlayTexture.NO_OVERLAY)
-                .uv2(light)
-                .normal(0, 1, 0)
-                .endVertex();
-        vertexConsumer.vertex(matrix, min, y, max)
-                .color(color)
-                .uv(sprite.getU0(), sprite.getV(10))
-                .overlayCoords(OverlayTexture.NO_OVERLAY)
-                .uv2(light)
-                .normal(0, 1, 0)
-                .endVertex();
-        vertexConsumer.vertex(matrix, max, y, max)
-                .color(color)
-                .uv(sprite.getU(10), sprite.getV(10))
-                .overlayCoords(OverlayTexture.NO_OVERLAY)
-                .uv2(light)
-                .normal(0, 1, 0)
-                .endVertex();
-        vertexConsumer.vertex(matrix, max, y, min)
-                .color(color)
-                .uv(sprite.getU(10), sprite.getV0())
-                .overlayCoords(OverlayTexture.NO_OVERLAY)
-                .uv2(light)
-                .normal(0, 1, 0)
-                .endVertex();
+        vertexConsumer.addVertex(matrix, min, y, min)
+                .setColor(color)
+                .setUv(sprite.getU0(), sprite.getV0())
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(light)
+                .setNormal(0, 1, 0);
+        vertexConsumer.addVertex(matrix, min, y, max)
+                .setColor(color)
+                .setUv(sprite.getU0(), sprite.getV(10 / 16f))
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(light)
+                .setNormal(0, 1, 0);
+        vertexConsumer.addVertex(matrix, max, y, max)
+                .setColor(color)
+                .setUv(sprite.getU(10 / 16f), sprite.getV(10 / 16f))
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(light)
+                .setNormal(0, 1, 0);
+        vertexConsumer.addVertex(matrix, max, y, min)
+                .setColor(color)
+                .setUv(sprite.getU(10 / 16f), sprite.getV0())
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(light)
+                .setNormal(0, 1, 0);
     }
 
     /**
@@ -77,7 +72,7 @@ public interface ISoupBaseRender {
      */
     void renderWhenCooking(StockpotBlockEntity stockpot, float partialTick, PoseStack poseStack,
                            MultiBufferSource buffer, int packedLight, int packedOverlay,
-                           ResourceLocation cookingTexture, float soupHeight);
+                           Identifier cookingTexture, float soupHeight);
 
     /**
      * 烹饪完成后的汤底渲染
@@ -87,5 +82,5 @@ public interface ISoupBaseRender {
      */
     void renderWhenFinished(StockpotBlockEntity stockpot, float partialTick, PoseStack poseStack,
                             MultiBufferSource buffer, int packedLight, int packedOverlay,
-                            ResourceLocation finishedTexture, float soupHeight);
+                            Identifier finishedTexture, float soupHeight);
 }

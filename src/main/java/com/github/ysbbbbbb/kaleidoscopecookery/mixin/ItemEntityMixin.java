@@ -15,22 +15,27 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ItemEntity.class)
 public abstract class ItemEntityMixin extends Entity {
+    public ItemEntityMixin(EntityType<?> entityType, Level level) {
+        super(entityType, level);
+    }
+
     @Shadow
     public abstract ItemStack getItem();
 
     @Shadow
     public abstract void setItem(ItemStack stack);
 
-    public ItemEntityMixin(EntityType<?> entityType, Level level) {
-        super(entityType, level);
-    }
+
 
     @Inject(method = "tick()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/item/ItemEntity;updateInWaterStateAndDoFluidPushing()Z", shift = At.Shift.AFTER))
-    private void onTick(CallbackInfo ci) {
+    private void tick(CallbackInfo ci) {
         if (this.tickCount % 10 == 0) {
+            if (this.level().isClientSide()) return;
             if (this.getItem().getItem() instanceof FlourItem && this.isInWater()) {
                 this.setItem(new ItemStack(ModItems.RAW_DOUGH, this.getItem().getCount()));
             }
         }
     }
+
+
 }

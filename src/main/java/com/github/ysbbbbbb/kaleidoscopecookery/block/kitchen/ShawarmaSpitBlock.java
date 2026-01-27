@@ -4,42 +4,42 @@ import com.github.ysbbbbbb.kaleidoscopecookery.api.blockentity.IShawarmaSpit;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.ShawarmaSpitBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.google.common.collect.Lists;
-import net.minecraft.ChatFormatting;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 
 public class ShawarmaSpitBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock {
+    public static final MapCodec<ShawarmaSpitBlock> CODEC = simpleCodec(p -> new ShawarmaSpitBlock());
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
@@ -54,7 +54,7 @@ public class ShawarmaSpitBlock extends HorizontalDirectionalBlock implements Sim
     );
 
     public ShawarmaSpitBlock() {
-        super(BlockBehaviour.Properties.of()
+        super(Properties.of()
                 .mapColor(MapColor.METAL)
                 .noOcclusion()
                 .instrument(NoteBlockInstrument.BASS)
@@ -69,34 +69,8 @@ public class ShawarmaSpitBlock extends HorizontalDirectionalBlock implements Sim
     }
 
     @Override
-    public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
-        if (!level.isClientSide && player.isCreative()) {
-            if (state.getValue(HALF) == DoubleBlockHalf.UPPER) {
-                BlockPos below = pos.below();
-                BlockState belowState = level.getBlockState(below);
-                if (belowState.is(state.getBlock()) && belowState.getValue(HALF) == DoubleBlockHalf.LOWER) {
-                    dropCookItems(level, below);
-                    BlockState airBlockState = belowState.getFluidState().is(Fluids.WATER) ? Blocks.WATER.defaultBlockState() : Blocks.AIR.defaultBlockState();
-                    level.setBlock(below, airBlockState, Block.UPDATE_SUPPRESS_DROPS | Block.UPDATE_ALL);
-                    level.levelEvent(player, LevelEvent.PARTICLES_DESTROY_BLOCK, below, Block.getId(belowState));
-                }
-            } else {
-                dropCookItems(level, pos);
-            }
-        }
-        super.playerWillDestroy(level, pos, state, player);
-    }
-
-    private void dropCookItems(Level level, BlockPos pos) {
-        if (level.getBlockEntity(pos) instanceof ShawarmaSpitBlockEntity shawarmaSpit) {
-            if (!shawarmaSpit.cookingItem.isEmpty()) {
-                popResource(level, pos, shawarmaSpit.cookingItem.copy());
-                shawarmaSpit.cookingItem = ItemStack.EMPTY;
-            } else if (!shawarmaSpit.cookedItem.isEmpty()) {
-                popResource(level, pos, shawarmaSpit.cookedItem.copy());
-                shawarmaSpit.cookedItem = ItemStack.EMPTY;
-            }
-        }
+    protected @NotNull MapCodec<? extends HorizontalDirectionalBlock> codec() {
+        return CODEC;
     }
 
     @Nullable
@@ -107,7 +81,7 @@ public class ShawarmaSpitBlock extends HorizontalDirectionalBlock implements Sim
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+    public @NotNull InteractionResult useItemOn(@NonNull ItemStack stack, @NonNull BlockState state, @NonNull Level level, @NonNull BlockPos pos, Player player, @NonNull InteractionHand hand, @NonNull BlockHitResult hitResult) {
         if (player.isShiftKeyDown()) {
             return InteractionResult.PASS;
         }
@@ -124,8 +98,7 @@ public class ShawarmaSpitBlock extends HorizontalDirectionalBlock implements Sim
     }
 
     @Override
-    @Nullable
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NonNull Level level, @NonNull BlockState state, @NonNull BlockEntityType<T> blockEntityType) {
         return createTickerHelper(blockEntityType, ModBlocks.SHAWARMA_SPIT_BE, (levelIn, blockPos, blockState, spit) -> {
             if (blockState.getValue(POWERED)) {
                 spit.tick();
@@ -134,14 +107,23 @@ public class ShawarmaSpitBlock extends HorizontalDirectionalBlock implements Sim
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
+    public @NotNull VoxelShape getShape(BlockState state, @NonNull BlockGetter blockGetter, @NonNull BlockPos pos, @NonNull CollisionContext collisionContext) {
         return state.getValue(HALF) == DoubleBlockHalf.LOWER ? LOWER_AABB : UPPER_AABB;
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor levelAccessor, BlockPos currentPos, BlockPos neighborPos) {
+    public @NotNull BlockState updateShape(
+            @NonNull BlockState state,
+            @NonNull LevelReader levelReader,
+            @NonNull ScheduledTickAccess scheduledTickAccess,
+            @NonNull BlockPos blockPos,
+            @NonNull Direction direction,
+            @NonNull BlockPos neighborPos,
+            @NonNull BlockState neighborState,
+            @NonNull RandomSource randomSource
+    ) {
         if (state.getValue(WATERLOGGED)) {
-            levelAccessor.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(levelAccessor));
+            scheduledTickAccess.scheduleTick(blockPos, Fluids.WATER, Fluids.WATER.getTickDelay(levelReader));
         }
         DoubleBlockHalf half = state.getValue(HALF);
         boolean isLowerHalf = half == DoubleBlockHalf.LOWER && direction == Direction.UP;
@@ -153,25 +135,55 @@ public class ShawarmaSpitBlock extends HorizontalDirectionalBlock implements Sim
             }
             return Blocks.AIR.defaultBlockState();
         }
-        return super.updateShape(state, direction, neighborState, levelAccessor, currentPos, neighborPos);
+        return super.updateShape(state, levelReader, scheduledTickAccess, blockPos, direction, neighborPos, neighborState, randomSource);
     }
 
     @Override
-    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
+    protected void neighborChanged(BlockState state, Level level, @NonNull BlockPos blockPos, @NonNull Block block, @Nullable Orientation orientation, boolean bl) {
         Direction direction = state.getValue(HALF) == DoubleBlockHalf.LOWER ? Direction.UP : Direction.DOWN;
-        boolean powered = level.hasNeighborSignal(pos) || level.hasNeighborSignal(pos.relative(direction));
+        boolean powered = level.hasNeighborSignal(blockPos) || level.hasNeighborSignal(blockPos.relative(direction));
         if (!state.is(block) && powered != state.getValue(POWERED)) {
-            level.setBlock(pos, state.setValue(POWERED, powered), Block.UPDATE_CLIENTS);
+            level.setBlock(blockPos, state.setValue(POWERED, powered), Block.UPDATE_CLIENTS);
         }
     }
 
     @Override
-    @Nullable
+    public @NotNull BlockState playerWillDestroy(Level level, @NonNull BlockPos pos, @NonNull BlockState state, @NonNull Player player) {
+        if (!level.isClientSide() && player.isCreative()) {
+            if (state.getValue(HALF) == DoubleBlockHalf.UPPER) {
+                BlockPos below = pos.below();
+                BlockState belowState = level.getBlockState(below);
+                if (belowState.is(state.getBlock()) && belowState.getValue(HALF) == DoubleBlockHalf.LOWER) {
+                    dropCookItems(level, below);
+                    BlockState airBlockState = belowState.getFluidState().is(Fluids.WATER) ? Blocks.WATER.defaultBlockState() : Blocks.AIR.defaultBlockState();
+                    level.setBlock(below, airBlockState, Block.UPDATE_SUPPRESS_DROPS | Block.UPDATE_ALL);
+                    level.levelEvent(player, LevelEvent.PARTICLES_DESTROY_BLOCK, below, Block.getId(belowState));
+                }
+            } else {
+                dropCookItems(level, pos);
+            }
+        }
+        return super.playerWillDestroy(level, pos, state, player);
+    }
+
+    private void dropCookItems(Level level, BlockPos pos) {
+        if (level.getBlockEntity(pos) instanceof ShawarmaSpitBlockEntity shawarmaSpit) {
+            if (!shawarmaSpit.cookingItem.isEmpty()) {
+                popResource(level, pos, shawarmaSpit.cookingItem.copy());
+                shawarmaSpit.cookingItem = ItemStack.EMPTY;
+            } else if (!shawarmaSpit.cookedItem.isEmpty()) {
+                popResource(level, pos, shawarmaSpit.cookedItem.copy());
+                shawarmaSpit.cookedItem = ItemStack.EMPTY;
+            }
+        }
+    }
+
+    @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         BlockPos pos = context.getClickedPos();
         Level level = context.getLevel();
         FluidState fluidState = context.getLevel().getFluidState(pos);
-        if (pos.getY() < level.getMaxBuildHeight() - 1 && level.getBlockState(pos.above()).canBeReplaced(context)) {
+        if (pos.getY() < level.getMaxY() - 1 && level.getBlockState(pos.above()).canBeReplaced(context)) {
             boolean isPowered = level.hasNeighborSignal(pos) || level.hasNeighborSignal(pos.above());
             return this.defaultBlockState()
                     .setValue(FACING, context.getHorizontalDirection())
@@ -183,7 +195,7 @@ public class ShawarmaSpitBlock extends HorizontalDirectionalBlock implements Sim
     }
 
     @Override
-    public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+    public void setPlacedBy(Level level, @NonNull BlockPos pos, BlockState state, LivingEntity placer, @NonNull ItemStack stack) {
         FluidState fluidState = level.getFluidState(pos);
         BlockState blockState = state.setValue(HALF, DoubleBlockHalf.UPPER)
                 .setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER);
@@ -191,7 +203,7 @@ public class ShawarmaSpitBlock extends HorizontalDirectionalBlock implements Sim
     }
 
     @Override
-    public FluidState getFluidState(BlockState state) {
+    public @NotNull FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
@@ -201,13 +213,12 @@ public class ShawarmaSpitBlock extends HorizontalDirectionalBlock implements Sim
     }
 
     @Override
-    @Nullable
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+    public BlockEntity newBlockEntity(@NonNull BlockPos pos, @NonNull BlockState state) {
         return new ShawarmaSpitBlockEntity(pos, state);
     }
 
     @Override
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder lootParamsBuilder) {
+    public @NotNull List<ItemStack> getDrops(BlockState state, LootParams.@NonNull Builder lootParamsBuilder) {
         List<ItemStack> drops;
         if (state.getValue(HALF) == DoubleBlockHalf.LOWER) {
             drops = super.getDrops(state, lootParamsBuilder);
@@ -223,10 +234,5 @@ public class ShawarmaSpitBlock extends HorizontalDirectionalBlock implements Sim
             }
         }
         return drops;
-    }
-
-    @Override
-    public void appendHoverText(ItemStack stack, @org.jetbrains.annotations.Nullable BlockGetter level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.translatable("tooltip.kaleidoscope_cookery.shawarma_spit").withStyle(ChatFormatting.GRAY));
     }
 }

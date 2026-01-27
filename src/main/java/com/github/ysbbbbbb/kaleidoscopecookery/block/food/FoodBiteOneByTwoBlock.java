@@ -3,13 +3,16 @@ package com.github.ysbbbbbb.kaleidoscopecookery.block.food;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.FoodBiteAnimateTicks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LevelEvent;
@@ -20,6 +23,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.storage.loot.LootParams;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -29,14 +33,15 @@ public class FoodBiteOneByTwoBlock extends FoodBiteBlock {
     public static final int LEFT = 0;
     public static final int RIGHT = 1;
 
-    public FoodBiteOneByTwoBlock(FoodProperties foodProperties, int maxBites,
+    public FoodBiteOneByTwoBlock(FoodProperties foodProperties, Consumable consumable, int maxBites,
                                  @Nullable FoodBiteAnimateTicks.AnimateTick animateTick) {
-        super(foodProperties, maxBites, animateTick);
+        super(foodProperties, consumable, maxBites, animateTick);
         this.registerDefaultState(this.stateDefinition.any().setValue(bites, 0).setValue(FACING, Direction.SOUTH).setValue(POSITION, RIGHT));
     }
 
+
     @Override
-    public @NotNull BlockState updateShape(BlockState state, @NotNull Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+    protected @NonNull BlockState updateShape(@NonNull BlockState state, @NonNull LevelReader levelReader, @NonNull ScheduledTickAccess scheduledTickAccess, @NonNull BlockPos blockPos, @NonNull Direction direction, @NonNull BlockPos blockPos2, @NonNull BlockState neighborState, @NonNull RandomSource randomSource) {
         int position = state.getValue(POSITION);
         Direction facing = state.getValue(FACING);
 
@@ -53,13 +58,12 @@ public class FoodBiteOneByTwoBlock extends FoodBiteBlock {
                 return state.setValue(bites, neighborBites);
             }
         }
-
-        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
+        return super.updateShape(state, levelReader, scheduledTickAccess, blockPos, direction, blockPos2, neighborState, randomSource);
     }
 
     @Override
-    public void playerWillDestroy(Level level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Player player) {
-        if (!level.isClientSide && player.isCreative() && state.getValue(POSITION) == LEFT) {
+    public @NonNull BlockState playerWillDestroy(Level level, @NonNull BlockPos pos, @NonNull BlockState state, @NonNull Player player) {
+        if (!level.isClientSide() && player.isCreative() && state.getValue(POSITION) == LEFT) {
             BlockPos right = pos.relative(state.getValue(FACING).getCounterClockWise());
             BlockState rightState = level.getBlockState(right);
             if (rightState.is(state.getBlock()) && rightState.getValue(POSITION) == RIGHT) {
@@ -68,7 +72,7 @@ public class FoodBiteOneByTwoBlock extends FoodBiteBlock {
                 level.levelEvent(player, LevelEvent.PARTICLES_DESTROY_BLOCK, right, Block.getId(rightState));
             }
         }
-        super.playerWillDestroy(level, pos, state, player);
+        return super.playerWillDestroy(level, pos, state, player);
     }
 
     @Nullable
@@ -87,7 +91,7 @@ public class FoodBiteOneByTwoBlock extends FoodBiteBlock {
     }
 
     @Override
-    public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, LivingEntity pPlacer, ItemStack pStack) {
+    public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, LivingEntity pPlacer, @NonNull ItemStack pStack) {
         Direction facing = pState.getValue(FACING);
         BlockPos leftPos = pPos.relative(facing.getClockWise());
         BlockState leftState = pState.setValue(POSITION, LEFT);
@@ -105,7 +109,7 @@ public class FoodBiteOneByTwoBlock extends FoodBiteBlock {
     }
 
     @Override
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder pParams) {
+    public @NotNull List<ItemStack> getDrops(BlockState state, LootParams.@NonNull Builder pParams) {
         // 左侧不掉落
         if (state.getValue(POSITION) == LEFT) {
             return Collections.emptyList();

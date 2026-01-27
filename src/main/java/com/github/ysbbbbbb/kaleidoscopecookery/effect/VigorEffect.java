@@ -1,7 +1,9 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.effect;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import org.jspecify.annotations.NonNull;
 
 public class VigorEffect extends BaseEffect {
     public VigorEffect(int color) {
@@ -9,14 +11,15 @@ public class VigorEffect extends BaseEffect {
     }
 
     @Override
-    public boolean isDurationEffectTick(int duration, int amplifier) {
+    public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
         return true;
     }
 
     @Override
-    public void applyEffectTick(LivingEntity livingEntity, int amplifier) {
+    public boolean applyEffectTick(@NonNull ServerLevel serverLevel, @NonNull LivingEntity livingEntity, int amplifier) {
         if (livingEntity instanceof Player player && player.isSprinting()) {
-            player.getFoodData().setExhaustion(0);
+            player.getFoodData().addExhaustion(0);
         }
+        return true;
     }
 }

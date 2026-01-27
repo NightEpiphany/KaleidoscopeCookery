@@ -1,10 +1,12 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.effect;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 public class BaseEffect extends MobEffect {
     public BaseEffect(MobEffectCategory category, int color) {
@@ -16,16 +18,11 @@ public class BaseEffect extends MobEffect {
     }
 
     @Override
-    public void applyEffectTick(LivingEntity livingEntity, int amplifier) {
+    public boolean applyEffectTick(@NonNull ServerLevel serverLevel, @NonNull LivingEntity livingEntity, int i) {
+        return true;
     }
 
     @Override
-    public void applyInstantenousEffect(@Nullable Entity source, @Nullable Entity indirectSource,
-                                        LivingEntity livingEntity, int amplifier, double health) {
-    }
-
-    @Override
-    public boolean isDurationEffectTick(int duration, int amplifier) {
-        return false;
+    public void applyInstantenousEffect(@NonNull ServerLevel serverLevel, @Nullable Entity entity, @Nullable Entity entity2, @NonNull LivingEntity livingEntity, int i, double d) {
     }
 }

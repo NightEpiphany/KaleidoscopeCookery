@@ -1,5 +1,6 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.advancements.critereon;
 
+
 public interface ModEventTriggerType {
     String USE_CHOPPING_BOARD = "use_chopping_board";
     String USE_HOE_ON_WATER_FIELD = "use_hoe_on_water_field";

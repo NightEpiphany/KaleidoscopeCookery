@@ -1,8 +1,10 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.effect;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Phantom;
 import net.minecraft.world.phys.AABB;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 
@@ -12,12 +14,12 @@ public class SulfurEffect extends BaseEffect {
     }
 
     @Override
-    public boolean isDurationEffectTick(int duration, int amplifier) {
+    public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
         return duration % 5 == 0;
     }
 
     @Override
-    public void applyEffectTick(LivingEntity livingEntity, int amplifier) {
+    public boolean applyEffectTick(@NonNull ServerLevel serverLevel, @NonNull LivingEntity livingEntity, int amplifier) {
         AABB aabb = new AABB(livingEntity.blockPosition()).inflate(8, 16, 8);
         List<Phantom> list = livingEntity.level().getEntitiesOfClass(Phantom.class, aabb);
         for (Phantom phantom : list) {
@@ -25,5 +27,6 @@ public class SulfurEffect extends BaseEffect {
                 phantom.setTarget(null);
             }
         }
+        return true;
     }
 }

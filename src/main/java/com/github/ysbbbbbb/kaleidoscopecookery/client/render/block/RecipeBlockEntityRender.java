@@ -1,15 +1,17 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.render.block;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.RecipeBlockEntity;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.ModDataComponents;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.RecipeItem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
@@ -26,19 +28,20 @@ public class RecipeBlockEntityRender implements BlockEntityRenderer<RecipeBlockE
     @Override
     public void render(RecipeBlockEntity recipeBlock, float pPartialTick, PoseStack poseStack,
                        MultiBufferSource buffer, int packedLight, int packedOverlay) {
-        ItemStack stack = recipeBlock.getItems().get(0);
+        ClientLevel level = Minecraft.getInstance().level;
+        if (level == null) {
+            return;
+        }
+        ItemStack stack = recipeBlock.getItems().getStackInSlot(0);
         if (stack.isEmpty()) {
             return;
         }
-        CompoundTag tag = stack.getTag();
-        if (tag == null || !tag.contains(RecipeItem.RECIPE_TAG)) {
+        RecipeItem.RecipeRecord record = stack.get(ModDataComponents.RECIPE_RECORD);
+        if (record == null) {
             return;
         }
-        CompoundTag recipeTag = tag.getCompound(RecipeItem.RECIPE_TAG);
-        if (!recipeTag.contains(RecipeItem.OUTPUT)) {
-            return;
-        }
-        ItemStack output = ItemStack.of(recipeTag.getCompound(RecipeItem.OUTPUT));
+
+        ItemStack output = record.output();
         Direction facing = recipeBlock.getBlockState().getValue(HorizontalDirectionalBlock.FACING);
         AttachFace attachFace = recipeBlock.getBlockState().getValue(BlockStateProperties.ATTACH_FACE);
 

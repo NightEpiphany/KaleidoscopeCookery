@@ -1,65 +1,46 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.crafting.serializer;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.PotRecipe;
-import com.google.common.collect.Lists;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.ShapedRecipe;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
+import org.jspecify.annotations.NonNull;
 
 public class PotRecipeSerializer implements RecipeSerializer<PotRecipe> {
+    public static final MapCodec<PotRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
+            instance.group(
+                    Codec.INT.optionalFieldOf("time", 200).forGetter(PotRecipe::time),
+                    Codec.INT.optionalFieldOf("stir_fry_count", 3).forGetter(PotRecipe::stirFryCount),
+                    Ingredient.CODEC.optionalFieldOf("carrier", Ingredient.of(ItemStack.EMPTY.getItem())).forGetter(PotRecipe::carrier),
+                    Ingredient.CODEC.listOf().fieldOf("ingredients").xmap(
+                            list -> list,
+                            list -> list.stream().filter(i -> !i.isEmpty()).toList()
+                    ).forGetter(recipe -> recipe.ingredients().stream().toList()),
+                    ItemStack.CODEC.fieldOf("result").forGetter(PotRecipe::result)
+            ).apply(instance, PotRecipe::new)
+    );
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, PotRecipe> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.INT, PotRecipe::time,
+            ByteBufCodecs.INT, PotRecipe::stirFryCount,
+            Ingredient.CONTENTS_STREAM_CODEC, PotRecipe::carrier,
+            Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()), PotRecipe::ingredients,
+            ItemStack.STREAM_CODEC, PotRecipe::result,
+            PotRecipe::new);
+
     @Override
-    public PotRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
-        int time = GsonHelper.getAsInt(json, "time", 200);
-        int stirFryCount = GsonHelper.getAsInt(json, "stir_fry_count", 3);
-
-        Ingredient carrier;
-        if (json.has("carrier")) {
-            carrier = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "carrier"));
-        } else {
-            carrier = Ingredient.EMPTY;
-        }
-
-        JsonArray ingredients = GsonHelper.getAsJsonArray(json, "ingredients");
-        List<Ingredient> inputs = Lists.newArrayList();
-        for (JsonElement e : ingredients) {
-            inputs.add(Ingredient.fromJson(e));
-        }
-        ItemStack result = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
-        return new PotRecipe(recipeId, time, stirFryCount, carrier, inputs, result);
+    public @NonNull MapCodec<PotRecipe> codec() {
+        return CODEC;
     }
 
     @Override
-    @Nullable
-    public PotRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buf) {
-        int time = buf.readVarInt();
-        int stirFryCount = buf.readVarInt();
-        Ingredient carrier = Ingredient.fromNetwork(buf);
-        int ingredientsSize = buf.readVarInt();
-        List<Ingredient> inputs = Lists.newArrayList();
-        for (int i = 0; i < ingredientsSize; i++) {
-            inputs.add(Ingredient.fromNetwork(buf));
-        }
-        ItemStack result = buf.readItem();
-        return new PotRecipe(recipeId, time, stirFryCount, carrier, inputs, result);
-    }
-
-    @Override
-    public void toNetwork(FriendlyByteBuf buf, PotRecipe recipe) {
-        buf.writeVarInt(recipe.time());
-        buf.writeVarInt(recipe.stirFryCount());
-        recipe.carrier().toNetwork(buf);
-        buf.writeVarInt(recipe.getIngredients().size());
-        recipe.getIngredients().forEach(i -> i.toNetwork(buf));
-        buf.writeItem(recipe.result());
+    public @NonNull StreamCodec<RegistryFriendlyByteBuf, PotRecipe> streamCodec() {
+        return STREAM_CODEC;
     }
 }

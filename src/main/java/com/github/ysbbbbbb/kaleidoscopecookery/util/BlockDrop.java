@@ -1,12 +1,13 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.util;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.gamerules.GameRules;
 
 public final class BlockDrop {
     private BlockDrop() {
@@ -14,7 +15,7 @@ public final class BlockDrop {
     }
 
     public static void popResource(Level level, BlockPos pos, double yOffset, ItemStack stack) {
-        if (!level.isClientSide && !stack.isEmpty() && level.getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS)) {
+        if (!level.isClientSide() && level instanceof ServerLevel serverLevel && !stack.isEmpty() && serverLevel.getGameRules().get(GameRules.BLOCK_DROPS)) {
             double itemHalfHeight = EntityType.ITEM.getHeight() / 2.0;
             double range = 0.1;
             double x = pos.getX() + 0.5 + Mth.nextDouble(level.random, -range, range);

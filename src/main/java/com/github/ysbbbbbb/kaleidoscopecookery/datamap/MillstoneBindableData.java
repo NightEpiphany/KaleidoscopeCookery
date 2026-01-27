@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.phys.Vec3;
 
@@ -17,9 +17,9 @@ public record MillstoneBindableData(int rotSpeedTick, float liftAngle, Vec3 offs
             Vec3.CODEC.optionalFieldOf("offset", Vec3.ZERO).forGetter(MillstoneBindableData::offset)
     ).apply(instance, MillstoneBindableData::new));
 
-    private static final Codec<EntityType<?>> ENTITY_TYPE_CODEC = ResourceLocation.CODEC.comapFlatMap(id -> {
-        EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.get(id);
-        return type != null ? DataResult.success(type) : DataResult.error(() -> "Unknown entity type: " + id);
+    private static final Codec<EntityType<?>> ENTITY_TYPE_CODEC = Identifier.CODEC.comapFlatMap(id -> {
+        EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.getValue(id);
+        return DataResult.success(type);
     }, BuiltInRegistries.ENTITY_TYPE::getKey);
 
     public static final Codec<Map<EntityType<?>, MillstoneBindableData>> CODEC = Codec.unboundedMap(ENTITY_TYPE_CODEC, MillstoneBindableData.DATA_CODEC);

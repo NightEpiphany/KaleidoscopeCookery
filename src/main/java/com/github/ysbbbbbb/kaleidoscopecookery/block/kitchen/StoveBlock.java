@@ -4,11 +4,10 @@ import com.github.ysbbbbbb.kaleidoscopecookery.advancements.critereon.ModEventTr
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTrigger;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
-import net.minecraft.ChatFormatting;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -16,17 +15,16 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -36,14 +34,15 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
+import org.jspecify.annotations.NonNull;
 
 import static com.github.ysbbbbbb.kaleidoscopecookery.item.KitchenShovelItem.hasOil;
 import static com.github.ysbbbbbb.kaleidoscopecookery.item.KitchenShovelItem.setHasOil;
 
 public class StoveBlock extends HorizontalDirectionalBlock {
+    public static final MapCodec<StoveBlock> CODEC = simpleCodec(p -> new StoveBlock());
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
 
     public StoveBlock() {
@@ -60,7 +59,12 @@ public class StoveBlock extends HorizontalDirectionalBlock {
     }
 
     @Override
-    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+    protected @NonNull MapCodec<? extends HorizontalDirectionalBlock> codec() {
+        return CODEC;
+    }
+
+    @Override
+    public void animateTick(BlockState state, @NonNull Level level, @NonNull BlockPos pos, @NonNull RandomSource random) {
         if (state.getValue(LIT)) {
             double x = pos.getX() + 0.5;
             double y = pos.getY() + 0.5;
@@ -95,7 +99,7 @@ public class StoveBlock extends HorizontalDirectionalBlock {
     }
 
     @Override
-    public void randomTick(BlockState blockState, ServerLevel level, BlockPos pos, RandomSource random) {
+    public void randomTick(BlockState blockState, @NonNull ServerLevel level, @NonNull BlockPos pos, @NonNull RandomSource random) {
         if (blockState.getValue(LIT) && level.isRainingAt(pos.above())) {
             level.setBlockAndUpdate(pos, blockState.setValue(LIT, false));
             level.playSound(null, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -103,16 +107,43 @@ public class StoveBlock extends HorizontalDirectionalBlock {
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor levelAccessor, BlockPos pos, BlockPos neighborPos) {
+    public void stepOn(@NonNull Level level, @NonNull BlockPos pos, BlockState state, @NonNull Entity entity) {
+        if (state.getValue(LIT)
+            && level instanceof ServerLevel serverLevel
+            && entity instanceof LivingEntity livingEntity
+            && !livingEntity.isSteppingCarefully()
+            && !livingEntity.isInvulnerable()
+            && livingEntity.invulnerableTime <= 10) {
+            // 排除创造模式玩家
+            if (livingEntity instanceof Player player && player.isCreative()) {
+                return;
+            }
+            livingEntity.invulnerableTime = 20;
+            serverLevel.broadcastDamageEvent(livingEntity, livingEntity.damageSources().hotFloor());
+        }
+        super.stepOn(level, pos, state, entity);
+    }
+
+    @Override
+    public @NotNull BlockState updateShape(
+            @NonNull BlockState state,
+            @NonNull LevelReader levelAccessor,
+            @NonNull ScheduledTickAccess scheduledTickAccess,
+            @NonNull BlockPos pos,
+            @NonNull Direction direction,
+            @NonNull BlockPos neighborPos,
+            @NonNull BlockState neighborState,
+            @NonNull RandomSource randomSource
+    ) {
         if (state.getValue(LIT) && levelAccessor.isWaterAt(pos.above()) && levelAccessor instanceof ServerLevel serverLevel) {
             serverLevel.setBlockAndUpdate(pos, state.setValue(LIT, false));
             serverLevel.playSound(null, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
         }
-        return super.updateShape(state, direction, neighborState, levelAccessor, pos, neighborPos);
+        return super.updateShape(state, levelAccessor, scheduledTickAccess, pos, direction, neighborPos, neighborState, randomSource);
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+    public @NotNull InteractionResult useItemOn(@NonNull ItemStack stack, BlockState state, @NonNull Level level, @NonNull BlockPos pos, Player player, @NonNull InteractionHand hand, @NonNull BlockHitResult hitResult) {
         ItemStack itemInHand = player.getItemInHand(hand);
         // 点燃炉灶
         if (!state.getValue(LIT) && itemInHand.is(TagMod.LIT_STOVE)) {
@@ -128,7 +159,7 @@ public class StoveBlock extends HorizontalDirectionalBlock {
                         SoundEvents.FLINTANDSTEEL_USE,
                         SoundSource.BLOCKS, 1.0F,
                         level.getRandom().nextFloat() * 0.4F + 0.8F);
-                itemInHand.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(hand));
+                itemInHand.hurtAndBreak(1, player, hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
             }
             ModTrigger.EVENT.trigger(player, ModEventTriggerType.LIT_THE_STOVE);
             return InteractionResult.SUCCESS;
@@ -143,16 +174,16 @@ public class StoveBlock extends HorizontalDirectionalBlock {
                     SoundEvents.FIRE_EXTINGUISH,
                     SoundSource.BLOCKS, 0.5F,
                     2.6F + (level.random.nextFloat() - level.random.nextFloat()) * 0.8F);
-            itemInHand.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(hand));
+            itemInHand.hurtAndBreak(1, player, hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
             return InteractionResult.SUCCESS;
         }
-        return super.use(state, level, pos, player, hand, hitResult);
+        return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
     }
 
     @Override
-    public void onProjectileHit(Level level, BlockState state, BlockHitResult hitResult, Projectile projectile) {
+    public void onProjectileHit(Level level, @NonNull BlockState state, BlockHitResult hitResult, @NonNull Projectile projectile) {
         BlockPos hitBlockPos = hitResult.getBlockPos();
-        if (!level.isClientSide && projectile.isOnFire() && projectile.mayInteract(level, hitBlockPos) && !state.getValue(LIT)) {
+        if (!level.isClientSide() && level instanceof ServerLevel serverLevel && projectile.isOnFire() && projectile.mayInteract(serverLevel, hitBlockPos) && !state.getValue(LIT)) {
             level.setBlock(hitBlockPos, state.setValue(BlockStateProperties.LIT, true), Block.UPDATE_ALL_IMMEDIATE);
             if (projectile.getOwner() instanceof Player player) {
                 ModTrigger.EVENT.trigger(player, ModEventTriggerType.LIT_THE_STOVE);
@@ -169,10 +200,5 @@ public class StoveBlock extends HorizontalDirectionalBlock {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(LIT, FACING);
-    }
-
-    @Override
-    public void appendHoverText(ItemStack pStack, @Nullable BlockGetter pLevel, List<Component> pTooltip, TooltipFlag pFlag) {
-        pTooltip.add(Component.translatable("tooltip.kaleidoscope_cookery.stove").withStyle(ChatFormatting.GRAY));
     }
 }

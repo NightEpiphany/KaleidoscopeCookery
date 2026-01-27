@@ -1,41 +1,39 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.crafting.serializer;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.SteamerRecipe;
-import com.google.gson.JsonObject;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.ShapedRecipe;
+import org.jspecify.annotations.NonNull;
 
 public class SteamerRecipeSerializer implements RecipeSerializer<SteamerRecipe> {
+    public static final MapCodec<SteamerRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
+            instance.group(
+                    Ingredient.CODEC.fieldOf("ingredient").forGetter(SteamerRecipe::getIngredient),
+                    ItemStack.CODEC.fieldOf("result").forGetter(SteamerRecipe::getResult),
+                    Codec.INT.optionalFieldOf("cook_tick", 60 * 20).forGetter(SteamerRecipe::getCookTick)
+            ).apply(instance, SteamerRecipe::new)
+    );
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, SteamerRecipe> STREAM_CODEC = StreamCodec.composite(
+            Ingredient.CONTENTS_STREAM_CODEC, SteamerRecipe::getIngredient,
+            ItemStack.STREAM_CODEC, SteamerRecipe::getResult,
+            ByteBufCodecs.INT, SteamerRecipe::getCookTick,
+            SteamerRecipe::new);
+
     @Override
-    public SteamerRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
-        Ingredient ingredient;
-        if (GsonHelper.isArrayNode(json, "ingredient")) {
-            ingredient = Ingredient.fromJson(GsonHelper.getAsJsonArray(json, "ingredient"), false);
-        } else {
-            ingredient = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "ingredient"), false);
-        }
-        ItemStack result = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
-        int cookTick = GsonHelper.getAsInt(json, "cook_tick", 60 * 20);
-        return new SteamerRecipe(recipeId, ingredient, result, cookTick);
+    public @NonNull MapCodec<SteamerRecipe> codec() {
+        return CODEC;
     }
 
     @Override
-    public SteamerRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
-        Ingredient ingredient = Ingredient.fromNetwork(buffer);
-        ItemStack result = buffer.readItem();
-        int cookTick = buffer.readVarInt();
-        return new SteamerRecipe(recipeId, ingredient, result, cookTick);
-    }
-
-    @Override
-    public void toNetwork(FriendlyByteBuf buffer, SteamerRecipe recipe) {
-        recipe.getIngredient().toNetwork(buffer);
-        buffer.writeItem(recipe.getResult());
-        buffer.writeVarInt(recipe.getCookTick());
+    public @NonNull StreamCodec<RegistryFriendlyByteBuf, SteamerRecipe> streamCodec() {
+        return STREAM_CODEC;
     }
 }

@@ -17,7 +17,7 @@ import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.ItemStack;
 
 public class ScarecrowModel extends EntityModel<ScarecrowEntity> implements ArmedModel, HeadedModel {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(KaleidoscopeCookery.MOD_ID, "scarecrow"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "scarecrow"), "main");
 
     private final ModelPart group;
     private final ModelPart head;
@@ -67,8 +67,8 @@ public class ScarecrowModel extends EntityModel<ScarecrowEntity> implements Arme
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        group.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
+        group.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
     }
 
     @Override

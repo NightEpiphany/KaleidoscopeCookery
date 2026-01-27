@@ -1,14 +1,16 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe;
 
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.world.Container;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeInput;
+import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 
-public interface BaseRecipe<C extends Container> extends Recipe<C> {
+public interface BaseRecipe<C extends RecipeInput> extends Recipe<C> {
     int RECIPES_SIZE = 9;
 
     static Ingredient[] fillInputs(List<Ingredient> inputs) {
@@ -17,14 +19,16 @@ public interface BaseRecipe<C extends Container> extends Recipe<C> {
             if (i < inputs.size()) {
                 newInputs[i] = inputs.get(i);
             } else {
-                newInputs[i] = Ingredient.EMPTY;
+                newInputs[i] = Ingredient.of(ItemStack.EMPTY.getItem());
             }
         }
         return newInputs;
     }
 
+    ItemStack getResultItem(HolderLookup.Provider registries);
+
     @Override
-    default ItemStack assemble(C container, RegistryAccess registryAccess) {
+    default @NotNull ItemStack assemble(C container, HolderLookup.@NonNull Provider registryAccess) {
         return getResultItem(registryAccess).copy();
     }
 
@@ -33,8 +37,8 @@ public interface BaseRecipe<C extends Container> extends Recipe<C> {
         return true;
     }
 
-    @Override
     default boolean canCraftInDimensions(int width, int height) {
         return false;
     }
+
 }

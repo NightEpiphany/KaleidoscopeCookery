@@ -6,7 +6,7 @@ import com.google.common.collect.Maps;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.mojang.serialization.JsonOps;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.IoSupplier;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class MillstoneBindableDataReloadListener implements ResourceManagerReloadListener {
     public static final Map<EntityType<?>, MillstoneBindableData> INSTANCE = Maps.newHashMap();
-    private static final ResourceLocation FILE_PATH = new ResourceLocation(KaleidoscopeCookery.MOD_ID, "datamap/millstone_bindable_data.json");
+    private static final Identifier FILE_PATH = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "datamap/millstone_bindable_data.json");
 
     @Override
     public void onResourceManagerReload(ResourceManager resourceManager) {

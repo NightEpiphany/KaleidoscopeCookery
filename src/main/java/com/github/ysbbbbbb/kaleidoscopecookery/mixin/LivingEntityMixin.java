@@ -18,7 +18,7 @@ public abstract class LivingEntityMixin extends Entity {
         super(pEntityType, pLevel);
     }
 
-    @Inject(method = "getBlockSpeedFactor()F", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getBlockSpeedFactor", at = @At("HEAD"), cancellable = true)
     private void onGetBlockSpeedFactor(CallbackInfoReturnable<Float> cir) {
         LivingEntity entity = (LivingEntity) (Object) this;
         if (entity.hasEffect(ModEffects.TUNDRA_STRIDER)) {
@@ -28,5 +28,10 @@ public abstract class LivingEntityMixin extends Entity {
                 cir.setReturnValue(1.1f + Math.max(1 - friction, 0) * 0.5f);
             }
         }
+    }
+
+    @Inject(method = "getDamageAfterMagicAbsorb", at = @At("RETURN"))
+    private void onGetDamageAfterMagicAbsorb(CallbackInfoReturnable<Float> cir) {
+
     }
 }

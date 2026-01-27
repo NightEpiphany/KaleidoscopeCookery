@@ -1,71 +1,69 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.init.registry;
 
-import com.github.ysbbbbbb.kaleidoscopecookery.api.event.RecipeItemEvent;
-import com.github.ysbbbbbb.kaleidoscopecookery.api.event.SickleHarvestEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.dispenser.OilPotDispenseBehavior;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteOneByTwoBlock;
-import com.github.ysbbbbbb.kaleidoscopecookery.compat.farmersdelight.FarmersDelightCompat;
-import com.github.ysbbbbbb.kaleidoscopecookery.compat.harvest.HarvestCompat;
-import com.github.ysbbbbbb.kaleidoscopecookery.datagen.lootable.GiftLootTables;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.*;
+import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.FlatulenceServerEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.PreservationEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.SatiatedShieldEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
-import com.github.ysbbbbbb.kaleidoscopecookery.init.ModVillager;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.BowlFoodBlockItem;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.entity.ai.behavior.GiveGiftToHero;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.*;
+
 public class CommonRegistry {
     public static void init() {
         addComposter();
         registerFoodBiteBlocks();
         registerServerEvents();
-        addVillagerGift();
         addDispenserBehavior();
         modCompat();
     }
 
     public static void registerServerEvents() {
         SatiatedShieldEvent.register();
+        FlatulenceServerEvent.register();
         PreservationEvent.register();
+        ArmorEffectHandler.register();
+        AddVillageStructuresEvent.register();
+        ScarecrowFarmlandTrampleEvent.register();
         EntityJoinWorldEvent.register();
+        SickleHarvestNetherWartEvent.register();
         HoeUseEvent.register();
         RightClickEvent.register();
         LeftClickEvent.register();
         ExtraLootTableDrop.register();
-        ArmorEffectEvent.register();
-        RecipeItemEvent.register();
-        SickleHarvestEvent.register();
-        AddVillageStructuresEvent.addVillageStructures();
     }
 
     private static void registerFoodBiteBlocks() {
         FoodBiteRegistry.init();
 
         FoodBiteRegistry.FOOD_DATA_MAP.forEach((resourceLocation, data) -> {
-            FoodBiteBlock biteBlock = getFoodBiteBlock(data);
-            Registry.register(BuiltInRegistries.BLOCK, resourceLocation, biteBlock);
+                FoodBiteBlock biteBlock = getFoodBiteBlock(data);
+                Registry.register(BuiltInRegistries.BLOCK, resourceLocation, biteBlock);
 
-            Block block = BuiltInRegistries.BLOCK.get(resourceLocation);
-            Registry.register(BuiltInRegistries.ITEM, resourceLocation, new BowlFoodBlockItem(block, data.itemFood()));
+                Block block = BuiltInRegistries.BLOCK.getValue(resourceLocation);
+                // 选取第一个掉落物作为 usingConvertsTo
+                ItemLike first = data.getLootItems().getFirst();
+                Registry.register(BuiltInRegistries.ITEM, resourceLocation, new BowlFoodBlockItem(block, data.itemFood(), data.itemConsumable(), first));
         });
     }
 
     private static @NotNull FoodBiteBlock getFoodBiteBlock(FoodBiteRegistry.FoodData data) {
         FoodBiteBlock biteBlock;
         if (data.blockType() == FoodBiteRegistry.BlockType.ONE_BY_TWO) {
-            biteBlock = new FoodBiteOneByTwoBlock(data.blockFood(), data.maxBites(), data.animateTick());
+            biteBlock = new FoodBiteOneByTwoBlock(data.blockFood(), data.blockConsumable(), data.maxBites(), data.animateTick());
         } else {
-            biteBlock = new FoodBiteBlock(data.blockFood(), data.maxBites(), data.animateTick());
+            biteBlock = new FoodBiteBlock(data.blockFood(), data.blockConsumable(), data.maxBites(), data.animateTick());
         }
 
         VoxelShape aabb = data.getAABB();
@@ -73,15 +71,6 @@ public class CommonRegistry {
             biteBlock.setAABB(aabb);
         }
         return biteBlock;
-    }
-
-    private static void modCompat() {
-        FarmersDelightCompat.init();
-        HarvestCompat.init();
-    }
-
-    private static void addVillagerGift() {
-        GiveGiftToHero.GIFTS.put(ModVillager.CHEF, GiftLootTables.CHEF_GIFT);
     }
 
     private static void addComposter() {
@@ -96,6 +85,10 @@ public class CommonRegistry {
         CompostingChanceRegistry.INSTANCE.add(ModItems.LETTUCE, 0.65F);
         CompostingChanceRegistry.INSTANCE.add(ModItems.RICE_PANICLE, 0.65F);
         CompostingChanceRegistry.INSTANCE.add(ModItems.CATERPILLAR, 1.0F);
+    }
+
+    private static void modCompat() {
+
     }
 
     private static void addDispenserBehavior() {

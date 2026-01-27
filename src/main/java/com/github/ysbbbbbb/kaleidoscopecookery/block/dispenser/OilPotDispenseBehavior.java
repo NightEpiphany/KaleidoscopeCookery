@@ -3,8 +3,8 @@ package com.github.ysbbbbbb.kaleidoscopecookery.block.dispenser;
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.BlockSource;
 import net.minecraft.core.Direction;
+import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.BlockItem;
@@ -19,10 +19,10 @@ public class OilPotDispenseBehavior extends OptionalDispenseItemBehavior {
     protected @NotNull ItemStack execute(BlockSource source, ItemStack stack) {
         this.setSuccess(false);
         Item item = stack.getItem();
-        ServerLevel level = source.getLevel();
+        ServerLevel level = source.level();
         if (stack.is(ModItems.OIL_POT) && item instanceof BlockItem blockItem) {
-            Direction facing = source.getBlockState().getValue(DispenserBlock.FACING);
-            BlockPos placePos = source.getPos().relative(facing);
+            Direction facing = source.state().getValue(DispenserBlock.FACING);
+            BlockPos placePos = source.pos().relative(facing);
             Direction placeDirection = facing.getAxis() == Direction.Axis.Y ? Direction.NORTH : facing;
             try {
                 DirectionalPlaceContext context = new DirectionalPlaceContext(level, placePos, facing, stack, placeDirection);

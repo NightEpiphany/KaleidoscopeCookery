@@ -2,7 +2,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.init.tag;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.EntityType;
@@ -11,10 +11,6 @@ import net.minecraft.world.level.block.Block;
 
 public interface TagMod {
     /**
-     * 不允许加入汤锅、炒锅的物品
-     */
-    TagKey<Item> INGREDIENT_BLOCKLIST = itemTag("ingredient_blocklist");
-    /**
      * 本模组的物品标签，用于成就
      */
     TagKey<Item> COOKERY_MOD_ITEMS = itemTag("cookery_mod_items");
@@ -22,6 +18,10 @@ public interface TagMod {
      * 本模组的作物种子，用于成就
      */
     TagKey<Item> COOKERY_MOD_SEEDS = itemTag("cookery_mod_seeds");
+    /**
+     * 不允许加入汤锅、炒锅的物品
+     */
+    TagKey<Item> INGREDIENT_BLOCKLIST = itemTag("ingredient_blocklist");
     /**
      * 任意可以点燃本模组炉灶的物品
      */
@@ -97,6 +97,10 @@ public interface TagMod {
      */
     TagKey<Block> CAT_LIE_ON_BLOCKS = blockTag("cat_lie_on_blocks");
     /**
+     * 镰刀收割黑名单
+     */
+    TagKey<Block> SICKLE_HARVEST_BLACKLIST = blockTag("sickle_harvest_blacklist");
+    /**
      * 可以当做本模组热源的方块
      * <p>
      * 默认是任何具有 LIT 标签的方块或拥有此 tag 的方块，故这里需要添加的是没有 LIT 标签的热源方块
@@ -115,17 +119,13 @@ public interface TagMod {
      */
     TagKey<Block> TABLE = blockTag("table");
     /**
-     * 可以坐在上面的方块
-     */
-    TagKey<Block> SITTABLE = blockTag("sittable");
-    /**
      * 可以种植水稻的方块
      */
     TagKey<Block> RICE_PLANTABLE = blockTag("rice_plantable");
     /**
-     * 镰刀收割黑名单
+     * 可以坐在上面的方块
      */
-    TagKey<Block> SICKLE_HARVEST_BLACKLIST = blockTag("sickle_harvest_blacklist");
+    TagKey<Block> SITTABLE = blockTag("sittable");
     /**
      * 被本模组当做猪油来源的实体
      */
@@ -144,18 +144,18 @@ public interface TagMod {
     TagKey<DamageType> SATIATED_SHIELD_WEAKNESS = damageTypeTag("satiated_shield_weakness");
 
     static TagKey<Item> itemTag(String name) {
-        return TagKey.create(Registries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, name));
+        return TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, name));
     }
 
     static TagKey<Block> blockTag(String name) {
-        return TagKey.create(Registries.BLOCK, new ResourceLocation(KaleidoscopeCookery.MOD_ID, name));
+        return TagKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, name));
     }
 
     static TagKey<EntityType<?>> entityTag(String name) {
-        return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(KaleidoscopeCookery.MOD_ID, name));
+        return TagKey.create(Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, name));
     }
 
     static TagKey<DamageType> damageTypeTag(String name) {
-        return TagKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(KaleidoscopeCookery.MOD_ID, name));
+        return TagKey.create(Registries.DAMAGE_TYPE, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, name));
     }
 }

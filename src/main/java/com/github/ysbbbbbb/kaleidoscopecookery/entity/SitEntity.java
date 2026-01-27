@@ -1,22 +1,26 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.entity;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 public class SitEntity extends Entity {
     public static final EntityType<SitEntity> TYPE = EntityType.Builder.<SitEntity>of(SitEntity::new, MobCategory.MISC)
             .sized(0.5f, 0.1f)
             .clientTrackingRange(10)
             .noSave().noSummon()
-            .build("sit");
+            .build(PortHelper.sign("sit"));
     private int passengerTick = 0;
 
     public SitEntity(EntityType<?> entityTypeIn, Level worldIn) {
@@ -34,28 +38,19 @@ public class SitEntity extends Entity {
     }
 
     @Override
-    public double getPassengersRidingOffset() {
-        return -0.25;
+    public @NotNull Vec3 getPassengerRidingPosition(@NonNull Entity entity) {
+        return super.getPassengerRidingPosition(entity).add(0, -0.0625, 0);
     }
 
     @Override
-    protected void defineSynchedData() {
-    }
-
-    @Override
-    protected void readAdditionalSaveData(@NotNull CompoundTag tag) {
-    }
-
-    @Override
-    protected void addAdditionalSaveData(@NotNull CompoundTag tag) {
+    protected void defineSynchedData(SynchedEntityData.@NonNull Builder builder) {
     }
 
     @Override
     public void tick() {
-        if (!this.level().isClientSide) {
+        if (!this.level().isClientSide()) {
             this.checkBelowWorld();
             this.checkPassengers();
-
             // 每秒检查一次所处位置是否有方块，没有就删除实体
             if (this.tickCount % 20 == 0) {
                 BlockState blockState = this.level().getBlockState(this.blockPosition());
@@ -78,21 +73,21 @@ public class SitEntity extends Entity {
     }
 
     @Override
-    public boolean skipAttackInteraction(@NotNull Entity targetEntity) {
+    public boolean skipAttackInteraction(@NonNull Entity targetEntity) {
         return true;
     }
 
     @Override
-    public boolean hurt(@NotNull DamageSource damageSource, float damageAmount) {
+    public boolean hurtServer(@NonNull ServerLevel serverLevel, @NonNull DamageSource damageSource, float f) {
         return false;
     }
 
     @Override
-    public void move(@NotNull MoverType moverType, @NotNull Vec3 movement) {
+    public void move(@NonNull MoverType moverType, @NonNull Vec3 movement) {
     }
 
     @Override
-    public void push(@NotNull Entity pushedEntity) {
+    public void push(@NonNull Entity pushedEntity) {
     }
 
     @Override
@@ -105,7 +100,17 @@ public class SitEntity extends Entity {
     }
 
     @Override
-    public void thunderHit(@NotNull ServerLevel serverLevel, @NotNull LightningBolt lightningBolt) {
+    protected void readAdditionalSaveData(@NonNull ValueInput valueInput) {
+
+    }
+
+    @Override
+    protected void addAdditionalSaveData(@NonNull ValueOutput valueOutput) {
+
+    }
+
+    @Override
+    public void thunderHit(@NonNull ServerLevel serverLevel, @NonNull LightningBolt lightningBolt) {
     }
 
     @Override
@@ -113,7 +118,7 @@ public class SitEntity extends Entity {
     }
 
     @Override
-    public boolean canCollideWith(@NotNull Entity entity) {
+    public boolean canCollideWith(@NonNull Entity entity) {
         return false;
     }
 }

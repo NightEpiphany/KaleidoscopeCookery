@@ -1,6 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.blockentity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -9,8 +10,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 public abstract class BaseBlockEntity extends BlockEntity {
     public BaseBlockEntity(BlockEntityType<?> entityType, BlockPos pos, BlockState state) {
@@ -26,8 +28,8 @@ public abstract class BaseBlockEntity extends BlockEntity {
     }
 
     @Override
-    public CompoundTag getUpdateTag() {
-        return this.saveWithoutMetadata();
+    public @NotNull CompoundTag getUpdateTag(HolderLookup.@NonNull Provider registries) {
+        return this.saveWithoutMetadata(registries);
     }
 
     @Nullable

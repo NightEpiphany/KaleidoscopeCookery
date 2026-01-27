@@ -6,22 +6,26 @@ import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.ChoppingBoardReci
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModRecipes;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Optional;
 
@@ -34,12 +38,12 @@ public class ChoppingBoardBlockEntity extends BaseBlockEntity implements IChoppi
     /**
      * 仅用于客户端渲染
      */
-    public @Nullable ResourceLocation[] cacheModels = null;
-    public @Nullable ResourceLocation previousModel = null;
+    public @Nullable Identifier[] cacheModels = null;
+    public @Nullable Identifier previousModel = null;
     /**
      * 服务端客户端共通数据
      */
-    private @Nullable ResourceLocation modelId = null;
+    private @Nullable Identifier modelId = null;
     private int maxCutCount = 0;
     private int currentCutCount = 0;
     private ItemStack currentCutStack = ItemStack.EMPTY;
@@ -49,27 +53,41 @@ public class ChoppingBoardBlockEntity extends BaseBlockEntity implements IChoppi
         super(ModBlocks.CHOPPING_BOARD_BE, pos, blockState);
     }
 
+    public static void popResource(Level level, BlockPos pos, ItemStack stack) {
+        if (!level.isClientSide() && !stack.isEmpty()) {
+            ItemEntity entity = new ItemEntity(level,
+                    pos.getX() + 0.5,
+                    pos.getY() + 0.25,
+                    pos.getZ() + 0.5,
+                    stack, 0, 0, 0);
+            entity.setDefaultPickUpDelay();
+            level.addFreshEntity(entity);
+        }
+    }
+
     @Override
     public boolean onPutItem(Level level, LivingEntity user, ItemStack putOnItem) {
         if (!this.result.isEmpty()) {
             return false;
         }
-        SimpleContainer container = new SimpleContainer(putOnItem);
-        Optional<ChoppingBoardRecipe> recipeOptional = level.getRecipeManager()
-                .getRecipeFor(ModRecipes.CHOPPING_BOARD_RECIPE, container, level);
-        if (recipeOptional.isPresent()) {
-            ChoppingBoardRecipe recipe = recipeOptional.get();
-            this.modelId = recipe.getModelId();
-            this.maxCutCount = recipe.getCutCount();
-            this.currentCutCount = 0;
-            this.currentCutStack = putOnItem.split(1);
-            this.result = recipe.assemble(container, level.registryAccess());
-            this.refresh();
-            level.playSound(null, this.worldPosition,
-                    SoundEvents.WOOD_PLACE,
-                    SoundSource.BLOCKS,
-                    1, 1.2F);
-            return true;
+        SingleRecipeInput container = new SingleRecipeInput(putOnItem);
+        if (level instanceof ServerLevel serverLevel) {
+            Optional<RecipeHolder<ChoppingBoardRecipe>> recipeOptional = serverLevel.recipeAccess()
+                    .getRecipeFor(ModRecipes.CHOPPING_BOARD_RECIPE, container, level);
+            if (recipeOptional.isPresent()) {
+                ChoppingBoardRecipe recipe = recipeOptional.get().value();
+                this.modelId = recipe.getModelId();
+                this.maxCutCount = recipe.getCutCount();
+                this.currentCutCount = 0;
+                this.currentCutStack = putOnItem.split(1);
+                this.result = recipe.assemble(container, level.registryAccess());
+                this.refresh();
+                level.playSound(null, this.worldPosition,
+                        SoundEvents.WOOD_PLACE,
+                        SoundSource.BLOCKS,
+                        1, 1.2F);
+                return true;
+            }
         }
         return false;
     }
@@ -81,7 +99,7 @@ public class ChoppingBoardBlockEntity extends BaseBlockEntity implements IChoppi
         }
         // 如果已经切完，执行取出逻辑
         if (this.currentCutCount >= this.maxCutCount) {
-            Block.popResource(level, worldPosition, this.result.copy());
+            popResource(level, worldPosition, this.result.copy());
             this.resetBoardData();
             level.playSound(null, this.worldPosition,
                     SoundEvents.WOOD_PLACE,
@@ -103,9 +121,9 @@ public class ChoppingBoardBlockEntity extends BaseBlockEntity implements IChoppi
     public boolean onTakeOut(Level level, LivingEntity user) {
         if (this.currentCutCount == 0 && !this.currentCutStack.isEmpty()) {
             if (user instanceof Player player) {
-                player.getInventory().placeItemBackInInventory(this.currentCutStack);
+                ItemUtils.giveItemToPlayer(player, this.currentCutStack);
             } else {
-                Block.popResource(level, this.worldPosition, this.currentCutStack);
+                popResource(level, this.worldPosition, this.currentCutStack);
             }
             this.resetBoardData();
             level.playSound(null, this.worldPosition,
@@ -143,35 +161,29 @@ public class ChoppingBoardBlockEntity extends BaseBlockEntity implements IChoppi
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
+    protected void saveAdditional(@NonNull ValueOutput valueOutput) {
+        super.saveAdditional(valueOutput);
         if (this.modelId != null) {
-            tag.putString(MODEL_ID, this.modelId.toString());
+            valueOutput.putString(MODEL_ID, this.modelId.toString());
         }
-        tag.putInt(MAX_CUT_COUNT, this.maxCutCount);
-        tag.putInt(CURRENT_CUT_COUNT, this.currentCutCount);
-        tag.put(CURRENT_CUT_STACK, this.currentCutStack.save(new CompoundTag()));
-        tag.put(RESULT_ITEM, this.result.save(new CompoundTag()));
+        valueOutput.putInt(MAX_CUT_COUNT, this.maxCutCount);
+        valueOutput.putInt(CURRENT_CUT_COUNT, this.currentCutCount);
+        valueOutput.storeNullable(CURRENT_CUT_STACK, ItemStack.CODEC, this.currentCutStack);
+        valueOutput.storeNullable(RESULT_ITEM, ItemStack.CODEC, this.result);
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
-        if (tag.contains(MODEL_ID)) {
-            this.modelId = new ResourceLocation(tag.getString(MODEL_ID));
-        }
-        this.maxCutCount = tag.getInt(MAX_CUT_COUNT);
-        this.currentCutCount = tag.getInt(CURRENT_CUT_COUNT);
-        if (tag.contains(CURRENT_CUT_STACK)) {
-            this.currentCutStack = ItemStack.of(tag.getCompound(CURRENT_CUT_STACK));
-        }
-        if (tag.contains(RESULT_ITEM)) {
-            this.result = ItemStack.of(tag.getCompound(RESULT_ITEM));
-        }
+    protected void loadAdditional(@NonNull ValueInput valueInput) {
+        super.loadAdditional(valueInput);
+        this.modelId = Identifier.parse(valueInput.getStringOr(MODEL_ID, "minecraft:air"));
+        this.maxCutCount = valueInput.getIntOr(MAX_CUT_COUNT, 0);
+        this.currentCutCount = valueInput.getIntOr(CURRENT_CUT_COUNT, 0);
+        this.currentCutStack = valueInput.read(CURRENT_CUT_STACK, ItemStack.CODEC).orElse(ItemStack.EMPTY);
+        this.result = valueInput.read(RESULT_ITEM, ItemStack.CODEC).orElse(ItemStack.EMPTY);
     }
 
     @Nullable
-    public ResourceLocation getModelId() {
+    public Identifier getModelId() {
         return modelId;
     }
 

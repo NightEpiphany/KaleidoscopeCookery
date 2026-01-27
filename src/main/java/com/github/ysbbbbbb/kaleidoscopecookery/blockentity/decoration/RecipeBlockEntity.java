@@ -2,39 +2,37 @@ package com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.BaseBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.neo.ItemStackHandler;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.ContainerHelper;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-
-import java.util.List;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import org.jspecify.annotations.NonNull;
 
 public class RecipeBlockEntity extends BaseBlockEntity {
     private static final String SHOW_ITEMS = "ShowItems";
-    private final SimpleContainer items = new SimpleContainer(1);
+    private final ItemStackHandler items = new ItemStackHandler(1);
 
     public RecipeBlockEntity(BlockPos pos, BlockState blockState) {
         super(ModBlocks.RECIPE_BLOCK_BE, pos, blockState);
     }
 
+
     @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
-        tag.put(SHOW_ITEMS, ContainerHelper.saveAllItems(new CompoundTag(), this.items.items));
+    protected void loadAdditional(@NonNull ValueInput valueInput) {
+        super.loadAdditional(valueInput);
+        ItemStack itemStack = valueInput.read(SHOW_ITEMS, ItemStack.CODEC).orElse(ItemStack.EMPTY);
+        this.items.setStackInSlot(0, itemStack);
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
-        if (tag.contains(SHOW_ITEMS)) {
-            CompoundTag compound = tag.getCompound(SHOW_ITEMS);
-            ContainerHelper.loadAllItems(compound, this.items.items);
-        }
+    protected void saveAdditional(@NonNull ValueOutput valueOutput) {
+        super.saveAdditional(valueOutput);
+        valueOutput.store(SHOW_ITEMS, ItemStack.CODEC, this.items.getStackInSlot(0));
     }
 
-    public List<ItemStack> getItems() {
-        return items.items;
+    public ItemStackHandler getItems() {
+        return items;
     }
 }

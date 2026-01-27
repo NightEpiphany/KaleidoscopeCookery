@@ -14,7 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 public class ScarecrowRender extends LivingEntityRenderer<ScarecrowEntity, ScarecrowModel> {
-    public static final ResourceLocation TEXTURE = new ResourceLocation(KaleidoscopeCookery.MOD_ID, "textures/entity/scarecrow.png");
+    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "textures/entity/scarecrow.png");
 
     public ScarecrowRender(EntityRendererProvider.Context context) {
         super(context, new ScarecrowModel(context.bakeLayer(ScarecrowModel.LAYER_LOCATION)), 0);
@@ -24,7 +24,7 @@ public class ScarecrowRender extends LivingEntityRenderer<ScarecrowEntity, Scare
     }
 
     @Override
-    protected void setupRotations(ScarecrowEntity scarecrow, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTicks) {
+    protected void setupRotations(ScarecrowEntity scarecrow, PoseStack poseStack, float bob, float rotationYaw, float partialTicks, float scale) {
         poseStack.mulPose(Axis.YP.rotationDegrees(180.0F - rotationYaw));
         float time = (float) (scarecrow.level().getGameTime() - scarecrow.lastHit) + partialTicks;
         if (time < 5.0F) {

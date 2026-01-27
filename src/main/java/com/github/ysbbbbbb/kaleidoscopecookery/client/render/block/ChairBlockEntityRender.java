@@ -22,7 +22,7 @@ import java.util.function.Function;
 
 public class ChairBlockEntityRender implements BlockEntityRenderer<ChairBlockEntity> {
     private static final Function<DyeColor, ResourceLocation> CACHE_MODEL = Util.memoize(color ->
-            new ResourceLocation(KaleidoscopeCookery.MOD_ID, "block/carpet/chair/" + color.getName()));
+            ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "block/carpet/chair/" + color.getName()));
 
     private final BlockEntityRendererProvider.Context context;
 

@@ -12,7 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 
 public class StrawHatModel extends EntityModel<Entity> {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(KaleidoscopeCookery.MOD_ID, "straw_hat"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "straw_hat"), "main");
     private final ModelPart head;
 
     public StrawHatModel(ModelPart root) {
@@ -37,10 +37,10 @@ public class StrawHatModel extends EntityModel<Entity> {
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
         poseStack.pushPose();
         poseStack.scale(1.275f, 1.275f, 1.275f);
-        head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+        head.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
         poseStack.popPose();
     }
 

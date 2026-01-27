@@ -1,7 +1,6 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.render.block;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.FruitBasketBlockEntity;
-import com.github.ysbbbbbb.kaleidoscopecookery.util.forge.ItemStackHandler;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -12,7 +11,6 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import org.jetbrains.annotations.NotNull;
 
 public class FruitBasketBlockEntityRender implements BlockEntityRenderer<FruitBasketBlockEntity> {
     private final BlockEntityRendererProvider.Context context;
@@ -22,8 +20,8 @@ public class FruitBasketBlockEntityRender implements BlockEntityRenderer<FruitBa
     }
 
     @Override
-    public void render(FruitBasketBlockEntity basket, float partialTick, PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight, int packedOverlay) {
-        ItemStackHandler items = basket.getItems();
+    public void render(FruitBasketBlockEntity basket, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+        NonNullList<ItemStack> items = basket.getItems();
         ItemRenderer itemRenderer = this.context.getItemRenderer();
         int rotation = basket.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING).get2DDataValue() * 90;
         poseStack.pushPose();
@@ -35,7 +33,7 @@ public class FruitBasketBlockEntityRender implements BlockEntityRenderer<FruitBa
             poseStack.pushPose();
             for (int j = 0; j < 4; j++) {
                 int index = i * 4 + j;
-                ItemStack itemStack = items.getStackInSlot(index);
+                ItemStack itemStack = items.get(index);
                 if (!itemStack.isEmpty()) {
                     poseStack.translate(0.15, 0, 0);
                     poseStack.pushPose();

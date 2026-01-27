@@ -1,6 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen;
 
 import net.minecraft.util.StringRepresentable;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public enum NinePart implements StringRepresentable {
@@ -38,7 +39,7 @@ public enum NinePart implements StringRepresentable {
     }
 
     @Override
-    public String getSerializedName() {
+    public @NotNull String getSerializedName() {
         return this.name;
     }
 

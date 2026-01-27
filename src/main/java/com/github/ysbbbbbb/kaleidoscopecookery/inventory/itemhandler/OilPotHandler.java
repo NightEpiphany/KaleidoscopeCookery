@@ -2,7 +2,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.inventory.itemhandler;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.OilPotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
-import com.github.ysbbbbbb.kaleidoscopecookery.util.forge.ItemStackHandler;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.neo.ItemStackHandler;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,6 +16,10 @@ public class OilPotHandler extends ItemStackHandler {
         if (count > 0) {
             this.setStackInSlot(0, new ItemStack(ModItems.OIL, count));
         }
+    }
+
+    public void setOilCount(int count) {
+        setStackInSlot(0, new ItemStack(ModItems.OIL, count));
     }
 
     @Override
@@ -36,6 +40,6 @@ public class OilPotHandler extends ItemStackHandler {
     @Override
     protected void onContentsChanged(int slot) {
         ItemStack stackInSlot = getStackInSlot(slot);
-        oilPot.setOilCount(stackInSlot.getCount());
+        oilPot.setOilCountWithoutCapUpdate(stackInSlot.getCount());
     }
 }

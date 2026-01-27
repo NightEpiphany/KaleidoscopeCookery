@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
+import org.jspecify.annotations.NonNull;
 
 public class OilBlock extends Block {
     public OilBlock() {
@@ -31,7 +32,7 @@ public class OilBlock extends Block {
     // TODO: 缺少粘液块不能带动
 
     @Override
-    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+    public void animateTick(@NonNull BlockState state, @NonNull Level level, @NonNull BlockPos pos, RandomSource random) {
         if (random.nextInt(50) != 0) {
             return;
         }

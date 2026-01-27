@@ -5,11 +5,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.item.component.TooltipDisplay;
+import org.jspecify.annotations.NonNull;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 public class WithTooltipsItem extends Item {
     private final String key;
@@ -20,7 +19,7 @@ public class WithTooltipsItem extends Item {
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.translatable(key).withStyle(ChatFormatting.GRAY));
+    public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext tooltip, @NonNull TooltipDisplay tooltipDisplay, @NonNull Consumer<Component> consumer, @NonNull TooltipFlag tooltipFlag) {
+        consumer.accept(Component.translatable(key).withStyle(ChatFormatting.GRAY));
     }
 }

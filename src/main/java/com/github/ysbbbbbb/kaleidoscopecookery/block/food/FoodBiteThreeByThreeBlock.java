@@ -6,12 +6,13 @@ import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.FoodBiteAnimateTick
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
-import net.minecraft.world.InteractionHand;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
@@ -30,6 +31,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -51,14 +53,14 @@ public class FoodBiteThreeByThreeBlock extends FoodBiteBlock implements EntityBl
     private static final VoxelShape DOWN = Block.box(0, 0, 0, 16, 2, 12);
     private static final VoxelShape RIGHT_DOWN = Block.box(0, 0, 0, 12, 2, 12);
 
-    public FoodBiteThreeByThreeBlock(FoodProperties foodProperties, int maxBites,
+    public FoodBiteThreeByThreeBlock(FoodProperties foodProperties, Consumable consumable, int maxBites,
                                      @Nullable FoodBiteAnimateTicks.AnimateTick animateTick) {
-        super(foodProperties, maxBites, animateTick);
+        super(foodProperties, consumable, maxBites, animateTick);
         this.registerDefaultState(this.stateDefinition.any().setValue(bites, 0).setValue(FACING, Direction.SOUTH).setValue(PART, NinePart.CENTER));
     }
 
-    private static void handleRemove(Level world, BlockPos pos, BlockState state, @Nullable Player player) {
-        if (world.isClientSide) {
+    public static void handleRemove(Level world, BlockPos pos, BlockState state, @Nullable Player player) {
+        if (world.isClientSide()) {
             return;
         }
         NinePart part = state.getValue(PART);
@@ -79,43 +81,42 @@ public class FoodBiteThreeByThreeBlock extends FoodBiteBlock implements EntityBl
         }
     }
 
+
     @Override
-    public @NotNull InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    public @NotNull InteractionResult useWithoutItem(BlockState state, @NonNull Level level, @NonNull BlockPos pos, @NonNull Player player, @NonNull BlockHitResult hit) {
         NinePart part = state.getValue(PART);
         BlockPos centerPos = pos.subtract(new Vec3i(part.getPosX(), 0, part.getPosY()));
         BlockState centerState = level.getBlockState(centerPos);
         if (!centerState.is(this)) {
-            return InteractionResult.PASS;
+            return InteractionResult.TRY_WITH_EMPTY_HAND;
         }
 
         // 将使用逻辑全部交给中心部分处理
-        ItemStack itemInHand = player.getItemInHand(hand);
         int bites = centerState.getValue(this.bites);
         if (bites >= getMaxBites()) {
             handleRemove(level, centerPos, centerState, player);
             return InteractionResult.SUCCESS;
         }
-        if (level.isClientSide) {
+        if (level.isClientSide()) {
             if (eat(level, centerPos, centerState, player).consumesAction()) {
                 return InteractionResult.SUCCESS;
-            }
-            if (itemInHand.isEmpty()) {
-                return InteractionResult.CONSUME;
             }
         }
         return eat(level, centerPos, centerState, player);
     }
 
     @Override
-    public void playerWillDestroy(@NotNull Level world, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Player player) {
+    public @NotNull BlockState playerWillDestroy(@NonNull Level world, @NonNull BlockPos pos, @NonNull BlockState state, @NonNull Player player) {
         handleRemove(world, pos, state, player);
-        super.playerWillDestroy(world, pos, state, player);
+        return super.playerWillDestroy(world, pos, state, player);
     }
 
+
     @Override
-    public void wasExploded(@NotNull Level level, @NotNull BlockPos pos, @NotNull Explosion explosion) {
-        handleRemove(level, pos, level.getBlockState(pos), null);
-        super.wasExploded(level, pos, explosion);
+    public void wasExploded(@NonNull ServerLevel serverLevel, @NonNull BlockPos blockPos, @NonNull Explosion explosion) {
+        handleRemove(serverLevel, blockPos, this.defaultBlockState(), null);
+        serverLevel.setBlock(blockPos, Blocks.AIR.defaultBlockState(), 3);
+        super.wasExploded(serverLevel, blockPos, explosion);
     }
 
     @Nullable
@@ -134,9 +135,9 @@ public class FoodBiteThreeByThreeBlock extends FoodBiteBlock implements EntityBl
     }
 
     @Override
-    public void setPlacedBy(@NotNull Level worldIn, @NotNull BlockPos pos, @NotNull BlockState state, @Nullable LivingEntity placer, @NotNull ItemStack stack) {
+    public void setPlacedBy(@NonNull Level worldIn, @NonNull BlockPos pos, @NonNull BlockState state, @Nullable LivingEntity placer, @NonNull ItemStack stack) {
         super.setPlacedBy(worldIn, pos, state, placer, stack);
-        if (worldIn.isClientSide) {
+        if (worldIn.isClientSide()) {
             return;
         }
         for (int i = -1; i < 2; i++) {
@@ -162,7 +163,7 @@ public class FoodBiteThreeByThreeBlock extends FoodBiteBlock implements EntityBl
 
     @Nullable
     @Override
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+    public BlockEntity newBlockEntity(@NonNull BlockPos pos, BlockState state) {
         if (state.getValue(PART).isCenter()) {
             return new FoodBiteThreeByThreeBlockEntity(pos, state);
         }
@@ -170,12 +171,12 @@ public class FoodBiteThreeByThreeBlock extends FoodBiteBlock implements EntityBl
     }
 
     @Override
-    public RenderShape getRenderShape(BlockState state) {
-        return RenderShape.ENTITYBLOCK_ANIMATED;
+    public @NotNull RenderShape getRenderShape(@NonNull BlockState state) {
+        return RenderShape.MODEL;
     }
 
     @Override
-    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+    public @NotNull VoxelShape getShape(@NonNull BlockState pState, @NonNull BlockGetter pLevel, @NonNull BlockPos pPos, @NonNull CollisionContext pContext) {
         NinePart value = pState.getValue(PART);
         return switch (value) {
             case LEFT_UP -> LEFT_UP;
@@ -191,7 +192,7 @@ public class FoodBiteThreeByThreeBlock extends FoodBiteBlock implements EntityBl
     }
 
     @Override
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder pParams) {
+    public @NotNull List<ItemStack> getDrops(BlockState state, LootParams.@NonNull Builder pParams) {
         // 只有中心部分掉落物品
         if (state.getValue(PART) != NinePart.CENTER) {
             return Collections.emptyList();

@@ -15,8 +15,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
 public class StrawHatArmorRenderer implements ArmorRenderer {
-    private static final ResourceLocation NORMAL = new ResourceLocation(KaleidoscopeCookery.MOD_ID, "textures/models/armor/straw_hat.png");
-    private static final ResourceLocation FLOWER = new ResourceLocation(KaleidoscopeCookery.MOD_ID, "textures/models/armor/straw_hat_flower.png");
+    private static final ResourceLocation NORMAL = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "textures/models/armor/straw_hat.png");
+    private static final ResourceLocation FLOWER = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "textures/models/armor/straw_hat_flower.png");
     private StrawHatModel cachedModel = null;
 
     @Override

@@ -2,6 +2,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.init.registry;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModParticles;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
@@ -15,6 +16,7 @@ public class FoodBiteAnimateTicks {
             if (random.nextInt(2) != 0) {
                 return;
             }
+
             double x = pos.getX() + 0.5;
             double y = pos.getY() + 0.5;
             double z = pos.getZ() + 0.5;
@@ -38,11 +40,11 @@ public class FoodBiteAnimateTicks {
             double y = pos.getY() + 0.5;
             double z = pos.getZ() + 0.5;
 
-            level.addParticle(ParticleTypes.ENTITY_EFFECT,
+            level.addParticle(ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, 104 / 255f, 54 / 255f, 128 / 255f),
                     x + random.nextDouble() / 5 * (random.nextBoolean() ? 1 : -1),
                     y + random.nextDouble() / 5,
                     z + random.nextDouble() / 5 * (random.nextBoolean() ? 1 : -1),
-                    104 / 255f, 54 / 255f, 128 / 255f);
+                    0.1, 0.1, 0.1);
         }
     };
 

@@ -3,52 +3,49 @@ package com.github.ysbbbbbb.kaleidoscopecookery.entity;
 import com.github.ysbbbbbb.kaleidoscopecookery.advancements.critereon.ModEventTriggerType;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTrigger;
-import net.minecraft.MethodsReturnNonnullByDefault;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.animal.Wolf;
-import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
+import net.minecraft.world.entity.animal.wolf.Wolf;
+import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
-@MethodsReturnNonnullByDefault
+
 public class ThrowableBaoziEntity extends ThrowableItemProjectile {
     public static final EntityType<ThrowableBaoziEntity> TYPE = EntityType.Builder
             .<ThrowableBaoziEntity>of(ThrowableBaoziEntity::new, MobCategory.MISC)
             .sized(0.25F, 0.25F)
             .clientTrackingRange(4)
             .updateInterval(10)
-            .build("throwable_baozi");
+            .build(PortHelper.sign("throwable_baozi"));
 
     public ThrowableBaoziEntity(EntityType<? extends ThrowableItemProjectile> entityType, Level level) {
         super(entityType, level);
     }
 
-    public ThrowableBaoziEntity(EntityType<? extends ThrowableItemProjectile> entityType, double x, double y, double z, Level level) {
-        super(entityType, x, y, z, level);
+    public ThrowableBaoziEntity(EntityType<? extends ThrowableItemProjectile> entityType, double x, double y, double z, Level level, ItemStack stack) {
+        super(entityType, x, y, z, level, stack);
     }
 
-    public ThrowableBaoziEntity(EntityType<? extends ThrowableItemProjectile> entityType, LivingEntity shooter, Level level) {
-        super(entityType, shooter, level);
+    public ThrowableBaoziEntity(EntityType<? extends ThrowableItemProjectile> entityType, LivingEntity shooter, Level level ,ItemStack stack) {
+        super(entityType, shooter, level, stack);
     }
 
-    public ThrowableBaoziEntity(Level level, LivingEntity shooter) {
-        super(TYPE, shooter, level);
+    public ThrowableBaoziEntity(Level level, LivingEntity shooter, ItemStack stack) {
+        super(TYPE, shooter, level, stack);
     }
 
     @Override
-    protected Item getDefaultItem() {
+    protected @NonNull Item getDefaultItem() {
         return ModItems.BAOZI;
     }
 
@@ -80,7 +77,7 @@ public class ThrowableBaoziEntity extends ThrowableItemProjectile {
     }
 
     @Override
-    protected void onHitEntity(@NotNull EntityHitResult entityHitResult) {
+    protected void onHitEntity(@NonNull EntityHitResult entityHitResult) {
         super.onHitEntity(entityHitResult);
         Entity hitEntity = entityHitResult.getEntity();
         hitEntity.hurt(this.damageSources().thrown(this, this.getOwner()), 0);
@@ -99,18 +96,12 @@ public class ThrowableBaoziEntity extends ThrowableItemProjectile {
     }
 
     @Override
-    protected void onHit(@NotNull HitResult hitResult) {
+    protected void onHit(@NonNull HitResult hitResult) {
         super.onHit(hitResult);
-        if (!this.level().isClientSide) {
+        if (!this.level().isClientSide()) {
             this.level().broadcastEntityEvent(this, EntityEvent.DEATH);
             this.playSound(SoundEvents.SNOW_HIT, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
             this.discard();
         }
-    }
-
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        Entity entity = this.getOwner();
-        return new ClientboundAddEntityPacket(this, entity == null ? 0 : entity.getId());
     }
 }

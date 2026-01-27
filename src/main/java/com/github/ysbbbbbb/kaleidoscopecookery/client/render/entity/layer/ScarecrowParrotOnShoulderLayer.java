@@ -27,7 +27,7 @@ public class ScarecrowParrotOnShoulderLayer extends RenderLayer<ScarecrowEntity,
     @Override
     public void render(PoseStack poseStack, MultiBufferSource source, int packedLight, ScarecrowEntity scarecrow, float limbSwing,
                        float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        CompoundTag tag = scarecrow.getShoulderEntity();
+        CompoundTag tag = scarecrow.getShoulderEntityRef();
         if (tag.isEmpty()) {
             return;
         }

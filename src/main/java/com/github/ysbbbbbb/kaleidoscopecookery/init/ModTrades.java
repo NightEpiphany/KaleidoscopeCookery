@@ -3,15 +3,14 @@ package com.github.ysbbbbbb.kaleidoscopecookery.init;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.FoodBiteRegistry;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.RecipeItem;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
-import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.entity.npc.villager.VillagerTrades;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
 
 import static com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems.*;
 import static net.minecraft.world.item.Items.*;
-import static net.minecraft.world.item.Items.BROWN_MUSHROOM;
-import static net.minecraft.world.item.Items.PORKCHOP;
 
 public class ModTrades {
     public static void registerTrades() {
@@ -200,17 +199,17 @@ public class ModTrades {
     }
 
     private static VillagerTrades.ItemListing createRecipeTrade(Item input, int inputCount, RecipeItem.RecipeRecord record,
-                                                                int maxTrades, int xp, float priceMultiplier) {
-        ItemStack inputStack = new ItemStack(input, inputCount);
+                                                          int maxTrades, int xp, float priceMultiplier) {
+        ItemCost inputStack = new ItemCost(input, inputCount);
         ItemStack outputStack = RECIPE_ITEM.getDefaultInstance();
         RecipeItem.setRecipe(outputStack, record);
-        return (trader, random) -> new MerchantOffer(inputStack, outputStack, maxTrades, xp, priceMultiplier);
+        return (trader, entity, randomSource) -> new MerchantOffer(inputStack, outputStack, maxTrades, xp, priceMultiplier);
     }
 
     private static VillagerTrades.ItemListing createTrade(Item input, int inputCount, Item output, int outputCount,
                                                           int maxTrades, int xp, float priceMultiplier) {
-        ItemStack inputStack = new ItemStack(input, inputCount);
+        ItemCost inputStack = new ItemCost(input, inputCount);
         ItemStack outputStack = new ItemStack(output, outputCount);
-        return (trader, random) -> new MerchantOffer(inputStack, outputStack, maxTrades, xp, priceMultiplier);
+        return (trader, entity, randomSource) -> new MerchantOffer(inputStack, outputStack, maxTrades, xp, priceMultiplier);
     }
 }

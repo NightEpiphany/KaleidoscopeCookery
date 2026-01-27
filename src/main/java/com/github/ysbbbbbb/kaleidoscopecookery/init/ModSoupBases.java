@@ -1,18 +1,18 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.init;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.soupbase.SoupBaseManager;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Items;
 
 public class ModSoupBases {
-    public static final ResourceLocation WATER = new ResourceLocation("minecraft", "water");
-    public static final ResourceLocation LAVA = new ResourceLocation("minecraft", "lava");
-    public static final ResourceLocation AXOLOTL_BUCKET = new ResourceLocation("minecraft", "axolotl_bucket");
-    public static final ResourceLocation COD_BUCKET = new ResourceLocation("minecraft", "cod_bucket");
-    public static final ResourceLocation SALMON_BUCKET = new ResourceLocation("minecraft", "salmon_bucket");
-    public static final ResourceLocation TROPICAL_FISH_BUCKET = new ResourceLocation("minecraft", "tropical_fish_bucket");
-    public static final ResourceLocation PUFFERFISH_BUCKET = new ResourceLocation("minecraft", "pufferfish_bucket");
-    public static final ResourceLocation TADPOLE_BUCKET = new ResourceLocation("minecraft", "tadpole_bucket");
+    public static final Identifier WATER = Identifier.fromNamespaceAndPath("minecraft", "water");
+    public static final Identifier LAVA = Identifier.fromNamespaceAndPath("minecraft", "lava");
+    public static final Identifier AXOLOTL_BUCKET = Identifier.fromNamespaceAndPath("minecraft", "axolotl_bucket");
+    public static final Identifier COD_BUCKET = Identifier.fromNamespaceAndPath("minecraft", "cod_bucket");
+    public static final Identifier SALMON_BUCKET = Identifier.fromNamespaceAndPath("minecraft", "salmon_bucket");
+    public static final Identifier TROPICAL_FISH_BUCKET = Identifier.fromNamespaceAndPath("minecraft", "tropical_fish_bucket");
+    public static final Identifier PUFFERFISH_BUCKET = Identifier.fromNamespaceAndPath("minecraft", "pufferfish_bucket");
+    public static final Identifier TADPOLE_BUCKET = Identifier.fromNamespaceAndPath("minecraft", "tadpole_bucket");
 
     public static void registerSoupBases() {
         SoupBaseManager.registerFluidSoupBase(WATER, Items.WATER_BUCKET, 0x3F76E4);

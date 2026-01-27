@@ -7,6 +7,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -28,7 +29,7 @@ public class PotOverlayEvent {
         HudRenderCallback.EVENT.register(PotOverlayEvent::render);
     }
 
-    private static void render(GuiGraphics guiGraphics, float tickDelta) {
+    private static void render(GuiGraphics guiGraphics, DeltaTracker tickCounter) {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.gameMode == null || minecraft.gameMode.getPlayerMode() == GameType.SPECTATOR) {
             return;
