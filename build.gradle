@@ -12,6 +12,21 @@ base {
 
 repositories {
 	maven {
+		name = "Greenhouse Maven"
+		url = 'https://repo.greenhouse.house/releases/'
+	}
+	maven {
+		name = "Greenhouse Maven"
+		url = 'https://repo.greenhouse.house/snapshots/' // Porting Lib Hotfixes
+	}
+	maven { url "https://mvn.devos.one/snapshots/" } // Porting Lib Betas
+	maven {
+		url "https://jitpack.io/" // Fabric ASM
+		content {
+			excludeGroup "io.github.fabricators_of_create"
+		}
+	}
+	maven {
         name = "Fuzs Mod Resources"
         url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
     }
@@ -22,6 +37,7 @@ loom {
 }
 
 dependencies {
+	modImplementation "vectorwing:FarmersDelight:1.21.11-3.4.3+refabricated"
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings loom.officialMojangMappings()

@@ -1,18 +1,18 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.model;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.resources.Identifier;
 
-public class ColdCutHamSlicesModel extends Model {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "cold_cut_ham_slices"), "main");
+public class ColdCutHamSlicesModel extends Model<ColdCutHamSlicesModel.State> {
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "cold_cut_ham_slices"), "main");
 
     private final ModelPart food;
     private final ModelPart base;
@@ -27,7 +27,7 @@ public class ColdCutHamSlicesModel extends Model {
     private final ModelPart bite8;
 
     public ColdCutHamSlicesModel(ModelPart root) {
-        super(RenderType::entityCutoutNoCull);
+        super(root, RenderTypes::entityCutoutNoCull);
 
         this.base = root.getChild("base");
         this.food = root.getChild("food");
@@ -102,12 +102,6 @@ public class ColdCutHamSlicesModel extends Model {
         return LayerDefinition.create(meshdefinition, 256, 64);
     }
 
-    @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
-        food.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
-        base.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
-    }
-
     public void updateBites(int bites) {
         this.bite1.visible = bites < 8;
         this.bite2.visible = bites < 7;
@@ -128,5 +122,9 @@ public class ColdCutHamSlicesModel extends Model {
         this.bite6.visible = true;
         this.bite7.visible = true;
         this.bite8.visible = true;
+    }
+
+    @Environment(EnvType.CLIENT)
+    public record State() {
     }
 }

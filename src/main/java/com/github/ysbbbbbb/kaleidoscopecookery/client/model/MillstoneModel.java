@@ -1,18 +1,22 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.model;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.resources.Identifier;
+import net.minecraft.util.Mth;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 
-public class MillstoneModel extends Model {
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "millstone"), "main");
+public class MillstoneModel extends Model<MillstoneModel.State> {
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "millstone"), "main");
     private final ModelPart base;
     private final ModelPart wheel;
     private final ModelPart roll;
@@ -20,7 +24,7 @@ public class MillstoneModel extends Model {
     private final ModelPart rotStick;
 
     public MillstoneModel(ModelPart root) {
-        super(RenderType::entityCutoutNoCull);
+        super(root, RenderTypes::entityCutoutNoCull);
         this.base = root.getChild("base");
         this.wheel = root.getChild("wheel");
         this.roll = this.wheel.getChild("roll");
@@ -61,9 +65,12 @@ public class MillstoneModel extends Model {
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
-        base.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
-        wheel.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
+    public void setupAnim(State object) {
+        super.setupAnim(object);
+
+        this.wheel.yRot = -object.rot * Mth.DEG_TO_RAD;
+        this.roll.zRot = object.rot * Mth.DEG_TO_RAD;
+        this.rotStick.xRot = -object.liftAngle * Mth.DEG_TO_RAD;
     }
 
     public ModelPart getWheel() {
@@ -76,5 +83,9 @@ public class MillstoneModel extends Model {
 
     public ModelPart getRotStick() {
         return rotStick;
+    }
+
+    @Environment(EnvType.CLIENT)
+    public record State(Level levelAccessor, boolean hasEntity, float cacheRot, float rot, ItemStack input, float liftAngle) {
     }
 }

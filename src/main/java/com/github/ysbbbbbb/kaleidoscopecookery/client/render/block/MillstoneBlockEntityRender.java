@@ -4,106 +4,139 @@ import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.MillstoneBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.MillstoneBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.model.MillstoneModel;
-import com.github.ysbbbbbb.kaleidoscopecookery.client.resources.ItemRenderReplacer;
-import com.github.ysbbbbbb.kaleidoscopecookery.client.resources.ItemRenderReplacerReloadListener;
+import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstate.MillstoneBlockEntityRenderState;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.neo.IBlockEntityRendererExtension;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
-import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.item.ItemModelResolver;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
-public class MillstoneBlockEntityRender implements BlockEntityRenderer<MillstoneBlockEntity>, IBlockEntityRendererExtension<MillstoneBlockEntity> {
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "textures/block/millstone.png");
+public class MillstoneBlockEntityRender implements BlockEntityRenderer<MillstoneBlockEntity, MillstoneBlockEntityRenderState>, IBlockEntityRendererExtension<MillstoneBlockEntity> {
+    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "textures/block/millstone.png");
 
     private final BlockEntityRendererProvider.Context context;
     private final MillstoneModel bodyModel;
+    private final ItemModelResolver itemModelResolver;
 
     public MillstoneBlockEntityRender(BlockEntityRendererProvider.Context context) {
         this.context = context;
+        itemModelResolver = context.itemModelResolver();
         this.bodyModel = new MillstoneModel(context.bakeLayer(MillstoneModel.LAYER_LOCATION));
     }
 
-    @Override
-    public void render(MillstoneBlockEntity millstone, float partialTick, PoseStack poseStack,
-                       MultiBufferSource buffer, int packedLight, int packedOverlay) {
-        Level level = millstone.getLevel();
-        if (level == null) {
-            return;
-        }
-        Direction facing = millstone.getBlockState().getValue(MillstoneBlock.FACING);
-        this.renderBody(poseStack, buffer, packedLight, packedOverlay, partialTick, facing, millstone, level);
 
-        if (!millstone.getOutput().isEmpty()) {
-            renderItems(millstone, poseStack, buffer, packedLight, packedOverlay,
-                    millstone.getOutput(), context.getItemRenderer());
-        } else if (!millstone.getInput().isEmpty()) {
-            renderItems(millstone, poseStack, buffer, packedLight, packedOverlay,
-                    millstone.getInput(), context.getItemRenderer());
+    @Override
+    public void extractRenderState(MillstoneBlockEntity blockEntity, MillstoneBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
+        BlockEntityRenderer.super.extractRenderState(blockEntity, blockEntityRenderState, f, vec3, crumblingOverlay);
+        Direction facing = blockEntityRenderState.blockState.getValue(MillstoneBlock.FACING);
+        int facingDeg = facing.get2DDataValue() * 90;
+        int i = (int)blockEntity.getBlockPos().asLong();
+        blockEntityRenderState.levelAccessor = blockEntity.getLevel();
+        blockEntityRenderState.hasEntity = blockEntity.hasEntity();
+        blockEntityRenderState.cacheRot = blockEntity.getCacheRot();
+        blockEntityRenderState.rot = blockEntity.getLevel() != null ? facingDeg + blockEntity.getRotation(blockEntity.getLevel(), f) : 0f;
+        blockEntityRenderState.input = blockEntity.getInput();
+        blockEntityRenderState.liftAngle = blockEntity.getLiftAngle();
+        int maxCount = Math.min(blockEntityRenderState.input.getCount(), MillstoneBlockEntity.MAX_INPUT_COUNT);
+        for (int j = 0; j < maxCount; j++) {
+            ItemStackRenderState itemStackRenderState = new ItemStackRenderState();
+            this.itemModelResolver
+                    .updateForTopItem(itemStackRenderState, blockEntityRenderState.input, ItemDisplayContext.FIXED, blockEntity.getLevel(), null, i + j);
+            blockEntityRenderState.itemsToRender.add(itemStackRenderState);
         }
     }
 
-    private void renderBody(PoseStack poseStack, MultiBufferSource bufferIn, int combinedLightIn,
-                            int combinedOverlayIn, float partialTick,
-                            Direction facing, MillstoneBlockEntity millstone, Level level) {
-        int facingDeg = facing.get2DDataValue() * 90;
+    @Override
+    public MillstoneBlockEntityRenderState createRenderState() {
+        return new MillstoneBlockEntityRenderState();
+    }
 
-        if (millstone.hasEntity()) {
-            float rot = facingDeg + millstone.getRotation(level, partialTick);
-            this.bodyModel.getWheel().yRot = -rot * Mth.DEG_TO_RAD;
-            this.bodyModel.getRoll().zRot = rot * Mth.DEG_TO_RAD;
-            this.bodyModel.getRotStick().xRot = -millstone.getLiftAngle() * Mth.DEG_TO_RAD;
+    @Override
+    public void submit(MillstoneBlockEntityRenderState blockEntityRenderState, @NonNull PoseStack poseStack, @NonNull SubmitNodeCollector submitNodeCollector, @NonNull CameraRenderState cameraRenderState) {
+        if (blockEntityRenderState.levelAccessor == null) return;
+        Direction facing = blockEntityRenderState.blockState.getValue(MillstoneBlock.FACING);
+        int facingDeg = facing.get2DDataValue() * 90;
+        MillstoneModel.State state = new MillstoneModel.State(
+                blockEntityRenderState.levelAccessor,
+                blockEntityRenderState.hasEntity,
+                blockEntityRenderState.cacheRot,
+                blockEntityRenderState.rot,
+                blockEntityRenderState.input,
+                blockEntityRenderState.liftAngle
+        );
+        if (blockEntityRenderState.hasEntity) {
+            this.bodyModel.setupAnim(state);
         } else {
-            float rot = facingDeg + millstone.getCacheRot();
+            float rot = facingDeg + blockEntityRenderState.cacheRot;
             this.bodyModel.getWheel().yRot = -rot * Mth.DEG_TO_RAD;
         }
-
         poseStack.pushPose();
         poseStack.translate(0.5, 1.5, 0.5);
         poseStack.mulPose(Axis.ZN.rotationDegrees(180));
         poseStack.mulPose(Axis.YN.rotationDegrees(180 - facingDeg));
-        VertexConsumer checkerBoardBuff = bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE));
-        bodyModel.renderToBuffer(poseStack, checkerBoardBuff, combinedLightIn, combinedOverlayIn);
+        RenderType renderType = RenderTypes.entityCutoutNoCull(TEXTURE);
+        submitNodeCollector.submitModel(
+                bodyModel,
+                state,
+                poseStack,
+                renderType,
+                blockEntityRenderState.lightCoords,
+                OverlayTexture.NO_OVERLAY,
+                0,
+                null
+        );
         poseStack.popPose();
-
         this.bodyModel.getWheel().yRot = 0;
         this.bodyModel.getRoll().zRot = 0;
         this.bodyModel.getRotStick().xRot = 0;
-    }
 
-    private void renderItems(MillstoneBlockEntity millstone, PoseStack poseStack, MultiBufferSource buffer, int packedLight,
-                             int packedOverlay, ItemStack renderItem, ItemRenderer itemRenderer) {
-        RandomSource source = RandomSource.create(millstone.hashCode());
-        int maxCount = Math.min(renderItem.getCount(), MillstoneBlockEntity.MAX_INPUT_COUNT);
-        BakedModel model = ItemRenderReplacer.getModel(millstone.getLevel(), renderItem, ItemRenderReplacerReloadListener.INSTANCE.millstone());
-        for (int i = 0; i < maxCount; i++) {
-            poseStack.pushPose();
-            poseStack.translate(0, 0.875, 0);
-            poseStack.rotateAround(Axis.YP.rotationDegrees(i * 45 + source.nextInt(15)), 0.5f, 0, 0.5f);
-            poseStack.mulPose(Axis.YP.rotationDegrees(source.nextInt(20)));
-            poseStack.mulPose(Axis.XN.rotationDegrees(80 + source.nextInt(20)));
-            poseStack.scale(0.65F, 0.65F, 0.65F);
-            itemRenderer.render(renderItem, ItemDisplayContext.FIXED,
-                    false, poseStack, buffer, packedLight, packedOverlay, model);
-            poseStack.popPose();
+        if (!blockEntityRenderState.input.isEmpty()) {
+            ItemStack renderItem = blockEntityRenderState.input;
+            RandomSource source = RandomSource.create(blockEntityRenderState.hashCode());
+            int maxCount = Math.min(renderItem.getCount(), MillstoneBlockEntity.MAX_INPUT_COUNT);
+            for (int i = 0; i < maxCount; i++) {
+                ItemStackRenderState itemStackRenderState = blockEntityRenderState.itemsToRender.get(i);
+                poseStack.pushPose();
+                poseStack.translate(0, 0.875, 0);
+                poseStack.rotateAround(Axis.YP.rotationDegrees(i * 45 + source.nextInt(15)), 0.5f, 0, 0.5f);
+                poseStack.mulPose(Axis.YP.rotationDegrees(source.nextInt(20)));
+                poseStack.mulPose(Axis.XN.rotationDegrees(80 + source.nextInt(20)));
+                poseStack.scale(0.65F, 0.65F, 0.65F);
+                itemStackRenderState.submit(
+                        poseStack,
+                        submitNodeCollector,
+                        blockEntityRenderState.lightCoords,
+                        OverlayTexture.NO_OVERLAY,
+                        0
+                );
+                poseStack.popPose();
+            }
         }
     }
 
     @Override
-    public boolean shouldRenderOffScreen(MillstoneBlockEntity millstone) {
+    public boolean shouldRenderOffScreen() {
         return true;
     }
 
