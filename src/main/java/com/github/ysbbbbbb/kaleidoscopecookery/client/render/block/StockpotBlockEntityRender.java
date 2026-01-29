@@ -9,6 +9,8 @@ import com.github.ysbbbbbb.kaleidoscopecookery.client.resources.ItemRenderReplac
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.soupbase.SoupBaseManager;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -23,6 +25,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Function;
 
+@Environment(EnvType.CLIENT)
 public class StockpotBlockEntityRender implements BlockEntityRenderer<StockpotBlockEntity> {
     private final BlockEntityRendererProvider.Context context;
     private final Function<ResourceLocation, ISoupBaseRender> soupBaseRender;

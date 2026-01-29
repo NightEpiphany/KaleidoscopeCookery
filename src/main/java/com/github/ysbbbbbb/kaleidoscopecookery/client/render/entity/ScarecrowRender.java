@@ -7,12 +7,15 @@ import com.github.ysbbbbbb.kaleidoscopecookery.client.render.entity.layer.Scarec
 import com.github.ysbbbbbb.kaleidoscopecookery.entity.ScarecrowEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
+@Environment(EnvType.CLIENT)
 public class ScarecrowRender extends LivingEntityRenderer<ScarecrowEntity, ScarecrowModel> {
     public static final ResourceLocation TEXTURE = new ResourceLocation(KaleidoscopeCookery.MOD_ID, "textures/entity/scarecrow.png");
 

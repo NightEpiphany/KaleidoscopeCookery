@@ -3,6 +3,8 @@ package com.github.ysbbbbbb.kaleidoscopecookery.client.render.soupbase;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.StockpotBlockEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -10,7 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.material.Fluid;
-
+@Environment(EnvType.CLIENT)
 public class MobSoupBaseRender extends FluidSoupBaseRender {
     private final EntityType<?> mobType;
 

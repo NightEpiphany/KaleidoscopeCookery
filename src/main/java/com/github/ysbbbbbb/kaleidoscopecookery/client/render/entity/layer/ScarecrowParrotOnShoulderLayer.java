@@ -4,6 +4,8 @@ import com.github.ysbbbbbb.kaleidoscopecookery.client.model.ScarecrowModel;
 import com.github.ysbbbbbb.kaleidoscopecookery.entity.ScarecrowEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.model.ParrotModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -15,7 +17,9 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Parrot;
+import org.jetbrains.annotations.NotNull;
 
+@Environment(EnvType.CLIENT)
 public class ScarecrowParrotOnShoulderLayer extends RenderLayer<ScarecrowEntity, ScarecrowModel> {
     private final ParrotModel model;
 
@@ -25,7 +29,7 @@ public class ScarecrowParrotOnShoulderLayer extends RenderLayer<ScarecrowEntity,
     }
 
     @Override
-    public void render(PoseStack poseStack, MultiBufferSource source, int packedLight, ScarecrowEntity scarecrow, float limbSwing,
+    public void render(@NotNull PoseStack poseStack, @NotNull MultiBufferSource source, int packedLight, ScarecrowEntity scarecrow, float limbSwing,
                        float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         CompoundTag tag = scarecrow.getShoulderEntity();
         if (tag.isEmpty()) {

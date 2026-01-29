@@ -3,12 +3,14 @@ package com.github.ysbbbbbb.kaleidoscopecookery.client.render.soupbase;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.client.render.ISoupBaseRender;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.StockpotBlockEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
-
+@Environment(EnvType.CLIENT)
 public class SimpleSoupBaseRender implements ISoupBaseRender {
     private final ResourceLocation soupBaseTexture;
 

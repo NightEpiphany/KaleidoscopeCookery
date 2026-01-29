@@ -8,6 +8,8 @@ import com.github.ysbbbbbb.kaleidoscopecookery.client.model.ColdCutHamSlicesMode
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -17,6 +19,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
+@Environment(EnvType.CLIENT)
 public class FoodBiteThreeByThreeBlockEntityRender implements BlockEntityRenderer<FoodBiteThreeByThreeBlockEntity> {
     private static final ResourceLocation COLD_CUT_HAM_SLICES_TEXTURE = new ResourceLocation(KaleidoscopeCookery.MOD_ID, "textures/block/cold_cut_ham_slices.png");
 

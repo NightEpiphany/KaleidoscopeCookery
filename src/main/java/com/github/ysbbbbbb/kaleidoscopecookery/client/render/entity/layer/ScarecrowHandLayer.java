@@ -5,6 +5,8 @@ import com.github.ysbbbbbb.kaleidoscopecookery.client.render.entity.ScarecrowRen
 import com.github.ysbbbbbb.kaleidoscopecookery.entity.ScarecrowEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -18,7 +20,9 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.LanternBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
+@Environment(EnvType.CLIENT)
 public class ScarecrowHandLayer extends ItemInHandLayer<ScarecrowEntity, ScarecrowModel> {
     private final ItemInHandRenderer itemRenderer;
     private final BlockRenderDispatcher blockRenderer;
@@ -30,8 +34,8 @@ public class ScarecrowHandLayer extends ItemInHandLayer<ScarecrowEntity, Scarecr
     }
 
     @Override
-    protected void renderArmWithItem(LivingEntity entity, ItemStack stack, ItemDisplayContext context, HumanoidArm arm,
-                                     PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+    protected void renderArmWithItem(@NotNull LivingEntity entity, ItemStack stack, @NotNull ItemDisplayContext context, @NotNull HumanoidArm arm,
+                                     @NotNull PoseStack poseStack, @NotNull MultiBufferSource bufferSource, int packedLight) {
         if (!stack.isEmpty()) {
             poseStack.pushPose();
             this.getParentModel().translateToHand(arm, poseStack);

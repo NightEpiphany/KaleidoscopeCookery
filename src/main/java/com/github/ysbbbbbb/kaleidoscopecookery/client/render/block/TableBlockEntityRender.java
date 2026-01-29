@@ -6,6 +6,8 @@ import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.TableBlock
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.Util;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -22,9 +24,11 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.BiFunction;
 
+@Environment(EnvType.CLIENT)
 public class TableBlockEntityRender implements BlockEntityRenderer<TableBlockEntity> {
     private static final BiFunction<DyeColor, Integer, ResourceLocation> CACHE_MODEL = Util.memoize((color, position) -> {
         String name = color.getName();
@@ -47,8 +51,8 @@ public class TableBlockEntityRender implements BlockEntityRenderer<TableBlockEnt
     }
 
     @Override
-    public void render(TableBlockEntity table, float pPartialTick, PoseStack poseStack,
-                       MultiBufferSource buffer, int packedLight, int packedOverlay) {
+    public void render(TableBlockEntity table, float pPartialTick, @NotNull PoseStack poseStack,
+                       @NotNull MultiBufferSource buffer, int packedLight, int packedOverlay) {
         ItemRenderer itemRenderer = this.context.getItemRenderer();
         BlockState blockState = table.getBlockState();
         Direction.Axis axis = blockState.getValue(TableBlock.AXIS);
@@ -64,7 +68,8 @@ public class TableBlockEntityRender implements BlockEntityRenderer<TableBlockEnt
             BakedModel model = itemRenderer.getItemModelShaper().getModelManager().getModel(cacheModel);
             RenderType renderType = RenderType.entityCutoutNoCull(InventoryMenu.BLOCK_ATLAS);
             VertexConsumer vertexConsumer = ItemRenderer.getFoilBufferDirect(buffer, renderType, true, false);
-            itemRenderer.renderModelLists(model, ItemStack.EMPTY, packedLight, packedOverlay, poseStack, vertexConsumer);
+            if (model != null)
+                itemRenderer.renderModelLists(model, ItemStack.EMPTY, packedLight, packedOverlay, poseStack, vertexConsumer);
             poseStack.popPose();
         }
 

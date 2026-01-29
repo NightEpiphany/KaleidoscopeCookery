@@ -1,10 +1,13 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.particle;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.particle.StockpotParticleOptions;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import org.joml.Vector3f;
 
+@Environment(EnvType.CLIENT)
 public class StockpotParticle extends TextureSheetParticle {
     private final SpriteSet spriteSet;
 
