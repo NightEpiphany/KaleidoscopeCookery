@@ -5,6 +5,8 @@ import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.ChoppingBoard
 import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstate.ChoppingBoardBlockEntityRenderState;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.model.loading.v1.ExtraModelKey;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Sheets;
@@ -13,14 +15,17 @@ import net.minecraft.client.renderer.block.model.BlockStateModel;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
-import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
+@Environment(EnvType.CLIENT)
 public class ChoppingBoardBlockEntityRender implements BlockEntityRenderer<ChoppingBoardBlockEntity, ChoppingBoardBlockEntityRenderState> {
     private final Minecraft minecraft = Minecraft.getInstance();
     public ChoppingBoardBlockEntityRender(BlockEntityRendererProvider.Context context) {
@@ -34,7 +39,6 @@ public class ChoppingBoardBlockEntityRender implements BlockEntityRenderer<Chopp
     @Override
     public void extractRenderState(ChoppingBoardBlockEntity blockEntity, ChoppingBoardBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, blockEntityRenderState, f, vec3, crumblingOverlay);
-        ItemStackRenderState itemStackRenderState = new ItemStackRenderState();
         blockEntityRenderState.modelId = blockEntity.getModelId();
         blockEntityRenderState.previousModel = blockEntity.previousModel;
         blockEntityRenderState.cacheModels = blockEntity.cacheModels;
@@ -61,16 +65,25 @@ public class ChoppingBoardBlockEntityRender implements BlockEntityRenderer<Chopp
         if (cacheModel == null) {
             return;
         }
-        final ExtraModelKey<BlockStateModel> MODEL_KEY = ExtraModelKey.create(cacheModel::toString);
+        BlockStateModel model = minecraft.getModelManager().getModel(ExtraModelKey.create(cacheModel::toString));
+        if (model == null) return;
+        RenderType renderType = Sheets.cutoutBlockSheet();
         poseStack.pushPose();
         int rotation = blockEntityRenderState.blockState.getValue(ChoppingBoardBlock.FACING).get2DDataValue();
         poseStack.translate(0.5D, 0, 0.5D);
         poseStack.mulPose(Axis.YP.rotationDegrees(rotation * 90));
         poseStack.translate(-0.5D, 0.125, -0.5D);
-        BlockStateModel model = minecraft.getModelManager().getModel(MODEL_KEY);
-        if (model == null) return;
-        RenderType renderType = Sheets.cutoutBlockSheet();
-
+        submitNodeCollector.submitBlockModel(
+                poseStack,
+                renderType,
+                model,
+                1.0F,
+                1.0F,
+                1.0F,
+                blockEntityRenderState.lightCoords,
+                OverlayTexture.NO_OVERLAY,
+                0
+        );
         poseStack.popPose();
     }
 }

@@ -3,10 +3,10 @@ package com.github.ysbbbbbb.kaleidoscopecookery.client.renderstate;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
-import net.minecraft.world.item.DyeColor;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
 
 @Environment(EnvType.CLIENT)
-public class ChairBlockEntityRenderState extends BlockEntityRenderState {
-    public DyeColor color = DyeColor.WHITE;
-    public boolean hasCarpet = false;
+public class KitchenwareRacksBlockEntityRenderState extends BlockEntityRenderState {
+    public ItemStackRenderState left;
+    public ItemStackRenderState right;
 }
