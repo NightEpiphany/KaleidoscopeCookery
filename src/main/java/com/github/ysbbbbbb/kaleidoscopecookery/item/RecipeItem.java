@@ -319,7 +319,7 @@ public class RecipeItem extends BlockItem {
     }
 
     @Override
-    public @NotNull Optional<TooltipComponent> getTooltipImage(ItemStack stack) {
+    public @NotNull Optional<TooltipComponent> getTooltipImage(@NonNull ItemStack stack) {
         if (hasRecipe(stack)) {
             RecipeRecord recipe = getRecipe(stack);
             if (recipe == null) {
@@ -341,6 +341,8 @@ public class RecipeItem extends BlockItem {
                 ItemStack.CODEC.fieldOf("output").forGetter(RecipeRecord::output),
                 Identifier.CODEC.fieldOf("type").forGetter(RecipeRecord::type)
         ).apply(instance, RecipeRecord::new));
+
+        public static final RecipeRecord INSTANCE = new RecipeRecord(List.of(), ItemStack.EMPTY, POT);
 
         public static final StreamCodec<RegistryFriendlyByteBuf, RecipeRecord> STREAM_CODEC = new StreamCodec<>() {
             @Override

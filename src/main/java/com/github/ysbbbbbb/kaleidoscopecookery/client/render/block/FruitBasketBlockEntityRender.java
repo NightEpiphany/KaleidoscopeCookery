@@ -1,7 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.render.block;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.FruitBasketBlockEntity;
-import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstate.FruitBasketBlockEntityRenderState;
+import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates.FruitBasketBlockEntityRenderState;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.fabricmc.api.EnvType;
@@ -16,7 +16,6 @@ import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemDisplayContext;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.NonNull;
@@ -24,11 +23,9 @@ import org.jspecify.annotations.Nullable;
 
 @Environment(EnvType.CLIENT)
 public class FruitBasketBlockEntityRender implements BlockEntityRenderer<FruitBasketBlockEntity, FruitBasketBlockEntityRenderState> {
-    private final BlockEntityRendererProvider.Context context;
     private final ItemModelResolver itemModelResolver;
 
     public FruitBasketBlockEntityRender(BlockEntityRendererProvider.Context context) {
-        this.context = context;
         this.itemModelResolver = context.itemModelResolver();
     }
 
@@ -41,9 +38,10 @@ public class FruitBasketBlockEntityRender implements BlockEntityRenderer<FruitBa
     public void extractRenderState(FruitBasketBlockEntity blockEntity, FruitBasketBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, blockEntityRenderState, f, vec3, crumblingOverlay);
         blockEntityRenderState.items = NonNullList.withSize(blockEntity.getItems().size(), new ItemStackRenderState());
-       for (var index = 0; index < blockEntityRenderState.items.size(); index++) {
-           this.itemModelResolver.updateForTopItem(blockEntityRenderState.items.get(index), blockEntity.getItems().get(index), ItemDisplayContext.FIXED, blockEntity.getLevel(), null, index);
-       }
+        int posLong = (int) blockEntity.getBlockPos().asLong();
+        for (var index = 0; index < blockEntityRenderState.items.size(); index++) {
+            this.itemModelResolver.updateForTopItem(blockEntityRenderState.items.get(index), blockEntity.getItems().get(index), ItemDisplayContext.FIXED, blockEntity.getLevel(), null, posLong + index);
+        }
     }
 
     @Override

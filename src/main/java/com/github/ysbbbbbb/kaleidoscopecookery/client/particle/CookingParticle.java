@@ -1,19 +1,19 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.particle;
 
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.client.particle.*;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
-import org.jetbrains.annotations.NotNull;
+import net.minecraft.util.RandomSource;
+import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
-public class CookingParticle extends TextureSheetParticle {
+public class CookingParticle extends SingleQuadParticle {
     private final SpriteSet sprites;
 
-    protected CookingParticle(ClientLevel level, double pX, double pY, double pZ, double xSpeed, double ySpeed, double zSpeed, SpriteSet sprites) {
-        super(level, pX, pY, pZ, xSpeed, ySpeed, zSpeed);
+    protected CookingParticle(ClientLevel level, double pX, double pY, double pZ, SpriteSet sprites, TextureAtlasSprite textureAtlasSprite) {
+        super(level, pX, pY, pZ, textureAtlasSprite);
         this.friction = 0.96F;
         this.speedUpWhenYMotionIsBlocked = true;
         this.sprites = sprites;
@@ -29,13 +29,13 @@ public class CookingParticle extends TextureSheetParticle {
     }
 
     @Override
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
+    public float getQuadSize(float scaleFactor) {
+        return this.quadSize * Mth.clamp((this.age + scaleFactor) / this.lifetime * 32.0F, 0, 1);
     }
 
     @Override
-    public float getQuadSize(float scaleFactor) {
-        return this.quadSize * Mth.clamp((this.age + scaleFactor) / this.lifetime * 32.0F, 0, 1);
+    protected @NonNull Layer getLayer() {
+        return SingleQuadParticle.Layer.TRANSLUCENT;
     }
 
     @Override
@@ -52,10 +52,10 @@ public class CookingParticle extends TextureSheetParticle {
         }
 
         @Override
-        public CookingParticle createParticle(@NotNull SimpleParticleType option, @NotNull ClientLevel world,
-                                              double x, double y, double z,
-                                              double xSpeed, double ySpeed, double zSpeed) {
-            return new CookingParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.sprites);
+        public @Nullable Particle createParticle(SimpleParticleType particleOptions, @NonNull ClientLevel clientLevel, double d, double e, double f, double g, double h, double i, @NonNull RandomSource randomSource) {
+            var particle =  new CookingParticle(clientLevel, d, e, f, this.sprites, this.sprites.get(randomSource));
+            particle.setAlpha(0.98865F);
+            return particle;
         }
     }
 }

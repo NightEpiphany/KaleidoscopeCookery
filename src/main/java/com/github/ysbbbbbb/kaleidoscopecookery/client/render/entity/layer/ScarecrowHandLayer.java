@@ -2,39 +2,46 @@ package com.github.ysbbbbbb.kaleidoscopecookery.client.render.entity.layer;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.client.model.ScarecrowModel;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.render.entity.ScarecrowRender;
-import com.github.ysbbbbbb.kaleidoscopecookery.entity.ScarecrowEntity;
+import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates.ScarecrowEntityRenderState;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.HumanoidArm;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LanternBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jspecify.annotations.NonNull;
 
-public class ScarecrowHandLayer extends ItemInHandLayer<ScarecrowEntity, ScarecrowModel> {
-    private final ItemInHandRenderer itemRenderer;
-    private final BlockRenderDispatcher blockRenderer;
+@Environment(EnvType.CLIENT)
+public class ScarecrowHandLayer extends ItemInHandLayer<ScarecrowEntityRenderState, ScarecrowModel> {
 
-    public ScarecrowHandLayer(ScarecrowRender entityRenderer, ItemInHandRenderer itemRenderer, BlockRenderDispatcher blockRenderer) {
-        super(entityRenderer, itemRenderer);
-        this.itemRenderer = itemRenderer;
-        this.blockRenderer = blockRenderer;
+    public ScarecrowHandLayer(ScarecrowRender entityRenderer) {
+        super(entityRenderer);
     }
 
     @Override
-    protected void renderArmWithItem(LivingEntity entity, ItemStack stack, ItemDisplayContext context, HumanoidArm arm,
-                                     PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+    protected void submitArmWithItem(
+            ScarecrowEntityRenderState armedEntityRenderState,
+            @NonNull ItemStackRenderState itemStackRenderState,
+            @NonNull ItemStack stack,
+            @NonNull HumanoidArm arm,
+            @NonNull PoseStack poseStack,
+            @NonNull SubmitNodeCollector submitNodeCollector,
+            int i
+    ) {
         if (!stack.isEmpty()) {
             poseStack.pushPose();
-            this.getParentModel().translateToHand(arm, poseStack);
+            this.getParentModel().translateToHand(armedEntityRenderState, arm, poseStack);
             poseStack.mulPose(Axis.XP.rotationDegrees(-90.0F));
             poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
             boolean isLeft = arm == HumanoidArm.LEFT;
@@ -44,7 +51,7 @@ public class ScarecrowHandLayer extends ItemInHandLayer<ScarecrowEntity, Scarecr
                     poseStack.mulPose(Axis.XP.rotationDegrees(90));
                     BlockState blockState = lanternBlock.defaultBlockState();
                     poseStack.scale(0.75F, 0.75F, 0.75F);
-                    this.blockRenderer.renderSingleBlock(blockState, poseStack, bufferSource, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
+                    submitNodeCollector.submitBlock(poseStack, blockState, i, OverlayTexture.NO_OVERLAY, 0);
                     poseStack.popPose();
                 }
             } else {
@@ -52,7 +59,7 @@ public class ScarecrowHandLayer extends ItemInHandLayer<ScarecrowEntity, Scarecr
                 poseStack.mulPose(Axis.ZP.rotationDegrees(-90));
                 poseStack.mulPose(Axis.XP.rotationDegrees(85));
                 poseStack.scale(0.75F, 0.75F, 0.75F);
-                this.itemRenderer.renderItem(entity, stack, context, isLeft, poseStack, bufferSource, packedLight);
+                itemStackRenderState.submit(poseStack, submitNodeCollector, i, armedEntityRenderState.lightCoords, OverlayTexture.NO_OVERLAY);
                 poseStack.popPose();
             }
         }

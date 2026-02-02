@@ -3,25 +3,28 @@ package com.github.ysbbbbbb.kaleidoscopecookery.client.render.entity;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.entity.SitEntity;
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.resources.Identifier;
 
-public class SitRenderer extends EntityRenderer<SitEntity> {
-    private static final ResourceLocation EMPTY = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "textures/entity/empty.png");
+@Environment(EnvType.CLIENT)
+public class SitRenderer extends EntityRenderer<SitEntity, EntityRenderState> {
+    private static final Identifier EMPTY = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "textures/entity/empty.png");
 
     public SitRenderer(EntityRendererProvider.Context context) {
         super(context);
     }
 
-    @Override
-    public void render(SitEntity entitySit, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, int packedLightIn) {
-    }
-
-    @Override
-    public ResourceLocation getTextureLocation(SitEntity entitySit) {
+    public Identifier getTextureLocation(EntityRenderState state) {
         return EMPTY;
     }
+    @Override
+    public EntityRenderState createRenderState() {
+        return new EntityRenderState();
+    }
+
+
 }

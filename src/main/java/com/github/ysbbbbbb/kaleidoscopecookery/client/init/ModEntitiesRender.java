@@ -12,16 +12,17 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 
 @Environment(EnvType.CLIENT)
 public class ModEntitiesRender {
     public static void register() {
         // 注册实体渲染器
-        EntityRendererRegistry.register(SitEntity.TYPE, SitRenderer::new);
-        EntityRendererRegistry.register(ScarecrowEntity.TYPE, ScarecrowRender::new);
+        EntityRenderers.register(SitEntity.TYPE, SitRenderer::new);
+        EntityRenderers.register(ScarecrowEntity.TYPE, ScarecrowRender::new);
 
-        EntityRendererRegistry.register(ThrowableBaoziEntity.TYPE, ThrownItemRenderer::new);
+        EntityRenderers.register(ThrowableBaoziEntity.TYPE, ThrownItemRenderer::new);
 
         // 注册模型层定义
         EntityModelLayerRegistry.registerModelLayer(ScarecrowModel.LAYER_LOCATION, ScarecrowModel::createBodyLayer);

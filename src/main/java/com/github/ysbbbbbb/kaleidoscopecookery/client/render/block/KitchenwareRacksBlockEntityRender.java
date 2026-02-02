@@ -1,7 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.render.block;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.KitchenwareRacksBlockEntity;
-import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstate.KitchenwareRacksBlockEntityRenderState;
+import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates.KitchenwareRacksBlockEntityRenderState;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -18,11 +18,9 @@ import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 public class KitchenwareRacksBlockEntityRender implements BlockEntityRenderer<KitchenwareRacksBlockEntity, KitchenwareRacksBlockEntityRenderState> {
-    private final BlockEntityRendererProvider.Context context;
     private final ItemModelResolver itemModelResolver;
 
     public KitchenwareRacksBlockEntityRender(BlockEntityRendererProvider.Context context) {
-        this.context = context;
         this.itemModelResolver = context.itemModelResolver();
     }
 

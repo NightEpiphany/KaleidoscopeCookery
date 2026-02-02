@@ -1,44 +1,62 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.render.entity.layer;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.client.model.ScarecrowModel;
-import com.github.ysbbbbbb.kaleidoscopecookery.entity.ScarecrowEntity;
+import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates.ScarecrowEntityRenderState;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.ParrotModel;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.model.animal.parrot.ParrotModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayers;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.ParrotRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.entity.state.ParrotRenderState;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.animal.Parrot;
+import net.minecraft.world.entity.animal.parrot.Parrot;
+import org.jspecify.annotations.NonNull;
 
-public class ScarecrowParrotOnShoulderLayer extends RenderLayer<ScarecrowEntity, ScarecrowModel> {
+@Environment(EnvType.CLIENT)
+public class ScarecrowParrotOnShoulderLayer extends RenderLayer<ScarecrowEntityRenderState, ScarecrowModel> {
     private final ParrotModel model;
 
-    public ScarecrowParrotOnShoulderLayer(RenderLayerParent<ScarecrowEntity, ScarecrowModel> renderer, EntityModelSet modelSet) {
+    public ScarecrowParrotOnShoulderLayer(RenderLayerParent<ScarecrowEntityRenderState, ScarecrowModel> renderer, EntityModelSet modelSet) {
         super(renderer);
         this.model = new ParrotModel(modelSet.bakeLayer(ModelLayers.PARROT));
     }
 
+
+
     @Override
-    public void render(PoseStack poseStack, MultiBufferSource source, int packedLight, ScarecrowEntity scarecrow, float limbSwing,
-                       float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        CompoundTag tag = scarecrow.getShoulderEntityRef();
-        if (tag.isEmpty()) {
-            return;
-        }
-        EntityType.byString(tag.getString("id")).filter(type -> type == EntityType.PARROT).ifPresent(type -> {
+    public void submit(@NonNull PoseStack poseStack, @NonNull SubmitNodeCollector submitNodeCollector, int i, ScarecrowEntityRenderState entityRenderState, float f, float g) {
+        if (entityRenderState.entityOnShoulder instanceof Parrot parrot) {
             poseStack.pushPose();
             poseStack.translate(0.625F, -1.675F, 0.0625F);
-            Parrot.Variant variant = Parrot.Variant.byId(tag.getInt("Variant"));
-            VertexConsumer vertexconsumer = source.getBuffer(this.model.renderType(ParrotRenderer.getVariantTexture(variant)));
-            this.model.renderOnShoulder(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY,
-                    limbSwing, limbSwingAmount, netHeadYaw, headPitch, scarecrow.tickCount);
+            Parrot.Variant variant = parrot.getVariant();
+            RenderType renderType = this.model.renderType(ParrotRenderer.getVariantTexture(variant));
+            poseStack.pushPose();
+            poseStack.translate(0.4F, -1.5F, 0.0F);
+            ParrotRenderState parrotRenderState = new ParrotRenderState();
+            parrotRenderState.pose = ParrotModel.Pose.ON_SHOULDER;
+            parrotRenderState.ageInTicks = entityRenderState.ageInTicks;
+            parrotRenderState.walkAnimationPos = entityRenderState.walkAnimationPos;
+            parrotRenderState.walkAnimationSpeed = entityRenderState.walkAnimationSpeed;
+            parrotRenderState.yRot = f;
+            parrotRenderState.xRot = g;
+            submitNodeCollector.submitModel(
+                    this.model,
+                    parrotRenderState,
+                    poseStack,
+                    renderType,
+                    i,
+                    OverlayTexture.NO_OVERLAY,
+                    0,
+                    null
+            );
             poseStack.popPose();
-        });
+            poseStack.popPose();
+        }
     }
 }

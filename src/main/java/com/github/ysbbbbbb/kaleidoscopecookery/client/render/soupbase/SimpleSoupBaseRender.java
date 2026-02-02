@@ -1,48 +1,45 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.render.soupbase;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.api.client.render.ISoupBaseRender;
-import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.StockpotBlockEntity;
+import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates.StockpotBlockEntityRenderState;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.Identifier;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.inventory.InventoryMenu;
+import org.jspecify.annotations.NonNull;
 
 public class SimpleSoupBaseRender implements ISoupBaseRender {
-    private final ResourceLocation soupBaseTexture;
+    private final Identifier soupBaseTexture;
 
     public SimpleSoupBaseRender(Identifier soupBaseTexture) {
         this.soupBaseTexture = soupBaseTexture;
     }
 
-    @Override
-    public void renderWhenPutIngredient(StockpotBlockEntity stockpot, float partialTick, PoseStack poseStack,
-                                        MultiBufferSource buffer, int packedLight, int packedOverlay,
-                                        float soupHeight) {
-        ISoupBaseRender.renderSurface(this.getSprite(), 0xFFFFFFFF, poseStack, buffer, packedLight, soupHeight);
-    }
 
-    @Override
-    public void renderWhenCooking(StockpotBlockEntity stockpot, float partialTick, PoseStack poseStack,
-                                  MultiBufferSource buffer, int packedLight, int packedOverlay,
-                                  ResourceLocation cookingTexture, float soupHeight) {
-        var atlas = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS);
-        TextureAtlasSprite sprite = atlas.apply(cookingTexture);
-        ISoupBaseRender.renderSurface(sprite, 0xFFFFFFFF, poseStack, buffer, packedLight, soupHeight);
-    }
-
-    @Override
-    public void renderWhenFinished(StockpotBlockEntity stockpot, float partialTick, PoseStack poseStack,
-                                   MultiBufferSource buffer, int packedLight, int packedOverlay,
-                                   ResourceLocation finishedTexture, float soupHeight) {
-        var atlas = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS);
-        TextureAtlasSprite sprite = atlas.apply(finishedTexture);
-        ISoupBaseRender.renderSurface(sprite, 0xFFFFFFFF, poseStack, buffer, packedLight, soupHeight);
-    }
 
     private TextureAtlasSprite getSprite() {
-        return Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(this.soupBaseTexture);
+        return Minecraft.getInstance().getModelManager().atlasManager.getAtlasOrThrow(TextureAtlas.LOCATION_BLOCKS).getSprite(this.soupBaseTexture);
+    }
+
+    @Override
+    public void renderWhenPutIngredient(StockpotBlockEntityRenderState stockpot, float partialTick, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, int packedOverlay, float soupHeight, @NonNull CameraRenderState cameraRenderState) {
+        ISoupBaseRender.renderSurface(this.getSprite(), 0xFFFFFFFF, poseStack, packedLight, soupHeight);
+    }
+
+    @Override
+    public void renderWhenCooking(StockpotBlockEntityRenderState stockpot, float partialTick, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, int packedOverlay, Identifier cookingTexture, float soupHeight, @NonNull CameraRenderState cameraRenderState) {
+        var atlas = Minecraft.getInstance().getModelManager().atlasManager.getAtlasOrThrow(TextureAtlas.LOCATION_BLOCKS);
+        TextureAtlasSprite sprite = atlas.getSprite(cookingTexture);
+        ISoupBaseRender.renderSurface(sprite, 0xFFFFFFFF, poseStack, packedLight, soupHeight);
+    }
+
+    @Override
+    public void renderWhenFinished(StockpotBlockEntityRenderState stockpot, float partialTick, PoseStack poseStack, SubmitNodeCollector buffer, int packedLight, int packedOverlay, Identifier finishedTexture, float soupHeight, @NonNull CameraRenderState cameraRenderState) {
+        var atlas = Minecraft.getInstance().getModelManager().atlasManager.getAtlasOrThrow(TextureAtlas.LOCATION_BLOCKS);
+        TextureAtlasSprite sprite = atlas.getSprite(finishedTexture);
+        ISoupBaseRender.renderSurface(sprite, 0xFFFFFFFF, poseStack, packedLight, soupHeight);
     }
 }

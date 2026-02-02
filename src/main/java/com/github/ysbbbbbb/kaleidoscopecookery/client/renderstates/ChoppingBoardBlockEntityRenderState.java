@@ -1,9 +1,8 @@
-package com.github.ysbbbbbb.kaleidoscopecookery.client.renderstate;
+package com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
-import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 

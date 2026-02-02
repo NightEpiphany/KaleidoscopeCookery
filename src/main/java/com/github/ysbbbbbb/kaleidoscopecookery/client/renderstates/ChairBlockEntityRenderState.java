@@ -1,4 +1,4 @@
-package com.github.ysbbbbbb.kaleidoscopecookery.client.renderstate;
+package com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

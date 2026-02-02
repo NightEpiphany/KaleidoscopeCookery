@@ -1,7 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.render.block;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.PotBlockEntity;
-import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstate.PotBlockEntityRenderState;
+import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates.PotBlockEntityRenderState;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.fabricmc.api.EnvType;
@@ -18,7 +18,6 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemDisplayContext;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.NonNull;
@@ -28,11 +27,9 @@ import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public class PotBlockEntityRender implements BlockEntityRenderer<PotBlockEntity, PotBlockEntityRenderState> {
-    private final BlockEntityRendererProvider.Context context;
     private final ItemModelResolver itemModelResolver;
 
     public PotBlockEntityRender(BlockEntityRendererProvider.Context context) {
-        this.context = context;
         this.itemModelResolver = context.itemModelResolver();
     }
 
