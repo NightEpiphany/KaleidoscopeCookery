@@ -11,6 +11,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 public class ClientItemContainerTooltip implements ClientTooltipComponent {
     private final NonNullList<ItemStack> items = NonNullList.create();
@@ -30,7 +31,7 @@ public class ClientItemContainerTooltip implements ClientTooltipComponent {
     }
 
     @Override
-    public int getHeight() {
+    public int getHeight(@NonNull Font font) {
         if (emptyTip != null) {
             return 10;
         }
@@ -38,7 +39,7 @@ public class ClientItemContainerTooltip implements ClientTooltipComponent {
     }
 
     @Override
-    public int getWidth(Font font) {
+    public int getWidth(@NonNull Font font) {
         if (emptyTip != null) {
             return font.width(emptyTip);
         }
@@ -46,7 +47,7 @@ public class ClientItemContainerTooltip implements ClientTooltipComponent {
     }
 
     @Override
-    public void renderImage(Font font, int pX, int pY, GuiGraphics guiGraphics) {
+    public void renderImage(@NonNull Font font, int pX, int pY, int a, int b, @NonNull GuiGraphics guiGraphics) {
         if (emptyTip != null) {
             guiGraphics.drawString(font, emptyTip, pX, pY, ChatFormatting.GRAY.getColor());
         } else {

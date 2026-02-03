@@ -10,6 +10,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
@@ -28,7 +29,7 @@ public record StockpotRecipe(NonNullList<Ingredient> ingredients,
     public StockpotRecipe(List<Ingredient> ingredients, Identifier soupBase, ItemStack result,
                           int time, Ingredient carrier, Identifier cookingTexture, Identifier finishedTexture,
                           int cookingBubbleColor, int finishedBubbleColor) {
-        this(NonNullList.of(Ingredient.of(ItemStack.EMPTY.getItem()), BaseRecipe.fillInputs(ingredients)),
+        this(NonNullList.of(Ingredient.of(Items.BARRIER), BaseRecipe.fillInputs(ingredients)),
                 soupBase, result, time, carrier, cookingTexture, finishedTexture,
                 cookingBubbleColor, finishedBubbleColor);
     }

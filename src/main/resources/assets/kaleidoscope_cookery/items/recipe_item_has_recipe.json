@@ -1,0 +1,6 @@
+{
+  "model": {
+  "type": "minecraft:model",
+    "model": "kaleidoscope_cookery:item/recipe_item_has_recipe"
+  }
+}

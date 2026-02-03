@@ -2,6 +2,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.KitchenShovelItem;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
@@ -17,17 +18,14 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
@@ -52,16 +50,17 @@ public class EnamelBasinBlock extends Block implements SimpleWaterloggedBlock {
             Block.box(2.5, 5, 2.5, 13.5, 6, 13.5),
             Block.box(7, 6, 7, 9, 7, 9));
 
-    public EnamelBasinBlock() {
-        super(BlockBehaviour.Properties.of()
-                .mapColor(MapColor.STONE)
-                .instrument(NoteBlockInstrument.BELL)
-                .strength(1.0F, 1.5F)
-                .sound(SoundType.LANTERN));
+    public EnamelBasinBlock(BlockBehaviour.Properties p) {
+        super(p);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(WATERLOGGED, false)
                 .setValue(HAS_LID, true)
                 .setValue(OIL_COUNT, 0));
+    }
+
+    @Override
+    protected @NonNull MapCodec<? extends Block> codec() {
+        return simpleCodec(EnamelBasinBlock::new);
     }
 
     @Override

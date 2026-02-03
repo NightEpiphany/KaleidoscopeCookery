@@ -19,6 +19,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -46,8 +47,8 @@ public class FoodBiteBlock extends FoodBlock {
 
     protected VoxelShape aabb = FoodBlock.AABB;
 
-    public FoodBiteBlock(FoodProperties foodProperties, Consumable consumable, int maxBites, FoodBiteAnimateTicks.@Nullable AnimateTick animateTick) {
-        super();
+    public FoodBiteBlock(BlockBehaviour.Properties properties, FoodProperties foodProperties, Consumable consumable, int maxBites, FoodBiteAnimateTicks.@Nullable AnimateTick animateTick) {
+        super(properties);
         this.maxBites = maxBites;
         this.foodProperties = foodProperties;
         this.consumable = consumable;
@@ -60,8 +61,8 @@ public class FoodBiteBlock extends FoodBlock {
         this.registerDefaultState(this.stateDefinition.any().setValue(bites, 0).setValue(FACING, Direction.SOUTH));
     }
 
-    public FoodBiteBlock(FoodProperties foodProperties) {
-        this(foodProperties, Consumable.builder().build(), 3, null);
+    public FoodBiteBlock(BlockBehaviour.Properties properties, FoodProperties foodProperties) {
+        this(properties, foodProperties, Consumable.builder().build(), 3, null);
     }
 
     public IntegerProperty getBites() {

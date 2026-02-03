@@ -11,8 +11,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 
 public class LettuceCropBlock extends BaseCropBlock {
-    public LettuceCropBlock() {
-        super(() -> ModItems.LETTUCE, () -> ModItems.LETTUCE_SEED);
+    public LettuceCropBlock(Properties p) {
+        super(p, () -> ModItems.LETTUCE, () -> ModItems.LETTUCE_SEED);
     }
 
     @Override

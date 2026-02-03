@@ -10,20 +10,25 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NonNull;
 
 import java.util.List;
+import java.util.Optional;
 
-public record PotRecipe(int time, int stirFryCount, Ingredient carrier,
+public record PotRecipe(int time, int stirFryCount, Optional<Ingredient> carrier,
                         NonNullList<Ingredient> ingredients, ItemStack result) implements BaseRecipe<SimpleInput> {
-    public PotRecipe(int time, int stirFryCount, Ingredient carrier,
+    public PotRecipe(int time, int stirFryCount, Optional<Ingredient> carrier,
                      List<Ingredient> ingredients, ItemStack result) {
-        this(time, stirFryCount, carrier, NonNullList.of(Ingredient.of(ItemStack.EMPTY.getItem()),
+        this(time, stirFryCount, carrier, NonNullList.of(Ingredient.of(Items.BARRIER),
                 BaseRecipe.fillInputs(ingredients)), result);
     }
+
+
 
     @Override
     public boolean matches(SimpleInput simpleInput, @NonNull Level level) {

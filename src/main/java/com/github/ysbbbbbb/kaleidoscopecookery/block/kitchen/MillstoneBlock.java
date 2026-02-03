@@ -30,8 +30,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
-import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -41,7 +39,7 @@ import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NonNull;
 
 public class MillstoneBlock extends HorizontalDirectionalBlock implements EntityBlock {
-    public static final MapCodec<MillstoneBlock> CODEC = simpleCodec(p -> new MillstoneBlock());
+    public static final MapCodec<MillstoneBlock> CODEC = simpleCodec(MillstoneBlock::new);
     public static final EnumProperty<NinePart> PART = EnumProperty.create("part", NinePart.class);
 
     private static final VoxelShape CENTER = Block.box(-2, 0, -2, 18, 15, 18);
@@ -78,15 +76,8 @@ public class MillstoneBlock extends HorizontalDirectionalBlock implements Entity
             Block.box(0, 0, 0, 5, 6, 5),
             Block.box(0, 6, 0, 8, 14, 8));
 
-    public MillstoneBlock() {
-        super(Properties.of()
-                .mapColor(MapColor.STONE)
-                .instrument(NoteBlockInstrument.BASEDRUM)
-                .requiresCorrectToolForDrops()
-                .strength(1.5F, 6.0F)
-                .sound(SoundType.STONE)
-                .forceSolidOn()
-                .noOcclusion());
+    public MillstoneBlock(Properties p) {
+        super(p);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(PART, NinePart.CENTER)
                 .setValue(FACING, Direction.NORTH));

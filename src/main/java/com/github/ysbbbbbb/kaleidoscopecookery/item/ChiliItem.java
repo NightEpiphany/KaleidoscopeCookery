@@ -1,6 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.item;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModFoods;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -10,8 +11,8 @@ import org.jspecify.annotations.NonNull;
 public class ChiliItem extends Item {
     private final int damage;
 
-    public ChiliItem(int damage) {
-        super(new Properties().food(ModFoods.CHILI));
+    public ChiliItem(Properties p, int damage) {
+        super(p.food(ModFoods.CHILI).setId(PortHelper.createItemId(damage == 1 ? "green_chili" : "red_chili")));
         this.damage = damage;
     }
 

@@ -14,14 +14,15 @@ import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 
 public class BowlFoodOnlyItem extends FoodWithEffectsItem implements IHasContainer {
     private final List<MobEffectInstance> effectInstances = Lists.newArrayList();
 
-    public BowlFoodOnlyItem(FoodProperties properties, Consumable consumable) {
-        super(properties);
+    public BowlFoodOnlyItem(Properties p, FoodProperties properties, Consumable consumable) {
+        super(p, properties, consumable);
         consumable.onConsumeEffects().forEach(consumeEffect -> {
             if (consumeEffect instanceof ApplyStatusEffectsConsumeEffect(List<MobEffectInstance> effects, float probability)) {
                 effectInstances.addAll(effects);
@@ -30,7 +31,7 @@ public class BowlFoodOnlyItem extends FoodWithEffectsItem implements IHasContain
     }
 
     @Override
-    public @NotNull ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
+    public @NotNull ItemStack finishUsingItem(@NonNull ItemStack stack, @NonNull Level level, @NonNull LivingEntity entity) {
         ItemStack itemStack = super.finishUsingItem(stack, level, entity);
         ItemStack bowl = new ItemStack(Items.BOWL);
         if (itemStack.isEmpty()) {

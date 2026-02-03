@@ -1,5 +1,6 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.block.misc;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.RandomSource;
@@ -7,24 +8,21 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.MapColor;
 import org.jspecify.annotations.NonNull;
 
 public class OilBlock extends Block {
-    public OilBlock() {
-        super(BlockBehaviour.Properties.of()
-                .mapColor(MapColor.ICE)
-                // 讨个好彩头，考上 985
-                .friction(0.985f)
-                .sound(SoundType.SLIME_BLOCK)
-                .noOcclusion()
-                .isValidSpawn(OilBlock::never)
-        );
+    public OilBlock(BlockBehaviour.Properties p) {
+        super(p);
     }
 
+    @Override
+    protected @NonNull MapCodec<? extends Block> codec() {
+        return simpleCodec(OilBlock::new);
+    }
+
+    @Deprecated
     private static boolean never(BlockState state, BlockGetter blockGetter, BlockPos pos, EntityType<?> entityType) {
         return false;
     }

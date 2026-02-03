@@ -292,7 +292,7 @@ public class PotBlockEntity extends BaseBlockEntity implements IPot {
             serverLevel.recipeAccess().getRecipeFor(ModRecipes.POT_RECIPE, simpleInput, level).ifPresentOrElse(recipe -> {
                 // 如果合成表符合，那么进入炒菜阶段
                 PotRecipe value = recipe.value();
-                this.carrier = value.carrier();
+                this.carrier = value.carrier().orElse(Ingredient.of(Items.BARRIER));
                 this.result = value.assemble(simpleInput, level.registryAccess());
                 this.currentTick = value.time();
                 this.stirFryCount = value.stirFryCount();

@@ -12,8 +12,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 
 public class ChiliCropBlock extends BaseCropBlock {
-    public ChiliCropBlock() {
-        super(() -> ModItems.RED_CHILI, () -> ModItems.CHILI_SEED);
+    public ChiliCropBlock(Properties p) {
+        super(p, () -> ModItems.RED_CHILI, () -> ModItems.CHILI_SEED);
     }
 
     @Override

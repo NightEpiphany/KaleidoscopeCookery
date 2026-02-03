@@ -7,6 +7,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModSoundType;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTrigger;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -25,6 +26,7 @@ import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -46,7 +48,7 @@ import java.util.List;
 
 @SuppressWarnings({"unchecked"})
 public class StockpotBlock extends HorizontalDirectionalBlock implements EntityBlock, SimpleWaterloggedBlock {
-    public static final MapCodec<StockpotBlock> CODEC = simpleCodec(p -> new StockpotBlock());
+    public static final MapCodec<StockpotBlock> CODEC = simpleCodec(StockpotBlock::new);
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final BooleanProperty HAS_LID = BooleanProperty.create("has_lid");
     public static final BooleanProperty HAS_BASE = BooleanProperty.create("has_base");
@@ -59,11 +61,8 @@ public class StockpotBlock extends HorizontalDirectionalBlock implements EntityB
             Block.box(2, 0, 2, 14, 9, 14),
             Block.box(1, 5, 1, 15, 7, 15));
 
-    public StockpotBlock() {
-        super(Properties.of()
-                .mapColor(MapColor.METAL)
-                .sound(ModSoundType.POT).noOcclusion()
-                .strength(1.5F, 6.0F));
+    public StockpotBlock(BlockBehaviour.Properties p) {
+        super(p);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.SOUTH)
                 .setValue(WATERLOGGED, false)

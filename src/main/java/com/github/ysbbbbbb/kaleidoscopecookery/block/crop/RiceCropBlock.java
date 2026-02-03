@@ -68,8 +68,8 @@ public class RiceCropBlock extends BaseCropBlock implements SimpleWaterloggedBlo
             Block.box(2, 0, 2, 14, 6, 14)
     };
 
-    public RiceCropBlock() {
-        super(() -> ModItems.RICE_PANICLE, () -> ModItems.RICE_SEED);
+    public RiceCropBlock(Properties p) {
+        super(p, () -> ModItems.RICE_PANICLE, () -> ModItems.RICE_SEED);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(this.getAgeProperty(), 0)
                 .setValue(WATERLOGGED, false)

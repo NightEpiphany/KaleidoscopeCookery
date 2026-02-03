@@ -5,6 +5,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.api.blockentity.IChoppingBoard;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.ChoppingBoardBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTrigger;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -18,6 +19,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -38,19 +40,14 @@ import org.jspecify.annotations.NonNull;
 import java.util.List;
 
 public class ChoppingBoardBlock extends HorizontalDirectionalBlock implements EntityBlock, SimpleWaterloggedBlock {
-    public static final MapCodec<ChoppingBoardBlock> CODEC = simpleCodec(p -> new ChoppingBoardBlock());
+    public static final MapCodec<ChoppingBoardBlock> CODEC = simpleCodec(ChoppingBoardBlock::new);
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final VoxelShape NORTH_SOUTH = Block.box(1, 0, 2, 15, 2, 14);
     public static final VoxelShape EAST_WEST = Block.box(2, 0, 1, 14, 2, 15);
     private static final double DURABILITY_COST_PROBABILITY = 0.25;
 
-    public ChoppingBoardBlock() {
-        super(Properties.of()
-                .mapColor(MapColor.WOOD)
-                .instrument(NoteBlockInstrument.BASS)
-                .strength(2.0F)
-                .sound(SoundType.WOOD)
-                .ignitedByLava());
+    public ChoppingBoardBlock(BlockBehaviour.Properties p) {
+        super(p);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, false));
     }
 

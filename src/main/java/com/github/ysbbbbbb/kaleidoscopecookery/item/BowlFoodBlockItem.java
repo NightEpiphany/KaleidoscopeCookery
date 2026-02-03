@@ -1,6 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.item;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteBlock;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import com.google.common.collect.Lists;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -45,7 +46,7 @@ public class BowlFoodBlockItem extends BlockItem {
     private final List<MobEffectInstance> effectInstances = Lists.newArrayList();
     private final Optional<ItemStack> usingConvertsTo;
 
-    public BowlFoodBlockItem(Block block, FoodProperties properties, Consumable consumable, @Nullable ItemLike usingConvertsTo) {
+    public BowlFoodBlockItem(Block block, FoodProperties properties, Consumable consumable, @Nullable ItemLike usingConvertsTo, String name) {
         super(block, new Item.Properties().stacksTo(16)
                 .food(new FoodProperties(
                         properties.nutrition(),
@@ -53,7 +54,7 @@ public class BowlFoodBlockItem extends BlockItem {
                         properties.canAlwaysEat()
                 ), new Consumable(
                         consumable.consumeSeconds(), consumable.animation(), consumable.sound(), consumable.hasConsumeParticles(), consumable.onConsumeEffects()
-                ))
+                )).setId(PortHelper.createItemId(name))
 
         );
         this.usingConvertsTo = usingConvertsTo == null ? Optional.empty() : Optional.of(new ItemStack(usingConvertsTo));

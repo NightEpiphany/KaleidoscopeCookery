@@ -9,12 +9,17 @@ import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.PreservationEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.SatiatedShieldEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.BowlFoodBlockItem;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
@@ -48,22 +53,30 @@ public class CommonRegistry {
         FoodBiteRegistry.init();
 
         FoodBiteRegistry.FOOD_DATA_MAP.forEach((resourceLocation, data) -> {
-                FoodBiteBlock biteBlock = getFoodBiteBlock(data);
+                FoodBiteBlock biteBlock = getFoodBiteBlock(data, resourceLocation.getPath());
                 Registry.register(BuiltInRegistries.BLOCK, resourceLocation, biteBlock);
 
                 Block block = BuiltInRegistries.BLOCK.getValue(resourceLocation);
                 // 选取第一个掉落物作为 usingConvertsTo
                 ItemLike first = data.getLootItems().getFirst();
-                Registry.register(BuiltInRegistries.ITEM, resourceLocation, new BowlFoodBlockItem(block, data.itemFood(), data.itemConsumable(), first));
+                Registry.register(BuiltInRegistries.ITEM, resourceLocation, new BowlFoodBlockItem(block, data.itemFood(), data.itemConsumable(), first, resourceLocation.getPath()));
         });
     }
 
-    private static @NotNull FoodBiteBlock getFoodBiteBlock(FoodBiteRegistry.FoodData data) {
+    private static @NotNull FoodBiteBlock getFoodBiteBlock(FoodBiteRegistry.FoodData data, String name) {
         FoodBiteBlock biteBlock;
+        BlockBehaviour.Properties properties = BlockBehaviour.Properties.of()
+                .forceSolidOn()
+                .instabreak()
+                .mapColor(MapColor.WOOD)
+                .sound(SoundType.WOOD)
+                .pushReaction(PushReaction.DESTROY)
+                .noOcclusion();
+
         if (data.blockType() == FoodBiteRegistry.BlockType.ONE_BY_TWO) {
-            biteBlock = new FoodBiteOneByTwoBlock(data.blockFood(), data.blockConsumable(), data.maxBites(), data.animateTick());
+            biteBlock = new FoodBiteOneByTwoBlock(properties.setId(PortHelper.createBlockId(name)), data.blockFood(), data.blockConsumable(), data.maxBites(), data.animateTick());
         } else {
-            biteBlock = new FoodBiteBlock(data.blockFood(), data.blockConsumable(), data.maxBites(), data.animateTick());
+            biteBlock = new FoodBiteBlock(properties.setId(PortHelper.createBlockId(name)), data.blockFood(), data.blockConsumable(), data.maxBites(), data.animateTick());
         }
 
         VoxelShape aabb = data.getAABB();

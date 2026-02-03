@@ -10,6 +10,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.StockpotBlock
 import com.github.ysbbbbbb.kaleidoscopecookery.init.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.FoodBiteRegistry;
 import com.github.ysbbbbbb.kaleidoscopecookery.inventory.tooltip.RecipeItemTooltip;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.neo.IItemHandler;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.neo.PlayerMainInvWrapper;
 import com.google.common.collect.Lists;
@@ -41,6 +42,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -59,8 +61,8 @@ public class RecipeItem extends BlockItem {
     private static final int NO_RECIPE = 0;
     private static final int HAS_RECIPE = 1;
 
-    public RecipeItem() {
-        super(ModBlocks.RECIPE_BLOCK, new Item.Properties());
+    public RecipeItem(Block block, Properties properties) {
+        super(block, properties);
     }
 
     public static void setRecipe(ItemStack stack, RecipeRecord record) {

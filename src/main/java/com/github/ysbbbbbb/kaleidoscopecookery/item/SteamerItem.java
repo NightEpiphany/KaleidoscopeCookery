@@ -4,6 +4,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.SteamerBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.SteamerBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
@@ -25,6 +26,7 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.component.TypedEntityData;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.TagValueInput;
@@ -38,12 +40,12 @@ public class SteamerItem extends BlockItem {
     private static final int NONE = 0;
     private static final int HAS = 1;
 
-    public SteamerItem() {
-        super(ModBlocks.STEAMER, new Properties());
+    public SteamerItem(Block block, Properties properties) {
+        super(block, properties);
     }
 
     @Override
-    protected boolean placeBlock(BlockPlaceContext context, BlockState state) {
+    protected boolean placeBlock(BlockPlaceContext context, @NonNull BlockState state) {
         Level level = context.getLevel();
         Direction face = context.getClickedFace();
         BlockPos clickedPos = context.getClickedPos();

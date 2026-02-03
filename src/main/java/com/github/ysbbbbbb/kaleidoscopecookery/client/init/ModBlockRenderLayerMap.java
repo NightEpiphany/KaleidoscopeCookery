@@ -2,13 +2,13 @@ package com.github.ysbbbbbb.kaleidoscopecookery.client.init;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.FoodBiteRegistry;
-import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.minecraft.client.renderer.RenderType;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
+import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.world.level.block.Block;
 
 public class ModBlockRenderLayerMap {
     public static void register() {
-        BlockRenderLayerMap.INSTANCE.putBlocks(RenderType.cutout(),
+        BlockRenderLayerMap.putBlocks(ChunkSectionLayer.CUTOUT,
                 ModBlocks.POT,
                 ModBlocks.KITCHENWARE_RACKS,
                 ModBlocks.SHAWARMA_SPIT,
@@ -24,7 +24,7 @@ public class ModBlockRenderLayerMap {
 
         FoodBiteRegistry.FOOD_DATA_MAP.keySet().forEach(id -> {
             Block block = FoodBiteRegistry.getBlock(id);
-            BlockRenderLayerMap.INSTANCE.putBlock(block, RenderType.cutout());
+            BlockRenderLayerMap.putBlock(block, ChunkSectionLayer.CUTOUT);
         });
     }
 }

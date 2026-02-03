@@ -1,13 +1,18 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.advancements.critereon.ModEventTriggerType;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTrigger;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -28,6 +33,7 @@ import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -42,17 +48,11 @@ import static com.github.ysbbbbbb.kaleidoscopecookery.item.KitchenShovelItem.has
 import static com.github.ysbbbbbb.kaleidoscopecookery.item.KitchenShovelItem.setHasOil;
 
 public class StoveBlock extends HorizontalDirectionalBlock {
-    public static final MapCodec<StoveBlock> CODEC = simpleCodec(p -> new StoveBlock());
+    public static final MapCodec<StoveBlock> CODEC = simpleCodec(StoveBlock::new);
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
 
-    public StoveBlock() {
-        super(Properties.of()
-                .mapColor(MapColor.STONE)
-                .sound(SoundType.STONE)
-                .requiresCorrectToolForDrops()
-                .lightLevel(state -> state.getValue(LIT) ? 13 : 0)
-                .randomTicks()
-                .strength(1.5F, 6.0F));
+    public StoveBlock(BlockBehaviour.Properties p) {
+        super(p);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.SOUTH)
                 .setValue(LIT, false));

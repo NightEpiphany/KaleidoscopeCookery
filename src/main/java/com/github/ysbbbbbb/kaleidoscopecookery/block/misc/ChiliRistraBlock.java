@@ -1,6 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.block.misc;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -20,12 +21,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.material.MapColor;
-import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -39,16 +38,16 @@ public class ChiliRistraBlock extends Block {
     private static final VoxelShape AABB_HEAD = Block.box(4, 2, 4, 12, 16, 12);
     private static final VoxelShape AABB_BODY = Block.box(3.5, 0, 3.5, 12.5, 16, 12.5);
 
-    public ChiliRistraBlock() {
-        super(Properties.of()
-                .mapColor(MapColor.COLOR_RED)
-                .noCollision()
-                .instabreak()
-                .sound(SoundType.GRASS)
-                .pushReaction(PushReaction.DESTROY));
+    public ChiliRistraBlock(BlockBehaviour.Properties p) {
+        super(p);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(IS_HEAD, true)
                 .setValue(SHEARED, false));
+    }
+
+    @Override
+    protected @NonNull MapCodec<? extends Block> codec() {
+        return simpleCodec(ChiliRistraBlock::new);
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModSoundType;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTrigger;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -32,6 +33,7 @@ import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -47,7 +49,7 @@ import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NonNull;
 
 public class PotBlock extends HorizontalDirectionalBlock implements EntityBlock, SimpleWaterloggedBlock {
-    public static final MapCodec<PotBlock> CODEC = simpleCodec(p -> new PotBlock());
+    public static final MapCodec<PotBlock> CODEC = simpleCodec(PotBlock::new);
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final BooleanProperty HAS_OIL = BooleanProperty.create("has_oil");
     public static final BooleanProperty SHOW_OIL = BooleanProperty.create("show_oil");
@@ -56,12 +58,8 @@ public class PotBlock extends HorizontalDirectionalBlock implements EntityBlock,
     private static final VoxelShape AABB = Block.box(2, 0, 2, 14, 4, 14);
     private static final double DURABILITY_COST_PROBABILITY = 0.25;
 
-    public PotBlock() {
-        super(Properties.of()
-                .mapColor(MapColor.METAL)
-                .sound(ModSoundType.POT)
-                .noOcclusion()
-                .strength(1.5F, 6.0F));
+    public PotBlock(BlockBehaviour.Properties p) {
+        super(p);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.SOUTH)
                 .setValue(HAS_OIL, false)

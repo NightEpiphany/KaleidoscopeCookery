@@ -1,5 +1,6 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.item;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import com.google.common.collect.Lists;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -24,8 +25,8 @@ import java.util.function.Consumer;
 public class FoodWithEffectsItem extends Item {
     private final List<MobEffectInstance> effectInstances = Lists.newArrayList();
 
-    public FoodWithEffectsItem(FoodProperties properties, Consumable consumable) {
-        super(new Properties().food(properties));
+    public FoodWithEffectsItem(Properties p, FoodProperties properties, Consumable consumable) {
+        super(p.food(properties));
         consumable.onConsumeEffects().forEach(consumeEffect ->  {
             if (consumeEffect instanceof ApplyStatusEffectsConsumeEffect(List<MobEffectInstance> effects, float probability)) {
                 effectInstances.addAll(effects);

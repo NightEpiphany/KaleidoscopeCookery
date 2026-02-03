@@ -15,14 +15,8 @@ import org.jspecify.annotations.NonNull;
 public class FoodBlock extends Block {
     public static final VoxelShape AABB = Block.box(1, 0, 1, 15, 2, 15);
 
-    public FoodBlock() {
-        super(BlockBehaviour.Properties.of()
-                .forceSolidOn()
-                .instabreak()
-                .mapColor(MapColor.WOOD)
-                .sound(SoundType.WOOD)
-                .pushReaction(PushReaction.DESTROY)
-                .noOcclusion());
+    public FoodBlock(BlockBehaviour.Properties properties) {
+        super(properties);
     }
 
     @Override

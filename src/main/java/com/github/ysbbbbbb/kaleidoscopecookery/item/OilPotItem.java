@@ -3,6 +3,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.item;
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.OilPotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
@@ -15,6 +16,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
+import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NonNull;
 
@@ -28,8 +30,8 @@ public class OilPotItem extends BlockItem {
     private static final int NO_OIL = 0;
     private static final int HAS_OIL = 1;
 
-    public OilPotItem() {
-        super(ModBlocks.OIL_POT, new Properties().stacksTo(16));
+    public OilPotItem(Block block, Properties properties) {
+        super(block, properties);
     }
 
     public static void setOilCount(ItemStack stack, int count) {

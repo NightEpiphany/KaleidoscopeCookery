@@ -1,0 +1,8 @@
+{
+  "values": [
+    "kaleidoscope_cookery:cooked_rice",
+    {
+     "id": "farmersdelight:cooked_rice", "required": false
+    }
+  ]
+}

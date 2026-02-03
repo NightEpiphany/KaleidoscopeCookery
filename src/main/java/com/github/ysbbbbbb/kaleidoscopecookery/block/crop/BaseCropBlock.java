@@ -14,10 +14,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CropBlock;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.MapColor;
-import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -40,14 +37,8 @@ public class BaseCropBlock extends CropBlock {
     protected final Supplier<Item> result;
     protected final Supplier<Item> seed;
 
-    public BaseCropBlock(Supplier<Item> result, Supplier<Item> seed) {
-        super(Properties.of()
-                .mapColor(MapColor.PLANT)
-                .noCollision()
-                .randomTicks()
-                .instabreak()
-                .sound(SoundType.CROP)
-                .pushReaction(PushReaction.DESTROY));
+    public BaseCropBlock(Properties p, Supplier<Item> result, Supplier<Item> seed) {
+        super(p);
         this.result = result;
         this.seed = seed;
     }

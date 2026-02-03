@@ -2,6 +2,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.block.misc;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.RecipeBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModSoundType;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -35,7 +36,7 @@ import org.jspecify.annotations.NonNull;
 import java.util.List;
 
 public class RecipeBlock extends FaceAttachedHorizontalDirectionalBlock implements EntityBlock, SimpleWaterloggedBlock {
-    public static final MapCodec<RecipeBlock> CODEC = simpleCodec(p -> new RecipeBlock());
+    public static final MapCodec<RecipeBlock> CODEC = simpleCodec(RecipeBlock::new);
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     private static final VoxelShape CEILING_AABB_X = Block.box(1.5D, 15.75D, 3.0D, 14.5D, 16.0D, 13.0D);
@@ -48,12 +49,8 @@ public class RecipeBlock extends FaceAttachedHorizontalDirectionalBlock implemen
     private static final VoxelShape WEST_AABB = Block.box(15.75D, 1.5D, 3.0D, 16.0D, 14.5D, 13.0D);
     private static final VoxelShape EAST_AABB = Block.box(0.0D, 1.5D, 3.0D, 0.25D, 14.5D, 13.0D);
 
-    public RecipeBlock() {
-        super(Properties.of()
-                .mapColor(MapColor.COLOR_YELLOW)
-                .instabreak()
-                .noOcclusion()
-                .sound(ModSoundType.RECIPE_BLOCK));
+    public RecipeBlock(Properties p) {
+        super(p);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)
                 .setValue(FACE, AttachFace.WALL)

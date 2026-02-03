@@ -16,6 +16,7 @@ import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LevelEvent;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
@@ -33,9 +34,9 @@ public class FoodBiteOneByTwoBlock extends FoodBiteBlock {
     public static final int LEFT = 0;
     public static final int RIGHT = 1;
 
-    public FoodBiteOneByTwoBlock(FoodProperties foodProperties, Consumable consumable, int maxBites,
+    public FoodBiteOneByTwoBlock(BlockBehaviour.Properties p, FoodProperties foodProperties, Consumable consumable, int maxBites,
                                  @Nullable FoodBiteAnimateTicks.AnimateTick animateTick) {
-        super(foodProperties, consumable, maxBites, animateTick);
+        super(p, foodProperties, consumable, maxBites, animateTick);
         this.registerDefaultState(this.stateDefinition.any().setValue(bites, 0).setValue(FACING, Direction.SOUTH).setValue(POSITION, RIGHT));
     }
 

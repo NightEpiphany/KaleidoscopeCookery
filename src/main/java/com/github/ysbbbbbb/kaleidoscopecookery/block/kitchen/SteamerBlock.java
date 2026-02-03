@@ -31,11 +31,8 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.MapColor;
-import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
@@ -48,7 +45,7 @@ import org.jspecify.annotations.NonNull;
 import java.util.List;
 
 public class SteamerBlock extends FallingBlock implements EntityBlock, SimpleWaterloggedBlock {
-    public static final MapCodec<SteamerBlock> CODEC = simpleCodec(p -> new SteamerBlock());
+    public static final MapCodec<SteamerBlock> CODEC = simpleCodec(SteamerBlock::new);
     public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty HALF = BooleanProperty.create("half");
     public static final BooleanProperty HAS_LID = BooleanProperty.create("has_lid");
@@ -58,14 +55,8 @@ public class SteamerBlock extends FallingBlock implements EntityBlock, SimpleWat
     private static final VoxelShape HALF_AABB = Block.box(1, 0, 1, 15, 8, 15);
     private static final VoxelShape FULL_AABB = Block.box(1, 0, 1, 15, 16, 15);
 
-    public SteamerBlock() {
-        super(Properties.of()
-                .mapColor(MapColor.WOOD)
-                .instrument(NoteBlockInstrument.BASEDRUM)
-                .instabreak()
-                .noOcclusion()
-                .pushReaction(PushReaction.DESTROY)
-                .sound(SoundType.BAMBOO));
+    public SteamerBlock(Properties p) {
+        super(p);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)
                 .setValue(HALF, true)

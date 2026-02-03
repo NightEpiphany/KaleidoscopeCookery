@@ -6,6 +6,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.FruitBaske
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModDataComponents;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTrigger;
 import com.github.ysbbbbbb.kaleidoscopecookery.inventory.tooltip.ItemContainerTooltip;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.neo.ItemStackHandler;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
 import com.google.common.collect.Lists;
@@ -21,44 +22,51 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.component.Consumable;
+import net.minecraft.world.item.component.TooltipDisplay;
+import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
+import net.minecraft.world.item.consume_effects.ConsumeEffect;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.storage.TagValueInput;
+import net.minecraft.world.level.storage.TagValueOutput;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.function.Consumer;
 
 public class TransmutationLunchBagItem extends Item {
-    public static final ResourceLocation HAS_ITEMS_PROPERTY = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "has_items");
+    public static final Identifier HAS_ITEMS_PROPERTY = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "has_items");
     public static final int NO_ITEMS = 0;
     public static final int HAS_ITEMS = 1;
 
     private static final int MAX_SIZE = 16;
     private static final String TAG_ITEMS = "Items";
 
-    public TransmutationLunchBagItem() {
-        super((new Item.Properties()).stacksTo(1));
+    public TransmutationLunchBagItem(Properties p) {
+        super(p.stacksTo(1));
     }
 
     @Environment(EnvType.CLIENT)
@@ -132,7 +140,7 @@ public class TransmutationLunchBagItem extends Item {
             TransmutationLunchBagItem.setItems(bag, bagItems);
             fruitBasket.refresh();
             playRemoveOneSound(player);
-            return InteractionResult.sidedSuccess(context.getLevel().isClientSide);
+            return context.getLevel().isClientSide() ? InteractionResult.SUCCESS : InteractionResult.CONSUME;
         }
 
         // 果篮不为空，尝试取出物品
@@ -146,11 +154,11 @@ public class TransmutationLunchBagItem extends Item {
         TransmutationLunchBagItem.setItems(bag, bagItems);
         fruitBasket.refresh();
         playDropContentsSound(player);
-        return InteractionResult.sidedSuccess(context.getLevel().isClientSide);
+        return context.getLevel().isClientSide() ? InteractionResult.SUCCESS : InteractionResult.CONSUME;
     }
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public @NonNull InteractionResult use(@NonNull Level level, Player player, @NonNull InteractionHand hand) {
         ItemStack itemInHand = player.getItemInHand(hand);
         // 里面有物品
         if (hasItems(itemInHand)) {
@@ -165,20 +173,20 @@ public class TransmutationLunchBagItem extends Item {
             }
             if (hasFood) {
                 player.startUsingItem(hand);
-                return InteractionResultHolder.consume(itemInHand);
+                return InteractionResult.CONSUME;
             }
         }
 
-        return InteractionResultHolder.fail(itemInHand);
+        return InteractionResult.FAIL;
     }
 
     @Override
-    public @NotNull ItemStack finishUsingItem(ItemStack bag, Level level, LivingEntity entity) {
+    public @NotNull ItemStack finishUsingItem(@NonNull ItemStack bag, @NonNull Level level, @NonNull LivingEntity entity) {
         if (!hasItems(bag)) {
             return bag;
         }
         ItemStack food = ItemStack.EMPTY;
-        List<List<FoodProperties.PossibleEffect>> effects = Lists.newArrayList();
+        List<List<ConsumeEffect>> effects = Lists.newArrayList();
 
         ItemStackHandler items = getItems(bag);
         for (int i = 0; i < items.getSlots(); i++) {
@@ -188,11 +196,11 @@ public class TransmutationLunchBagItem extends Item {
             }
 
             // 先检查是不是食物
-            FoodProperties foodProperties = stackInSlot.get(DataComponents.FOOD);
-            if (foodProperties != null) {
+            Consumable consumable = stackInSlot.get(DataComponents.CONSUMABLE);
+            if (consumable != null) {
                 // 第一个食物的效果不加入其中，避免重复
                 if (!food.isEmpty()) {
-                    List<FoodProperties.PossibleEffect> foodEffects = foodProperties.effects();
+                    List<ConsumeEffect> foodEffects = consumable.onConsumeEffects();
                     effects.add(foodEffects);
                 } else {
                     food = items.extractItem(i, 1, false);
@@ -205,8 +213,8 @@ public class TransmutationLunchBagItem extends Item {
             if (potionContents != null) {
                 // 第一个药水的效果不加入其中，避免重复
                 if (!food.isEmpty()) {
-                    List<FoodProperties.PossibleEffect> potionEffects = Lists.newArrayList();
-                    potionContents.forEachEffect(e -> potionEffects.add(new FoodProperties.PossibleEffect(e, 1F)));
+                    List<ConsumeEffect> potionEffects = Lists.newArrayList();
+                    potionContents.forEachEffect(e -> potionEffects.add(new ApplyStatusEffectsConsumeEffect(e, 1F)), 1F);
                     effects.add(potionEffects);
                 } else {
                     food = items.extractItem(i, 1, false);
@@ -235,13 +243,17 @@ public class TransmutationLunchBagItem extends Item {
             Collections.shuffle(effects, new Random());
             int effectsToApply = Math.min(3, effects.size());
             for (int i = 0; i < effectsToApply; i++) {
-                List<FoodProperties.PossibleEffect> selected = effects.get(i);
-                for (FoodProperties.PossibleEffect effect : selected) {
-                    if (level.isClientSide || effect.probability() <= 0.0F || level.random.nextFloat() >= effect.probability()) {
-                        continue;
+                List<ConsumeEffect> selected = effects.get(i);
+                for (ConsumeEffect effect : selected) {
+                    if (effect instanceof ApplyStatusEffectsConsumeEffect(
+                            List<MobEffectInstance> effects1, float probability
+                    )) {
+                        if (level.isClientSide() || probability <= 0.0F || level.random.nextFloat() >= probability) {
+                            continue;
+                        }
+                        entity.addEffect(new MobEffectInstance(effects1.getFirst()));
+                        hasExtraEffects = true;
                     }
-                    entity.addEffect(new MobEffectInstance(effect.effect()));
-                    hasExtraEffects = true;
                 }
             }
 
@@ -274,18 +286,19 @@ public class TransmutationLunchBagItem extends Item {
         return bag;
     }
 
+
     @Override
-    public @NotNull UseAnim getUseAnimation(ItemStack stack) {
-        return hasItems(stack) ? UseAnim.EAT : UseAnim.NONE;
+    public @NonNull ItemUseAnimation getUseAnimation(@NonNull ItemStack itemStack) {
+        return hasItems(itemStack) ? ItemUseAnimation.EAT : ItemUseAnimation.NONE;
     }
 
     @Override
-    public int getUseDuration(ItemStack stack, LivingEntity entity) {
+    public int getUseDuration(@NonNull ItemStack stack, @NonNull LivingEntity entity) {
         return 32;
     }
 
     @Override
-    public boolean overrideStackedOnOther(ItemStack bag, Slot slot, ClickAction action, Player player) {
+    public boolean overrideStackedOnOther(ItemStack bag, @NonNull Slot slot, @NonNull ClickAction action, @NonNull Player player) {
         if (bag.getCount() != 1 || action != ClickAction.SECONDARY) {
             return false;
         }
@@ -309,8 +322,8 @@ public class TransmutationLunchBagItem extends Item {
     }
 
     @Override
-    public boolean overrideOtherStackedOnMe(ItemStack bag, ItemStack other, Slot slot, ClickAction action, Player
-            player, SlotAccess access) {
+    public boolean overrideOtherStackedOnMe(ItemStack bag, @NonNull ItemStack other, @NonNull Slot slot, @NonNull ClickAction action, @NonNull Player
+            player, @NonNull SlotAccess access) {
         if (bag.getCount() != 1) {
             return false;
         }
@@ -411,7 +424,7 @@ public class TransmutationLunchBagItem extends Item {
     }
 
     @Override
-    public @NotNull Optional<TooltipComponent> getTooltipImage(ItemStack stack) {
+    public @NotNull Optional<TooltipComponent> getTooltipImage(@NonNull ItemStack stack) {
         if (!hasItems(stack)) {
             return Optional.empty();
         }
@@ -419,9 +432,10 @@ public class TransmutationLunchBagItem extends Item {
         return Optional.of(new ItemContainerTooltip(items));
     }
 
+
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.translatable("tooltip.kaleidoscope_cookery.transmutation_lunch_bag").withStyle(ChatFormatting.GRAY));
+    public void appendHoverText(@NonNull ItemStack itemStack, @NonNull TooltipContext tooltipContext, @NonNull TooltipDisplay tooltipDisplay, Consumer<Component> consumer, @NonNull TooltipFlag tooltipFlag) {
+        consumer.accept(Component.translatable("tooltip.kaleidoscope_cookery.transmutation_lunch_bag").withStyle(ChatFormatting.GRAY));
     }
 
     public record ItemContainer(ItemStackHandler items) {
@@ -457,14 +471,14 @@ public class TransmutationLunchBagItem extends Item {
                 CompoundTag compoundTag = buffer.readNbt();
                 ItemStackHandler handler = new ItemStackHandler(MAX_SIZE);
                 if (compoundTag != null) {
-                    handler.deserializeNBT(buffer.registryAccess(), compoundTag);
+                    handler.deserializeNBT(TagValueInput.create(ProblemReporter.DISCARDING, buffer.registryAccess(), compoundTag));
                 }
                 return new TransmutationLunchBagItem.ItemContainer(handler);
             }
 
             @Override
             public void encode(RegistryFriendlyByteBuf buffer, TransmutationLunchBagItem.ItemContainer value) {
-                CompoundTag compoundTag = value.items().serializeNBT(buffer.registryAccess());
+                CompoundTag compoundTag = value.items().serializeNBT(TagValueOutput.createWithContext(ProblemReporter.DISCARDING, buffer.registryAccess()));
                 buffer.writeNbt(compoundTag);
             }
         };

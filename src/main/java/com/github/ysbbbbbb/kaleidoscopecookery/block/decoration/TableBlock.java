@@ -3,6 +3,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.block.decoration;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.TableBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.BlockDrop;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -22,12 +23,12 @@ import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
@@ -56,19 +57,18 @@ public class TableBlock extends Block implements SimpleWaterloggedBlock, EntityB
 
     private static final VoxelShape FACE = Block.box(0, 13, 0, 16, 16, 16);
 
-    public TableBlock() {
-        super(Properties.of()
-                .mapColor(MapColor.WOOD)
-                .instrument(NoteBlockInstrument.BASS)
-                .strength(2.0F, 3.0F)
-                .sound(SoundType.WOOD)
-                .noOcclusion()
-                .ignitedByLava());
+    public TableBlock(BlockBehaviour.Properties p) {
+        super(p);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(AXIS, Direction.Axis.Z)
                 .setValue(POSITION, SINGLE)
                 .setValue(HAS_CARPET, false)
                 .setValue(WATERLOGGED, false));
+    }
+
+    @Override
+    protected @NonNull MapCodec<? extends Block> codec() {
+        return simpleCodec(TableBlock::new);
     }
 
     @Override

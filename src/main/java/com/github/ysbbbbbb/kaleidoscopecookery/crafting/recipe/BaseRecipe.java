@@ -2,6 +2,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeInput;
@@ -19,7 +20,7 @@ public interface BaseRecipe<C extends RecipeInput> extends Recipe<C> {
             if (i < inputs.size()) {
                 newInputs[i] = inputs.get(i);
             } else {
-                newInputs[i] = Ingredient.of(ItemStack.EMPTY.getItem());
+                newInputs[i] = Ingredient.of(Items.BARRIER);
             }
         }
         return newInputs;

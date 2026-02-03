@@ -2,6 +2,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.item;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.PotBlockEntity;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -28,8 +29,8 @@ public class KitchenShovelItem extends ShovelItem {
     private static final int NO_OIL = 0;
     private static final int HAS_OIL = 1;
 
-    public KitchenShovelItem() {
-        super(ToolMaterial.IRON, 1.5F, -3.0F, new Properties());
+    public KitchenShovelItem(Properties p) {
+        super(ToolMaterial.IRON, 1.5F, -3.0F, p);
     }
 
     public static void setHasOil(ItemStack stack, boolean hasOil) {

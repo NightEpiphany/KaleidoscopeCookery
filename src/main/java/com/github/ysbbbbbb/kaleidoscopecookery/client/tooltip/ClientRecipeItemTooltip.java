@@ -9,6 +9,7 @@ import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
+import org.jspecify.annotations.NonNull;
 
 public class ClientRecipeItemTooltip implements ClientTooltipComponent {
     private final RecipeItem.RecipeRecord recipeRecord;
@@ -22,7 +23,7 @@ public class ClientRecipeItemTooltip implements ClientTooltipComponent {
     }
 
     @Override
-    public int getHeight() {
+    public int getHeight(@NonNull Font font) {
         return 28;
     }
 
@@ -34,7 +35,7 @@ public class ClientRecipeItemTooltip implements ClientTooltipComponent {
     }
 
     @Override
-    public void renderImage(Font font, int pX, int pY, GuiGraphics guiGraphics) {
+    public void renderImage(Font font, int pX, int pY, int a, int b, GuiGraphics guiGraphics) {
         int ingredientsWidth = font.width(ingredientsText);
         int outputWidth = font.width(outputText);
 

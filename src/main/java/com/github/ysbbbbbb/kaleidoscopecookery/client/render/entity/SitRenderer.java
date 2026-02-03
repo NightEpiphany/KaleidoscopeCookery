@@ -1,6 +1,5 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.render.entity;
 
-
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.entity.SitEntity;
 import net.fabricmc.api.EnvType;

@@ -8,6 +8,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import org.jspecify.annotations.NonNull;
@@ -17,7 +18,7 @@ public class PotRecipeSerializer implements RecipeSerializer<PotRecipe> {
             instance.group(
                     Codec.INT.optionalFieldOf("time", 200).forGetter(PotRecipe::time),
                     Codec.INT.optionalFieldOf("stir_fry_count", 3).forGetter(PotRecipe::stirFryCount),
-                    Ingredient.CODEC.optionalFieldOf("carrier", Ingredient.of(ItemStack.EMPTY.getItem())).forGetter(PotRecipe::carrier),
+                    Ingredient.CODEC.optionalFieldOf("carrier").forGetter(PotRecipe::carrier),
                     Ingredient.CODEC.listOf().fieldOf("ingredients").xmap(
                             list -> list,
                             list -> list.stream().filter(i -> !i.isEmpty()).toList()
@@ -29,7 +30,7 @@ public class PotRecipeSerializer implements RecipeSerializer<PotRecipe> {
     public static final StreamCodec<RegistryFriendlyByteBuf, PotRecipe> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.INT, PotRecipe::time,
             ByteBufCodecs.INT, PotRecipe::stirFryCount,
-            Ingredient.CONTENTS_STREAM_CODEC, PotRecipe::carrier,
+            Ingredient.OPTIONAL_CONTENTS_STREAM_CODEC, PotRecipe::carrier,
             Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()), PotRecipe::ingredients,
             ItemStack.STREAM_CODEC, PotRecipe::result,
             PotRecipe::new);

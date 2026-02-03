@@ -2,6 +2,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.api.blockentity.IKitchenwareRacks;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.KitchenwareRacksBlockEntity;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -14,6 +15,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -35,7 +37,7 @@ import org.jspecify.annotations.NonNull;
 import java.util.List;
 
 public class KitchenwareRacksBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock {
-    public static final MapCodec<KitchenwareRacksBlock> CODEC = simpleCodec(p -> new KitchenwareRacksBlock());
+    public static final MapCodec<KitchenwareRacksBlock> CODEC = simpleCodec(KitchenwareRacksBlock::new);
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     private static final VoxelShape NORTH = Block.box(1, 9, 14, 15, 14, 16);
@@ -43,13 +45,8 @@ public class KitchenwareRacksBlock extends HorizontalDirectionalBlock implements
     private static final VoxelShape EAST = Block.box(0, 9, 1, 2, 14, 15);
     private static final VoxelShape WEST = Block.box(14, 9, 1, 16, 14, 15);
 
-    public KitchenwareRacksBlock() {
-        super(Properties.of()
-                .mapColor(MapColor.WOOD)
-                .instrument(NoteBlockInstrument.BASS)
-                .strength(2.0F, 3.0F)
-                .sound(SoundType.WOOD)
-                .ignitedByLava());
+    public KitchenwareRacksBlock(BlockBehaviour.Properties p) {
+        super(p);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.SOUTH)
                 .setValue(WATERLOGGED, false));

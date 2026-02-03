@@ -19,6 +19,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -44,7 +45,7 @@ import static com.github.ysbbbbbb.kaleidoscopecookery.util.CarpetColor.getCarpet
 import static com.github.ysbbbbbb.kaleidoscopecookery.util.CarpetColor.getColorByCarpet;
 
 public class ChairBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock {
-    public static final MapCodec<ChairBlock> CODEC = simpleCodec(p -> new ChairBlock());
+    public static final MapCodec<ChairBlock> CODEC = simpleCodec(ChairBlock::new);
     public static final BooleanProperty HAS_CARPET = BooleanProperty.create("has_carpet");
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
@@ -54,14 +55,8 @@ public class ChairBlock extends HorizontalDirectionalBlock implements SimpleWate
     private static final VoxelShape WEST = Shapes.or(BASE, Block.box(12, 0, 2, 14, 19, 14));
     private static final VoxelShape EAST = Shapes.or(BASE, Block.box(2, 0, 2, 4, 19, 14));
 
-    public ChairBlock() {
-        super(Properties.of()
-                .mapColor(MapColor.WOOD)
-                .instrument(NoteBlockInstrument.BASS)
-                .strength(2.0F, 3.0F)
-                .sound(SoundType.WOOD)
-                .noOcclusion()
-                .ignitedByLava());
+    public ChairBlock(BlockBehaviour.Properties p) {
+        super(p);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.SOUTH)
                 .setValue(HAS_CARPET, false)

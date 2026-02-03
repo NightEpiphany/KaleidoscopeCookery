@@ -18,79 +18,189 @@ import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.RecipeBloc
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.TableBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.food.FoodBiteThreeByThreeBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.*;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.block.state.properties.WoodType;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
+
+import java.util.function.Function;
 
 public class ModBlocks {
     // Kitchen blocks
-    public static final Block STOVE = new StoveBlock();
-    public static final Block POT = new PotBlock();
-    public static final Block STOCKPOT = new StockpotBlock();
-    public static final Block FRUIT_BASKET = new FruitBasketBlock();
-    public static final Block CHOPPING_BOARD = new ChoppingBoardBlock();
-    public static final Block OIL_BLOCK = new OilBlock();
-    public static final Block ENAMEL_BASIN = new EnamelBasinBlock();
-    public static final Block KITCHENWARE_RACKS = new KitchenwareRacksBlock();
-    public static final Block CHILI_RISTRA = new ChiliRistraBlock();
-    public static final Block STRUNG_MUSHROOMS  = new StrungMushroomsBlock();
-    public static final Block STRAW_BLOCK = new StrawBlocks();
-    public static final Block SHAWARMA_SPIT = new ShawarmaSpitBlock();
-    public static final Block MILLSTONE = new MillstoneBlock();
-    public static final Block STEAMER = new SteamerBlock();
-    public static final Block RECIPE_BLOCK = new RecipeBlock();
-    public static final Block OIL_POT = new OilPotBlock();
+    public static final Block STOVE = commonReg("stove", StoveBlock::new, BlockBehaviour.Properties.of()
+            .mapColor(MapColor.STONE)
+            .sound(SoundType.STONE)
+            .requiresCorrectToolForDrops()
+            .lightLevel(state -> state.getValue(StoveBlock.LIT) ? 13 : 0)
+            .randomTicks()
+            .strength(1.5F, 6.0F));
+
+    public static final Block POT = commonReg("pot", PotBlock::new, BlockBehaviour.Properties.of()
+            .mapColor(MapColor.METAL)
+            .sound(ModSoundType.POT)
+            .noOcclusion()
+            .strength(1.5F, 6.0F));
+
+    public static final Block STOCKPOT = commonReg("stockpot", StockpotBlock::new, BlockBehaviour.Properties.of()
+            .mapColor(MapColor.METAL)
+            .sound(ModSoundType.POT)
+            .noOcclusion()
+            .strength(1.5F, 6.0F));
+
+    public static final Block FRUIT_BASKET = commonReg("fruit_basket", FruitBasketBlock::new, BlockBehaviour.Properties.of()
+            .mapColor(MapColor.WOOD)
+            .instrument(NoteBlockInstrument.BASS)
+            .sound(SoundType.BAMBOO));
+
+    public static final Block CHOPPING_BOARD = commonReg("chopping_board", ChoppingBoardBlock::new, BlockBehaviour.Properties.of()
+            .mapColor(MapColor.WOOD)
+            .instrument(NoteBlockInstrument.BASS)
+            .strength(2.0F)
+            .sound(SoundType.WOOD)
+            .ignitedByLava());
+
+    public static final Block OIL_BLOCK = commonReg("oil_block", OilBlock::new, BlockBehaviour.Properties.of()
+            .mapColor(MapColor.ICE)
+            .friction(0.985f)
+            .sound(SoundType.SLIME_BLOCK)
+            .noOcclusion()
+            .isValidSpawn(Blocks::never));
+
+    public static final Block ENAMEL_BASIN = commonReg("enamel_basin", EnamelBasinBlock::new, BlockBehaviour.Properties.of()
+            .mapColor(MapColor.STONE)
+            .instrument(NoteBlockInstrument.BELL)
+            .strength(1.0F, 1.5F)
+            .sound(SoundType.LANTERN));
+
+    public static final Block KITCHENWARE_RACKS = commonReg("kitchenware_racks", KitchenwareRacksBlock::new, BlockBehaviour.Properties.of()
+            .mapColor(MapColor.WOOD)
+            .instrument(NoteBlockInstrument.BASS)
+            .strength(2.0F, 3.0F)
+            .sound(SoundType.WOOD)
+            .ignitedByLava());
+
+    public static final Block CHILI_RISTRA = commonReg("chili_ristra", ChiliRistraBlock::new, BlockBehaviour.Properties.of()
+            .mapColor(MapColor.COLOR_RED)
+            .noCollision()
+            .instabreak()
+            .sound(SoundType.GRASS)
+            .pushReaction(PushReaction.DESTROY));
+
+    public static final Block STRUNG_MUSHROOMS  = commonReg("strung_mushrooms", StrungMushroomsBlock::new, BlockBehaviour.Properties.of()
+            .mapColor(MapColor.COLOR_BROWN)
+            .noCollision()
+            .instabreak()
+            .sound(SoundType.GRASS)
+            .pushReaction(PushReaction.DESTROY));
+
+    public static final Block STRAW_BLOCK = commonReg("straw_block", StrawBlocks::new, BlockBehaviour.Properties.of()
+            .mapColor(MapColor.COLOR_YELLOW)
+            .instrument(NoteBlockInstrument.BANJO)
+            .strength(0.5F)
+            .sound(SoundType.GRASS));
+
+    public static final Block SHAWARMA_SPIT = commonReg("shawarma_spit", ShawarmaSpitBlock::new, BlockBehaviour.Properties.of()
+            .mapColor(MapColor.METAL)
+            .noOcclusion()
+            .instrument(NoteBlockInstrument.BASS)
+            .strength(2.0F, 3.0F)
+            .lightLevel(state -> state.getValue(ShawarmaSpitBlock.POWERED) ? 8 : 0)
+            .sound(SoundType.METAL));
+
+    public static final Block MILLSTONE = commonReg("millstone", MillstoneBlock::new, BlockBehaviour.Properties.of()
+            .mapColor(MapColor.STONE)
+            .instrument(NoteBlockInstrument.BASEDRUM)
+            .requiresCorrectToolForDrops()
+            .strength(1.5F, 6.0F)
+            .sound(SoundType.STONE)
+            .forceSolidOn()
+            .noOcclusion());
+
+    public static final Block STEAMER = commonReg("steamer", SteamerBlock::new, BlockBehaviour.Properties.of()
+            .mapColor(MapColor.WOOD)
+            .instrument(NoteBlockInstrument.BASEDRUM)
+            .instabreak()
+            .noOcclusion()
+            .pushReaction(PushReaction.DESTROY)
+            .sound(SoundType.BAMBOO));
+
+    public static final Block RECIPE_BLOCK = commonReg("recipe_block", RecipeBlock::new, BlockBehaviour.Properties.of()
+            .mapColor(MapColor.COLOR_YELLOW)
+            .instabreak()
+            .noOcclusion()
+            .sound(ModSoundType.RECIPE_BLOCK));
+
+    public static final Block OIL_POT = commonReg("oil_pot", OilPotBlock::new, BlockBehaviour.Properties.of()
+            .mapColor(MapColor.METAL)
+            .instrument(NoteBlockInstrument.BELL)
+            .instabreak()
+            .pushReaction(PushReaction.DESTROY)
+            .sound(SoundType.LANTERN));
 
     // Crop blocks
-    public static final Block TOMATO_CROP = new BaseCropBlock(() -> ModItems.TOMATO, () -> ModItems.TOMATO_SEED);
-    public static final Block CHILI_CROP = new ChiliCropBlock();
-    public static final Block LETTUCE_CROP = new LettuceCropBlock();
-    public static final Block RICE_CROP = new RiceCropBlock();
+    public static final Block TOMATO_CROP = cropReg("tomato_crop",p -> new BaseCropBlock(p, () -> ModItems.TOMATO, () -> ModItems.TOMATO_SEED));
+    public static final Block CHILI_CROP = cropReg("chili_crop", ChiliCropBlock::new);
+    public static final Block LETTUCE_CROP = cropReg("lettuce_crop", LettuceCropBlock::new);
+    public static final Block RICE_CROP = cropReg("rice_crop", RiceCropBlock::new);
 
     // Cook stools
-    public static final Block COOK_STOOL_OAK = new CookStoolBlock();
-    public static final Block COOK_STOOL_SPRUCE = new CookStoolBlock();
-    public static final Block COOK_STOOL_ACACIA = new CookStoolBlock();
-    public static final Block COOK_STOOL_BAMBOO = new CookStoolBlock();
-    public static final Block COOK_STOOL_BIRCH = new CookStoolBlock();
-    public static final Block COOK_STOOL_CHERRY = new CookStoolBlock();
-    public static final Block COOK_STOOL_CRIMSON = new CookStoolBlock();
-    public static final Block COOK_STOOL_DARK_OAK = new CookStoolBlock();
-    public static final Block COOK_STOOL_JUNGLE = new CookStoolBlock();
-    public static final Block COOK_STOOL_MANGROVE = new CookStoolBlock();
-    public static final Block COOK_STOOL_WARPED = new CookStoolBlock();
+    public static final Block COOK_STOOL_OAK = stoolReg("cook_stool_oak");
+    public static final Block COOK_STOOL_SPRUCE = stoolReg("cook_stool_spruce");
+    public static final Block COOK_STOOL_ACACIA = stoolReg("cook_stool_acacia");
+    public static final Block COOK_STOOL_BAMBOO = stoolReg("cook_stool_bamboo");
+    public static final Block COOK_STOOL_BIRCH = stoolReg("cook_stool_birch");
+    public static final Block COOK_STOOL_CHERRY = stoolReg("cook_stool_cherry");
+    public static final Block COOK_STOOL_CRIMSON = stoolReg("cook_stool_crimson");
+    public static final Block COOK_STOOL_DARK_OAK = stoolReg("cook_stool_dark_oak");
+    public static final Block COOK_STOOL_JUNGLE = stoolReg("cook_stool_jungle");
+    public static final Block COOK_STOOL_MANGROVE = stoolReg("cook_stool_mangrove");
+    public static final Block COOK_STOOL_WARPED = stoolReg("cook_stool_warped");
 
     // Chairs
-    public static final Block CHAIR_OAK = new ChairBlock();
-    public static final Block CHAIR_SPRUCE = new ChairBlock();
-    public static final Block CHAIR_ACACIA = new ChairBlock();
-    public static final Block CHAIR_BAMBOO = new ChairBlock();
-    public static final Block CHAIR_BIRCH = new ChairBlock();
-    public static final Block CHAIR_CHERRY = new ChairBlock();
-    public static final Block CHAIR_CRIMSON = new ChairBlock();
-    public static final Block CHAIR_DARK_OAK = new ChairBlock();
-    public static final Block CHAIR_JUNGLE = new ChairBlock();
-    public static final Block CHAIR_MANGROVE = new ChairBlock();
-    public static final Block CHAIR_WARPED = new ChairBlock();
+    public static final Block CHAIR_OAK = chairReg("chair_oak");
+    public static final Block CHAIR_SPRUCE = chairReg("chair_spruce");
+    public static final Block CHAIR_ACACIA = chairReg("chair_acacia");
+    public static final Block CHAIR_BAMBOO = chairReg("chair_bamboo");
+    public static final Block CHAIR_BIRCH = chairReg("chair_birch");
+    public static final Block CHAIR_CHERRY = chairReg("chair_cherry");
+    public static final Block CHAIR_CRIMSON = chairReg("chair_crimson");
+    public static final Block CHAIR_DARK_OAK = chairReg("chair_dark_oak");
+    public static final Block CHAIR_JUNGLE = chairReg("chair_jungle");
+    public static final Block CHAIR_MANGROVE = chairReg("chair_mangrove");
+    public static final Block CHAIR_WARPED = chairReg("chair_warped");
 
     // Tables
-    public static final Block TABLE_OAK = new TableBlock();
-    public static final Block TABLE_SPRUCE = new TableBlock();
-    public static final Block TABLE_ACACIA = new TableBlock();
-    public static final Block TABLE_BAMBOO = new TableBlock();
-    public static final Block TABLE_BIRCH = new TableBlock();
-    public static final Block TABLE_CHERRY = new TableBlock();
-    public static final Block TABLE_CRIMSON = new TableBlock();
-    public static final Block TABLE_DARK_OAK = new TableBlock();
-    public static final Block TABLE_JUNGLE = new TableBlock();
-    public static final Block TABLE_MANGROVE = new TableBlock();
-    public static final Block TABLE_WARPED = new TableBlock();
+    public static final Block TABLE_OAK = tableReg("table_oak");
+    public static final Block TABLE_SPRUCE = tableReg("table_spruce");
+    public static final Block TABLE_ACACIA = tableReg("table_acacia");
+    public static final Block TABLE_BAMBOO = tableReg("table_bamboo");
+    public static final Block TABLE_BIRCH = tableReg("table_birch");
+    public static final Block TABLE_CHERRY = tableReg("table_cherry");
+    public static final Block TABLE_CRIMSON = tableReg("table_crimson");
+    public static final Block TABLE_DARK_OAK = tableReg("table_dark_oak");
+    public static final Block TABLE_JUNGLE = tableReg("table_jungle");
+    public static final Block TABLE_MANGROVE = tableReg("table_mangrove");
+    public static final Block TABLE_WARPED = tableReg("table_warped");
 
     //Feast
-    public static final Block COLD_CUT_HAM_SLICES = new FoodBiteThreeByThreeBlock(ModFoods.COLD_CUT_HAM_SLICES_BLOCK, ModConsumables.COLD_CUT_HAM_SLICES_BLOCK, 8, null);
+    public static final Block COLD_CUT_HAM_SLICES = commonReg("cold_cut_ham_slices", p -> new FoodBiteThreeByThreeBlock(p , ModFoods.COLD_CUT_HAM_SLICES_BLOCK, ModConsumables.COLD_CUT_HAM_SLICES_BLOCK, 8, null), BlockBehaviour.Properties.of()
+            .forceSolidOn()
+            .instabreak()
+            .mapColor(MapColor.WOOD)
+            .sound(SoundType.WOOD)
+            .pushReaction(PushReaction.DESTROY)
+            .noOcclusion());
 
     // Block entities
     public static final BlockEntityType<PotBlockEntity> POT_BE = FabricBlockEntityTypeBuilder.create(PotBlockEntity::new, POT).build();
@@ -118,71 +228,6 @@ public class ModBlocks {
     ).build();
 
     public static void registerBlocks() {
-        // Kitchen blocks
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "stove"), STOVE);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "pot"), POT);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "stockpot"), STOCKPOT);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "fruit_basket"), FRUIT_BASKET);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "chopping_board"), CHOPPING_BOARD);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "oil_block"), OIL_BLOCK);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "enamel_basin"), ENAMEL_BASIN);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "kitchenware_racks"), KITCHENWARE_RACKS);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "chili_ristra"), CHILI_RISTRA);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "strung_mushrooms"), STRUNG_MUSHROOMS);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "straw_block"), STRAW_BLOCK);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "shawarma_spit"), SHAWARMA_SPIT);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "steamer"), STEAMER);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "millstone"), MILLSTONE);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "recipe_block"), RECIPE_BLOCK);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "oil_pot"), OIL_POT);
-
-        // Crop blocks
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "tomato_crop"), TOMATO_CROP);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "chili_crop"), CHILI_CROP);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "lettuce_crop"), LETTUCE_CROP);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "rice_crop"), RICE_CROP);
-
-        // Cook stools
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "cook_stool_oak"), COOK_STOOL_OAK);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "cook_stool_spruce"), COOK_STOOL_SPRUCE);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "cook_stool_acacia"), COOK_STOOL_ACACIA);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "cook_stool_bamboo"), COOK_STOOL_BAMBOO);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "cook_stool_birch"), COOK_STOOL_BIRCH);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "cook_stool_cherry"), COOK_STOOL_CHERRY);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "cook_stool_crimson"), COOK_STOOL_CRIMSON);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "cook_stool_dark_oak"), COOK_STOOL_DARK_OAK);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "cook_stool_jungle"), COOK_STOOL_JUNGLE);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "cook_stool_mangrove"), COOK_STOOL_MANGROVE);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "cook_stool_warped"), COOK_STOOL_WARPED);
-
-        // Chairs
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "chair_oak"), CHAIR_OAK);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "chair_spruce"), CHAIR_SPRUCE);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "chair_acacia"), CHAIR_ACACIA);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "chair_bamboo"), CHAIR_BAMBOO);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "chair_birch"), CHAIR_BIRCH);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "chair_cherry"), CHAIR_CHERRY);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "chair_crimson"), CHAIR_CRIMSON);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "chair_dark_oak"), CHAIR_DARK_OAK);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "chair_jungle"), CHAIR_JUNGLE);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "chair_mangrove"), CHAIR_MANGROVE);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "chair_warped"), CHAIR_WARPED);
-
-        // Tables
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "table_oak"), TABLE_OAK);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "table_spruce"), TABLE_SPRUCE);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "table_acacia"), TABLE_ACACIA);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "table_bamboo"), TABLE_BAMBOO);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "table_birch"), TABLE_BIRCH);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "table_cherry"), TABLE_CHERRY);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "table_crimson"), TABLE_CRIMSON);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "table_dark_oak"), TABLE_DARK_OAK);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "table_jungle"), TABLE_JUNGLE);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "table_mangrove"), TABLE_MANGROVE);
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "table_warped"), TABLE_WARPED);
-
-        // Feast
-        Registry.register(BuiltInRegistries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "cold_cut_ham_slices"), COLD_CUT_HAM_SLICES);
 
         // Block entities
         Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "pot"), POT_BE);
@@ -198,5 +243,50 @@ public class ModBlocks {
         Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "recipe_book"), RECIPE_BLOCK_BE);
         Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "oil_pot"), OIL_POT_BE);
         Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "food_bite_three_by_three"), FOOD_BITE_THREE_BY_THREE_BE);
+    }
+    public static Block register(ResourceKey<Block> resourceKey, Function<BlockBehaviour.Properties, Block> function, BlockBehaviour.Properties properties) {
+        Block block = function.apply(properties.setId(resourceKey));
+        return Registry.register(BuiltInRegistries.BLOCK, resourceKey, block);
+    }
+    private static Block commonReg(String string, Function<BlockBehaviour.Properties, Block> function, BlockBehaviour.Properties properties) {
+        return register(PortHelper.createBlockId(string), function, properties);
+    }
+
+    private static Block stoolReg(String string) {
+        return commonReg(string, CookStoolBlock::new, BlockBehaviour.Properties.of()
+                .mapColor(MapColor.WOOD)
+                .instrument(NoteBlockInstrument.BASS)
+                .strength(2.0F, 3.0F)
+                .sound(SoundType.WOOD)
+                .ignitedByLava());
+    }
+
+    private static Block chairReg(String string) {
+        return commonReg(string, ChairBlock::new, BlockBehaviour.Properties.of()
+                .mapColor(MapColor.WOOD)
+                .instrument(NoteBlockInstrument.BASS)
+                .strength(2.0F, 3.0F)
+                .sound(SoundType.WOOD)
+                .noOcclusion()
+                .ignitedByLava());
+    }
+    private static Block tableReg(String string) {
+        return commonReg(string, TableBlock::new, BlockBehaviour.Properties.of()
+                .mapColor(MapColor.WOOD)
+                .instrument(NoteBlockInstrument.BASS)
+                .strength(2.0F, 3.0F)
+                .sound(SoundType.WOOD)
+                .noOcclusion()
+                .ignitedByLava());
+    }
+
+    private static Block cropReg(String string, Function<BlockBehaviour.Properties, Block> function) {
+        return commonReg(string, function, BlockBehaviour.Properties.of()
+                .mapColor(MapColor.PLANT)
+                .noCollision()
+                .randomTicks()
+                .instabreak()
+                .sound(SoundType.CROP)
+                .pushReaction(PushReaction.DESTROY));
     }
 }

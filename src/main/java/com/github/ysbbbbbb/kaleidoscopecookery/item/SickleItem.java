@@ -4,6 +4,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.api.event.SickleHarvestEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.crop.RiceCropBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModEvents;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -33,12 +34,8 @@ import java.util.function.Consumer;
 
 public class SickleItem extends Item {
 
-    public SickleItem(Properties properties) {
-        super(properties);
-    }
-
-    public SickleItem() {
-        this(new Properties().stacksTo(1));
+    public SickleItem(Properties p) {
+        super(p.stacksTo(1).sword(ToolMaterial.WOOD, 3.0F, -2.4F));
     }
 
     @Override

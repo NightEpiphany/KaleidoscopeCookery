@@ -1,6 +1,8 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.block.misc;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -18,15 +20,15 @@ import net.minecraft.world.level.material.MapColor;
 import org.jspecify.annotations.NonNull;
 
 public class StrawBlocks extends RotatedPillarBlock {
-    public StrawBlocks() {
-        super(Properties.of()
-                .mapColor(MapColor.COLOR_YELLOW)
-                .instrument(NoteBlockInstrument.BANJO)
-                .strength(0.5F)
-                .sound(SoundType.GRASS));
+    public StrawBlocks(Properties p) {
+        super(p);
         this.registerDefaultState(this.stateDefinition.any().setValue(AXIS, Direction.Axis.Y));
     }
 
+    @Override
+    public @NonNull MapCodec<? extends RotatedPillarBlock> codec() {
+        return simpleCodec(StrawBlocks::new);
+    }
 
     @Override
     public void fallOn(Level level, @NonNull BlockState state, @NonNull BlockPos pos, @NonNull Entity entity, double fallDistance) {

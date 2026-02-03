@@ -3,6 +3,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.item;
 import com.github.ysbbbbbb.kaleidoscopecookery.advancements.critereon.ModEventTriggerType;
 import com.github.ysbbbbbb.kaleidoscopecookery.entity.ScarecrowEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTrigger;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -30,8 +31,8 @@ import org.jspecify.annotations.NonNull;
 import java.util.function.Consumer;
 
 public class ScarecrowItem extends Item {
-    public ScarecrowItem() {
-        super(new Properties());
+    public ScarecrowItem(Properties p) {
+        super(p);
     }
 
     @Override

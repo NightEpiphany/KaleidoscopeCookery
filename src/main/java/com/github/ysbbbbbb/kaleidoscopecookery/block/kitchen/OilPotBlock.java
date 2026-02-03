@@ -3,6 +3,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.OilPotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.OilPotItem;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -42,19 +43,14 @@ import java.util.List;
 import static com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.OilPotBlockEntity.MAX_OIL_COUNT;
 
 public class OilPotBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock, WorldlyContainerHolder {
-    public static final MapCodec<OilPotBlock> CODEC = simpleCodec(p -> new OilPotBlock());
+    public static final MapCodec<OilPotBlock> CODEC = simpleCodec(OilPotBlock::new);
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final BooleanProperty HAS_OIL = BooleanProperty.create("has_oil");
 
     private static final VoxelShape AABB = Block.box(5, 0, 5, 11, 10, 11);
 
-    public OilPotBlock() {
-        super(BlockBehaviour.Properties.of()
-                .mapColor(MapColor.METAL)
-                .instrument(NoteBlockInstrument.BELL)
-                .instabreak()
-                .pushReaction(PushReaction.DESTROY)
-                .sound(SoundType.LANTERN));
+    public OilPotBlock(Properties p) {
+        super(p);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(WATERLOGGED, false)
                 .setValue(FACING, Direction.NORTH)

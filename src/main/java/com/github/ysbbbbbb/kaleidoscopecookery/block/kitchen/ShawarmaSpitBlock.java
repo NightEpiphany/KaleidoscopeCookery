@@ -3,6 +3,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.blockentity.IShawarmaSpit;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.ShawarmaSpitBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import com.google.common.collect.Lists;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -39,7 +40,7 @@ import org.jspecify.annotations.NonNull;
 import java.util.List;
 
 public class ShawarmaSpitBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock {
-    public static final MapCodec<ShawarmaSpitBlock> CODEC = simpleCodec(p -> new ShawarmaSpitBlock());
+    public static final MapCodec<ShawarmaSpitBlock> CODEC = simpleCodec(ShawarmaSpitBlock::new);
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
@@ -53,14 +54,8 @@ public class ShawarmaSpitBlock extends HorizontalDirectionalBlock implements Sim
             Block.box(6, 7, 6, 10, 16, 10)
     );
 
-    public ShawarmaSpitBlock() {
-        super(Properties.of()
-                .mapColor(MapColor.METAL)
-                .noOcclusion()
-                .instrument(NoteBlockInstrument.BASS)
-                .strength(2.0F, 3.0F)
-                .lightLevel(state -> state.getValue(POWERED) ? 8 : 0)
-                .sound(SoundType.METAL));
+    public ShawarmaSpitBlock(Properties p) {
+        super(p);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)
                 .setValue(HALF, DoubleBlockHalf.LOWER)

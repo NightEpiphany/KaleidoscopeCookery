@@ -22,6 +22,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
@@ -53,9 +54,9 @@ public class FoodBiteThreeByThreeBlock extends FoodBiteBlock implements EntityBl
     private static final VoxelShape DOWN = Block.box(0, 0, 0, 16, 2, 12);
     private static final VoxelShape RIGHT_DOWN = Block.box(0, 0, 0, 12, 2, 12);
 
-    public FoodBiteThreeByThreeBlock(FoodProperties foodProperties, Consumable consumable, int maxBites,
+    public FoodBiteThreeByThreeBlock(BlockBehaviour.Properties p, FoodProperties foodProperties, Consumable consumable, int maxBites,
                                      @Nullable FoodBiteAnimateTicks.AnimateTick animateTick) {
-        super(foodProperties, consumable, maxBites, animateTick);
+        super(p, foodProperties, consumable, maxBites, animateTick);
         this.registerDefaultState(this.stateDefinition.any().setValue(bites, 0).setValue(FACING, Direction.SOUTH).setValue(PART, NinePart.CENTER));
     }
 

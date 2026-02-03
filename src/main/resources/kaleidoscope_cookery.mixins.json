@@ -17,8 +17,6 @@
     "BlockEntityRendererMixin",
     "GuiLayerRegistrationMixin",
     "MCMixin",
-    "ModelBakeryMixin",
-    "PlayerRendererMixin",
     "realize.HumanoidModelMixin"
   ],
   "injectors": {

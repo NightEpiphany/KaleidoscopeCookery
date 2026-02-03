@@ -15,6 +15,7 @@ import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.TagValueInput;
 import net.minecraft.world.level.storage.ValueInput;
 import org.jetbrains.annotations.NotNull;
@@ -26,8 +27,8 @@ public class FruitBasketItem extends BlockItem {
 
     private static final int MAX_SLOTS = 8;
 
-    public FruitBasketItem() {
-        super(ModBlocks.FRUIT_BASKET, new Properties().stacksTo(1));
+    public FruitBasketItem(Block block, Properties properties) {
+        super(block, properties.stacksTo(1));
     }
 
     public static ItemStackHandler getItems(ItemStack stack) {

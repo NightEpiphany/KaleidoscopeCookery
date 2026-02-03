@@ -5,6 +5,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModDataComponents;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.FruitBasketItem;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -41,7 +42,7 @@ import org.jspecify.annotations.NonNull;
 import java.util.List;
 
 public class FruitBasketBlock extends HorizontalDirectionalBlock implements EntityBlock, SimpleWaterloggedBlock {
-    public static final MapCodec<FruitBasketBlock> CODEC = simpleCodec(p -> new FruitBasketBlock());
+    public static final MapCodec<FruitBasketBlock> CODEC = simpleCodec(FruitBasketBlock::new);
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     private static final VoxelShape NORTH_SOUTH = Shapes.join(
@@ -53,11 +54,8 @@ public class FruitBasketBlock extends HorizontalDirectionalBlock implements Enti
             Block.box(3, 1, 2, 13, 8, 14),
             BooleanOp.ONLY_FIRST);
 
-    public FruitBasketBlock() {
-        super(BlockBehaviour.Properties.of()
-                .mapColor(MapColor.WOOD)
-                .instrument(NoteBlockInstrument.BASS)
-                .sound(SoundType.BAMBOO));
+    public FruitBasketBlock(BlockBehaviour.Properties p) {
+        super(p);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.SOUTH)
                 .setValue(WATERLOGGED, false));

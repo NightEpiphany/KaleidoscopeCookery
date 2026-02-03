@@ -1,0 +1,6 @@
+{
+  "values": [
+    { id: "farmersdelight:raw_pasta", required:false },
+    "kaleidoscope_cookery:raw_noodles"
+  ]
+}

@@ -1,5 +1,6 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.item;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -15,8 +16,8 @@ import java.util.function.Consumer;
 
 public class KitchenKnifeItem extends Item {
 
-    public KitchenKnifeItem(ToolMaterial material, float attackDamageBonus, float attackSpeedBonus) {
-        super(new Item.Properties().stacksTo(1).sword(material, attackDamageBonus, attackSpeedBonus));
+    public KitchenKnifeItem(Properties p, ToolMaterial material, float attackDamageBonus, float attackSpeedBonus) {
+        super(p.stacksTo(1).sword(material, attackDamageBonus, attackSpeedBonus));
     }
 
 
