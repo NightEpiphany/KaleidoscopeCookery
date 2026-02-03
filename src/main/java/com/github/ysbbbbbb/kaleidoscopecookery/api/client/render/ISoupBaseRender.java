@@ -11,7 +11,8 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Matrix4f;
-@Environment(EnvType.CLIENT)
+
+
 public interface ISoupBaseRender {
     /**
      * 工具方法，用于渲染流体贴图
