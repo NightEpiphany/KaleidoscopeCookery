@@ -58,7 +58,7 @@ public class PotBlockEntity extends BaseBlockEntity implements IPot {
     private static final String SEED = "Seed";
 
     private NonNullList<ItemStack> inputs = NonNullList.withSize(PotRecipe.RECIPES_SIZE, ItemStack.EMPTY);
-    private Ingredient carrier = Ingredient.of(ItemStack.EMPTY.getItem());
+    private Ingredient carrier = Ingredient.of(Items.BARRIER);
     private ItemStack result = ItemStack.EMPTY;
     private int status = PUT_INGREDIENT;
     private int currentTick = 0;
@@ -426,7 +426,7 @@ public class PotBlockEntity extends BaseBlockEntity implements IPot {
 
     public void reset() {
         this.inputs.clear();
-        this.carrier = Ingredient.of(ItemStack.EMPTY.getItem());
+        this.carrier = Ingredient.of(Items.BARRIER);
         this.result = ItemStack.EMPTY;
         this.status = PUT_INGREDIENT;
         this.currentTick = 0;
@@ -466,7 +466,7 @@ public class PotBlockEntity extends BaseBlockEntity implements IPot {
                 this.inputs.set(itemStackWithSlot.slot(), itemStackWithSlot.stack());
             }
         }
-        this.carrier = valueInput.read(CARRIER, Ingredient.CODEC).orElse(Ingredient.of(ItemStack.EMPTY.getItem()));
+        this.carrier = valueInput.read(CARRIER, Ingredient.CODEC).orElse(Ingredient.of(Items.BARRIER));
         this.result = valueInput.read(RESULT, ItemStack.CODEC).orElse(ItemStack.EMPTY);
         this.status = valueInput.getIntOr(STATUS, PUT_INGREDIENT);
         this.currentTick = valueInput.getIntOr(CURRENT_TICK, 0);

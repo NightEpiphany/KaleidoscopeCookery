@@ -1,0 +1,14 @@
+{
+  "model": {
+    "type": "minecraft:condition",
+    "property": "kaleidoscope_cookery:kitchen_shovel/has_oil",
+    "on_true": {
+      "type": "minecraft:model",
+      "model": "kaleidoscope_cookery:item/kitchen_shovel_has_oil"
+    },
+    "on_false": {
+      "type": "minecraft:model",
+      "model": "kaleidoscope_cookery:item/kitchen_shovel_no_oil"
+    }
+  }
+}

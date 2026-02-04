@@ -81,6 +81,7 @@ public class RecipeItem extends BlockItem {
         return stack.has(ModDataComponents.RECIPE_RECORD);
     }
 
+    @Deprecated
     @Environment(EnvType.CLIENT)
     public static float getTexture(ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity entity, int seed) {
         if (hasRecipe(stack)) {

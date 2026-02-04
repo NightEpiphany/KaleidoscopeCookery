@@ -1,6 +1,6 @@
 {
   "model": {
   "type": "minecraft:model",
-    "model": "kaleidoscope_cookery:block/strung_mushrooms/head"
+    "model": "kaleidoscope_cookery:item/strung_mushrooms"
   }
 }

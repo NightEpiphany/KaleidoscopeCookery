@@ -1,6 +1,6 @@
 {
   "model": {
   "type": "minecraft:model",
-    "model": "kaleidoscope_cookery:block/chili_ristra/head"
+    "model": "kaleidoscope_cookery:item/chili_ristra"
   }
 }

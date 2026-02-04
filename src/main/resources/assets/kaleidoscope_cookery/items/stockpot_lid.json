@@ -1,0 +1,14 @@
+{
+  "model": {
+    "type": "minecraft:condition",
+    "property": "kaleidoscope_cookery:stockpot_lid/using",
+    "on_true": {
+      "type": "minecraft:model",
+      "model": "kaleidoscope_cookery:item/stockpot_lid_using"
+    },
+    "on_false": {
+      "type": "minecraft:model",
+      "model": "kaleidoscope_cookery:item/stockpot_lid_normal"
+    }
+  }
+}

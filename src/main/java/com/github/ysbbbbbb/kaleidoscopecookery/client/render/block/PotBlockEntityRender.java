@@ -46,6 +46,7 @@ public class PotBlockEntityRender implements BlockEntityRenderer<PotBlockEntity,
         blockEntityRenderState.status = blockEntity.getStatus();
         int posLong = (int) blockEntity.getBlockPos().asLong();
         blockEntityRenderState.inputs = NonNullList.withSize(blockEntity.getInputs().size(), new ItemStackRenderState());
+        blockEntityRenderState.output = new ItemStackRenderState();
         for (var index = 0; index < blockEntityRenderState.inputs.size(); index++) {
             this.itemModelResolver.updateForTopItem(blockEntityRenderState.inputs.get(index), blockEntity.getInputs().get(index), ItemDisplayContext.FIXED, blockEntity.getLevel(), null, posLong + index);
         }

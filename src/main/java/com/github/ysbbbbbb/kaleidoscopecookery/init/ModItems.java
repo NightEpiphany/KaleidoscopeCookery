@@ -43,7 +43,7 @@ public final class ModItems {
 
     // Special items
     public static final Item OIL = registerItem("oil", p -> new WithTooltipsItem(p, "oil"));
-    public static final Item RECIPE_ITEM = registerItemViaBlock(ModBlocks.RECIPE_BLOCK, RecipeItem::new);
+    public static final Item RECIPE_ITEM = registerItem("recipe_item", p -> new RecipeItem(ModBlocks.RECIPE_BLOCK, p.useItemDescriptionPrefix()));
     public static final Item KITCHEN_SHOVEL = registerItem("kitchen_shovel", KitchenShovelItem::new);
     public static final Item FRUIT_BASKET = registerItemViaBlock(ModBlocks.FRUIT_BASKET, FruitBasketItem::new);
     public static final Item SCARECROW = registerItem("scarecrow", ScarecrowItem::new);

@@ -1,0 +1,14 @@
+{
+  "model": {
+    "type": "minecraft:condition",
+    "property": "kaleidoscope_cookery:oil_pot/has_oil",
+    "on_true": {
+      "type": "minecraft:model",
+      "model": "kaleidoscope_cookery:item/pot_has_oil"
+    },
+    "on_false": {
+      "type": "minecraft:model",
+      "model": "kaleidoscope_cookery:item/pot_no_oil"
+    }
+  }
+}
