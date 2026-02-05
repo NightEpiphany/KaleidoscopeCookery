@@ -68,6 +68,7 @@ public class ModCreativeTabs {
                     output.accept(ModItems.FARMER_LEGGINGS);
                     output.accept(ModItems.FARMER_BOOTS);
                     output.accept(ModItems.COOK_STOOL_OAK);
+                    output.accept(ModItems.COOK_STOOL_PALE_OAK);
                     output.accept(ModItems.COOK_STOOL_SPRUCE);
                     output.accept(ModItems.COOK_STOOL_ACACIA);
                     output.accept(ModItems.COOK_STOOL_BAMBOO);
@@ -79,6 +80,7 @@ public class ModCreativeTabs {
                     output.accept(ModItems.COOK_STOOL_MANGROVE);
                     output.accept(ModItems.COOK_STOOL_WARPED);
                     output.accept(ModItems.CHAIR_OAK);
+                    output.accept(ModItems.CHAIR_PALE_OAK);
                     output.accept(ModItems.CHAIR_SPRUCE);
                     output.accept(ModItems.CHAIR_ACACIA);
                     output.accept(ModItems.CHAIR_BAMBOO);
@@ -90,6 +92,7 @@ public class ModCreativeTabs {
                     output.accept(ModItems.CHAIR_MANGROVE);
                     output.accept(ModItems.CHAIR_WARPED);
                     output.accept(ModItems.TABLE_OAK);
+                    output.accept(ModItems.TABLE_PALE_OAK);
                     output.accept(ModItems.TABLE_SPRUCE);
                     output.accept(ModItems.TABLE_ACACIA);
                     output.accept(ModItems.TABLE_BAMBOO);

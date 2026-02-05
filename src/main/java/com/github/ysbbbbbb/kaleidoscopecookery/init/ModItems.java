@@ -63,6 +63,7 @@ public final class ModItems {
 
     // Cook stools
     public static final Item COOK_STOOL_OAK = registerItemViaBlock(ModBlocks.COOK_STOOL_OAK);
+    public static final Item COOK_STOOL_PALE_OAK = registerItemViaBlock(ModBlocks.COOK_STOOL_PALE_OAK);
     public static final Item COOK_STOOL_SPRUCE = registerItemViaBlock(ModBlocks.COOK_STOOL_SPRUCE);
     public static final Item COOK_STOOL_ACACIA = registerItemViaBlock(ModBlocks.COOK_STOOL_ACACIA);
     public static final Item COOK_STOOL_BAMBOO = registerItemViaBlock(ModBlocks.COOK_STOOL_BAMBOO);
@@ -76,6 +77,7 @@ public final class ModItems {
 
     // Chairs
     public static final Item CHAIR_OAK = registerItemViaBlock(ModBlocks.CHAIR_OAK);
+    public static final Item CHAIR_PALE_OAK = registerItemViaBlock(ModBlocks.CHAIR_PALE_OAK);
     public static final Item CHAIR_SPRUCE = registerItemViaBlock(ModBlocks.CHAIR_SPRUCE);
     public static final Item CHAIR_ACACIA = registerItemViaBlock(ModBlocks.CHAIR_ACACIA);
     public static final Item CHAIR_BAMBOO = registerItemViaBlock(ModBlocks.CHAIR_BAMBOO);
@@ -89,6 +91,7 @@ public final class ModItems {
 
     // Tables
     public static final Item TABLE_OAK = registerItemViaBlock(ModBlocks.TABLE_OAK);
+    public static final Item TABLE_PALE_OAK = registerItemViaBlock(ModBlocks.TABLE_PALE_OAK);
     public static final Item TABLE_SPRUCE = registerItemViaBlock(ModBlocks.TABLE_SPRUCE);
     public static final Item TABLE_ACACIA = registerItemViaBlock(ModBlocks.TABLE_ACACIA);
     public static final Item TABLE_BAMBOO = registerItemViaBlock(ModBlocks.TABLE_BAMBOO);
