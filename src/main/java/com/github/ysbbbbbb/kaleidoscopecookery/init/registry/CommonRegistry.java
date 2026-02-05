@@ -47,6 +47,7 @@ public class CommonRegistry {
         RightClickEvent.register();
         LeftClickEvent.register();
         ExtraLootTableDrop.register();
+        PlayerSitEvent.register();
     }
 
     private static void registerFoodBiteBlocks() {

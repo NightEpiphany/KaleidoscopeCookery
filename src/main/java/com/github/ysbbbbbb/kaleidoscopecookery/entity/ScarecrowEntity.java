@@ -1,6 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.entity;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.advancements.critereon.ModEventTriggerType;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.ModEntities;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTrigger;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
@@ -47,11 +48,6 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 public class ScarecrowEntity extends LivingEntity {
-    public static final EntityType<ScarecrowEntity> TYPE = EntityType.Builder
-            .<ScarecrowEntity>of(ScarecrowEntity::new, MobCategory.MISC)
-            .sized(0.5F, 2.375f)
-            .clientTrackingRange(10)
-            .build(PortHelper.sign("scarecrow"));
 
     protected static final EntityDataAccessor<Optional<EntityReference<LivingEntity>>> DATA_SHOULDER = SynchedEntityData.defineId(
             ScarecrowEntity.class, EntityDataSerializers.OPTIONAL_LIVING_ENTITY_REFERENCE
@@ -74,12 +70,12 @@ public class ScarecrowEntity extends LivingEntity {
     }
 
     public ScarecrowEntity(Level level, double pX, double pY, double pZ) {
-        this(TYPE, level);
+        this(ModEntities.SCARECROW, level);
         this.setPos(pX, pY, pZ);
     }
 
-    public static AttributeSupplier.Builder createAttributes() {
-        return createLivingAttributes().add(Attributes.STEP_HEIGHT, 0.0);
+    public static AttributeSupplier createAttributes() {
+        return createLivingAttributes().add(Attributes.STEP_HEIGHT, 0.0).build();
     }
 
     @Override

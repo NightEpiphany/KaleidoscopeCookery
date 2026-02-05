@@ -1,124 +1,76 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.entity;
 
-import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
-import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.syncher.SynchedEntityData;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.ModEntities;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.SitUtil;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
+import net.minecraft.network.syncher.SynchedEntityData.Builder;
+import net.minecraft.server.level.ServerEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 
 public class SitEntity extends Entity {
-    public static final EntityType<SitEntity> TYPE = EntityType.Builder.<SitEntity>of(SitEntity::new, MobCategory.MISC)
-            .sized(0.5f, 0.1f)
-            .clientTrackingRange(10)
-            .noSave().noSummon()
-            .build(PortHelper.sign("sit"));
-    private int passengerTick = 0;
-
-    public SitEntity(EntityType<?> entityTypeIn, Level worldIn) {
-        super(entityTypeIn, worldIn);
+    public SitEntity(EntityType<? extends SitEntity> type, Level level) {
+        super(type, level);
     }
 
-    public SitEntity(Level worldIn, BlockPos pos) {
-        this(TYPE, worldIn);
-        this.setPos(pos.getX() + 0.5, pos.getY() + 0.4375, pos.getZ() + 0.5);
-    }
-
-    public SitEntity(Level worldIn, BlockPos pos, double y) {
-        this(TYPE, worldIn);
-        this.setPos(pos.getX() + 0.5, pos.getY() + y, pos.getZ() + 0.5);
+    public SitEntity(Level level) {
+        super(ModEntities.SIT, level);
+        noPhysics = true;
     }
 
     @Override
-    public @NotNull Vec3 getPassengerRidingPosition(@NonNull Entity entity) {
-        return super.getPassengerRidingPosition(entity).add(0, -0.0625, 0);
-    }
+    public @NonNull Vec3 getDismountLocationForPassenger(@NonNull LivingEntity passenger) {
+        if (passenger instanceof Player player) {
+            Vec3 resetPosition = SitUtil.getPreviousPlayerPosition(player, this);
 
-    @Override
-    protected void defineSynchedData(SynchedEntityData.@NonNull Builder builder) {
-    }
-
-    @Override
-    public void tick() {
-        if (!this.level().isClientSide()) {
-            this.checkBelowWorld();
-            this.checkPassengers();
-            // 每秒检查一次所处位置是否有方块，没有就删除实体
-            if (this.tickCount % 20 == 0) {
-                BlockState blockState = this.level().getBlockState(this.blockPosition());
-                if (!blockState.is(TagMod.SITTABLE)) {
-                    this.discard();
-                }
+            if (resetPosition != null) {
+                discard();
+                return resetPosition;
             }
         }
-    }
 
-    private void checkPassengers() {
-        if (this.getPassengers().isEmpty()) {
-            passengerTick++;
-        } else {
-            passengerTick = 0;
-        }
-        if (passengerTick > 10) {
-            this.discard();
-        }
+        discard();
+        return super.getDismountLocationForPassenger(passenger);
     }
 
     @Override
-    public boolean skipAttackInteraction(@NonNull Entity targetEntity) {
-        return true;
+    public void remove(@NonNull RemovalReason reason) {
+        super.remove(reason);
+        SitUtil.removeSitEntity(level(), blockPosition());
     }
 
     @Override
-    public boolean hurtServer(@NonNull ServerLevel serverLevel, @NonNull DamageSource damageSource, float f) {
+    protected void defineSynchedData(@NonNull Builder builder) {}
+
+    @Override
+    public void readAdditionalSaveData(@NonNull ValueInput nbt) {}
+
+    @Override
+    public void addAdditionalSaveData(@NonNull ValueOutput nbt) {}
+
+    @Override
+    public @NonNull Packet<ClientGamePacketListener> getAddEntityPacket(@NonNull ServerEntity serverEntity) {
+        return new ClientboundAddEntityPacket(this, serverEntity);
+    }
+
+    @Override
+    public boolean hurtServer(@NonNull ServerLevel level, @NonNull DamageSource source, float amount) {
         return false;
     }
 
     @Override
-    public void move(@NonNull MoverType moverType, @NonNull Vec3 movement) {
-    }
-
-    @Override
-    public void push(@NonNull Entity pushedEntity) {
-    }
-
-    @Override
-    public void push(double x, double y, double z) {
-    }
-
-    @Override
-    protected boolean repositionEntityAfterLoad() {
-        return false;
-    }
-
-    @Override
-    protected void readAdditionalSaveData(@NonNull ValueInput valueInput) {
-
-    }
-
-    @Override
-    protected void addAdditionalSaveData(@NonNull ValueOutput valueOutput) {
-
-    }
-
-    @Override
-    public void thunderHit(@NonNull ServerLevel serverLevel, @NonNull LightningBolt lightningBolt) {
-    }
-
-    @Override
-    public void refreshDimensions() {
-    }
-
-    @Override
-    public boolean canCollideWith(@NonNull Entity entity) {
+    public boolean shouldRender(double x, double y, double z) {
         return false;
     }
 }

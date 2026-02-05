@@ -1,6 +1,89 @@
 {
   "model": {
-  "type": "minecraft:model",
-    "model": "kaleidoscope_cookery:item/farmer_boots"
+    "type": "minecraft:select",
+    "cases": [
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_boots"
+        },
+        "when": "minecraft:quartz"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_boots"
+        },
+        "when": "minecraft:iron"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_boots"
+        },
+        "when": "minecraft:netherite"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_boots"
+        },
+        "when": "minecraft:redstone"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_boots"
+        },
+        "when": "minecraft:copper"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_boots"
+        },
+        "when": "minecraft:gold"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_boots"
+        },
+        "when": "minecraft:emerald"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_boots"
+        },
+        "when": "minecraft:diamond"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_boots"
+        },
+        "when": "minecraft:lapis"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_boots"
+        },
+        "when": "minecraft:amethyst"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_boots"
+        },
+        "when": "minecraft:resin"
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "kaleidoscope_cookery:item/farmer_boots"
+    },
+    "property": "minecraft:trim_material"
   }
 }

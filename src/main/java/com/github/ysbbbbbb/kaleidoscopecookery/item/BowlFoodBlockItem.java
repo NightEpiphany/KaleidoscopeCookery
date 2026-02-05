@@ -48,14 +48,7 @@ public class BowlFoodBlockItem extends BlockItem {
 
     public BowlFoodBlockItem(Block block, FoodProperties properties, Consumable consumable, @Nullable ItemLike usingConvertsTo, String name) {
         super(block, new Item.Properties().stacksTo(16).useBlockDescriptionPrefix()
-                .food(new FoodProperties(
-                        properties.nutrition(),
-                        properties.saturation(),
-                        properties.canAlwaysEat()
-                ), new Consumable(
-                        consumable.consumeSeconds(), consumable.animation(), consumable.sound(), consumable.hasConsumeParticles(), consumable.onConsumeEffects()
-                )).setId(PortHelper.createItemId(name))
-
+                .food(properties, consumable).setId(PortHelper.createItemId(name))
         );
         this.usingConvertsTo = usingConvertsTo == null ? Optional.empty() : Optional.of(new ItemStack(usingConvertsTo));
         consumable.onConsumeEffects().forEach(effect -> {

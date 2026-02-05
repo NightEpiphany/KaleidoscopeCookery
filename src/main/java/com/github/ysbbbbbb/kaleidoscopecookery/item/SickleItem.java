@@ -20,10 +20,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.BushBlock;
-import net.minecraft.world.level.block.CropBlock;
-import net.minecraft.world.level.block.LevelEvent;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -57,7 +54,7 @@ public class SickleItem extends Item {
         for (int x = -2; x <= 2; x++) {
             for (int y = 0; y <= 1; y++) {
                 for (int z = -2; z <= 2; z++) {
-                    if (harvest(pos, x, y, z, level, player, stack)) {
+                    if (harvest(pos, x, y, z, serverLevel, player, stack)) {
                         breakCount++;
                     }
                 }
@@ -78,7 +75,7 @@ public class SickleItem extends Item {
         return InteractionResult.SUCCESS;
     }
 
-    private boolean harvest(BlockPos pos, int x, int y, int z, Level level, Player player, ItemStack stack) {
+    private boolean harvest(BlockPos pos, int x, int y, int z, ServerLevel level, Player player, ItemStack stack) {
         BlockPos newPos = pos.offset(x, y, z);
         if (!level.mayInteract(player, newPos)) {
             return false;
@@ -125,9 +122,10 @@ public class SickleItem extends Item {
         }
 
         // 如果是灌木，直接破坏
-        if (block instanceof BushBlock) {
+        if (block instanceof VegetationBlock) {
             if (player instanceof ServerPlayer serverPlayer) {
                 serverPlayer.gameMode.destroyBlock(newPos);
+                level.setBlock(newPos, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
                 level.levelEvent(null, LevelEvent.PARTICLES_DESTROY_BLOCK, newPos, Block.getId(blockState));
                 return true;
             }

@@ -21,7 +21,6 @@ import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.Direction;
-import net.minecraft.core.NonNullList;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Util;
 import net.minecraft.world.item.DyeColor;
@@ -31,9 +30,11 @@ import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.function.BiFunction;
 
 public class TableBlockEntityRender implements BlockEntityRenderer<TableBlockEntity, TableBlockEntityRenderState> {
+    public static final double RENDER_HEIGHT = 1.1125;
     private final ItemModelResolver itemModelResolver;
     private static final BiFunction<DyeColor, Integer, Identifier> CACHE_MODEL = Util.memoize((color, position) -> {
         String name = color.getName();
@@ -71,9 +72,12 @@ public class TableBlockEntityRender implements BlockEntityRenderer<TableBlockEnt
     public void extractRenderState(TableBlockEntity blockEntity, TableBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, blockEntityRenderState, f, vec3, crumblingOverlay);
         int posLong = (int) blockEntity.getBlockPos().asLong();
-        blockEntityRenderState.items = NonNullList.withSize(blockEntity.getItems().size(), new ItemStackRenderState());
-        for (var index = 0; index < blockEntityRenderState.items.size(); index++) {
-            this.itemModelResolver.updateForTopItem(blockEntityRenderState.items.get(index), blockEntity.getItems().get(index), ItemDisplayContext.FIXED, blockEntity.getLevel(), null, posLong + index);
+        blockEntityRenderState.items = new ArrayList<>();
+
+        for (var index = 0; index < 4; index++) {
+            ItemStackRenderState itemStackRenderState = new ItemStackRenderState();
+            this.itemModelResolver.updateForTopItem(itemStackRenderState, blockEntity.getItems().get(index), ItemDisplayContext.FIXED, blockEntity.getLevel(), null, posLong + index);
+            blockEntityRenderState.items.add(itemStackRenderState);
         }
         blockEntityRenderState.color = blockEntity.getColor();
     }
@@ -114,7 +118,7 @@ public class TableBlockEntityRender implements BlockEntityRenderer<TableBlockEnt
         var items = blockEntityRenderState.items;
 
         int count = 0;
-        for (ItemStackRenderState item : items) {
+        for (var item : blockEntityRenderState.items) {
             if (item.isEmpty()) {
                 continue;
             }
@@ -125,13 +129,13 @@ public class TableBlockEntityRender implements BlockEntityRenderer<TableBlockEnt
             return;
         }
 
-        poseStack.pushPose();
-        poseStack.translate(0.5, 1.3125, 0.5);
-        poseStack.scale(0.65F, 0.65F, 0.65F);
 
         if (count == 1) {
+            poseStack.pushPose();
+            poseStack.translate(0.5, RENDER_HEIGHT, 0.5);
+            poseStack.scale(0.65F, 0.65F, 0.65F);
             this.rotation(poseStack, axis);
-            ItemStackRenderState stack1 = items.get(0);
+            ItemStackRenderState stack1 = items.getFirst();
             stack1.submit(
                     poseStack,
                     submitNodeCollector,
@@ -139,11 +143,14 @@ public class TableBlockEntityRender implements BlockEntityRenderer<TableBlockEnt
                     OverlayTexture.NO_OVERLAY,
                     0
             );
+            poseStack.popPose();
         } else if (count == 2) {
             poseStack.pushPose();
+            poseStack.translate(0.5, RENDER_HEIGHT, 0.5);
+            poseStack.scale(0.65F, 0.65F, 0.65F);
             this.rotation(poseStack, axis);
             poseStack.translate(-0.25, 0, 0.1);
-            ItemStackRenderState stack1 = items.get(0);
+            ItemStackRenderState stack1 = items.getFirst();
             stack1.submit(
                     poseStack,
                     submitNodeCollector,
@@ -154,6 +161,8 @@ public class TableBlockEntityRender implements BlockEntityRenderer<TableBlockEnt
             poseStack.popPose();
 
             poseStack.pushPose();
+            poseStack.translate(0.5, RENDER_HEIGHT, 0.5);
+            poseStack.scale(0.65F, 0.65F, 0.65F);
             this.rotation(poseStack, axis);
             poseStack.translate(0.25, 0.01, -0.1);
             ItemStackRenderState stack2 = items.get(1);
@@ -167,9 +176,11 @@ public class TableBlockEntityRender implements BlockEntityRenderer<TableBlockEnt
             poseStack.popPose();
         } else if (count == 3) {
             poseStack.pushPose();
+            poseStack.translate(0.5, RENDER_HEIGHT, 0.5);
+            poseStack.scale(0.65F, 0.65F, 0.65F);
             this.rotation(poseStack, axis);
             poseStack.translate(0.25, 0, -0.2);
-            ItemStackRenderState stack1 = items.get(0);
+            ItemStackRenderState stack1 = items.getFirst();
             stack1.submit(
                     poseStack,
                     submitNodeCollector,
@@ -180,6 +191,8 @@ public class TableBlockEntityRender implements BlockEntityRenderer<TableBlockEnt
             poseStack.popPose();
 
             poseStack.pushPose();
+            poseStack.translate(0.5, RENDER_HEIGHT, 0.5);
+            poseStack.scale(0.65F, 0.65F, 0.65F);
             this.rotation(poseStack, axis);
             poseStack.translate(-0.25, 0.01, 0);
             ItemStackRenderState stack2 = items.get(1);
@@ -193,6 +206,8 @@ public class TableBlockEntityRender implements BlockEntityRenderer<TableBlockEnt
             poseStack.popPose();
 
             poseStack.pushPose();
+            poseStack.translate(0.5, RENDER_HEIGHT, 0.5);
+            poseStack.scale(0.65F, 0.65F, 0.65F);
             this.rotation(poseStack, axis);
             poseStack.translate(0.24, 0.02, 0.2);
             ItemStackRenderState stack3 = items.get(2);
@@ -206,9 +221,11 @@ public class TableBlockEntityRender implements BlockEntityRenderer<TableBlockEnt
             poseStack.popPose();
         } else {
             poseStack.pushPose();
+            poseStack.translate(0.5, RENDER_HEIGHT, 0.5);
+            poseStack.scale(0.65F, 0.65F, 0.65F);
             this.rotation(poseStack, axis);
             poseStack.translate(0.25, 0, -0.3);
-            ItemStackRenderState stack1 = items.get(0);
+            ItemStackRenderState stack1 = items.getFirst();
             stack1.submit(
                     poseStack,
                     submitNodeCollector,
@@ -219,6 +236,8 @@ public class TableBlockEntityRender implements BlockEntityRenderer<TableBlockEnt
             poseStack.popPose();
 
             poseStack.pushPose();
+            poseStack.translate(0.5, RENDER_HEIGHT, 0.5);
+            poseStack.scale(0.65F, 0.65F, 0.65F);
             this.rotation(poseStack, axis);
             poseStack.translate(-0.24, 0.01, -0.1);
             ItemStackRenderState stack2 = items.get(1);
@@ -232,6 +251,8 @@ public class TableBlockEntityRender implements BlockEntityRenderer<TableBlockEnt
             poseStack.popPose();
 
             poseStack.pushPose();
+            poseStack.translate(0.5, RENDER_HEIGHT, 0.5);
+            poseStack.scale(0.65F, 0.65F, 0.65F);
             this.rotation(poseStack, axis);
             poseStack.translate(0.24, 0.02, 0.1);
             ItemStackRenderState stack3 = items.get(2);
@@ -245,6 +266,8 @@ public class TableBlockEntityRender implements BlockEntityRenderer<TableBlockEnt
             poseStack.popPose();
 
             poseStack.pushPose();
+            poseStack.translate(0.5, RENDER_HEIGHT, 0.5);
+            poseStack.scale(0.65F, 0.65F, 0.65F);
             this.rotation(poseStack, axis);
             poseStack.translate(-0.25, 0.03, 0.3);
             ItemStackRenderState stack4 = items.get(3);
@@ -257,7 +280,5 @@ public class TableBlockEntityRender implements BlockEntityRenderer<TableBlockEnt
             );
             poseStack.popPose();
         }
-
-        poseStack.popPose();
     }
 }

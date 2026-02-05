@@ -2,6 +2,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.item;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.advancements.critereon.ModEventTriggerType;
 import com.github.ysbbbbbb.kaleidoscopecookery.entity.ScarecrowEntity;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.ModEntities;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTrigger;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import net.minecraft.ChatFormatting;
@@ -46,11 +47,11 @@ public class ScarecrowItem extends Item {
         BlockPos clickedPos = placeContext.getClickedPos();
         ItemStack stack = context.getItemInHand();
         Vec3 center = Vec3.atBottomCenterOf(clickedPos);
-        AABB aabb = ScarecrowEntity.TYPE.getDimensions().makeBoundingBox(center.x(), center.y(), center.z());
+        AABB aabb = ModEntities.SCARECROW.getDimensions().makeBoundingBox(center.x(), center.y(), center.z());
         if (level.noCollision(null, aabb) && level.getEntities(null, aabb).isEmpty()) {
             if (level instanceof ServerLevel serverLevel) {
                 Consumer<ScarecrowEntity> consumer = EntityType.createDefaultStackConfig(serverLevel, stack, context.getPlayer());
-                ScarecrowEntity scarecrow = ScarecrowEntity.TYPE.create(serverLevel, consumer, clickedPos, EntitySpawnReason.SPAWN_ITEM_USE, true, true);
+                ScarecrowEntity scarecrow = ModEntities.SCARECROW.create(serverLevel, consumer, clickedPos, EntitySpawnReason.SPAWN_ITEM_USE, true, true);
                 if (scarecrow == null) {
                     return InteractionResult.FAIL;
                 }

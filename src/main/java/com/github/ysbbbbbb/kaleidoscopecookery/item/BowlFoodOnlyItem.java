@@ -22,7 +22,7 @@ public class BowlFoodOnlyItem extends FoodWithEffectsItem implements IHasContain
     private final List<MobEffectInstance> effectInstances = Lists.newArrayList();
 
     public BowlFoodOnlyItem(Properties p, FoodProperties properties, Consumable consumable) {
-        super(p, properties, consumable);
+        super(p.food(properties, consumable), properties, consumable);
         consumable.onConsumeEffects().forEach(consumeEffect -> {
             if (consumeEffect instanceof ApplyStatusEffectsConsumeEffect(List<MobEffectInstance> effects, float probability)) {
                 effectInstances.addAll(effects);

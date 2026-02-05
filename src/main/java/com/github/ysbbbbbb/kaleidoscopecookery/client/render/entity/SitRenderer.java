@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.resources.Identifier;
 
+@Deprecated
 @Environment(EnvType.CLIENT)
 public class SitRenderer extends EntityRenderer<SitEntity, EntityRenderState> {
     private static final Identifier EMPTY = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "textures/entity/empty.png");

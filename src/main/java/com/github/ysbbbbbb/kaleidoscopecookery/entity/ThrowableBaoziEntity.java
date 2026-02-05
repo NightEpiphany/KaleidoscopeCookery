@@ -1,6 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.entity;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.advancements.critereon.ModEventTriggerType;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.ModEntities;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTrigger;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
@@ -21,12 +22,6 @@ import org.jspecify.annotations.NonNull;
 
 
 public class ThrowableBaoziEntity extends ThrowableItemProjectile {
-    public static final EntityType<ThrowableBaoziEntity> TYPE = EntityType.Builder
-            .<ThrowableBaoziEntity>of(ThrowableBaoziEntity::new, MobCategory.MISC)
-            .sized(0.25F, 0.25F)
-            .clientTrackingRange(4)
-            .updateInterval(10)
-            .build(PortHelper.sign("throwable_baozi"));
 
     public ThrowableBaoziEntity(EntityType<? extends ThrowableItemProjectile> entityType, Level level) {
         super(entityType, level);
@@ -41,7 +36,7 @@ public class ThrowableBaoziEntity extends ThrowableItemProjectile {
     }
 
     public ThrowableBaoziEntity(Level level, LivingEntity shooter, ItemStack stack) {
-        super(TYPE, shooter, level, stack);
+        super(ModEntities.THROWABLE_BAOZI, shooter, level, stack);
     }
 
     @Override

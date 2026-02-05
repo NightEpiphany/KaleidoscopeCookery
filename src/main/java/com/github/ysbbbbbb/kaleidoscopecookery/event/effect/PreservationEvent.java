@@ -40,6 +40,6 @@ public class PreservationEvent {
                 }
             }
         }
-        return InteractionResult.SUCCESS;
+        return InteractionResult.PASS;
     }
 }

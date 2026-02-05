@@ -1,6 +1,89 @@
 {
   "model": {
-  "type": "minecraft:model",
-    "model": "kaleidoscope_cookery:item/farmer_chest_plate"
+    "type": "minecraft:select",
+    "cases": [
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_chest_plate"
+        },
+        "when": "minecraft:quartz"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_chest_plate"
+        },
+        "when": "minecraft:iron"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_chest_plate"
+        },
+        "when": "minecraft:netherite"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_chest_plate"
+        },
+        "when": "minecraft:redstone"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_chest_plate"
+        },
+        "when": "minecraft:copper"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_chest_plate"
+        },
+        "when": "minecraft:gold"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_chest_plate"
+        },
+        "when": "minecraft:emerald"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_chest_plate"
+        },
+        "when": "minecraft:diamond"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_chest_plate"
+        },
+        "when": "minecraft:lapis"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_chest_plate"
+        },
+        "when": "minecraft:amethyst"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_chest_plate"
+        },
+        "when": "minecraft:resin"
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "kaleidoscope_cookery:item/farmer_chest_plate"
+    },
+    "property": "minecraft:trim_material"
   }
 }

@@ -1,0 +1,14 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "kaleidoscope_cookery:cookery_farmer"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "kaleidoscope_cookery:cookery_farmer"
+      }
+    ]
+  }
+}

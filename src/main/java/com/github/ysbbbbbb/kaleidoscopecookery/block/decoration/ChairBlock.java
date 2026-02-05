@@ -1,7 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.block.decoration;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.api.entity.ISittable;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.ChairBlockEntity;
-import com.github.ysbbbbbb.kaleidoscopecookery.entity.SitEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.BlockDrop;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -10,7 +10,6 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
@@ -24,13 +23,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -44,7 +40,7 @@ import java.util.List;
 import static com.github.ysbbbbbb.kaleidoscopecookery.util.CarpetColor.getCarpetByColor;
 import static com.github.ysbbbbbb.kaleidoscopecookery.util.CarpetColor.getColorByCarpet;
 
-public class ChairBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock {
+public class ChairBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock, ISittable {
     public static final MapCodec<ChairBlock> CODEC = simpleCodec(ChairBlock::new);
     public static final BooleanProperty HAS_CARPET = BooleanProperty.create("has_carpet");
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -83,22 +79,8 @@ public class ChairBlock extends HorizontalDirectionalBlock implements SimpleWate
         ItemStack itemInHand = player.getItemInHand(interactionHand);
         if (interactionHand == InteractionHand.MAIN_HAND && itemInHand.is(ItemTags.WOOL_CARPETS)) {
             return useWithCarpets(blockState, level, blockPos, player, itemInHand);
-        }else {
-            return tryToSitOn(blockState, level, blockPos, player);
         }
-    }
-
-    @NotNull
-    private InteractionResult tryToSitOn(BlockState state, Level level, BlockPos pos, Player player) {
-        List<SitEntity> entities = level.getEntitiesOfClass(SitEntity.class, new AABB(pos));
-        if (entities.isEmpty()) {
-            SitEntity entitySit = new SitEntity(level, pos, 0.5125);
-            entitySit.setYRot(state.getValue(FACING).toYRot());
-            level.addFreshEntity(entitySit);
-            player.startRiding(entitySit, true, false);
-            return InteractionResult.SUCCESS;
-        }
-        return InteractionResult.TRY_WITH_EMPTY_HAND;
+            return super.useItemOn(itemStack, blockState, level, blockPos, player, interactionHand, blockHitResult);
     }
 
     @NotNull
@@ -139,10 +121,7 @@ public class ChairBlock extends HorizontalDirectionalBlock implements SimpleWate
         return InteractionResult.TRY_WITH_EMPTY_HAND;
     }
 
-    @Override
-    public void destroy(LevelAccessor levelAccessor, @NonNull BlockPos pos, @NonNull BlockState state) {
-        levelAccessor.getEntitiesOfClass(SitEntity.class, new AABB(pos)).forEach(Entity::discard);
-    }
+
 
     @Override
     public @NonNull List<ItemStack> getDrops(@NonNull BlockState state, LootParams.@NonNull Builder lootParamsBuilder) {

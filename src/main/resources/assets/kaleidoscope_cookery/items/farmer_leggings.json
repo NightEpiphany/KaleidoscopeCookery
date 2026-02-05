@@ -1,6 +1,89 @@
 {
   "model": {
-  "type": "minecraft:model",
-    "model": "kaleidoscope_cookery:item/farmer_leggings"
+    "type": "minecraft:select",
+    "cases": [
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_leggings"
+        },
+        "when": "minecraft:quartz"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_leggings"
+        },
+        "when": "minecraft:iron"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_leggings"
+        },
+        "when": "minecraft:netherite"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_leggings"
+        },
+        "when": "minecraft:redstone"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_leggings"
+        },
+        "when": "minecraft:copper"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_leggings"
+        },
+        "when": "minecraft:gold"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_leggings"
+        },
+        "when": "minecraft:emerald"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_leggings"
+        },
+        "when": "minecraft:diamond"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_leggings"
+        },
+        "when": "minecraft:lapis"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_leggings"
+        },
+        "when": "minecraft:amethyst"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/farmer_leggings"
+        },
+        "when": "minecraft:resin"
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "kaleidoscope_cookery:item/farmer_leggings"
+    },
+    "property": "minecraft:trim_material"
   }
 }

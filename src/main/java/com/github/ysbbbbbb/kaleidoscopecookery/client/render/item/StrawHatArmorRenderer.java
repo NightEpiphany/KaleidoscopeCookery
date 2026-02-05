@@ -4,6 +4,8 @@ import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.model.StrawHatModel;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.StrawHatItem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
@@ -17,10 +19,12 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.NonNull;
 
+@Environment(EnvType.CLIENT)
 public class StrawHatArmorRenderer implements ArmorRenderer {
     private static final Identifier NORMAL = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "textures/models/armor/straw_hat.png");
     private static final Identifier FLOWER = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "textures/models/armor/straw_hat_flower.png");
     private StrawHatModel cachedModel = null;
+
 
     @Override
     public void render(@NonNull PoseStack matrices, @NonNull SubmitNodeCollector orderedRenderCommandQueue, @NonNull ItemStack stack, @NonNull HumanoidRenderState bipedEntityRenderState, @NonNull EquipmentSlot slot, int light, @NonNull HumanoidModel<HumanoidRenderState> modelPart) {
@@ -29,26 +33,19 @@ public class StrawHatArmorRenderer implements ArmorRenderer {
         }
         matrices.pushPose();
         matrices.scale(1.275f, 1.275f, 1.275f);
-        ModelPart head = cachedModel.getHead();
         Identifier texture = getArmorTexture(stack);
-        head.xScale = modelPart.head.xScale;
-        head.yScale = modelPart.head.yScale;
-        head.zScale = modelPart.head.zScale;
-        head.xRot = modelPart.head.xRot;
-        head.yRot = modelPart.head.yRot;
-        head.zRot = modelPart.head.zRot;
-        head.x = modelPart.head.x;
-        head.y = modelPart.head.y;
-        head.z = modelPart.head.z;
-        HumanoidRenderState humanoidRenderState = new HumanoidRenderState();
-        orderedRenderCommandQueue.submitModel(
+        ArmorRenderer.submitTransformCopyingModel(
+                modelPart,
+                bipedEntityRenderState,
                 cachedModel,
-                humanoidRenderState,
+                new HumanoidRenderState(),
+                false,
+                orderedRenderCommandQueue,
                 matrices,
                 RenderTypes.entityCutoutNoCull(texture),
-                humanoidRenderState.lightCoords,
+                bipedEntityRenderState.lightCoords,
                 OverlayTexture.NO_OVERLAY,
-                -1,
+                0,
                 null
         );
         matrices.popPose();
