@@ -16,6 +16,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.Block;
@@ -78,6 +79,14 @@ public class TableBlock extends Block implements SimpleWaterloggedBlock, EntityB
             if (itemInHand.is(ItemTags.WOOL_CARPETS)) {
                 return useWithCarpets(state, level, pos, player, itemInHand);
             } else if (level.getBlockEntity(pos) instanceof TableBlockEntity table) {
+                if (itemInHand.is(Items.SHEARS) && state.getValue(HAS_CARPET)) {
+                    level.setBlockAndUpdate(pos, state.setValue(HAS_CARPET, false));
+                    DyeColor originalColor = table.getColor();
+                    ItemStack carpetItem = getCarpetByColor(originalColor).getDefaultInstance();
+                    BlockDrop.popResource(level, pos, 0.25, carpetItem);
+                    level.playSound(null, pos, SoundEvents.SNOW_GOLEM_SHEAR, player.getSoundSource(), 1.0F, 1.0F);
+                    return InteractionResult.SUCCESS;
+                }
                 return useWithOther(level, pos, player, table, itemInHand);
             }
         }

@@ -21,14 +21,14 @@ public class ModModelLoading {
             ResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
 
             resourceManager.listResources(MODELS_CHOPPING_BOARD, id -> id.getPath().endsWith(JSON))
-                    .keySet().stream().map(ModModelLoading::handleModelId).forEach(ids -> context.addModel(ExtraModelKey.create(ids::toString), SimpleUnbakedExtraModel.blockStateModel(ids)));
+                    .keySet().stream().map(ModModelLoading::handleModelId).forEach(ids -> context.addModel(ModModelKeys.getOrCreate(ids), SimpleUnbakedExtraModel.blockStateModel(ids)));
 
             resourceManager.listResources(MODELS_CARPET, id -> id.getPath().endsWith(JSON))
-                    .keySet().stream().map(ModModelLoading::handleModelId).forEach(ids -> context.addModel(ExtraModelKey.create(ids::toString), SimpleUnbakedExtraModel.blockStateModel(ids)));
+                    .keySet().stream().map(ModModelLoading::handleModelId).forEach(ids -> context.addModel(ModModelKeys.getOrCreate(ids), SimpleUnbakedExtraModel.blockStateModel(ids)));
         });
     }
 
-    private static Identifier handleModelId(Identifier input) {
+    public static Identifier handleModelId(Identifier input) {
         String namespace = input.getNamespace();
         String path = input.getPath();
         return Identifier.fromNamespaceAndPath(namespace, path.substring(MODELS.length(), path.length() - JSON.length()));

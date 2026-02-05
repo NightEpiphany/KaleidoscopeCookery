@@ -3,7 +3,8 @@
 	"texture_size": [32, 32],
 	"render_type": "minecraft:cutout",
 	"textures": {
-		"2": "kaleidoscope_cookery:chopping_board/raw_lamb_chops"
+		"2": "kaleidoscope_cookery:chopping_board/raw_lamb_chops",
+		"particle": "kaleidoscope_cookery:chopping_board/raw_lamb_chops"
 	},
 	"elements": [
 		{

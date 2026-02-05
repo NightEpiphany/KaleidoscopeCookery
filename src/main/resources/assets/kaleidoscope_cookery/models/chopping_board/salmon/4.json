@@ -2,7 +2,8 @@
 	"format_version": "1.21.6",
 	"credit": "Made with Blockbench",
 	"textures": {
-		"2": "kaleidoscope_cookery:chopping_board/salmon"
+		"2": "kaleidoscope_cookery:chopping_board/salmon",
+		"particle": "kaleidoscope_cookery:chopping_board/salmon"
 	},
 	"elements": [
 		{

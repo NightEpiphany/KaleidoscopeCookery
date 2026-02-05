@@ -3,10 +3,12 @@ package com.github.ysbbbbbb.kaleidoscopecookery.client.render.block;
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.decoration.TableBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.TableBlockEntity;
+import com.github.ysbbbbbb.kaleidoscopecookery.client.init.ModModelKeys;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates.TableBlockEntityRenderState;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.fabricmc.fabric.api.client.model.loading.v1.ExtraModelKey;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.model.BlockStateModel;
@@ -15,7 +17,6 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
-import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -33,9 +34,14 @@ import org.jspecify.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.function.BiFunction;
 
+@Environment(EnvType.CLIENT)
 public class TableBlockEntityRender implements BlockEntityRenderer<TableBlockEntity, TableBlockEntityRenderState> {
-    public static final double RENDER_HEIGHT = 1.1125;
+
+    public static final double RENDER_HEIGHT = 1.1625;
+
     private final ItemModelResolver itemModelResolver;
+
+
     private static final BiFunction<DyeColor, Integer, Identifier> CACHE_MODEL = Util.memoize((color, position) -> {
         String name = color.getName();
         if (position == TableBlock.SINGLE) {
@@ -98,17 +104,16 @@ public class TableBlockEntityRender implements BlockEntityRenderer<TableBlockEnt
             poseStack.translate(0.5, 0, 0.5);
             poseStack.mulPose(Axis.YP.rotationDegrees(-rotation));
             poseStack.translate(-0.5, 0, -0.5);
-            RenderType renderType = RenderTypes.entityCutoutNoCull(TextureAtlas.LOCATION_BLOCKS);
-            BlockStateModel model = Minecraft.getInstance().getModelManager().getModel(ExtraModelKey.create(cacheModel::toString));
+            BlockStateModel model = Minecraft.getInstance().getModelManager().getModel(ModModelKeys.get(cacheModel));
             if (model != null)
                 submitNodeCollector.submitBlockModel(
                         poseStack,
-                        renderType,
+                        RenderTypes.entityCutoutNoCullZOffset(TextureAtlas.LOCATION_BLOCKS),
                         model,
                         1.0F,
                         1.0F,
                         1.0F,
-                        blockEntityRenderState.lightCoords,
+                        15728880,
                         OverlayTexture.NO_OVERLAY,
                         0
                 );

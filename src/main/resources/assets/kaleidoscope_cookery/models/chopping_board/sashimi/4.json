@@ -1,7 +1,8 @@
 {
 	"render_type": "minecraft:cutout",
 	"textures": {
-		"2": "kaleidoscope_cookery:chopping_board/sashimi"
+		"2": "kaleidoscope_cookery:chopping_board/sashimi",
+		"particle": "kaleidoscope_cookery:chopping_board/sashimi"
 	},
 	"elements": [
 		{

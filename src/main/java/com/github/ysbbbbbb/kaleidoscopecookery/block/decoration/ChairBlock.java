@@ -6,6 +6,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.util.BlockDrop;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
@@ -14,6 +15,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.*;
@@ -77,8 +79,17 @@ public class ChairBlock extends HorizontalDirectionalBlock implements SimpleWate
     @Override
     protected @NonNull InteractionResult useItemOn(@NonNull ItemStack itemStack, @NonNull BlockState blockState, @NonNull Level level, @NonNull BlockPos blockPos, @NonNull Player player, @NonNull InteractionHand interactionHand, @NonNull BlockHitResult blockHitResult) {
         ItemStack itemInHand = player.getItemInHand(interactionHand);
-        if (interactionHand == InteractionHand.MAIN_HAND && itemInHand.is(ItemTags.WOOL_CARPETS)) {
-            return useWithCarpets(blockState, level, blockPos, player, itemInHand);
+        if (interactionHand == InteractionHand.MAIN_HAND) {
+            if (itemInHand.is(ItemTags.WOOL_CARPETS)) {
+                return useWithCarpets(blockState, level, blockPos, player, itemInHand);
+            } else if (itemInHand.is(Items.SHEARS) && blockState.getValue(HAS_CARPET) && level.getBlockEntity(blockPos) instanceof ChairBlockEntity chairBlockEntity) {
+                level.setBlockAndUpdate(blockPos, blockState.setValue(HAS_CARPET, false));
+                DyeColor originalColor = chairBlockEntity.getColor();
+                ItemStack carpetItem = getCarpetByColor(originalColor).getDefaultInstance();
+                BlockDrop.popResource(level, blockPos, 0.25, carpetItem);
+                level.playSound(null, blockPos, SoundEvents.SNOW_GOLEM_SHEAR, player.getSoundSource(), 1.0F, 1.0F);
+                return InteractionResult.SUCCESS;
+            }
         }
             return super.useItemOn(itemStack, blockState, level, blockPos, player, interactionHand, blockHitResult);
     }

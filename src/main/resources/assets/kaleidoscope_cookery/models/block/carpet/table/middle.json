@@ -1,5 +1,8 @@
 {
 	"credit": "Made with Blockbench",
+	"textures": {
+		"particle": "kaleidoscope_cookery:block/carpet/table/white"
+	},
 	"elements": [
 		{
 			"from": [-0.02, -0.02, -0.02],

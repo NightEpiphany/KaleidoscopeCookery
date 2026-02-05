@@ -2,7 +2,8 @@
 	"format_version": "1.9.0",
 	"credit": "Made with Blockbench",
 	"textures": {
-		"2": "kaleidoscope_cookery:chopping_board/cooked_chicken"
+		"2": "kaleidoscope_cookery:chopping_board/cooked_chicken",
+		"particle": "kaleidoscope_cookery:chopping_board/cooked_chicken"
 	},
 	"elements": [
 		{

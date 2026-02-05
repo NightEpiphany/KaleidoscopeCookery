@@ -2,7 +2,8 @@
 	"format_version": "1.21.6",
 	"credit": "Made with Blockbench",
 	"textures": {
-		"2": "kaleidoscope_cookery:chopping_board/cooked_cod"
+		"2": "kaleidoscope_cookery:chopping_board/cooked_cod",
+		"particle": "kaleidoscope_cookery:chopping_board/cooked_cod"
 	},
 	"elements": [
 		{

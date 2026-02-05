@@ -3,7 +3,8 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [256, 64],
 	"textures": {
-		"0": "kaleidoscope_cookery:block/cold_cut_ham_slices"
+		"0": "kaleidoscope_cookery:block/cold_cut_ham_slices",
+		"particle": "kaleidoscope_cookery:block/cold_cut_ham_slices"
 	},
 	"elements": [
 		{

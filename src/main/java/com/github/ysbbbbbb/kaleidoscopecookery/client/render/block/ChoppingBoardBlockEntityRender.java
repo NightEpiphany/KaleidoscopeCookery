@@ -2,12 +2,12 @@ package com.github.ysbbbbbb.kaleidoscopecookery.client.render.block;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.ChoppingBoardBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.ChoppingBoardBlockEntity;
+import com.github.ysbbbbbb.kaleidoscopecookery.client.init.ModModelKeys;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates.ChoppingBoardBlockEntityRenderState;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.model.loading.v1.ExtraModelKey;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -63,7 +63,7 @@ public class ChoppingBoardBlockEntityRender implements BlockEntityRenderer<Chopp
         if (cacheModel == null) {
             return;
         }
-        BlockStateModel model = minecraft.getModelManager().getModel(ExtraModelKey.create(cacheModel::toString));
+        BlockStateModel model = minecraft.getModelManager().getModel(ModModelKeys.get(cacheModel));
         if (model == null) return;
         RenderType renderType = Sheets.cutoutBlockSheet();
         poseStack.pushPose();
@@ -78,7 +78,7 @@ public class ChoppingBoardBlockEntityRender implements BlockEntityRenderer<Chopp
                 1.0F,
                 1.0F,
                 1.0F,
-                blockEntityRenderState.lightCoords,
+                15728880,
                 OverlayTexture.NO_OVERLAY,
                 0
         );

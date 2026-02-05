@@ -2,7 +2,8 @@
 	"credit": "Made with Blockbench",
 	"render_type": "minecraft:cutout",
 	"textures": {
-		"2": "kaleidoscope_cookery:chopping_board/raw_pork_belly"
+		"2": "kaleidoscope_cookery:chopping_board/raw_pork_belly",
+		"particle": "kaleidoscope_cookery:chopping_board/raw_pork_belly"
 	},
 	"elements": [
 		{

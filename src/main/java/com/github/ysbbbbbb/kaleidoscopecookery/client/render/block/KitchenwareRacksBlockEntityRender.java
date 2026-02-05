@@ -4,6 +4,8 @@ import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.KitchenwareRa
 import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates.KitchenwareRacksBlockEntityRenderState;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
@@ -17,6 +19,7 @@ import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
+@Environment(EnvType.CLIENT)
 public class KitchenwareRacksBlockEntityRender implements BlockEntityRenderer<KitchenwareRacksBlockEntity, KitchenwareRacksBlockEntityRenderState> {
     private final ItemModelResolver itemModelResolver;
 
