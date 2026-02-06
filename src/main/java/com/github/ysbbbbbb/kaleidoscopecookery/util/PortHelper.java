@@ -1,6 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.util;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
@@ -14,6 +15,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
@@ -31,6 +33,11 @@ import org.jspecify.annotations.NonNull;
 
 // 麻将看看你干的好事
 public class PortHelper {
+
+    public static boolean isStackEmpty(ItemStack stack) {
+        return stack.isEmpty() || stack == ModItems.EMPTY.getDefaultInstance();
+    }
+
     public static Vec3 fromRGB24(int packed) {
         double d = (packed >> 16 & 0xFF) / 255.0;
         double e = (packed >> 8 & 0xFF) / 255.0;

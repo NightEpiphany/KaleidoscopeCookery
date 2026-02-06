@@ -1,8 +1,8 @@
 {
   "type": "kaleidoscope_cookery:millstone",
-  "ingredient": {
-    "item": "minecraft:nether_quartz_ore"
-  },
+  "ingredient": 
+    "minecraft:nether_quartz_ore"
+  ,
   "result": {
     "count": 3,
     "id": "minecraft:quartz"

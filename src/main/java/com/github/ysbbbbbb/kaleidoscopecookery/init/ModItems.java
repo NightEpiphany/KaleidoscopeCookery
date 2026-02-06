@@ -3,13 +3,21 @@ package com.github.ysbbbbbb.kaleidoscopecookery.init;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.BlocksAttacks;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.level.block.Block;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -18,7 +26,24 @@ public final class ModItems {
     public static final Item STOVE = registerItemViaBlock(ModBlocks.STOVE);
     public static final Item POT = registerItemViaBlock(ModBlocks.POT);
     public static final Item STOCKPOT = registerItemViaBlock(ModBlocks.STOCKPOT);
-    public static final Item STOCKPOT_LID = registerItem("stockpot_lid", StockpotLidItem::new);
+    public static final Item STOCKPOT_LID = registerItem("stockpot_lid", p -> new StockpotLidItem(
+            p.durability(245)
+            .repairable(Items.IRON_INGOT)
+            .equippableUnswappable(EquipmentSlot.OFFHAND)
+            .component(
+                    DataComponents.BLOCKS_ATTACKS,
+                    new BlocksAttacks(
+                            0.15F,
+                            1.23F,
+                            List.of(new BlocksAttacks.DamageReduction(34.2F, Optional.empty(), 0.0F, 1.0F)),
+                            new BlocksAttacks.ItemDamageFunction(3.0F, 1.0F, 1.0F),
+                            Optional.of(DamageTypeTags.BYPASSES_SHIELD),
+                            Optional.of(SoundEvents.SHIELD_BLOCK),
+                            Optional.of(SoundEvents.SHIELD_BREAK)
+                    )
+            )
+            .component(DataComponents.BREAK_SOUND, SoundEvents.SHIELD_BREAK)
+    ));
     public static final Item OIL_BLOCK = registerItemViaBlock(ModBlocks.OIL_BLOCK);
     public static final Item CHOPPING_BOARD = registerItemViaBlock(ModBlocks.CHOPPING_BOARD);
     public static final Item ENAMEL_BASIN = registerItemViaBlock(ModBlocks.ENAMEL_BASIN);
@@ -172,6 +197,9 @@ public final class ModItems {
     public static final Item COOKED_DONKEY_MEAT = registerItem("cooked_donkey_meat", p -> new Item(p.food(ModFoods.COOKED_DONKEY_MEAT)));
     public static final Item COOKED_CUT_SMALL_MEATS = registerItem("cooked_cut_small_meats", p -> new Item(p.food(ModFoods.COOKED_CUT_SMALL_MEATS)));
     public static final Item COOKED_MEATBALL  = registerItem("cooked_meatball", p -> new Item(p.food(ModFoods.COOKED_MEATBALL)));
+
+    //替代EMPTY占位符
+    public static final Item EMPTY = registerItem("empty");
 
     public static void registerItems() {
 

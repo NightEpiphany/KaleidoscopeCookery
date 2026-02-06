@@ -21,6 +21,8 @@ import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
+import java.util.ArrayList;
+
 @Environment(EnvType.CLIENT)
 public class FruitBasketBlockEntityRender implements BlockEntityRenderer<FruitBasketBlockEntity, FruitBasketBlockEntityRenderState> {
     private final ItemModelResolver itemModelResolver;
@@ -37,10 +39,13 @@ public class FruitBasketBlockEntityRender implements BlockEntityRenderer<FruitBa
     @Override
     public void extractRenderState(FruitBasketBlockEntity blockEntity, FruitBasketBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, blockEntityRenderState, f, vec3, crumblingOverlay);
-        blockEntityRenderState.items = NonNullList.withSize(blockEntity.getItems().size(), new ItemStackRenderState());
+        blockEntityRenderState.items = new ArrayList<>();
+
         int posLong = (int) blockEntity.getBlockPos().asLong();
-        for (var index = 0; index < blockEntityRenderState.items.size(); index++) {
-            this.itemModelResolver.updateForTopItem(blockEntityRenderState.items.get(index), blockEntity.getItems().get(index), ItemDisplayContext.FIXED, blockEntity.getLevel(), null, posLong + index);
+        for (var index = 0; index < blockEntity.getItems().size(); index++) {
+            ItemStackRenderState itemStackRenderState = new ItemStackRenderState();
+            this.itemModelResolver.updateForTopItem(itemStackRenderState, blockEntity.getItems().get(index), ItemDisplayContext.FIXED, blockEntity.getLevel(), null, posLong + index);
+            blockEntityRenderState.items.add(itemStackRenderState);
         }
     }
 
@@ -65,7 +70,13 @@ public class FruitBasketBlockEntityRender implements BlockEntityRenderer<FruitBa
                     poseStack.mulPose(Axis.YN.rotationDegrees(90));
                     poseStack.mulPose(Axis.XN.rotationDegrees(-30));
                     poseStack.scale(0.375f, 0.375f, 0.375f);
-                    itemRenderState.submit(poseStack, submitNodeCollector, blockEntityRenderState.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+                    itemRenderState.submit(
+                            poseStack,
+                            submitNodeCollector,
+                            blockEntityRenderState.lightCoords,
+                            OverlayTexture.NO_OVERLAY,
+                            0
+                    );
                     poseStack.popPose();
                 }
             }

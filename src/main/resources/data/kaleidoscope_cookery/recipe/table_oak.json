@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "F": {
-      "item": "minecraft:oak_fence"
-    },
-    "S": {
-      "item": "minecraft:oak_slab"
-    }
+    "F": "minecraft:oak_fence",
+    "S": "minecraft:oak_slab"
   },
   "pattern": [
     "SSS",

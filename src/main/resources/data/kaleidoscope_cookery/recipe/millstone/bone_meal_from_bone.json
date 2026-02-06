@@ -1,8 +1,8 @@
 {
   "type": "kaleidoscope_cookery:millstone",
-  "ingredient": {
-    "item": "minecraft:bone"
-  },
+  "ingredient": 
+    "minecraft:bone"
+  ,
   "result": {
     "count": 5,
     "id": "minecraft:bone_meal"

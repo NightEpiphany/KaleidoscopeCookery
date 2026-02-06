@@ -1,27 +1,25 @@
 {
   "type": "kaleidoscope_cookery:pot",
-  "carrier": {
-    "item": "minecraft:bowl"
-  },
+  "carrier": "minecraft:bowl",
   "ingredients": [
-    {
-      "tag": "c:mushrooms"
-    },
-    {
-      "tag": "c:mushrooms"
-    },
-    {
-      "tag": "c:raw_pork"
-    },
-    {
-      "tag": "c:raw_pork"
-    },
-    {
-      "tag": "c:raw_pork"
-    },
-    {
-      "tag": "c:crops/chilipepper"
-    }
+
+      "#c:mushrooms",
+    
+
+      "#c:mushrooms",
+    
+
+      "#c:raw_pork",
+    
+
+      "#c:raw_pork",
+    
+
+      "#c:raw_pork",
+    
+
+      "#c:crops/chilipepper"
+
   ],
   "result": {
     "count": 1,

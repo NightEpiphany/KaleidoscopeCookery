@@ -1,33 +1,33 @@
 {
   "type": "kaleidoscope_cookery:pot",
-  "carrier": {
-    "item": "minecraft:bowl"
-  },
+  "carrier":
+    "minecraft:bowl",
+  
   "ingredients": [
-    {
-      "tag": "c:raw_fishes"
-    },
-    {
-      "tag": "c:raw_fishes"
-    },
-    {
-      "tag": "c:raw_fishes"
-    },
-    {
-      "tag": "c:raw_fishes"
-    },
-    {
-      "tag": "c:raw_fishes"
-    },
-    {
-      "tag": "c:raw_fishes"
-    },
-    {
-      "tag": "c:crops/chilipepper"
-    },
-    {
-      "tag": "c:crops/chilipepper"
-    }
+
+      "#c:raw_fishes",
+    
+
+      "#c:raw_fishes",
+    
+
+      "#c:raw_fishes",
+    
+
+      "#c:raw_fishes",
+    
+
+      "#c:raw_fishes",
+    
+
+      "#c:raw_fishes",
+    
+
+      "#c:crops/chilipepper",
+    
+
+      "#c:crops/chilipepper"
+
   ],
   "result": {
     "count": 1,

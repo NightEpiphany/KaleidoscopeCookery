@@ -1,27 +1,25 @@
 {
   "type": "kaleidoscope_cookery:pot",
-  "carrier": {
-    "item": "minecraft:bowl"
-  },
+  "carrier": "minecraft:bowl",
   "ingredients": [
-    {
-      "tag": "c:eggs"
-    },
-    {
-      "tag": "c:eggs"
-    },
-    {
-      "tag": "c:crops/lettuce"
-    },
-    {
-      "tag": "c:crops/lettuce"
-    },
-    {
-      "tag": "c:foods/cooked_rice"
-    },
-    {
-      "item": "minecraft:carrot"
-    }
+
+      "#c:eggs",
+    
+
+      "#c:eggs",
+    
+
+      "#c:crops/lettuce",
+    
+
+      "#c:crops/lettuce",
+    
+
+      "#c:foods/cooked_rice",
+    
+
+      "minecraft:carrot"
+
   ],
   "result": {
     "count": 1,

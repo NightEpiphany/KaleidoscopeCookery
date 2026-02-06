@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "P": {
-      "tag": "minecraft:wooden_pressure_plates"
-    }
+    "P": "#minecraft:wooden_pressure_plates"
   },
   "pattern": [
     "PPP",

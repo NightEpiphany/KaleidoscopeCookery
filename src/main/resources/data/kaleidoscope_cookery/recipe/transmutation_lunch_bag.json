@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "L": {
-      "item": "minecraft:leather"
-    },
-    "S": {
-      "item": "minecraft:nether_star"
-    }
+    "L": "minecraft:leather",
+    "S": "minecraft:nether_star"
   },
   "pattern": [
     " L ",

@@ -1,27 +1,25 @@
 {
   "type": "kaleidoscope_cookery:pot",
-  "carrier": {
-    "item": "minecraft:bowl"
-  },
+  "carrier": "minecraft:bowl",
   "ingredients": [
-    {
-      "item": "minecraft:chorus_fruit"
-    },
-    {
-      "item": "minecraft:chorus_fruit"
-    },
-    {
-      "item": "minecraft:chorus_fruit"
-    },
-    {
-      "tag": "c:foods/cooked_eggs"
-    },
-    {
-      "tag": "c:foods/cooked_eggs"
-    },
-    {
-      "tag": "c:foods/cooked_eggs"
-    }
+
+      "minecraft:chorus_fruit",
+    
+
+      "minecraft:chorus_fruit",
+    
+
+      "minecraft:chorus_fruit",
+    
+
+      "#c:foods/cooked_eggs",
+    
+
+      "#c:foods/cooked_eggs",
+    
+
+      "#c:foods/cooked_eggs"
+
   ],
   "result": {
     "count": 3,

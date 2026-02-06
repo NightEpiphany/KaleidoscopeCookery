@@ -1,27 +1,27 @@
 {
   "type": "kaleidoscope_cookery:pot",
-  "carrier": {
-    "item": "minecraft:bowl"
-  },
+  "carrier":
+    "minecraft:bowl",
+  
   "ingredients": [
-    {
-      "item": "minecraft:pumpkin_pie"
-    },
-    {
-      "tag": "c:raw_fishes/cod"
-    },
-    {
-      "tag": "c:raw_fishes/cod"
-    },
-    {
-      "tag": "c:raw_fishes/cod"
-    },
-    {
-      "tag": "c:raw_fishes/cod"
-    },
-    {
-      "tag": "c:raw_fishes/cod"
-    }
+
+      "minecraft:pumpkin_pie",
+
+
+      "#c:raw_fishes/cod",
+    
+
+      "#c:raw_fishes/cod",
+    
+
+      "#c:raw_fishes/cod",
+    
+
+      "#c:raw_fishes/cod",
+    
+
+      "#c:raw_fishes/cod"
+
   ],
   "result": {
     "count": 1,

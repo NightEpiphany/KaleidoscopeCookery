@@ -2,33 +2,15 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "minecraft:water_bucket"
-    },
-    {
-      "item": "kaleidoscope_cookery:flour"
-    },
-    {
-      "item": "kaleidoscope_cookery:flour"
-    },
-    {
-      "item": "kaleidoscope_cookery:flour"
-    },
-    {
-      "item": "kaleidoscope_cookery:flour"
-    },
-    {
-      "item": "kaleidoscope_cookery:flour"
-    },
-    {
-      "item": "kaleidoscope_cookery:flour"
-    },
-    {
-      "item": "kaleidoscope_cookery:flour"
-    },
-    {
-      "item": "kaleidoscope_cookery:flour"
-    }
+    "minecraft:water_bucket",
+    "kaleidoscope_cookery:flour",
+    "kaleidoscope_cookery:flour",
+    "kaleidoscope_cookery:flour",
+    "kaleidoscope_cookery:flour",
+    "kaleidoscope_cookery:flour",
+    "kaleidoscope_cookery:flour",
+    "kaleidoscope_cookery:flour",
+    "kaleidoscope_cookery:flour"
   ],
   "result": {
     "count": 8,

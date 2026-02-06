@@ -1,36 +1,36 @@
 {
   "type": "kaleidoscope_cookery:pot",
-  "carrier": {
-    "item": "minecraft:bowl"
-  },
+  "carrier":
+    "minecraft:bowl",
+  
   "ingredients": [
-    {
-      "tag": "c:raw_fishes/tropical_fish"
-    },
-    {
-      "tag": "c:raw_fishes/tropical_fish"
-    },
-    {
-      "tag": "c:raw_fishes/tropical_fish"
-    },
-    {
-      "tag": "c:raw_fishes/tropical_fish"
-    },
-    {
-      "tag": "minecraft:flowers"
-    },
-    {
-      "tag": "minecraft:flowers"
-    },
-    {
-      "tag": "minecraft:flowers"
-    },
-    {
-      "tag": "minecraft:flowers"
-    },
-    {
-      "tag": "minecraft:flowers"
-    }
+
+      "#c:raw_fishes/tropical_fish",
+    
+
+      "#c:raw_fishes/tropical_fish",
+    
+
+      "#c:raw_fishes/tropical_fish",
+    
+
+      "#c:raw_fishes/tropical_fish",
+    
+
+      "#minecraft:flowers",
+    
+
+      "#minecraft:flowers",
+    
+
+      "#minecraft:flowers",
+    
+
+      "#minecraft:flowers",
+    
+
+      "#minecraft:flowers"
+
   ],
   "result": {
     "count": 1,

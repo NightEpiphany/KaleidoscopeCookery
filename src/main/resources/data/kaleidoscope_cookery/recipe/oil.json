@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "kaleidoscope_cookery:oil_block"
-    }
+    "kaleidoscope_cookery:oil_block"
   ],
   "result": {
     "count": 9,

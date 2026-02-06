@@ -17,6 +17,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemStackWithSlot;
@@ -31,10 +32,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.LanternBlock;
-import net.minecraft.world.level.block.SkullBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -87,6 +85,9 @@ public class ScarecrowEntity extends LivingEntity {
     @Override
     public void tick() {
         super.tick();
+        if (this.handItems.stream().anyMatch(i -> i.is(ItemTags.LANTERNS)))
+            this.level().setBlock(this.blockPosition().above(), Blocks.LIGHT.defaultBlockState().setValue(LightBlock.LEVEL, 12), Block.UPDATE_ALL);
+        else this.level().setBlock(this.blockPosition().above(), Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
         if (this.cooldown > 0) {
             this.cooldown--;
         }
@@ -409,12 +410,13 @@ public class ScarecrowEntity extends LivingEntity {
         this.yHeadRotO = this.yHeadRot = rotation;
     }
 
-
     @Override
     public void kill(@NonNull ServerLevel serverLevel) {
         if (this.getShoulderEntity() != null) {
             this.removeEntitiesOnShoulder();
         }
+        if (this.level().getBlockState(this.blockPosition().above()).is(Blocks.LIGHT))
+            this.level().setBlock(this.blockPosition().above(), Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
         this.remove(RemovalReason.KILLED);
         this.gameEvent(GameEvent.ENTITY_DIE);
     }
@@ -537,6 +539,11 @@ public class ScarecrowEntity extends LivingEntity {
     @Nullable
     public EntityReference<LivingEntity> getShoulderEntityRef() {
         return this.entityData.get(DATA_SHOULDER).orElse(null);
+    }
+
+    @Override
+    public boolean isCustomNameVisible() {
+        return false;
     }
 
     public void setShoulderEntity(@Nullable LivingEntity livingEntity) {

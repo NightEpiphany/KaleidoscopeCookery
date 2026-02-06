@@ -1,18 +1,18 @@
 {
   "type": "kaleidoscope_cookery:pot",
-  "carrier": {
-    "item": "minecraft:bowl"
-  },
+  "carrier":
+    "minecraft:bowl",
+  
   "ingredients": [
-    {
-      "item": "kaleidoscope_cookery:caterpillar"
-    },
-    {
-      "item": "kaleidoscope_cookery:caterpillar"
-    },
-    {
-      "item": "kaleidoscope_cookery:caterpillar"
-    }
+
+      "kaleidoscope_cookery:caterpillar",
+    
+
+      "kaleidoscope_cookery:caterpillar",
+    
+
+      "kaleidoscope_cookery:caterpillar"
+
   ],
   "result": {
     "count": 1,

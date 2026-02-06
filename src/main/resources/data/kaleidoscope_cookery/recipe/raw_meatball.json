@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "tag": "c:raw_meats"
-    },
-    {
-      "tag": "c:raw_meats"
-    },
-    {
-      "tag": "c:vegetables"
-    }
+    "#c:raw_meats",
+    "#c:raw_meats",
+    "#c:vegetables"
   ],
   "result": {
     "count": 1,

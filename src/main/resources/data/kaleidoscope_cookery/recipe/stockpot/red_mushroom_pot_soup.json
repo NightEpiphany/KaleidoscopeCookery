@@ -1,27 +1,27 @@
 {
   "type": "kaleidoscope_cookery:stockpot",
-  "carrier": {
-    "item": "minecraft:flower_pot"
-  },
+  "carrier": 
+    "minecraft:flower_pot"
+  ,
   "ingredients": [
-    {
-      "item": "minecraft:red_mushroom"
-    },
-    {
-      "item": "minecraft:red_mushroom"
-    },
-    {
-      "item": "minecraft:red_mushroom"
-    },
-    {
-      "item": "minecraft:red_mushroom"
-    },
-    {
-      "item": "minecraft:red_mushroom"
-    },
-    {
-      "item": "minecraft:red_mushroom"
-    }
+  
+      "minecraft:red_mushroom"
+    ,
+  
+      "minecraft:red_mushroom"
+    ,
+  
+      "minecraft:red_mushroom"
+    ,
+  
+      "minecraft:red_mushroom"
+    ,
+  
+      "minecraft:red_mushroom"
+    ,
+  
+      "minecraft:red_mushroom"
+
   ],
   "result": {
     "count": 1,

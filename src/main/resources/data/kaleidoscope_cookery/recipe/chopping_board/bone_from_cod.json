@@ -1,9 +1,7 @@
 {
   "type": "kaleidoscope_cookery:chopping_board",
   "cut_count": 4,
-  "ingredient": {
-    "item": "minecraft:cooked_cod"
-  },
+  "ingredient": "minecraft:cooked_cod",
   "model_id": "kaleidoscope_cookery:cooked_cod",
   "result": {
     "count": 2,

@@ -95,7 +95,7 @@ public class ChoppingBoardBlock extends HorizontalDirectionalBlock implements En
             }
             ItemStack mainHandItem = player.getMainHandItem();
             if (hand == InteractionHand.OFF_HAND) {
-                return InteractionResult.TRY_WITH_EMPTY_HAND;
+                return InteractionResult.PASS;
             }
             if (choppingBoard.onCutItem(level, player, itemInHand)) {
                 // 切菜成功时，有 25% 的概率消耗耐久度

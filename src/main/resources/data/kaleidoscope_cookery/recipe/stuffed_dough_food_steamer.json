@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "kaleidoscope_cookery:steamer"
-    },
-    {
-      "item": "kaleidoscope_cookery:stuffed_dough_food"
-    },
-    {
-      "item": "kaleidoscope_cookery:stuffed_dough_food"
-    },
-    {
-      "item": "kaleidoscope_cookery:stuffed_dough_food"
-    },
-    {
-      "item": "kaleidoscope_cookery:stuffed_dough_food"
-    }
+    "kaleidoscope_cookery:steamer",
+    "kaleidoscope_cookery:stuffed_dough_food",
+    "kaleidoscope_cookery:stuffed_dough_food",
+    "kaleidoscope_cookery:stuffed_dough_food",
+    "kaleidoscope_cookery:stuffed_dough_food"
   ],
   "result": {
     "id": "kaleidoscope_cookery:steamer",

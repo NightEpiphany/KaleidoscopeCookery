@@ -2,6 +2,6 @@
   "values": [
     "kaleidoscope_cookery:cooked_cow_offal",
     "minecraft:cooked_beef",
-    { id: "farmersdelight:cooked_minced_beef", required:false }
+    { "id": "farmersdelight:cooked_minced_beef", "required":false }
   ]
 }

@@ -1,24 +1,24 @@
 {
   "type": "kaleidoscope_cookery:pot",
-  "carrier": {
-    "tag": "c:cooked_rice"
-  },
+  "carrier":
+    "#c:cooked_rice",
+  
   "ingredients": [
-    {
-      "item": "minecraft:sugar"
-    },
-    {
-      "item": "minecraft:sugar"
-    },
-    {
-      "item": "minecraft:sugar"
-    },
-    {
-      "tag": "c:raw_pork"
-    },
-    {
-      "tag": "c:raw_pork"
-    }
+
+      "minecraft:sugar",
+    
+
+      "minecraft:sugar",
+    
+
+      "minecraft:sugar",
+    
+
+      "#c:raw_pork",
+    
+
+      "#c:raw_pork"
+
   ],
   "result": {
     "count": 1,

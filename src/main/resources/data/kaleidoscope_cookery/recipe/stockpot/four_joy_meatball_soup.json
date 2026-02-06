@@ -1,21 +1,21 @@
 {
   "type": "kaleidoscope_cookery:stockpot",
   "ingredients": [
-    {
-      "item": "kaleidoscope_cookery:raw_meatball"
-    },
-    {
-      "item": "kaleidoscope_cookery:raw_meatball"
-    },
-    {
-      "item": "kaleidoscope_cookery:raw_meatball"
-    },
-    {
-      "item": "kaleidoscope_cookery:raw_meatball"
-    },
-    {
-      "item": "minecraft:bone_meal"
-    }
+  
+      "kaleidoscope_cookery:raw_meatball"
+    ,
+  
+      "kaleidoscope_cookery:raw_meatball"
+    ,
+  
+      "kaleidoscope_cookery:raw_meatball"
+    ,
+  
+      "kaleidoscope_cookery:raw_meatball"
+    ,
+  
+      "minecraft:bone_meal"
+
   ],
   "result": {
     "count": 1,

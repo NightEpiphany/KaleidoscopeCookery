@@ -1,33 +1,33 @@
 {
   "type": "kaleidoscope_cookery:pot",
-  "carrier": {
-    "item": "minecraft:bowl"
-  },
+  "carrier":
+    "minecraft:bowl",
+  
   "ingredients": [
-    {
-      "item": "minecraft:phantom_membrane"
-    },
-    {
-      "item": "minecraft:phantom_membrane"
-    },
-    {
-      "tag": "c:foods/raw_pork"
-    },
-    {
-      "tag": "c:foods/raw_pork"
-    },
-    {
-      "tag": "c:foods/raw_pork"
-    },
-    {
-      "tag": "c:foods/raw_pork"
-    },
-    {
-      "tag": "c:mushrooms"
-    },
-    {
-      "tag": "c:mushrooms"
-    }
+
+      "minecraft:phantom_membrane",
+    
+
+      "minecraft:phantom_membrane",
+    
+
+      "#c:foods/raw_pork",
+    
+
+      "#c:foods/raw_pork",
+    
+
+      "#c:foods/raw_pork",
+    
+
+      "#c:foods/raw_pork",
+    
+
+      "#c:mushrooms",
+    
+
+      "#c:mushrooms"
+
   ],
   "result": {
     "count": 1,

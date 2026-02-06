@@ -33,14 +33,15 @@ public class ScarecrowParrotOnShoulderLayer extends RenderLayer<ScarecrowEntityR
     public void submit(@NonNull PoseStack poseStack, @NonNull SubmitNodeCollector submitNodeCollector, int i, ScarecrowEntityRenderState entityRenderState, float f, float g) {
         if (entityRenderState.entityOnShoulder instanceof Parrot parrot) {
             poseStack.pushPose();
-            poseStack.translate(0.625F, -1.675F, 0.0625F);
+            poseStack.translate(0.325F, -1.675F, 0.0625F);
             Parrot.Variant variant = parrot.getVariant();
             RenderType renderType = this.model.renderType(ParrotRenderer.getVariantTexture(variant));
             poseStack.pushPose();
-            poseStack.translate(0.4F, -1.5F, 0.0F);
+            poseStack.translate(0.4F, -0.01F, 0.0F);
             ParrotRenderState parrotRenderState = new ParrotRenderState();
             parrotRenderState.pose = ParrotModel.Pose.ON_SHOULDER;
             parrotRenderState.ageInTicks = entityRenderState.ageInTicks;
+            parrotRenderState.variant = variant;
             parrotRenderState.walkAnimationPos = entityRenderState.walkAnimationPos;
             parrotRenderState.walkAnimationSpeed = entityRenderState.walkAnimationSpeed;
             parrotRenderState.yRot = f;

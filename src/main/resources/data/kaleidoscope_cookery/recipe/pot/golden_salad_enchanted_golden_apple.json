@@ -1,27 +1,27 @@
 {
   "type": "kaleidoscope_cookery:pot",
-  "carrier": {
-    "item": "minecraft:bowl"
-  },
+  "carrier":
+    "minecraft:bowl",
+  
   "ingredients": [
-    {
-      "item": "minecraft:enchanted_golden_apple"
-    },
-    {
-      "item": "minecraft:enchanted_golden_apple"
-    },
-    {
-      "item": "minecraft:golden_carrot"
-    },
-    {
-      "item": "minecraft:golden_carrot"
-    },
-    {
-      "item": "minecraft:glistering_melon_slice"
-    },
-    {
-      "item": "minecraft:glistering_melon_slice"
-    }
+
+      "minecraft:enchanted_golden_apple",
+    
+
+      "minecraft:enchanted_golden_apple",
+    
+
+      "minecraft:golden_carrot",
+    
+
+      "minecraft:golden_carrot",
+    
+
+      "minecraft:glistering_melon_slice",
+    
+
+      "minecraft:glistering_melon_slice"
+
   ],
   "result": {
     "count": 1,

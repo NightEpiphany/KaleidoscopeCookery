@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "F": {
-      "item": "minecraft:crimson_fence"
-    },
-    "S": {
-      "item": "minecraft:crimson_slab"
-    }
+    "F": "minecraft:crimson_fence",
+    "S": "minecraft:crimson_slab"
   },
   "pattern": [
     "SSS",

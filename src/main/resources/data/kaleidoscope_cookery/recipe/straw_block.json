@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "R": {
-      "item": "kaleidoscope_cookery:rice_panicle"
-    }
+    "R": "kaleidoscope_cookery:rice_panicle"
   },
   "pattern": [
     "RRR",

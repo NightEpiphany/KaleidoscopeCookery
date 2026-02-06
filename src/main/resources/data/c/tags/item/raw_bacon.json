@@ -2,6 +2,6 @@
   "values": [
     "kaleidoscope_cookery:raw_pork_belly",
     "minecraft:porkchop",
-    { id: "farmersdelight:bacon", required:false }
+    { "id": "farmersdelight:bacon", "required":false }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "values": [
     "minecraft:chicken",
-    { id: "farmersdelight:chicken_cuts", required:false }
+    { "id": "farmersdelight:chicken_cuts", "required":false }
   ]
 }

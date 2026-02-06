@@ -1,9 +1,9 @@
 {
   "type": "kaleidoscope_cookery:pot",
   "ingredients": [
-    {
-      "item": "minecraft:rabbit"
-    }
+
+      "minecraft:rabbit"
+
   ],
   "result": {
     "count": 1,

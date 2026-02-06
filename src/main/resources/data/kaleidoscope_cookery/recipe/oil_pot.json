@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "B": {
-      "item": "minecraft:bucket"
-    },
-    "P": {
-      "item": "minecraft:heavy_weighted_pressure_plate"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    }
+    "B": "minecraft:bucket",
+    "P": "minecraft:heavy_weighted_pressure_plate",
+    "S": "minecraft:stick"
   },
   "pattern": [
     "P ",

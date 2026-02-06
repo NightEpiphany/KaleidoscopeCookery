@@ -1,8 +1,7 @@
 {
   "type": "kaleidoscope_cookery:millstone",
-  "ingredient": {
-    "tag": "c:sands/colorless"
-  },
+  "ingredient": "#c:sands/colorless"
+  ,
   "result": {
     "count": 1,
     "id": "minecraft:smooth_sandstone"

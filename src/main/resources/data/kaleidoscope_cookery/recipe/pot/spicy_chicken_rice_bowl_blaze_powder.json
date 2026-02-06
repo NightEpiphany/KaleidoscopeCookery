@@ -1,27 +1,27 @@
 {
   "type": "kaleidoscope_cookery:pot",
-  "carrier": {
-    "tag": "c:cooked_rice"
-  },
+  "carrier":
+    "#c:cooked_rice",
+  
   "ingredients": [
-    {
-      "tag": "c:crops/chilipepper"
-    },
-    {
-      "tag": "c:crops/chilipepper"
-    },
-    {
-      "tag": "c:raw_chicken"
-    },
-    {
-      "tag": "c:raw_chicken"
-    },
-    {
-      "tag": "c:raw_chicken"
-    },
-    {
-      "item": "minecraft:blaze_powder"
-    }
+
+      "#c:crops/chilipepper",
+    
+
+      "#c:crops/chilipepper",
+    
+
+      "#c:raw_chicken",
+    
+
+      "#c:raw_chicken",
+    
+
+      "#c:raw_chicken",
+    
+
+      "minecraft:blaze_powder"
+
   ],
   "result": {
     "count": 1,

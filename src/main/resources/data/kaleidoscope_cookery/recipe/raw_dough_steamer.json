@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "kaleidoscope_cookery:steamer"
-    },
-    {
-      "item": "kaleidoscope_cookery:raw_dough"
-    },
-    {
-      "item": "kaleidoscope_cookery:raw_dough"
-    },
-    {
-      "item": "kaleidoscope_cookery:raw_dough"
-    },
-    {
-      "item": "kaleidoscope_cookery:raw_dough"
-    }
+    "kaleidoscope_cookery:steamer",
+    "kaleidoscope_cookery:raw_dough",
+    "kaleidoscope_cookery:raw_dough",
+    "kaleidoscope_cookery:raw_dough",
+    "kaleidoscope_cookery:raw_dough"
   ],
   "result": {
     "id": "kaleidoscope_cookery:steamer",

@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "F": {
-      "tag": "c:fences/wooden"
-    },
-    "G": {
-      "item": "minecraft:grindstone"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    },
-    "T": {
-      "item": "minecraft:smooth_stone"
-    }
+    "F": "#c:fences/wooden",
+    "G": "minecraft:grindstone",
+    "S": "minecraft:stick",
+    "T": "minecraft:smooth_stone"
   },
   "pattern": [
     " F ",

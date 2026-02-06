@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "tag": "kaleidoscope_cookery:straw_bale"
-    },
-    "H": {
-      "tag": "kaleidoscope_cookery:straw_hat"
-    },
-    "P": {
-      "item": "minecraft:pumpkin"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    }
+    "#": "#kaleidoscope_cookery:straw_bale",
+    "H": "#kaleidoscope_cookery:straw_hat",
+    "P": "minecraft:pumpkin",
+    "S": "minecraft:stick"
   },
   "pattern": [
     " H ",

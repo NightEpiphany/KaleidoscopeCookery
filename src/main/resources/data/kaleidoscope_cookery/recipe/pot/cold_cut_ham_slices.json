@@ -1,33 +1,31 @@
 {
   "type": "kaleidoscope_cookery:pot",
-  "carrier": {
-    "item": "minecraft:bowl"
-  },
+  "carrier": "minecraft:bowl",
   "ingredients": [
-    {
-      "item": "kaleidoscope_cookery:cooked_pork_belly"
-    },
-    {
-      "item": "kaleidoscope_cookery:cooked_pork_belly"
-    },
-    {
-      "item": "kaleidoscope_cookery:cooked_pork_belly"
-    },
-    {
-      "item": "kaleidoscope_cookery:cooked_pork_belly"
-    },
-    {
-      "item": "kaleidoscope_cookery:cooked_pork_belly"
-    },
-    {
-      "item": "kaleidoscope_cookery:cooked_pork_belly"
-    },
-    {
-      "item": "kaleidoscope_cookery:cooked_pork_belly"
-    },
-    {
-      "item": "kaleidoscope_cookery:cooked_pork_belly"
-    }
+
+      "kaleidoscope_cookery:cooked_pork_belly",
+    
+
+      "kaleidoscope_cookery:cooked_pork_belly",
+    
+
+      "kaleidoscope_cookery:cooked_pork_belly",
+    
+
+      "kaleidoscope_cookery:cooked_pork_belly",
+    
+
+      "kaleidoscope_cookery:cooked_pork_belly",
+    
+
+      "kaleidoscope_cookery:cooked_pork_belly",
+    
+
+      "kaleidoscope_cookery:cooked_pork_belly",
+    
+
+      "kaleidoscope_cookery:cooked_pork_belly"
+
   ],
   "result": {
     "count": 1,

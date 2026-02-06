@@ -1,27 +1,25 @@
 {
   "type": "kaleidoscope_cookery:pot",
-  "carrier": {
-    "item": "minecraft:bowl"
-  },
+  "carrier": "minecraft:bowl",
   "ingredients": [
-    {
-      "item": "minecraft:potato"
-    },
-    {
-      "item": "minecraft:potato"
-    },
-    {
-      "item": "minecraft:potato"
-    },
-    {
-      "item": "minecraft:potato"
-    },
-    {
-      "item": "minecraft:sugar"
-    },
-    {
-      "item": "minecraft:sugar"
-    }
+
+      "minecraft:potato",
+    
+
+      "minecraft:potato",
+    
+
+      "minecraft:potato",
+    
+
+      "minecraft:potato",
+    
+
+      "minecraft:sugar",
+    
+
+      "minecraft:sugar"
+
   ],
   "result": {
     "count": 1,

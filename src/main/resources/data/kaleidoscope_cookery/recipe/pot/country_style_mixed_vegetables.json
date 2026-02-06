@@ -1,24 +1,22 @@
 {
   "type": "kaleidoscope_cookery:pot",
-  "carrier": {
-    "item": "minecraft:bowl"
-  },
+  "carrier": "minecraft:bowl",
   "ingredients": [
-    {
-      "tag": "c:crops/lettuce"
-    },
-    {
-      "tag": "c:crops/lettuce"
-    },
-    {
-      "tag": "c:crops/tomato"
-    },
-    {
-      "item": "minecraft:carrot"
-    },
-    {
-      "item": "minecraft:potato"
-    }
+
+      "#c:crops/lettuce",
+    
+
+      "#c:crops/lettuce",
+    
+
+      "#c:crops/tomato",
+    
+
+      "minecraft:carrot",
+    
+
+      "minecraft:potato"
+
   ],
   "result": {
     "count": 1,

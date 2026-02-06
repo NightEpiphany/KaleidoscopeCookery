@@ -1,8 +1,8 @@
 {
   "type": "kaleidoscope_cookery:millstone",
-  "ingredient": {
-    "item": "minecraft:emerald_ore"
-  },
+  "ingredient": 
+    "minecraft:emerald_ore"
+  ,
   "result": {
     "count": 2,
     "id": "minecraft:emerald"

@@ -1,28 +1,28 @@
 {
   "type": "kaleidoscope_cookery:stockpot",
-  "carrier": {
-    "item": "minecraft:bowl"
-  },
+  "carrier": 
+    "minecraft:bowl"
+  ,
   "cooking_bubble_color": 16772291,
   "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
   "finished_bubble_color": 16777215,
   "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_white",
   "ingredients": [
-    {
-      "tag": "c:raw_fishes/salmon"
-    },
-    {
-      "tag": "c:raw_fishes/salmon"
-    },
-    {
-      "tag": "c:raw_fishes/salmon"
-    },
-    {
-      "item": "minecraft:kelp"
-    },
-    {
-      "item": "minecraft:bone_meal"
-    }
+  
+      "#c:raw_fishes/salmon"
+    ,
+  
+      "#c:raw_fishes/salmon"
+    ,
+  
+      "#c:raw_fishes/salmon"
+    ,
+  
+      "minecraft:kelp"
+    ,
+  
+      "minecraft:bone_meal"
+
   ],
   "result": {
     "count": 3,

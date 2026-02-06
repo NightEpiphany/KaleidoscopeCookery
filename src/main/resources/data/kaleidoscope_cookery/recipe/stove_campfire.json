@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "redstone",
   "key": {
-    "#": {
-      "tag": "c:cobblestones"
-    },
-    "F": {
-      "item": "minecraft:campfire"
-    }
+    "#": "#c:cobblestones",
+    "F": "minecraft:campfire"
   },
   "pattern": [
     "###",

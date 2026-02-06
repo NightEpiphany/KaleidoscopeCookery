@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "B": {
-      "item": "minecraft:bamboo_block"
-    },
-    "T": {
-      "item": "minecraft:bamboo_trapdoor"
-    }
+    "B": "minecraft:bamboo_block",
+    "T": "minecraft:bamboo_trapdoor"
   },
   "pattern": [
     "TTT",

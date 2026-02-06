@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "F": {
-      "tag": "minecraft:flowers"
-    },
-    "H": {
-      "item": "kaleidoscope_cookery:straw_hat"
-    }
+    "F": "#minecraft:flowers",
+    "H": "kaleidoscope_cookery:straw_hat"
   },
   "pattern": [
     "FFF",

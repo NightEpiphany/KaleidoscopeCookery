@@ -1,27 +1,27 @@
 {
   "type": "kaleidoscope_cookery:pot",
-  "carrier": {
-    "tag": "c:cooked_rice"
-  },
+  "carrier":
+    "#c:cooked_rice",
+  
   "ingredients": [
-    {
-      "item": "kaleidoscope_cookery:raw_cow_offal"
-    },
-    {
-      "item": "kaleidoscope_cookery:raw_cow_offal"
-    },
-    {
-      "tag": "c:crops/chilipepper"
-    },
-    {
-      "tag": "c:crops/chilipepper"
-    },
-    {
-      "tag": "c:crops/lettuce"
-    },
-    {
-      "tag": "c:crops/lettuce"
-    }
+
+      "kaleidoscope_cookery:raw_cow_offal",
+    
+
+      "kaleidoscope_cookery:raw_cow_offal",
+    
+
+      "#c:crops/chilipepper",
+    
+
+      "#c:crops/chilipepper",
+    
+
+      "#c:crops/lettuce",
+    
+
+      "#c:crops/lettuce"
+
   ],
   "result": {
     "count": 1,

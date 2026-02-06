@@ -1,33 +1,33 @@
 {
   "type": "kaleidoscope_cookery:pot",
-  "carrier": {
-    "item": "minecraft:bowl"
-  },
+  "carrier":
+    "minecraft:bowl",
+  
   "ingredients": [
-    {
-      "item": "minecraft:crimson_fungus"
-    },
-    {
-      "item": "minecraft:crimson_fungus"
-    },
-    {
-      "item": "minecraft:warped_fungus"
-    },
-    {
-      "item": "minecraft:warped_fungus"
-    },
-    {
-      "tag": "c:raw_fishes/tropical_fish"
-    },
-    {
-      "tag": "c:raw_fishes/tropical_fish"
-    },
-    {
-      "tag": "c:raw_fishes/tropical_fish"
-    },
-    {
-      "tag": "c:raw_fishes/tropical_fish"
-    }
+
+      "minecraft:crimson_fungus",
+    
+
+      "minecraft:crimson_fungus",
+    
+
+      "minecraft:warped_fungus",
+    
+
+      "minecraft:warped_fungus",
+    
+
+      "#c:raw_fishes/tropical_fish",
+    
+
+      "#c:raw_fishes/tropical_fish",
+    
+
+      "#c:raw_fishes/tropical_fish",
+    
+
+      "#c:raw_fishes/tropical_fish"
+
   ],
   "result": {
     "count": 1,

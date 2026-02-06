@@ -1,24 +1,24 @@
 {
   "type": "kaleidoscope_cookery:pot",
   "ingredients": [
-    {
-      "tag": "c:crops/chilipepper"
-    },
-    {
-      "tag": "c:crops/chilipepper"
-    },
-    {
-      "tag": "c:dough"
-    },
-    {
-      "tag": "c:dough"
-    },
-    {
-      "item": "kaleidoscope_cookery:raw_donkey_meat"
-    },
-    {
-      "item": "kaleidoscope_cookery:raw_donkey_meat"
-    }
+
+      "#c:crops/chilipepper",
+    
+
+      "#c:crops/chilipepper",
+    
+
+      "#c:dough",
+    
+
+      "#c:dough",
+    
+
+      "kaleidoscope_cookery:raw_donkey_meat",
+    
+
+      "kaleidoscope_cookery:raw_donkey_meat"
+
   ],
   "result": {
     "count": 1,

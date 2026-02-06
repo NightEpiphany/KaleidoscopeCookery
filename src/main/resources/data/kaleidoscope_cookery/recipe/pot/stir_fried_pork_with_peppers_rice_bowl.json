@@ -1,24 +1,24 @@
 {
   "type": "kaleidoscope_cookery:pot",
-  "carrier": {
-    "tag": "c:cooked_rice"
-  },
+  "carrier":
+    "#c:cooked_rice",
+  
   "ingredients": [
-    {
-      "item": "kaleidoscope_cookery:green_chili"
-    },
-    {
-      "item": "kaleidoscope_cookery:green_chili"
-    },
-    {
-      "item": "kaleidoscope_cookery:green_chili"
-    },
-    {
-      "tag": "c:raw_pork"
-    },
-    {
-      "tag": "c:raw_pork"
-    }
+
+      "kaleidoscope_cookery:green_chili",
+    
+
+      "kaleidoscope_cookery:green_chili",
+    
+
+      "kaleidoscope_cookery:green_chili",
+    
+
+      "#c:raw_pork",
+    
+
+      "#c:raw_pork"
+
   ],
   "result": {
     "count": 1,

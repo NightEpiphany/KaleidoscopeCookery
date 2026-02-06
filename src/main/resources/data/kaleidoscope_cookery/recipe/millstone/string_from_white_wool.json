@@ -1,8 +1,8 @@
 {
   "type": "kaleidoscope_cookery:millstone",
-  "ingredient": {
-    "item": "minecraft:white_wool"
-  },
+  "ingredient": 
+    "minecraft:white_wool"
+  ,
   "result": {
     "count": 3,
     "id": "minecraft:string"

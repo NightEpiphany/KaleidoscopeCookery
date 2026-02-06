@@ -1,9 +1,7 @@
 {
   "type": "kaleidoscope_cookery:chopping_board",
   "cut_count": 4,
-  "ingredient": {
-    "item": "minecraft:chicken"
-  },
+  "ingredient": "minecraft:chicken",
   "model_id": "kaleidoscope_cookery:raw_chicken",
   "result": {
     "count": 2,

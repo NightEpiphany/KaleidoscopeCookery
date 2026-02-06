@@ -1,21 +1,21 @@
 {
   "type": "kaleidoscope_cookery:stockpot",
   "ingredients": [
-    {
-      "tag": "c:crops/chilipepper"
-    },
-    {
-      "tag": "c:crops/chilipepper"
-    },
-    {
-      "tag": "c:foods/raw_chicken"
-    },
-    {
-      "tag": "c:foods/raw_chicken"
-    },
-    {
-      "tag": "c:foods/raw_chicken"
-    }
+  
+      "#c:crops/chilipepper"
+    ,
+  
+      "#c:crops/chilipepper"
+    ,
+  
+      "#c:foods/raw_chicken"
+    ,
+  
+      "#c:foods/raw_chicken"
+    ,
+  
+      "#c:foods/raw_chicken"
+
   ],
   "result": {
     "count": 1,

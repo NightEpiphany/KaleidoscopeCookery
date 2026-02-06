@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "F": {
-      "item": "minecraft:bamboo_block"
-    },
-    "S": {
-      "item": "minecraft:bamboo_slab"
-    }
+    "F": "minecraft:bamboo_block",
+    "S": "minecraft:bamboo_slab"
   },
   "pattern": [
     "F  ",

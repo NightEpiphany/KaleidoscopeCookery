@@ -1,9 +1,9 @@
 {
   "type": "kaleidoscope_cookery:pot",
   "ingredients": [
-    {
-      "item": "kaleidoscope_cookery:raw_lamb_chops"
-    }
+
+      "kaleidoscope_cookery:raw_lamb_chops"
+
   ],
   "result": {
     "count": 1,

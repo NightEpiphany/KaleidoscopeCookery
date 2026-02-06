@@ -1,9 +1,7 @@
 {
   "type": "kaleidoscope_cookery:chopping_board",
   "cut_count": 4,
-  "ingredient": {
-    "item": "minecraft:cooked_porkchop"
-  },
+  "ingredient": "minecraft:cooked_porkchop",
   "model_id": "kaleidoscope_cookery:cooked_pork_belly",
   "result": {
     "count": 2,

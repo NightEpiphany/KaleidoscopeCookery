@@ -1,9 +1,9 @@
 {
   "type": "kaleidoscope_cookery:pot",
   "ingredients": [
-    {
-      "item": "kaleidoscope_cookery:raw_cow_offal"
-    }
+
+      "kaleidoscope_cookery:raw_cow_offal"
+
   ],
   "result": {
     "count": 1,

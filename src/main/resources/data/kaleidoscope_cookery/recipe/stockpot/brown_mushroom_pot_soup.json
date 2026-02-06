@@ -1,27 +1,27 @@
 {
   "type": "kaleidoscope_cookery:stockpot",
-  "carrier": {
-    "item": "minecraft:flower_pot"
-  },
+  "carrier": 
+    "minecraft:flower_pot"
+  ,
   "ingredients": [
-    {
-      "item": "minecraft:brown_mushroom"
-    },
-    {
-      "item": "minecraft:brown_mushroom"
-    },
-    {
-      "item": "minecraft:brown_mushroom"
-    },
-    {
-      "item": "minecraft:brown_mushroom"
-    },
-    {
-      "item": "minecraft:brown_mushroom"
-    },
-    {
-      "item": "minecraft:brown_mushroom"
-    }
+  
+      "minecraft:brown_mushroom"
+    ,
+  
+      "minecraft:brown_mushroom"
+    ,
+  
+      "minecraft:brown_mushroom"
+    ,
+  
+      "minecraft:brown_mushroom"
+    ,
+  
+      "minecraft:brown_mushroom"
+    ,
+  
+      "minecraft:brown_mushroom"
+
   ],
   "result": {
     "count": 1,

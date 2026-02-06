@@ -1,33 +1,33 @@
 {
   "type": "kaleidoscope_cookery:stockpot",
   "ingredients": [
-    {
-      "tag": "c:foods/raw_pork"
-    },
-    {
-      "tag": "c:foods/raw_pork"
-    },
-    {
-      "tag": "c:foods/raw_pork"
-    },
-    {
-      "tag": "c:foods/raw_pork"
-    },
-    {
-      "tag": "c:crops/chilipepper"
-    },
-    {
-      "tag": "c:crops/chilipepper"
-    },
-    {
-      "tag": "c:crops/chilipepper"
-    },
-    {
-      "tag": "c:crops/chilipepper"
-    },
-    {
-      "item": "minecraft:blaze_powder"
-    }
+  
+      "#c:foods/raw_pork"
+    ,
+  
+      "#c:foods/raw_pork"
+    ,
+  
+      "#c:foods/raw_pork"
+    ,
+  
+      "#c:foods/raw_pork"
+    ,
+  
+      "#c:crops/chilipepper"
+    ,
+  
+      "#c:crops/chilipepper"
+    ,
+  
+      "#c:crops/chilipepper"
+    ,
+  
+      "#c:crops/chilipepper"
+    ,
+  
+      "minecraft:blaze_powder"
+
   ],
   "result": {
     "count": 1,

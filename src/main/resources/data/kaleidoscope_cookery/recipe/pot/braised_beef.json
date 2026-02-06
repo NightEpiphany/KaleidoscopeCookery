@@ -1,21 +1,16 @@
 {
   "type": "kaleidoscope_cookery:pot",
-  "carrier": {
-    "item": "minecraft:bowl"
-  },
+  "carrier": "minecraft:bowl",
   "ingredients": [
-    {
-      "tag": "c:raw_beef"
-    },
-    {
-      "tag": "c:raw_beef"
-    },
-    {
-      "tag": "c:crops/chilipepper"
-    },
-    {
-      "tag": "c:crops/chilipepper"
-    }
+
+    "#c:raw_beef",
+
+    "#c:raw_beef",
+
+    "#c:crops/chilipepper",
+
+    "#c:crops/chilipepper"
+
   ],
   "result": {
     "count": 1,

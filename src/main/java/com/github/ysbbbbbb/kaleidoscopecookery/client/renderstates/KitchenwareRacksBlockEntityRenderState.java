@@ -7,6 +7,6 @@ import net.minecraft.client.renderer.item.ItemStackRenderState;
 
 @Environment(EnvType.CLIENT)
 public class KitchenwareRacksBlockEntityRenderState extends BlockEntityRenderState {
-    public ItemStackRenderState left;
-    public ItemStackRenderState right;
+    public ItemStackRenderState left = new ItemStackRenderState();
+    public ItemStackRenderState right = new ItemStackRenderState();
 }

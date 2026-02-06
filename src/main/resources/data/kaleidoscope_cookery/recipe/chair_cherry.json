@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "F": {
-      "item": "minecraft:cherry_fence"
-    },
-    "S": {
-      "item": "minecraft:cherry_slab"
-    }
+    "F": "minecraft:cherry_fence",
+    "S": "minecraft:cherry_slab"
   },
   "pattern": [
     "F  ",

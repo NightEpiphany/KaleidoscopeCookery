@@ -1,8 +1,8 @@
 {
   "type": "kaleidoscope_cookery:millstone",
-  "ingredient": {
-    "item": "minecraft:lapis_ore"
-  },
+  "ingredient": 
+    "minecraft:lapis_ore"
+  ,
   "result": {
     "count": 7,
     "id": "minecraft:lapis_lazuli"

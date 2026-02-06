@@ -1,27 +1,27 @@
 {
   "type": "kaleidoscope_cookery:pot",
-  "carrier": {
-    "item": "minecraft:bowl"
-  },
+  "carrier":
+    "minecraft:bowl",
+  
   "ingredients": [
-    {
-      "item": "minecraft:sugar"
-    },
-    {
-      "item": "minecraft:sugar"
-    },
-    {
-      "item": "minecraft:sugar"
-    },
-    {
-      "item": "minecraft:spider_eye"
-    },
-    {
-      "item": "minecraft:spider_eye"
-    },
-    {
-      "item": "minecraft:spider_eye"
-    }
+
+      "minecraft:sugar",
+    
+
+      "minecraft:sugar",
+    
+
+      "minecraft:sugar",
+    
+
+      "minecraft:spider_eye",
+    
+
+      "minecraft:spider_eye",
+    
+
+      "minecraft:spider_eye"
+
   ],
   "result": {
     "count": 1,

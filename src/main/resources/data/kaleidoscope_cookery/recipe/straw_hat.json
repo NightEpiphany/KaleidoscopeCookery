@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "S": {
-      "item": "minecraft:string"
-    },
-    "W": {
-      "item": "minecraft:wheat"
-    }
+    "S": "minecraft:string",
+    "W": "minecraft:wheat"
   },
   "pattern": [
     " W ",

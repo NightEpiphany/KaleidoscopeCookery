@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "F": {
-      "item": "minecraft:mangrove_fence"
-    },
-    "S": {
-      "item": "minecraft:mangrove_slab"
-    }
+    "F": "minecraft:mangrove_fence",
+    "S": "minecraft:mangrove_slab"
   },
   "pattern": [
     "SSS",

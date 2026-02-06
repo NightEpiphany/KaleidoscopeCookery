@@ -159,42 +159,42 @@ public class ModBlocks {
     public static final Block COOK_STOOL_PALE_OAK = stoolReg("cook_stool_pale_oak");
     public static final Block COOK_STOOL_SPRUCE = stoolReg("cook_stool_spruce");
     public static final Block COOK_STOOL_ACACIA = stoolReg("cook_stool_acacia");
-    public static final Block COOK_STOOL_BAMBOO = stoolReg("cook_stool_bamboo");
+    public static final Block COOK_STOOL_BAMBOO = stoolReg("cook_stool_bamboo", SoundType.BAMBOO);
     public static final Block COOK_STOOL_BIRCH = stoolReg("cook_stool_birch");
-    public static final Block COOK_STOOL_CHERRY = stoolReg("cook_stool_cherry");
-    public static final Block COOK_STOOL_CRIMSON = stoolReg("cook_stool_crimson");
+    public static final Block COOK_STOOL_CHERRY = stoolReg("cook_stool_cherry", SoundType.CHERRY_WOOD);
+    public static final Block COOK_STOOL_CRIMSON = stoolReg("cook_stool_crimson", SoundType.NETHER_WOOD);
     public static final Block COOK_STOOL_DARK_OAK = stoolReg("cook_stool_dark_oak");
     public static final Block COOK_STOOL_JUNGLE = stoolReg("cook_stool_jungle");
     public static final Block COOK_STOOL_MANGROVE = stoolReg("cook_stool_mangrove");
-    public static final Block COOK_STOOL_WARPED = stoolReg("cook_stool_warped");
+    public static final Block COOK_STOOL_WARPED = stoolReg("cook_stool_warped", SoundType.NETHER_WOOD);
 
     // Chairs
     public static final Block CHAIR_OAK = chairReg("chair_oak");
     public static final Block CHAIR_PALE_OAK = chairReg("chair_pale_oak");
     public static final Block CHAIR_SPRUCE = chairReg("chair_spruce");
     public static final Block CHAIR_ACACIA = chairReg("chair_acacia");
-    public static final Block CHAIR_BAMBOO = chairReg("chair_bamboo");
+    public static final Block CHAIR_BAMBOO = chairReg("chair_bamboo", SoundType.BAMBOO);
     public static final Block CHAIR_BIRCH = chairReg("chair_birch");
-    public static final Block CHAIR_CHERRY = chairReg("chair_cherry");
-    public static final Block CHAIR_CRIMSON = chairReg("chair_crimson");
+    public static final Block CHAIR_CHERRY = chairReg("chair_cherry", SoundType.CHERRY_WOOD);
+    public static final Block CHAIR_CRIMSON = chairReg("chair_crimson", SoundType.NETHER_WOOD);
     public static final Block CHAIR_DARK_OAK = chairReg("chair_dark_oak");
     public static final Block CHAIR_JUNGLE = chairReg("chair_jungle");
     public static final Block CHAIR_MANGROVE = chairReg("chair_mangrove");
-    public static final Block CHAIR_WARPED = chairReg("chair_warped");
+    public static final Block CHAIR_WARPED = chairReg("chair_warped", SoundType.NETHER_WOOD);
 
     // Tables
     public static final Block TABLE_OAK = tableReg("table_oak");
     public static final Block TABLE_PALE_OAK = tableReg("table_pale_oak");
     public static final Block TABLE_SPRUCE = tableReg("table_spruce");
     public static final Block TABLE_ACACIA = tableReg("table_acacia");
-    public static final Block TABLE_BAMBOO = tableReg("table_bamboo");
+    public static final Block TABLE_BAMBOO = tableReg("table_bamboo", SoundType.BAMBOO);
     public static final Block TABLE_BIRCH = tableReg("table_birch");
-    public static final Block TABLE_CHERRY = tableReg("table_cherry");
-    public static final Block TABLE_CRIMSON = tableReg("table_crimson");
+    public static final Block TABLE_CHERRY = tableReg("table_cherry", SoundType.CHERRY_WOOD);
+    public static final Block TABLE_CRIMSON = tableReg("table_crimson", SoundType.NETHER_WOOD);
     public static final Block TABLE_DARK_OAK = tableReg("table_dark_oak");
     public static final Block TABLE_JUNGLE = tableReg("table_jungle");
     public static final Block TABLE_MANGROVE = tableReg("table_mangrove");
-    public static final Block TABLE_WARPED = tableReg("table_warped");
+    public static final Block TABLE_WARPED = tableReg("table_warped", SoundType.NETHER_WOOD);
 
     //Feast
     public static final Block COLD_CUT_HAM_SLICES = commonReg("cold_cut_ham_slices", p -> new FoodBiteThreeByThreeBlock(p , ModFoods.COLD_CUT_HAM_SLICES_BLOCK, ModConsumables.COLD_CUT_HAM_SLICES_BLOCK, 8, null), BlockBehaviour.Properties.of()
@@ -256,29 +256,41 @@ public class ModBlocks {
     }
 
     private static Block stoolReg(String string) {
+        return stoolReg(string, SoundType.WOOD);
+    }
+
+    private static Block chairReg(String string) {
+        return chairReg(string, SoundType.WOOD);
+    }
+
+    private static Block tableReg(String string) {
+        return tableReg(string, SoundType.WOOD);
+    }
+
+    private static Block stoolReg(String string, SoundType soundType) {
         return commonReg(string, CookStoolBlock::new, BlockBehaviour.Properties.of()
                 .mapColor(MapColor.WOOD)
                 .instrument(NoteBlockInstrument.BASS)
                 .strength(2.0F, 3.0F)
-                .sound(SoundType.WOOD)
+                .sound(soundType)
                 .ignitedByLava());
     }
 
-    private static Block chairReg(String string) {
+    private static Block chairReg(String string, SoundType soundType) {
         return commonReg(string, ChairBlock::new, BlockBehaviour.Properties.of()
                 .mapColor(MapColor.WOOD)
                 .instrument(NoteBlockInstrument.BASS)
                 .strength(2.0F, 3.0F)
-                .sound(SoundType.WOOD)
+                .sound(soundType)
                 .noOcclusion()
                 .ignitedByLava());
     }
-    private static Block tableReg(String string) {
+    private static Block tableReg(String string, SoundType soundType) {
         return commonReg(string, TableBlock::new, BlockBehaviour.Properties.of()
                 .mapColor(MapColor.WOOD)
                 .instrument(NoteBlockInstrument.BASS)
                 .strength(2.0F, 3.0F)
-                .sound(SoundType.WOOD)
+                .sound(soundType)
                 .noOcclusion()
                 .ignitedByLava());
     }

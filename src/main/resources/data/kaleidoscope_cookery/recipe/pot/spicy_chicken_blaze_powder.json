@@ -1,36 +1,36 @@
 {
   "type": "kaleidoscope_cookery:pot",
-  "carrier": {
-    "item": "minecraft:bowl"
-  },
+  "carrier":
+    "minecraft:bowl",
+  
   "ingredients": [
-    {
-      "tag": "c:crops/chilipepper"
-    },
-    {
-      "tag": "c:crops/chilipepper"
-    },
-    {
-      "tag": "c:crops/chilipepper"
-    },
-    {
-      "tag": "c:crops/chilipepper"
-    },
-    {
-      "tag": "c:crops/chilipepper"
-    },
-    {
-      "tag": "c:raw_chicken"
-    },
-    {
-      "tag": "c:raw_chicken"
-    },
-    {
-      "tag": "c:raw_chicken"
-    },
-    {
-      "tag": "c:raw_chicken"
-    }
+
+      "#c:crops/chilipepper",
+    
+
+      "#c:crops/chilipepper",
+    
+
+      "#c:crops/chilipepper",
+    
+
+      "#c:crops/chilipepper",
+    
+
+      "#c:crops/chilipepper",
+    
+
+      "#c:raw_chicken",
+    
+
+      "#c:raw_chicken",
+    
+
+      "#c:raw_chicken",
+    
+
+      "#c:raw_chicken"
+
   ],
   "result": {
     "count": 1,

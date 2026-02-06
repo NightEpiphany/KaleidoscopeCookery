@@ -1,21 +1,20 @@
 {
   "type": "kaleidoscope_cookery:pot",
-  "carrier": {
-    "item": "minecraft:bowl"
-  },
+  "carrier": "minecraft:bowl",
+  
   "ingredients": [
-    {
-      "tag": "c:foods/cooked_beef"
-    },
-    {
-      "tag": "c:foods/cooked_beef"
-    },
-    {
-      "tag": "c:foods/cooked_beef"
-    },
-    {
-      "tag": "c:foods/cooked_beef"
-    }
+
+      "#c:foods/cooked_beef",
+    
+
+      "#c:foods/cooked_beef",
+    
+
+      "#c:foods/cooked_beef",
+    
+
+      "#c:foods/cooked_beef"
+
   ],
   "result": {
     "count": 1,

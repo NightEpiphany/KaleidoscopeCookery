@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "B": {
-      "item": "minecraft:bucket"
-    },
-    "I": {
-      "item": "minecraft:heavy_weighted_pressure_plate"
-    },
-    "O": {
-      "item": "minecraft:stone_button"
-    }
+    "B": "minecraft:bucket",
+    "I": "minecraft:heavy_weighted_pressure_plate",
+    "O": "minecraft:stone_button"
   },
   "pattern": [
     "O",

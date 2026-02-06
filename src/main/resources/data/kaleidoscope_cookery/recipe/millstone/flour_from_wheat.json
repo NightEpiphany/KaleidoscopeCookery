@@ -1,8 +1,8 @@
 {
   "type": "kaleidoscope_cookery:millstone",
-  "ingredient": {
-    "item": "minecraft:wheat"
-  },
+  "ingredient": 
+    "minecraft:wheat"
+  ,
   "result": {
     "count": 1,
     "id": "kaleidoscope_cookery:flour"

@@ -1,27 +1,25 @@
 {
   "type": "kaleidoscope_cookery:pot",
-  "carrier": {
-    "item": "minecraft:bowl"
-  },
+  "carrier": "minecraft:bowl",
   "ingredients": [
-    {
-      "item": "minecraft:amethyst_shard"
-    },
-    {
-      "item": "minecraft:amethyst_shard"
-    },
-    {
-      "item": "minecraft:amethyst_shard"
-    },
-    {
-      "tag": "c:raw_mutton"
-    },
-    {
-      "tag": "c:raw_mutton"
-    },
-    {
-      "tag": "c:raw_mutton"
-    }
+
+      "minecraft:amethyst_shard",
+    
+
+      "minecraft:amethyst_shard",
+    
+
+      "minecraft:amethyst_shard",
+    
+
+      "#c:raw_mutton",
+    
+
+      "#c:raw_mutton",
+    
+
+      "#c:raw_mutton"
+
   ],
   "result": {
     "count": 1,

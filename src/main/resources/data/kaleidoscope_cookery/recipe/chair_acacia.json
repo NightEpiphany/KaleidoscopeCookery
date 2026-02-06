@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "F": {
-      "item": "minecraft:acacia_fence"
-    },
-    "S": {
-      "item": "minecraft:acacia_slab"
-    }
+    "F": "minecraft:acacia_fence",
+    "S": "minecraft:acacia_slab"
   },
   "pattern": [
     "F  ",

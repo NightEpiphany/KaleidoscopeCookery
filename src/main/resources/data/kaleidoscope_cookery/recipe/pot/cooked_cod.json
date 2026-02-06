@@ -1,9 +1,9 @@
 {
   "type": "kaleidoscope_cookery:pot",
   "ingredients": [
-    {
-      "item": "minecraft:cod"
-    }
+
+      "minecraft:cod"
+
   ],
   "result": {
     "count": 1,

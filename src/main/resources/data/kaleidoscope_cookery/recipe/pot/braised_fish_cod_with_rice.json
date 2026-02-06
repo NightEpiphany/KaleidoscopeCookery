@@ -1,24 +1,22 @@
 {
   "type": "kaleidoscope_cookery:pot",
-  "carrier": {
-    "item": "kaleidoscope_cookery:cooked_rice"
-  },
+  "carrier": "kaleidoscope_cookery:cooked_rice",
   "ingredients": [
-    {
-      "tag": "c:raw_fishes/cod"
-    },
-    {
-      "tag": "c:raw_fishes/cod"
-    },
-    {
-      "tag": "c:raw_fishes/cod"
-    },
-    {
-      "tag": "c:raw_fishes/cod"
-    },
-    {
-      "tag": "c:raw_fishes/cod"
-    }
+
+      "#c:raw_fishes/cod",
+    
+
+      "#c:raw_fishes/cod",
+    
+
+      "#c:raw_fishes/cod",
+    
+
+      "#c:raw_fishes/cod",
+    
+
+      "#c:raw_fishes/cod"
+
   ],
   "result": {
     "count": 1,

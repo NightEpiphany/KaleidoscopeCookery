@@ -1,15 +1,13 @@
 {
   "type": "kaleidoscope_cookery:pot",
-  "carrier": {
-    "item": "minecraft:bowl"
-  },
+  "carrier": "minecraft:bowl",
   "ingredients": [
-    {
-      "tag": "c:raw_fishes/cod"
-    },
-    {
-      "tag": "c:raw_fishes/salmon"
-    }
+
+      "#c:raw_fishes/cod",
+    
+
+      "#c:raw_fishes/salmon"
+
   ],
   "result": {
     "count": 1,

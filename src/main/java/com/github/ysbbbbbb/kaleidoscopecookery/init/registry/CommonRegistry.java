@@ -26,6 +26,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 public class CommonRegistry {
+
     public static void init() {
         addComposter();
         registerFoodBiteBlocks();
