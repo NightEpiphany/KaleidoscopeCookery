@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.item.ItemStackRenderState;
 
 @Environment(EnvType.CLIENT)
 public class ShawarmaSpitBlockEntityRenderState extends BlockEntityRenderState {
-    public ItemStackRenderState cookingItem;
-    public ItemStackRenderState cookedItem;
+    public ItemStackRenderState cookingItem = new ItemStackRenderState();
+    public ItemStackRenderState cookedItem = new ItemStackRenderState();
     public int count;
 }
