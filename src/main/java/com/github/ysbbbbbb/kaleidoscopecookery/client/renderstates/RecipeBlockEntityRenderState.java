@@ -8,6 +8,6 @@ import net.minecraft.client.renderer.item.ItemStackRenderState;
 
 @Environment(EnvType.CLIENT)
 public class RecipeBlockEntityRenderState extends BlockEntityRenderState {
-    public ItemStackRenderState targetItem;
+    public ItemStackRenderState targetItem = new ItemStackRenderState();
     public RecipeItem.RecipeRecord data;
 }

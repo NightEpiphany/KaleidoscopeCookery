@@ -51,6 +51,7 @@ import java.util.UUID;
 public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone {
     public static final int MAX_INPUT_COUNT = 8;
     private static final String ENTITY_ID_KEY = "EntityId";
+    private static final String ENTITY_KEY = "StoredEntity";
     private static final String CACHE_ROT_KEY = "CacheRot";
     private static final String ROT_SPEED_TICK_KEY = "RotSpeedTick";
     private static final String LIFT_ANGLE_KEY = "LiftAngle";
@@ -355,8 +356,10 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
     @Override
     protected void saveAdditional(@NonNull ValueOutput valueOutput) {
         super.saveAdditional(valueOutput);
-        EntityReference.store(this.bindRef, valueOutput, ENTITY_ID_KEY);
-        valueOutput.putString(ENTITY_ID_KEY, this.entityId.toString());
+        if (this.bindRef != null)
+            EntityReference.store(this.bindRef, valueOutput, ENTITY_KEY);
+        if (this.entityId != Util.NIL_UUID)
+            valueOutput.putString(ENTITY_ID_KEY, this.entityId.toString());
         valueOutput.putFloat(CACHE_ROT_KEY, this.cacheRot);
         valueOutput.putFloat(ROT_SPEED_TICK_KEY, rotSpeedTick);
         valueOutput.putFloat(LIFT_ANGLE_KEY, liftAngle);
@@ -372,7 +375,7 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
     @Override
     protected void loadAdditional(@NonNull ValueInput valueInput) {
         super.loadAdditional(valueInput);
-        this.bindRef = EntityReference.read(valueInput, ENTITY_ID_KEY);
+        this.bindRef = EntityReference.read(valueInput, ENTITY_KEY);
         this.entityId =  UUID.fromString(valueInput.getStringOr(ENTITY_ID_KEY, Util.NIL_UUID.toString()));
         this.cacheRot = valueInput.getFloatOr(CACHE_ROT_KEY, 0f);
         this.rotSpeedTick = valueInput.getFloatOr(ROT_SPEED_TICK_KEY, 200f);

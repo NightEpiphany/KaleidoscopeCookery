@@ -487,7 +487,8 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
         ContainerHelper.saveAllItems(valueOutput, this.inputs);
         valueOutput.putString(RECIPE_ID, this.recipeId.toString());
         valueOutput.putString(SOUP_BASE_ID, this.soupBaseId.toString());
-        valueOutput.storeNullable(RESULT, ItemStack.CODEC, this.result);
+        if (!this.result.isEmpty())
+            valueOutput.storeNullable(RESULT, ItemStack.CODEC, this.result);
         valueOutput.putInt(STATUS, this.status);
         valueOutput.putInt(CURRENT_TICK, this.currentTick);
         valueOutput.putInt(TAKEOUT_COUNT, this.takeoutCount);

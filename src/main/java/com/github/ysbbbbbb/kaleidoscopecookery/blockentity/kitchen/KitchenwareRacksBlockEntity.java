@@ -56,8 +56,10 @@ public class KitchenwareRacksBlockEntity extends BaseBlockEntity implements IKit
     @Override
     protected void saveAdditional(@NonNull ValueOutput valueOutput) {
         super.saveAdditional(valueOutput);
-        valueOutput.storeNullable(LEFT_ITEM, ItemStack.CODEC, this.itemLeft);
-        valueOutput.storeNullable(RIGHT_ITEM, ItemStack.CODEC, this.itemRight);
+        if (!this.itemLeft.isEmpty())
+            valueOutput.storeNullable(LEFT_ITEM, ItemStack.CODEC, this.itemLeft);
+        if (!this.itemRight.isEmpty())
+            valueOutput.storeNullable(RIGHT_ITEM, ItemStack.CODEC, this.itemRight);
     }
 
     @Override

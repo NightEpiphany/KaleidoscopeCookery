@@ -29,7 +29,8 @@ public class RecipeBlockEntity extends BaseBlockEntity {
     @Override
     protected void saveAdditional(@NonNull ValueOutput valueOutput) {
         super.saveAdditional(valueOutput);
-        valueOutput.store(SHOW_ITEMS, ItemStack.CODEC, this.items.getStackInSlot(0));
+        if (!this.items.getStackInSlot(0).isEmpty())
+            valueOutput.store(SHOW_ITEMS, ItemStack.CODEC, this.items.getStackInSlot(0));
     }
 
     public ItemStackHandler getItems() {

@@ -16,7 +16,8 @@
   "environment": "*",
   "entrypoints": {
     "main": ["com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery"],
-    "client": ["com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookeryClient"]
+    "client": ["com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookeryClient"],
+    "jei_mod_plugin": ["com.github.ysbbbbbb.kaleidoscopecookery.compact.jei.ModJeiPlugin"]
   },
   "mixins": ["kaleidoscope_cookery.mixins.json"],
   "accessWidener": "kaleidoscope_cookery.accesswidener",

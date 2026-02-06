@@ -166,8 +166,10 @@ public class ShawarmaSpitBlockEntity extends BaseBlockEntity implements IShawarm
     @Override
     protected void saveAdditional(@NonNull ValueOutput valueOutput) {
         super.saveAdditional(valueOutput);
-        valueOutput.store(COOKING_ITEM, ItemStack.CODEC, this.cookingItem);
-        valueOutput.store(COOKED_ITEM, ItemStack.CODEC, this.cookedItem);
+        if (!this.cookingItem.isEmpty())
+            valueOutput.store(COOKING_ITEM, ItemStack.CODEC, this.cookingItem);
+        if (!this.cookedItem.isEmpty())
+            valueOutput.store(COOKED_ITEM, ItemStack.CODEC, this.cookedItem);
         valueOutput.putInt(COOK_TIME, this.cookTime);
     }
 

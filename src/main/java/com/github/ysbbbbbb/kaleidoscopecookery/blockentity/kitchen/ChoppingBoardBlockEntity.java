@@ -168,8 +168,10 @@ public class ChoppingBoardBlockEntity extends BaseBlockEntity implements IChoppi
         }
         valueOutput.putInt(MAX_CUT_COUNT, this.maxCutCount);
         valueOutput.putInt(CURRENT_CUT_COUNT, this.currentCutCount);
-        valueOutput.storeNullable(CURRENT_CUT_STACK, ItemStack.CODEC, this.currentCutStack);
-        valueOutput.storeNullable(RESULT_ITEM, ItemStack.CODEC, this.result);
+        if (!this.currentCutStack.isEmpty())
+            valueOutput.storeNullable(CURRENT_CUT_STACK, ItemStack.CODEC, this.currentCutStack);
+        if (!this.result.isEmpty())
+            valueOutput.storeNullable(RESULT_ITEM, ItemStack.CODEC, this.result);
     }
 
     @Override

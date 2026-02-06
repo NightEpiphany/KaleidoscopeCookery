@@ -450,7 +450,8 @@ public class PotBlockEntity extends BaseBlockEntity implements IPot {
             }
         }
         valueOutput.store(CARRIER, Ingredient.CODEC, this.carrier);
-        valueOutput.store(RESULT, ItemStack.CODEC, this.result);
+        if (!this.result.isEmpty())
+            valueOutput.store(RESULT, ItemStack.CODEC, this.result);
         valueOutput.putInt(STATUS, this.status);
         valueOutput.putInt(CURRENT_TICK, this.currentTick);
         valueOutput.putInt(STIR_FRY_COUNT, this.stirFryCount);
