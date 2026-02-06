@@ -1,23 +1,23 @@
 {
   "type": "kaleidoscope_cookery:pot",
   "carrier": {
-    "tag": "forge:cooked_rice"
+    "tag": "c:cooked_rice"
   },
   "ingredients": [
     {
-      "tag": "forge:raw_fishes/salmon"
+      "tag": "c:raw_fishes/salmon"
     },
     {
-      "tag": "forge:raw_fishes/salmon"
+      "tag": "c:raw_fishes/salmon"
     },
     {
-      "tag": "forge:raw_fishes/salmon"
+      "tag": "c:raw_fishes/salmon"
     },
     {
-      "tag": "forge:raw_fishes/salmon"
+      "tag": "c:raw_fishes/salmon"
     },
     {
-      "tag": "forge:raw_fishes/salmon"
+      "tag": "c:raw_fishes/salmon"
     }
   ],
   "result": {

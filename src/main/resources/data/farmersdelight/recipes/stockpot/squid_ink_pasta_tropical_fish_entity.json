@@ -9,10 +9,10 @@
   "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_light_purple",
   "ingredients": [
     {
-      "tag": "forge:pasta"
+      "tag": "c:pasta"
     },
     {
-      "tag": "forge:crops/tomato"
+      "tag": "c:crops/tomato"
     },
     {
       "item": "minecraft:ink_sac"

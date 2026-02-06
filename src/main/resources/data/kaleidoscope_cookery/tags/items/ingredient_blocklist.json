@@ -1,7 +1,7 @@
 {
   "values": [
-    "#forge:tools",
-    "#forge:armors",
+    "#c:tools",
+    "#c:armors",
     "minecraft:shulker_box",
     "minecraft:white_shulker_box",
     "minecraft:orange_shulker_box",

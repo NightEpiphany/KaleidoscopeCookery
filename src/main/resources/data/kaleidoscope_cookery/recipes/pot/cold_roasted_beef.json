@@ -5,16 +5,16 @@
   },
   "ingredients": [
     {
-      "tag": "forge:cooked_beef"
+      "tag": "c:cooked_beef"
     },
     {
-      "tag": "forge:cooked_beef"
+      "tag": "c:cooked_beef"
     },
     {
-      "tag": "forge:cooked_beef"
+      "tag": "c:cooked_beef"
     },
     {
-      "tag": "forge:cooked_beef"
+      "tag": "c:cooked_beef"
     }
   ],
   "result": {

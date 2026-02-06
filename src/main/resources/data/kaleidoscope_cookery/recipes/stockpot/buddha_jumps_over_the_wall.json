@@ -9,7 +9,7 @@
   "finished_texture": "kaleidoscope_cookery:stockpot/default_finished",
   "ingredients": [
     {
-      "tag": "forge:eggs"
+      "tag": "c:eggs"
     },
     {
       "item": "minecraft:phantom_membrane"
@@ -27,10 +27,10 @@
       "item": "minecraft:kelp"
     },
     {
-      "tag": "forge:crops/lettuce"
+      "tag": "c:crops/lettuce"
     },
     {
-      "tag": "forge:crops/lettuce"
+      "tag": "c:crops/lettuce"
     }
   ],
   "result": {

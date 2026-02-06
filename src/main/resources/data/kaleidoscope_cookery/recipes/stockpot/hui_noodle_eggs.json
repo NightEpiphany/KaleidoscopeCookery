@@ -9,13 +9,13 @@
   "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_white",
   "ingredients": [
     {
-      "tag": "forge:raw_mutton"
+      "tag": "c:raw_mutton"
     },
     {
-      "tag": "forge:raw_mutton"
+      "tag": "c:raw_mutton"
     },
     {
-      "tag": "forge:eggs"
+      "tag": "c:eggs"
     },
     {
       "item": "minecraft:kelp"

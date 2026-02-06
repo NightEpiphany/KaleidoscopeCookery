@@ -1,23 +1,23 @@
 {
   "type": "kaleidoscope_cookery:pot",
   "carrier": {
-    "tag": "forge:cooked_rice"
+    "tag": "c:cooked_rice"
   },
   "ingredients": [
     {
-      "tag": "forge:mushrooms"
+      "tag": "c:mushrooms"
     },
     {
-      "tag": "forge:mushrooms"
+      "tag": "c:mushrooms"
     },
     {
-      "tag": "forge:raw_pork"
+      "tag": "c:raw_pork"
     },
     {
-      "tag": "forge:raw_pork"
+      "tag": "c:raw_pork"
     },
     {
-      "tag": "forge:crops/chilipepper"
+      "tag": "c:crops/chilipepper"
     }
   ],
   "result": {

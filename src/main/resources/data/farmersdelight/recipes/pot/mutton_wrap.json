@@ -1,17 +1,17 @@
 {
   "type": "kaleidoscope_cookery:pot",
   "carrier": {
-    "tag": "forge:bread"
+    "tag": "c:bread"
   },
   "ingredients": [
     {
-      "tag": "forge:raw_mutton"
+      "tag": "c:raw_mutton"
     },
     {
-      "tag": "forge:crops/cabbage"
+      "tag": "c:crops/cabbage"
     },
     {
-      "tag": "forge:crops/onion"
+      "tag": "c:crops/onion"
     }
   ],
   "result": {

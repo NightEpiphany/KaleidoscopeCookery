@@ -1,0 +1,9 @@
+{
+  "values": [
+    "minecraft:gunpowder",
+    {
+      "id": "#c:gunpowder",
+      "required": false
+    }
+  ]
+}

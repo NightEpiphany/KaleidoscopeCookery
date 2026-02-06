@@ -2,16 +2,16 @@
   "type": "kaleidoscope_cookery:pot",
   "ingredients": [
     {
-      "tag": "forge:crops/chilipepper"
+      "tag": "c:crops/chilipepper"
     },
     {
-      "tag": "forge:crops/chilipepper"
+      "tag": "c:crops/chilipepper"
     },
     {
-      "tag": "forge:dough"
+      "tag": "c:dough"
     },
     {
-      "tag": "forge:dough"
+      "tag": "c:dough"
     },
     {
       "item": "kaleidoscope_cookery:raw_donkey_meat"

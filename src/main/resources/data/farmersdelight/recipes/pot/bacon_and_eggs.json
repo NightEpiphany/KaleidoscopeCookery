@@ -2,16 +2,16 @@
   "type": "kaleidoscope_cookery:pot",
   "ingredients": [
     {
-      "tag": "forge:raw_bacon"
+      "tag": "c:raw_bacon"
     },
     {
-      "tag": "forge:raw_bacon"
+      "tag": "c:raw_bacon"
     },
     {
-      "tag": "forge:eggs"
+      "tag": "c:eggs"
     },
     {
-      "tag": "forge:eggs"
+      "tag": "c:eggs"
     }
   ],
   "result": {

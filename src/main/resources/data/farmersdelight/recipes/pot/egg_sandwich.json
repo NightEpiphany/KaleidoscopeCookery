@@ -1,14 +1,14 @@
 {
   "type": "kaleidoscope_cookery:pot",
   "carrier": {
-    "tag": "forge:bread"
+    "tag": "c:bread"
   },
   "ingredients": [
     {
-      "tag": "forge:eggs"
+      "tag": "c:eggs"
     },
     {
-      "tag": "forge:eggs"
+      "tag": "c:eggs"
     }
   ],
   "result": {

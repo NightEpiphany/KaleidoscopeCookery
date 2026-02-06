@@ -9,25 +9,25 @@
   "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_yellow",
   "ingredients": [
     {
-      "tag": "forge:raw_chicken"
+      "tag": "c:raw_chicken"
     },
     {
-      "tag": "forge:raw_chicken"
+      "tag": "c:raw_chicken"
     },
     {
-      "tag": "forge:raw_chicken"
+      "tag": "c:raw_chicken"
     },
     {
-      "tag": "forge:mushrooms"
+      "tag": "c:mushrooms"
     },
     {
-      "tag": "forge:mushrooms"
+      "tag": "c:mushrooms"
     },
     {
-      "tag": "forge:mushrooms"
+      "tag": "c:mushrooms"
     },
     {
-      "tag": "forge:mushrooms"
+      "tag": "c:mushrooms"
     }
   ],
   "result": {

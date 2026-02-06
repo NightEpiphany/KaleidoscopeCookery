@@ -1,20 +1,20 @@
 {
   "type": "kaleidoscope_cookery:pot",
   "carrier": {
-    "tag": "forge:bread"
+    "tag": "c:bread"
   },
   "ingredients": [
     {
       "item": "farmersdelight:minced_beef"
     },
     {
-      "tag": "forge:crops/cabbage"
+      "tag": "c:crops/cabbage"
     },
     {
-      "tag": "forge:crops/tomato"
+      "tag": "c:crops/tomato"
     },
     {
-      "tag": "forge:crops/onion"
+      "tag": "c:crops/onion"
     }
   ],
   "result": {

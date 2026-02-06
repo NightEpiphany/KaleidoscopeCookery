@@ -9,13 +9,13 @@
   "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_white",
   "ingredients": [
     {
-      "tag": "forge:raw_fishes/salmon"
+      "tag": "c:raw_fishes/salmon"
     },
     {
-      "tag": "forge:raw_fishes/salmon"
+      "tag": "c:raw_fishes/salmon"
     },
     {
-      "tag": "forge:raw_fishes/salmon"
+      "tag": "c:raw_fishes/salmon"
     },
     {
       "item": "minecraft:kelp"

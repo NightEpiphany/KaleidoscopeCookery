@@ -1,0 +1,9 @@
+{
+  "values": [
+    "minecraft:gravel",
+    {
+      "id": "#c:gravel",
+      "required": false
+    }
+  ]
+}

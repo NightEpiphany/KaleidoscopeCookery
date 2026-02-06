@@ -9,7 +9,7 @@
   "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_light_brown",
   "ingredients": [
     {
-      "tag": "forge:milk"
+      "tag": "c:milk"
     },
     {
       "tag": "rusticdelight:coffee_ingredients"

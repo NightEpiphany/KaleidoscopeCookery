@@ -9,13 +9,13 @@
   "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_red",
   "ingredients": [
     {
-      "tag": "forge:raw_beef"
+      "tag": "c:raw_beef"
     },
     {
-      "tag": "forge:raw_beef"
+      "tag": "c:raw_beef"
     },
     {
-      "tag": "forge:crops/tomato"
+      "tag": "c:crops/tomato"
     },
     {
       "item": "minecraft:beetroot"

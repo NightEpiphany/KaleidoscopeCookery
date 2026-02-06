@@ -1,17 +1,17 @@
 {
   "type": "kaleidoscope_cookery:pot",
   "carrier": {
-    "tag": "forge:cooked_rice"
+    "tag": "c:cooked_rice"
   },
   "ingredients": [
     {
       "item": "minecraft:beetroot"
     },
     {
-      "tag": "forge:raw_mutton"
+      "tag": "c:raw_mutton"
     },
     {
-      "tag": "forge:crops/tomato"
+      "tag": "c:crops/tomato"
     }
   ],
   "result": {

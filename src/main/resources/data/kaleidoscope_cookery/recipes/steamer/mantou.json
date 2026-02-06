@@ -2,7 +2,7 @@
   "type": "kaleidoscope_cookery:steamer",
   "cook_tick": 1200,
   "ingredient": {
-    "tag": "forge:dough"
+    "tag": "c:dough"
   },
   "result": {
     "item": "kaleidoscope_cookery:mantou"

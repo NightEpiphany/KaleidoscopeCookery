@@ -20,13 +20,13 @@
       "item": "minecraft:honey_bottle"
     },
     {
-      "tag": "forge:raw_ham"
+      "tag": "c:raw_ham"
     },
     {
-      "tag": "forge:cooked_rice"
+      "tag": "c:cooked_rice"
     },
     {
-      "tag": "forge:cooked_rice"
+      "tag": "c:cooked_rice"
     }
   ],
   "result": {

@@ -54,12 +54,12 @@ public class ChairBlock extends HorizontalDirectionalBlock implements SimpleWate
     private static final VoxelShape WEST = Shapes.or(BASE, Block.box(12, 0, 2, 14, 19, 14));
     private static final VoxelShape EAST = Shapes.or(BASE, Block.box(2, 0, 2, 4, 19, 14));
 
-    public ChairBlock() {
+    public ChairBlock(SoundType soundType) {
         super(Properties.of()
                 .mapColor(MapColor.WOOD)
                 .instrument(NoteBlockInstrument.BASS)
                 .strength(2.0F, 3.0F)
-                .sound(SoundType.WOOD)
+                .sound(soundType)
                 .noOcclusion()
                 .ignitedByLava());
         this.registerDefaultState(this.stateDefinition.any()

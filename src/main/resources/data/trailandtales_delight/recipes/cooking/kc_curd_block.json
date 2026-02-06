@@ -1,0 +1,32 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 16776960,
+  "finished_texture": "kaleidoscope_cookery:stockpot/curd",
+  "ingredients": [
+    {
+      "tag": "c:milk"
+    },
+    {
+      "tag": "c:milk"
+    },
+    {
+      "tag": "c:milk"
+    },
+    {
+      "tag": "c:milk"
+    },
+    {
+      "item": "minecraft:honey_bottle"
+    },
+    {
+      "item": "minecraft:honey_bottle"
+    }
+  ],
+  "result": {
+    "item": "trailandtales_delight:curd_block"
+  },
+  "soup_base": "minecraft:water",
+  "time": 300
+}

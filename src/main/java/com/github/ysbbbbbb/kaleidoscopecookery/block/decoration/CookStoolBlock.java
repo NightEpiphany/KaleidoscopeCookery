@@ -38,12 +38,12 @@ public class CookStoolBlock extends HorizontalDirectionalBlock implements Simple
     private static final VoxelShape NORTH_SOUTH = Block.box(2, 0, 3, 14, 7, 13);
     private static final VoxelShape EAST_WEST = Block.box(3, 0, 2, 13, 7, 14);
 
-    public CookStoolBlock() {
+    public CookStoolBlock(SoundType soundType) {
         super(BlockBehaviour.Properties.of()
                 .mapColor(MapColor.WOOD)
                 .instrument(NoteBlockInstrument.BASS)
                 .strength(2.0F, 3.0F)
-                .sound(SoundType.WOOD)
+                .sound(soundType)
                 .ignitedByLava());
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.SOUTH)

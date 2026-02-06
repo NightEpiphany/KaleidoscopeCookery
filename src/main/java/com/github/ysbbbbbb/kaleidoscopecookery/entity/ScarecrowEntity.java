@@ -27,10 +27,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.LanternBlock;
-import net.minecraft.world.level.block.SkullBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -79,13 +76,16 @@ public class ScarecrowEntity extends LivingEntity {
     @Override
     public void tick() {
         super.tick();
+        if (this.handItems.stream().anyMatch(i -> i.is(Items.LANTERN) || i.is(Items.SOUL_LANTERN)))
+            this.level().setBlock(this.blockPosition().above(), Blocks.LIGHT.defaultBlockState().setValue(LightBlock.LEVEL, 12), Block.UPDATE_ALL);
+        else this.level().setBlock(this.blockPosition().above(), Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
         if (this.cooldown > 0) {
             this.cooldown--;
         }
     }
 
     @Override
-    public @NotNull InteractionResult interactAt(Player player, Vec3 vec3, InteractionHand hand) {
+    public @NotNull InteractionResult interactAt(Player player, @NotNull Vec3 vec3, @NotNull InteractionHand hand) {
         ItemStack itemInHand = player.getItemInHand(hand);
         if (itemInHand.is(Items.NAME_TAG)) {
             return InteractionResult.PASS;
@@ -205,7 +205,7 @@ public class ScarecrowEntity extends LivingEntity {
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
+    public boolean hurt(@NotNull DamageSource source, float amount) {
         if (this.level().isClientSide || this.isRemoved()) {
             return false;
         }
@@ -349,7 +349,7 @@ public class ScarecrowEntity extends LivingEntity {
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
+    public void readAdditionalSaveData(@NotNull CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         if (tag.contains(HAND_ITEMS_TAG)) {
             CompoundTag compound = tag.getCompound(HAND_ITEMS_TAG);
@@ -388,6 +388,8 @@ public class ScarecrowEntity extends LivingEntity {
         if (!this.getShoulderEntity().isEmpty()) {
             this.removeEntitiesOnShoulder();
         }
+        if (this.level().getBlockState(this.blockPosition().above()).is(Blocks.LIGHT))
+            this.level().setBlock(this.blockPosition().above(), Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
         this.remove(Entity.RemovalReason.KILLED);
         this.gameEvent(GameEvent.ENTITY_DIE);
     }
@@ -398,7 +400,7 @@ public class ScarecrowEntity extends LivingEntity {
     }
 
     @Override
-    protected void doPush(Entity entity) {
+    protected void doPush(@NotNull Entity entity) {
     }
 
     @Override
@@ -442,7 +444,7 @@ public class ScarecrowEntity extends LivingEntity {
     }
 
     @Override
-    public Iterable<ItemStack> getHandSlots() {
+    public @NotNull Iterable<ItemStack> getHandSlots() {
         return this.handItems;
     }
 
@@ -460,7 +462,7 @@ public class ScarecrowEntity extends LivingEntity {
     }
 
     @Override
-    public void setItemSlot(EquipmentSlot slot, ItemStack stack) {
+    public void setItemSlot(EquipmentSlot slot, @NotNull ItemStack stack) {
         this.verifyEquippedItem(stack);
         switch (slot.getType()) {
             case HAND:
@@ -472,7 +474,7 @@ public class ScarecrowEntity extends LivingEntity {
     }
 
     @Override
-    public boolean skipAttackInteraction(Entity entity) {
+    public boolean skipAttackInteraction(@NotNull Entity entity) {
         return entity instanceof Player player && !this.level().mayInteract(player, this.blockPosition());
     }
 
@@ -488,7 +490,7 @@ public class ScarecrowEntity extends LivingEntity {
 
     @Nullable
     @Override
-    protected SoundEvent getHurtSound(DamageSource damageSource) {
+    protected SoundEvent getHurtSound(@NotNull DamageSource damageSource) {
         return SoundEvents.ARMOR_STAND_HIT;
     }
 
@@ -499,7 +501,7 @@ public class ScarecrowEntity extends LivingEntity {
     }
 
     @Override
-    public void thunderHit(ServerLevel level, LightningBolt lightningBolt) {
+    public void thunderHit(@NotNull ServerLevel level, @NotNull LightningBolt lightningBolt) {
     }
 
     @Override

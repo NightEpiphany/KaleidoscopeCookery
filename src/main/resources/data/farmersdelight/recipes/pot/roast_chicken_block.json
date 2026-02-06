@@ -5,13 +5,13 @@
   },
   "ingredients": [
     {
-      "tag": "forge:crops/onion"
+      "tag": "c:crops/onion"
     },
     {
-      "tag": "forge:eggs"
+      "tag": "c:eggs"
     },
     {
-      "tag": "forge:bread"
+      "tag": "c:bread"
     },
     {
       "item": "minecraft:carrot"

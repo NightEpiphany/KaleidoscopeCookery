@@ -1,0 +1,13 @@
+{
+  "values": [
+    "#c:raw_beef",
+    "#c:raw_chicken",
+    "#c:raw_pork",
+    "#c:raw_mutton",
+    "#c:raw_fishes/cod",
+    "#c:raw_fishes/salmon",
+    "#c:raw_fishes/tropical_fish",
+    "kaleidoscope_cookery:raw_donkey_meat",
+    "kaleidoscope_cookery:raw_cut_small_meats"
+  ]
+}

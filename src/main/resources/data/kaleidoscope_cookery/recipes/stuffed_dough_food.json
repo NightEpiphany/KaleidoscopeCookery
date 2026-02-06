@@ -3,13 +3,13 @@
   "category": "misc",
   "ingredients": [
     {
-      "tag": "forge:raw_meats"
+      "tag": "c:raw_meats"
     },
     {
-      "tag": "forge:vegetables"
+      "tag": "c:vegetables"
     },
     {
-      "tag": "forge:dough"
+      "tag": "c:dough"
     }
   ],
   "result": {

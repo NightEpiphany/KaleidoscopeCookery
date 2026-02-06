@@ -9,28 +9,28 @@
   "finished_texture": "kaleidoscope_cookery:stockpot/default_finished",
   "ingredients": [
     {
-      "tag": "forge:raw_pork"
+      "tag": "c:raw_pork"
     },
     {
-      "tag": "forge:raw_pork"
+      "tag": "c:raw_pork"
     },
     {
-      "tag": "forge:raw_pork"
+      "tag": "c:raw_pork"
     },
     {
-      "tag": "forge:raw_pork"
+      "tag": "c:raw_pork"
     },
     {
-      "tag": "forge:crops/chilipepper"
+      "tag": "c:crops/chilipepper"
     },
     {
-      "tag": "forge:crops/chilipepper"
+      "tag": "c:crops/chilipepper"
     },
     {
-      "tag": "forge:crops/chilipepper"
+      "tag": "c:crops/chilipepper"
     },
     {
-      "tag": "forge:crops/chilipepper"
+      "tag": "c:crops/chilipepper"
     },
     {
       "item": "minecraft:blaze_powder"

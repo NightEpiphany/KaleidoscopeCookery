@@ -19,6 +19,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
 public class ModBlocks {
@@ -43,17 +44,17 @@ public class ModBlocks {
     public static final Block RICE_CROP = new RiceCropBlock();
 
     // Cook stools
-    public static final Block COOK_STOOL_OAK = new CookStoolBlock();
-    public static final Block COOK_STOOL_SPRUCE = new CookStoolBlock();
-    public static final Block COOK_STOOL_ACACIA = new CookStoolBlock();
-    public static final Block COOK_STOOL_BAMBOO = new CookStoolBlock();
-    public static final Block COOK_STOOL_BIRCH = new CookStoolBlock();
-    public static final Block COOK_STOOL_CHERRY = new CookStoolBlock();
-    public static final Block COOK_STOOL_CRIMSON = new CookStoolBlock();
-    public static final Block COOK_STOOL_DARK_OAK = new CookStoolBlock();
-    public static final Block COOK_STOOL_JUNGLE = new CookStoolBlock();
-    public static final Block COOK_STOOL_MANGROVE = new CookStoolBlock();
-    public static final Block COOK_STOOL_WARPED = new CookStoolBlock();
+    public static final Block COOK_STOOL_OAK = new CookStoolBlock(SoundType.WOOD);
+    public static final Block COOK_STOOL_SPRUCE = new CookStoolBlock(SoundType.WOOD);
+    public static final Block COOK_STOOL_ACACIA = new CookStoolBlock(SoundType.WOOD);
+    public static final Block COOK_STOOL_BAMBOO = new CookStoolBlock(SoundType.BAMBOO);
+    public static final Block COOK_STOOL_BIRCH = new CookStoolBlock(SoundType.WOOD);
+    public static final Block COOK_STOOL_CHERRY = new CookStoolBlock(SoundType.CHERRY_WOOD);
+    public static final Block COOK_STOOL_CRIMSON = new CookStoolBlock(SoundType.NETHER_WOOD);
+    public static final Block COOK_STOOL_DARK_OAK = new CookStoolBlock(SoundType.WOOD);
+    public static final Block COOK_STOOL_JUNGLE = new CookStoolBlock(SoundType.WOOD);
+    public static final Block COOK_STOOL_MANGROVE = new CookStoolBlock(SoundType.WOOD);
+    public static final Block COOK_STOOL_WARPED = new CookStoolBlock(SoundType.NETHER_WOOD);
 
 
     public static final Block MILLSTONE = new MillstoneBlock();
@@ -63,30 +64,30 @@ public class ModBlocks {
 
 
     // Chairs
-    public static final Block CHAIR_OAK = new ChairBlock();
-    public static final Block CHAIR_SPRUCE = new ChairBlock();
-    public static final Block CHAIR_ACACIA = new ChairBlock();
-    public static final Block CHAIR_BAMBOO = new ChairBlock();
-    public static final Block CHAIR_BIRCH = new ChairBlock();
-    public static final Block CHAIR_CHERRY = new ChairBlock();
-    public static final Block CHAIR_CRIMSON = new ChairBlock();
-    public static final Block CHAIR_DARK_OAK = new ChairBlock();
-    public static final Block CHAIR_JUNGLE = new ChairBlock();
-    public static final Block CHAIR_MANGROVE = new ChairBlock();
-    public static final Block CHAIR_WARPED = new ChairBlock();
+    public static final Block CHAIR_OAK = new ChairBlock(SoundType.WOOD);
+    public static final Block CHAIR_SPRUCE = new ChairBlock(SoundType.WOOD);
+    public static final Block CHAIR_ACACIA = new ChairBlock(SoundType.WOOD);
+    public static final Block CHAIR_BAMBOO = new ChairBlock(SoundType.BAMBOO);
+    public static final Block CHAIR_BIRCH = new ChairBlock(SoundType.WOOD);
+    public static final Block CHAIR_CHERRY = new ChairBlock(SoundType.CHERRY_WOOD);
+    public static final Block CHAIR_CRIMSON = new ChairBlock(SoundType.NETHER_WOOD);
+    public static final Block CHAIR_DARK_OAK = new ChairBlock(SoundType.WOOD);
+    public static final Block CHAIR_JUNGLE = new ChairBlock(SoundType.WOOD);
+    public static final Block CHAIR_MANGROVE = new ChairBlock(SoundType.WOOD);
+    public static final Block CHAIR_WARPED = new ChairBlock(SoundType.NETHER_WOOD);
 
     // Tables
-    public static final Block TABLE_OAK = new TableBlock();
-    public static final Block TABLE_SPRUCE = new TableBlock();
-    public static final Block TABLE_ACACIA = new TableBlock();
-    public static final Block TABLE_BAMBOO = new TableBlock();
-    public static final Block TABLE_BIRCH = new TableBlock();
-    public static final Block TABLE_CHERRY = new TableBlock();
-    public static final Block TABLE_CRIMSON = new TableBlock();
-    public static final Block TABLE_DARK_OAK = new TableBlock();
-    public static final Block TABLE_JUNGLE = new TableBlock();
-    public static final Block TABLE_MANGROVE = new TableBlock();
-    public static final Block TABLE_WARPED = new TableBlock();
+    public static final Block TABLE_OAK = new TableBlock(SoundType.WOOD);
+    public static final Block TABLE_SPRUCE = new TableBlock(SoundType.WOOD);
+    public static final Block TABLE_ACACIA = new TableBlock(SoundType.WOOD);
+    public static final Block TABLE_BAMBOO = new TableBlock(SoundType.BAMBOO);
+    public static final Block TABLE_BIRCH = new TableBlock(SoundType.WOOD);
+    public static final Block TABLE_CHERRY = new TableBlock(SoundType.CHERRY_WOOD);
+    public static final Block TABLE_CRIMSON = new TableBlock(SoundType.NETHER_WOOD);
+    public static final Block TABLE_DARK_OAK = new TableBlock(SoundType.WOOD);
+    public static final Block TABLE_JUNGLE = new TableBlock(SoundType.WOOD);
+    public static final Block TABLE_MANGROVE = new TableBlock(SoundType.WOOD);
+    public static final Block TABLE_WARPED = new TableBlock(SoundType.NETHER_WOOD);
 
     // feast
     public static final Block COLD_CUT_HAM_SLICES = new FoodBiteThreeByThreeBlock(ModFoods.COLD_CUT_HAM_SLICES_BLOCK, 8, null);

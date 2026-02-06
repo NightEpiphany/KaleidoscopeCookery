@@ -5,16 +5,16 @@
   },
   "ingredients": [
     {
-      "tag": "forge:raw_fishes/salmon"
+      "tag": "c:raw_fishes/salmon"
     },
     {
       "item": "minecraft:sweet_berries"
     },
     {
-      "tag": "forge:crops/cabbage"
+      "tag": "c:crops/cabbage"
     },
     {
-      "tag": "forge:crops/onion"
+      "tag": "c:crops/onion"
     }
   ],
   "result": {

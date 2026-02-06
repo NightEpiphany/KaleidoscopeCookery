@@ -9,16 +9,16 @@
   "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_orange",
   "ingredients": [
     {
-      "tag": "forge:pasta"
+      "tag": "c:pasta"
     },
     {
-      "tag": "forge:eggs"
+      "tag": "c:eggs"
     },
     {
       "item": "minecraft:dried_kelp"
     },
     {
-      "tag": "forge:raw_pork"
+      "tag": "c:raw_pork"
     }
   ],
   "result": {
