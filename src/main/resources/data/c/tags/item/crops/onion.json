@@ -1,5 +1,5 @@
 {
   "values": [
-    { id: "farmersdelight:onion", required:false }
+    { "id": "farmersdelight:onion", "required":false }
   ]
 }

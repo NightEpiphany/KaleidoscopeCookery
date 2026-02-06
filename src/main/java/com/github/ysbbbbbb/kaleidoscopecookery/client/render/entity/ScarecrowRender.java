@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import org.jetbrains.annotations.NotNull;
 
 @Environment(EnvType.CLIENT)
 public class ScarecrowRender extends LivingEntityRenderer<ScarecrowEntity, ScarecrowModel> {
@@ -42,7 +43,7 @@ public class ScarecrowRender extends LivingEntityRenderer<ScarecrowEntity, Scare
     }
 
     @Override
-    public ResourceLocation getTextureLocation(ScarecrowEntity pEntity) {
+    public @NotNull ResourceLocation getTextureLocation(ScarecrowEntity pEntity) {
         return TEXTURE;
     }
 }

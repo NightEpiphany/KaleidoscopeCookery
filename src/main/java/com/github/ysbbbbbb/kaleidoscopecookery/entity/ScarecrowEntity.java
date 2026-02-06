@@ -19,6 +19,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -32,10 +33,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.LanternBlock;
-import net.minecraft.world.level.block.SkullBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -87,6 +85,9 @@ public class ScarecrowEntity extends LivingEntity {
     @Override
     public void tick() {
         super.tick();
+        if (this.handItems.stream().anyMatch(i -> i.is(Items.LANTERN) || i.is(Items.SOUL_LANTERN)))
+            this.level().setBlock(this.blockPosition().above(), Blocks.LIGHT.defaultBlockState().setValue(LightBlock.LEVEL, 12), Block.UPDATE_ALL);
+        else this.level().setBlock(this.blockPosition().above(), Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
         if (this.cooldown > 0) {
             this.cooldown--;
         }
@@ -411,6 +412,8 @@ public class ScarecrowEntity extends LivingEntity {
         if (!this.getShoulderEntity().isEmpty()) {
             this.removeEntitiesOnShoulder();
         }
+        if (this.level().getBlockState(this.blockPosition().above()).is(Blocks.LIGHT))
+            this.level().setBlock(this.blockPosition().above(), Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
         this.remove(RemovalReason.KILLED);
         this.gameEvent(GameEvent.ENTITY_DIE);
     }

@@ -2,10 +2,13 @@ package com.github.ysbbbbbb.kaleidoscopecookery.client.init;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.FoodBiteRegistry;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.level.block.Block;
 
+@Environment(EnvType.CLIENT)
 public class ModBlockRenderLayerMap {
     public static void register() {
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderType.cutout(),

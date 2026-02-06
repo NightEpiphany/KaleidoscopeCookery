@@ -8,6 +8,7 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 
+@Deprecated
 public class ModModelEvent {
     private static final String MODELS = "models/";
     private static final String MODELS_CHOPPING_BOARD = MODELS + "chopping_board";

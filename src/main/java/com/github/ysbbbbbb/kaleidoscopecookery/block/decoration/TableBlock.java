@@ -58,12 +58,12 @@ public class TableBlock extends Block implements SimpleWaterloggedBlock, EntityB
 
     private static final VoxelShape FACE = Block.box(0, 13, 0, 16, 16, 16);
 
-    public TableBlock() {
+    public TableBlock(SoundType soundType) {
         super(Properties.of()
                 .mapColor(MapColor.WOOD)
                 .instrument(NoteBlockInstrument.BASS)
                 .strength(2.0F, 3.0F)
-                .sound(SoundType.WOOD)
+                .sound(soundType)
                 .noOcclusion()
                 .ignitedByLava());
         this.registerDefaultState(this.stateDefinition.any()

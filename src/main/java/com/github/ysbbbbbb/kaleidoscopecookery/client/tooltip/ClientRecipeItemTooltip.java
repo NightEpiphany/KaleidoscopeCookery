@@ -2,6 +2,8 @@ package com.github.ysbbbbbb.kaleidoscopecookery.client.tooltip;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.inventory.tooltip.RecipeItemTooltip;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.RecipeItem;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -10,6 +12,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
 
+@Environment(EnvType.CLIENT)
 public class ClientRecipeItemTooltip implements ClientTooltipComponent {
     private final RecipeItem.RecipeRecord recipeRecord;
     private final MutableComponent ingredientsText;

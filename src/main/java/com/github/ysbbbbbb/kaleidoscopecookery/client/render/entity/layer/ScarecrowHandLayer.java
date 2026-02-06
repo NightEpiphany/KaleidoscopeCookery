@@ -52,7 +52,7 @@ public class ScarecrowHandLayer extends ItemInHandLayer<ScarecrowEntity, Scarecr
                 poseStack.mulPose(Axis.ZP.rotationDegrees(-90));
                 poseStack.mulPose(Axis.XP.rotationDegrees(85));
                 poseStack.scale(0.75F, 0.75F, 0.75F);
-                this.itemRenderer.renderItem(entity, stack, context, isLeft, poseStack, bufferSource, packedLight);
+                this.itemRenderer.renderItem(entity, stack, context, false, poseStack, bufferSource, packedLight);
                 poseStack.popPose();
             }
         }

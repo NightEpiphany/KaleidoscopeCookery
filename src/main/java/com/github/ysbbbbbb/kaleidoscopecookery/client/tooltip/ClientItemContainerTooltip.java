@@ -2,6 +2,8 @@ package com.github.ysbbbbbb.kaleidoscopecookery.client.tooltip;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.inventory.tooltip.ItemContainerTooltip;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.neo.IItemHandler;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -12,6 +14,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
+@Environment(EnvType.CLIENT)
 public class ClientItemContainerTooltip implements ClientTooltipComponent {
     private final NonNullList<ItemStack> items = NonNullList.create();
     private @Nullable MutableComponent emptyTip = null;
