@@ -11,6 +11,10 @@ import net.minecraft.world.level.block.Block;
 
 public interface TagMod {
     /**
+     * 本模组所有可以进食的食物
+     */
+    TagKey<Item> SPECIAL = itemTag("special");
+    /**
      * 本模组的物品标签，用于成就
      */
     TagKey<Item> COOKERY_MOD_ITEMS = itemTag("cookery_mod_items");

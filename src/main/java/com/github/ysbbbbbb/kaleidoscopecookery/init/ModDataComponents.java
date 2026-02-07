@@ -58,6 +58,15 @@ public class ModDataComponents {
                     .build()
     );
 
+    public static final DataComponentType<Boolean> SPECIAL_RENDER = Registry.register(
+            BuiltInRegistries.DATA_COMPONENT_TYPE,
+            Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "special_render"),
+            DataComponentType.<Boolean>builder()
+                    .persistent(Codec.BOOL)
+                    .networkSynchronized(ByteBufCodecs.BOOL)
+                    .build()
+    );
+
     public static void registerDataComponents() {
         // 注册方法，用于确保类被加载
     }

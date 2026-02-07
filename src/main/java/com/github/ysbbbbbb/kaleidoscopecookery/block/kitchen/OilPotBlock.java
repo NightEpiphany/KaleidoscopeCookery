@@ -82,11 +82,11 @@ public class OilPotBlock extends HorizontalDirectionalBlock implements SimpleWat
     @Override
     protected @NotNull InteractionResult useItemOn(@NonNull ItemStack stack, @NonNull BlockState state, @NonNull Level level, @NonNull BlockPos pos, @NonNull Player player, @NonNull InteractionHand hand, @NonNull BlockHitResult hitResult) {
         if (hand != InteractionHand.MAIN_HAND) {
-            return InteractionResult.TRY_WITH_EMPTY_HAND;
+            return InteractionResult.PASS;
         }
         BlockEntity te = level.getBlockEntity(pos);
         if (!(te instanceof OilPotBlockEntity oilPot)) {
-            return InteractionResult.TRY_WITH_EMPTY_HAND;
+            return InteractionResult.PASS;
         }
         ItemStack mainHandItem = player.getMainHandItem();
 
@@ -94,7 +94,7 @@ public class OilPotBlock extends HorizontalDirectionalBlock implements SimpleWat
         if (mainHandItem.isEmpty()) {
             int currentOilCount = oilPot.getOilCount();
             if (currentOilCount <= 0) {
-                return InteractionResult.TRY_WITH_EMPTY_HAND;
+                return InteractionResult.PASS;
             }
             int needOilCount = Math.min(currentOilCount, 64);
             ItemStack oilStack = new ItemStack(ModItems.OIL, needOilCount);
@@ -109,7 +109,7 @@ public class OilPotBlock extends HorizontalDirectionalBlock implements SimpleWat
             int currentOilCount = oilPot.getOilCount();
             int needOilCount = MAX_OIL_COUNT - currentOilCount;
             if (needOilCount <= 0) {
-                return InteractionResult.TRY_WITH_EMPTY_HAND;
+                return InteractionResult.PASS;
             }
             int addOilCount = Math.min(needOilCount, mainHandItem.getCount());
             oilPot.setOilCount(currentOilCount + addOilCount);

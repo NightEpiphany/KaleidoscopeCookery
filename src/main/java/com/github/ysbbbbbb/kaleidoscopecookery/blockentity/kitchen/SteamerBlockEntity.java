@@ -277,6 +277,9 @@ public class SteamerBlockEntity extends BaseBlockEntity implements ISteamer {
 
     @Override
     public boolean placeFood(Level level, LivingEntity user, ItemStack food) {
+        if (food.isEmpty()) {
+            return false;
+        }
         // 先检查这层是否是能交互的
         BlockPos above = this.getBlockPos().above();
         if (level.getBlockState(above).isFaceSturdy(level, above, Direction.DOWN)) {
@@ -288,10 +291,12 @@ public class SteamerBlockEntity extends BaseBlockEntity implements ISteamer {
         }
         // 然后检查配方
         Optional<RecipeHolder<SteamerRecipe>> steamerRecipe = getSteamerRecipe(level, food);
-        if (steamerRecipe.isEmpty()) {
+        if (steamerRecipe.isEmpty() && level instanceof ServerLevel) {
             return false;
         }
-        int cookTime = steamerRecipe.get().value().getCookTick();
+        int cookTime = 100;
+        if (steamerRecipe.isPresent())
+            cookTime = steamerRecipe.get().value().getCookTick();
         if (cookTime <= 0) {
             return false;
         }

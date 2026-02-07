@@ -19,7 +19,6 @@ import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemDisplayContext;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -45,7 +44,7 @@ public class RecipeBlockEntityRender implements BlockEntityRenderer<RecipeBlockE
         BlockEntityRenderer.super.extractRenderState(blockEntity, blockEntityRenderState, f, vec3, crumblingOverlay);
         int posLong = (int) blockEntity.getBlockPos().asLong();
         blockEntityRenderState.data = blockEntity.getItems().getStackInSlot(0).getOrDefault(ModDataComponents.RECIPE_RECORD, RecipeItem.RecipeRecord.INSTANCE);
-        this.itemModelResolver.updateForTopItem(blockEntityRenderState.targetItem, blockEntity.getItems().getStackInSlot(0), ItemDisplayContext.FIXED, blockEntity.getLevel(), null, posLong);
+        this.itemModelResolver.updateForTopItem(blockEntityRenderState.targetItem, blockEntityRenderState.data.output(), ItemDisplayContext.FIXED, blockEntity.getLevel(), null, posLong);
     }
 
     @Override
@@ -55,7 +54,6 @@ public class RecipeBlockEntityRender implements BlockEntityRenderer<RecipeBlockE
             return;
         }
         if (blockEntityRenderState.data.output().isEmpty()) return;
-        ItemStack output = blockEntityRenderState.data.output();
 
         Direction facing = blockEntityRenderState.blockState.getValue(HorizontalDirectionalBlock.FACING);
         AttachFace attachFace = blockEntityRenderState.blockState.getValue(BlockStateProperties.ATTACH_FACE);

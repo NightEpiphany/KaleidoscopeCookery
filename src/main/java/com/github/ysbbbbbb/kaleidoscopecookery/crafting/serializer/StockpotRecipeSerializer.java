@@ -43,10 +43,7 @@ public class StockpotRecipeSerializer implements RecipeSerializer<StockpotRecipe
     }
 
     public static final MapCodec<StockpotRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            Ingredient.CODEC.listOf().fieldOf("ingredients").xmap(
-                    list -> list,
-                    list -> list.stream().filter(i -> !i.isEmpty()).toList()
-            ).forGetter(StockpotRecipe::getIngredients),
+            Ingredient.CODEC.listOf().fieldOf("ingredients").forGetter(recipe -> recipe.ingredients().stream().toList()),
             Identifier.CODEC.optionalFieldOf("soup_base", DEFAULT_SOUP_BASE).forGetter(StockpotRecipe::soupBase),
             ItemStack.CODEC.fieldOf("result").forGetter(StockpotRecipe::result),
             Codec.INT.optionalFieldOf("time", DEFAULT_TIME).forGetter(StockpotRecipe::time),

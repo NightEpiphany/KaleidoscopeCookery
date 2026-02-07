@@ -130,13 +130,13 @@ public class MillstoneBlock extends HorizontalDirectionalBlock implements Entity
     @Override
     public @NotNull InteractionResult useItemOn(@NonNull ItemStack stack, @NonNull BlockState state, @NonNull Level level, @NonNull BlockPos pos, @NonNull Player player, @NonNull InteractionHand hand, @NonNull BlockHitResult hitResult) {
         if (hand != InteractionHand.MAIN_HAND) {
-            return InteractionResult.TRY_WITH_EMPTY_HAND;
+            return InteractionResult.PASS;
         }
         NinePart part = state.getValue(PART);
         BlockPos centerPos = pos.subtract(new Vec3i(part.getPosX(), 0, part.getPosY()));
         BlockEntity te = level.getBlockEntity(centerPos);
         if (!(te instanceof IMillstone millstone)) {
-            return InteractionResult.TRY_WITH_EMPTY_HAND;
+            return InteractionResult.PASS;
         }
         ItemStack mainHandItem = player.getMainHandItem();
         if (millstone.onPutItem(level, mainHandItem)) {

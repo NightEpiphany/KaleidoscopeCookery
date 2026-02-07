@@ -37,6 +37,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class PotBlockEntity extends BaseBlockEntity implements IPot {
     private static final String SEED = "Seed";
 
     private NonNullList<ItemStack> inputs = NonNullList.withSize(PotRecipe.RECIPES_SIZE, ItemStack.EMPTY);
-    private Ingredient carrier = Ingredient.of(Items.BARRIER);
+    private @Nullable Ingredient carrier;
     private ItemStack result = ItemStack.EMPTY;
     private int status = PUT_INGREDIENT;
     private int currentTick = 0;
@@ -292,7 +293,7 @@ public class PotBlockEntity extends BaseBlockEntity implements IPot {
             serverLevel.recipeAccess().getRecipeFor(ModRecipes.POT_RECIPE, simpleInput, level).ifPresentOrElse(recipe -> {
                 // 如果合成表符合，那么进入炒菜阶段
                 PotRecipe value = recipe.value();
-                this.carrier = value.carrier().orElse(Ingredient.of(Items.BARRIER));
+                this.carrier = value.carrier();
                 this.result = value.assemble(simpleInput, level.registryAccess());
                 this.currentTick = value.time();
                 this.stirFryCount = value.stirFryCount();
@@ -325,7 +326,7 @@ public class PotBlockEntity extends BaseBlockEntity implements IPot {
             return true;
         }
 
-        if (!this.carrier.isEmpty()) {
+        if (this.carrier != null) {
             return this.takeOutWithCarrier(level, user, stack, finallyResult);
         } else {
             return this.takeOutWithoutCarrier(level, user, stack, finallyResult);
@@ -352,7 +353,7 @@ public class PotBlockEntity extends BaseBlockEntity implements IPot {
     }
 
     private boolean takeOutWithCarrier(Level level, LivingEntity user, ItemStack mainHandItem, ItemStack finallyResult) {
-        if (this.carrier.test(mainHandItem)) {
+        if (this.carrier != null && this.carrier.test(mainHandItem)) {
             if (mainHandItem.getCount() < finallyResult.getCount()) {
                 this.sendActionBarMessage(user, "carrier_count_not_enough", finallyResult.getCount());
                 return false;
@@ -426,7 +427,7 @@ public class PotBlockEntity extends BaseBlockEntity implements IPot {
 
     public void reset() {
         this.inputs.clear();
-        this.carrier = Ingredient.of(Items.BARRIER);
+        this.carrier = null;
         this.result = ItemStack.EMPTY;
         this.status = PUT_INGREDIENT;
         this.currentTick = 0;
@@ -449,7 +450,8 @@ public class PotBlockEntity extends BaseBlockEntity implements IPot {
                 typedOutputList.add(new ItemStackWithSlot(i, itemStack));
             }
         }
-        valueOutput.store(CARRIER, Ingredient.CODEC, this.carrier);
+        if (this.carrier != null)
+            valueOutput.store(CARRIER, Ingredient.CODEC, this.carrier);
         if (!this.result.isEmpty())
             valueOutput.store(RESULT, ItemStack.CODEC, this.result);
         valueOutput.putInt(STATUS, this.status);
@@ -467,7 +469,7 @@ public class PotBlockEntity extends BaseBlockEntity implements IPot {
                 this.inputs.set(itemStackWithSlot.slot(), itemStackWithSlot.stack());
             }
         }
-        this.carrier = valueInput.read(CARRIER, Ingredient.CODEC).orElse(Ingredient.of(Items.BARRIER));
+        this.carrier = valueInput.read(CARRIER, Ingredient.CODEC).orElse(null);
         this.result = valueInput.read(RESULT, ItemStack.CODEC).orElse(ItemStack.EMPTY);
         this.status = valueInput.getIntOr(STATUS, PUT_INGREDIENT);
         this.currentTick = valueInput.getIntOr(CURRENT_TICK, 0);
@@ -533,7 +535,7 @@ public class PotBlockEntity extends BaseBlockEntity implements IPot {
     }
 
     public boolean hasCarrier() {
-        return !carrier.isEmpty();
+        return carrier != null;
     }
 
     public ItemStack getResult() {

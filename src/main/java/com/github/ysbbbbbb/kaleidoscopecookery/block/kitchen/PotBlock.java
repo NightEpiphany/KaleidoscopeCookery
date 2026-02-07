@@ -111,11 +111,11 @@ public class PotBlock extends HorizontalDirectionalBlock implements EntityBlock,
     @Override
     public @NotNull InteractionResult useItemOn(@NonNull ItemStack stack, @NonNull BlockState state, @NonNull Level level, @NonNull BlockPos pos, @NonNull Player player, @NonNull InteractionHand hand, @NonNull BlockHitResult hitResult) {
         if (hand == InteractionHand.OFF_HAND) {
-            return InteractionResult.TRY_WITH_EMPTY_HAND;
+            return InteractionResult.PASS;
         }
         // 开始执行炒菜逻辑检查
         if (!(level.getBlockEntity(pos) instanceof IPot pot)) {
-            return InteractionResult.TRY_WITH_EMPTY_HAND;
+            return InteractionResult.PASS;
         }
         ItemStack itemInHand = player.getItemInHand(hand);
         RandomSource random = level.random;

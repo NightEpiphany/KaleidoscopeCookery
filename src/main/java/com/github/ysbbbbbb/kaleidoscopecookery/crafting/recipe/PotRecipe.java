@@ -17,22 +17,63 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NonNull;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-public record PotRecipe(int time, int stirFryCount, Optional<Ingredient> carrier,
+public record PotRecipe(int time, int stirFryCount, Ingredient carrier,
                         NonNullList<Ingredient> ingredients, ItemStack result) implements BaseRecipe<SimpleInput> {
-    public PotRecipe(int time, int stirFryCount, Optional<Ingredient> carrier,
+    public PotRecipe(int time, int stirFryCount, Ingredient carrier,
                      List<Ingredient> ingredients, ItemStack result) {
-        this(time, stirFryCount, carrier, NonNullList.of(Ingredient.of(Items.BARRIER),
-                BaseRecipe.fillInputs(ingredients)), result);
+        this(time, stirFryCount, carrier, createNonNullList(ingredients), result);
+    }
+
+    private static NonNullList<Ingredient> createNonNullList(List<Ingredient> ingredients) {
+        // 直接转换，不进行任何验证
+        NonNullList<Ingredient> list = NonNullList.create();
+        list.addAll(ingredients);
+        return list;
     }
 
 
 
     @Override
     public boolean matches(SimpleInput simpleInput, @NonNull Level level) {
-        return RecipeMatcher.findMatches(simpleInput.getInputs(), ingredients) != null;
+
+        // 只考虑非空的输入槽位
+        List<ItemStack> nonEmptyInputs = simpleInput.getInputs().stream()
+                .filter(stack -> !stack.isEmpty())
+                .toList();
+
+        // 创建临时的Ingredient列表进行匹配（过滤掉已知的占位符）
+        List<Ingredient> recipeIngredients = this.ingredients.stream()
+                .filter(ing -> !isKnownPlaceholder(ing))
+                .toList();
+
+        // 数量必须匹配
+        if (nonEmptyInputs.size() != recipeIngredients.size()) {
+            return false;
+        }
+
+        return RecipeMatcher.findMatches(nonEmptyInputs, ingredients) != null;
+    }
+
+    private static boolean isKnownPlaceholder(Ingredient ingredient) {
+        // 只检查是否是明确的屏障方块，避免触发标签绑定
+        // 使用更安全的方式检查
+        try {
+            // 尝试获取第一个物品，如果失败则认为是标签
+            var optionalHolder = ingredient.items().findFirst();
+            if (optionalHolder.isPresent()) {
+                var holder = optionalHolder.get();
+                return holder.value() == Items.AIR;
+            }
+        } catch (Exception e) {
+            // 如果出错，认为是标签，不是占位符
+            return false;
+        }
+        return false;
     }
 
     @Override

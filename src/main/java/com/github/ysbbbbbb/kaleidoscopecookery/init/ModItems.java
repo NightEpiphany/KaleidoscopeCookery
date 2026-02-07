@@ -84,7 +84,7 @@ public final class ModItems {
     public static final Item CHILI_SEED = registerItem("chili_seed", createBlockItemWithCustomItemName(ModBlocks.CHILI_CROP));
     public static final Item LETTUCE_SEED = registerItem("lettuce_seed", createBlockItemWithCustomItemName(ModBlocks.LETTUCE_CROP));
     public static final Item RICE_SEED = registerItem("rice", p -> new RiceItem(p.useItemDescriptionPrefix()));
-    public static final Item WILD_RICE_SEED = registerItem("wild_rice");
+    public static final Item WILD_RICE_SEED = registerItem("wild_rice", p -> new RiceItem(p.useItemDescriptionPrefix()));
 
     // Cook stools
     public static final Item COOK_STOOL_OAK = registerItemViaBlock(ModBlocks.COOK_STOOL_OAK);

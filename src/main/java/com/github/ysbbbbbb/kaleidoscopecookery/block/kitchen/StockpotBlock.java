@@ -120,11 +120,11 @@ public class StockpotBlock extends HorizontalDirectionalBlock implements EntityB
     @Override
     public @NotNull InteractionResult useItemOn(@NonNull ItemStack stack, @NonNull BlockState state, @NonNull Level level, @NonNull BlockPos pos, @NonNull Player player, @NonNull InteractionHand hand, @NonNull BlockHitResult hitResult) {
         if (hand != InteractionHand.MAIN_HAND) {
-            return InteractionResult.TRY_WITH_EMPTY_HAND;
+            return InteractionResult.PASS;
         }
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (!(blockEntity instanceof IStockpot stockpot)) {
-            return InteractionResult.TRY_WITH_EMPTY_HAND;
+            return InteractionResult.PASS;
         }
         // 先检查盖子
         ItemStack mainHandItem = player.getMainHandItem();
@@ -152,7 +152,7 @@ public class StockpotBlock extends HorizontalDirectionalBlock implements EntityB
         if (stockpot.takeOutProduct(level, player, mainHandItem)) {
             return InteractionResult.SUCCESS;
         }
-        return InteractionResult.TRY_WITH_EMPTY_HAND;
+        return InteractionResult.PASS;
     }
 
     @Override

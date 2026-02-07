@@ -67,10 +67,11 @@ public class MillstoneModel extends Model<MillstoneModel.State> {
     @Override
     public void setupAnim(State object) {
         super.setupAnim(object);
-
-        this.wheel.yRot = -object.rot * Mth.DEG_TO_RAD;
-        this.roll.zRot = object.rot * Mth.DEG_TO_RAD;
-        this.rotStick.xRot = -object.liftAngle * Mth.DEG_TO_RAD;
+        if (object.hasEntity) {
+            this.wheel.yRot = -object.rot * Mth.DEG_TO_RAD;
+            this.roll.zRot = object.rot * Mth.DEG_TO_RAD;
+            this.rotStick.xRot = -object.liftAngle * Mth.DEG_TO_RAD;
+        }
     }
 
     public ModelPart getWheel() {

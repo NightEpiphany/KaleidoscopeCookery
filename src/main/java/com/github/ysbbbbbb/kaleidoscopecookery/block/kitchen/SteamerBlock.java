@@ -90,7 +90,7 @@ public class SteamerBlock extends FallingBlock implements EntityBlock, SimpleWat
     @Override
     public void tick(@NonNull BlockState state, ServerLevel level, BlockPos pos, @NonNull RandomSource random) {
         BlockState below = level.getBlockState(pos.below());
-        if (isFree(below) && pos.getY() >= level.getMaxY()) {
+        if (isFree(below) && pos.getY() >= level.getMinY()) {
             CompoundTag blockEntityTag = null;
             if (level.getBlockEntity(pos) instanceof SteamerBlockEntity steamer) {
                 blockEntityTag = steamer.saveWithoutMetadata(level.registryAccess());
@@ -161,7 +161,7 @@ public class SteamerBlock extends FallingBlock implements EntityBlock, SimpleWat
                     return InteractionResult.SUCCESS;
                 }
             }
-            return InteractionResult.TRY_WITH_EMPTY_HAND;
+            return InteractionResult.PASS;
         }
 
         // 其他情况交给 BlockEntity 处理

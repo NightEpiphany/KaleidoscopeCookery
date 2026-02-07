@@ -492,7 +492,8 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
         valueOutput.putInt(STATUS, this.status);
         valueOutput.putInt(CURRENT_TICK, this.currentTick);
         valueOutput.putInt(TAKEOUT_COUNT, this.takeoutCount);
-        valueOutput.storeNullable(LID_ITEM, ItemStack.CODEC, this.lidItem);
+        if (this.hasLid())
+            valueOutput.storeNullable(LID_ITEM, ItemStack.CODEC, this.lidItem);
     }
 
     @Override

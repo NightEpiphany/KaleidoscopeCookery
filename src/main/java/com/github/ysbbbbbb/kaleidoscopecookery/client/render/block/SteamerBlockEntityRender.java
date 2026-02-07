@@ -25,6 +25,8 @@ import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Environment(EnvType.CLIENT)
@@ -39,9 +41,13 @@ public class SteamerBlockEntityRender implements BlockEntityRenderer<SteamerBloc
     public void extractRenderState(SteamerBlockEntity blockEntity, SteamerBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, blockEntityRenderState, f, vec3, crumblingOverlay);
         int posLong = (int) blockEntity.getBlockPos().asLong();
-        blockEntityRenderState.items = NonNullList.withSize(blockEntity.getItems().size(), new ItemStackRenderState());
-        for (var index = 0; index < blockEntityRenderState.items.size(); index++) {
-            this.itemModelResolver.updateForTopItem(blockEntityRenderState.items.get(index), blockEntity.getItems().get(index), ItemDisplayContext.FIXED, blockEntity.getLevel(), null, posLong + index);
+        blockEntityRenderState.items = new ArrayList<>();
+        for (var index = 0; index < blockEntity.getItems().size(); index++) {
+            ItemStackRenderState itemStackRenderState = new ItemStackRenderState();
+            ItemStack itemStack = blockEntity.getItems().get(index);
+            if (!itemStack.isEmpty())
+                this.itemModelResolver.updateForTopItem(itemStackRenderState, itemStack, ItemDisplayContext.FIXED, blockEntity.getLevel(), null, posLong + index);
+            blockEntityRenderState.items.add(itemStackRenderState);
         }
     }
 
@@ -60,7 +66,7 @@ public class SteamerBlockEntityRender implements BlockEntityRenderer<SteamerBloc
         if (blockEntityRenderState.blockState.getValue(SteamerBlock.HAS_LID)) {
             return;
         }
-        NonNullList<ItemStackRenderState> items = blockEntityRenderState.items;
+        List<ItemStackRenderState> items = blockEntityRenderState.items;
         for (int i = 0; i < items.size(); i++) {
             ItemStackRenderState stack = items.get(i);
             if (stack.isEmpty()) {

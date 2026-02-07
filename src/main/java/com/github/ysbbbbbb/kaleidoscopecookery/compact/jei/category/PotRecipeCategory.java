@@ -66,9 +66,8 @@ public class PotRecipeCategory implements IRecipeCategory<RecipeHolder<PotRecipe
             int yOffset = (i / 3) * 18 + 24;
             builder.addSlot(RecipeIngredientRole.INPUT, xOffset, yOffset).add(inputs.get(i)).setBackground(slotDraw, -1, -1);
         }
-        if (recipe.value().carrier().isPresent()) {
-            builder.addSlot(RecipeIngredientRole.INPUT, 133, 18).add(recipe.value().carrier().get());
-        }
+        builder.addSlot(RecipeIngredientRole.INPUT, 133, 18).add(recipe.value().carrier());
+
         builder.addSlot(RecipeIngredientRole.OUTPUT, 143, 60).add(output).setBackground(slotDraw, -1, -1);
     }
 

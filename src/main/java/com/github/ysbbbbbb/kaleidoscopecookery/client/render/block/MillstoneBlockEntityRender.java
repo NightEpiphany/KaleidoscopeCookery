@@ -32,6 +32,9 @@ import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Environment(EnvType.CLIENT)
 public class MillstoneBlockEntityRender implements BlockEntityRenderer<MillstoneBlockEntity, MillstoneBlockEntityRenderState>, IBlockEntityRendererExtension<MillstoneBlockEntity> {
     private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "textures/block/millstone.png");
@@ -55,14 +58,22 @@ public class MillstoneBlockEntityRender implements BlockEntityRenderer<Millstone
         blockEntityRenderState.hasEntity = blockEntity.hasEntity();
         blockEntityRenderState.cacheRot = blockEntity.getCacheRot();
         blockEntityRenderState.rot = blockEntity.getLevel() != null ? facingDeg + blockEntity.getRotation(blockEntity.getLevel(), f) : 0f;
-        blockEntityRenderState.input = blockEntity.getInput();
         blockEntityRenderState.liftAngle = blockEntity.getLiftAngle();
+        blockEntityRenderState.randomSeed = blockEntity.hashCode();
+        blockEntityRenderState.input = blockEntity.getInput();
+        blockEntityRenderState.output = blockEntity.getOutput();
         int maxCount = Math.min(blockEntityRenderState.input.getCount(), MillstoneBlockEntity.MAX_INPUT_COUNT);
+        blockEntityRenderState.inputs = new ArrayList<>();
+        blockEntityRenderState.outputs = new ArrayList<>();
         for (int j = 0; j < maxCount; j++) {
             ItemStackRenderState itemStackRenderState = new ItemStackRenderState();
+            ItemStackRenderState itemStackRenderState2 = new ItemStackRenderState();
             this.itemModelResolver
                     .updateForTopItem(itemStackRenderState, blockEntityRenderState.input, ItemDisplayContext.FIXED, blockEntity.getLevel(), null, i + j);
-            blockEntityRenderState.itemsToRender.add(itemStackRenderState);
+            this.itemModelResolver
+                    .updateForTopItem(itemStackRenderState2, blockEntityRenderState.output, ItemDisplayContext.FIXED, blockEntity.getLevel(), null, i + j + 1);
+            blockEntityRenderState.inputs.add(itemStackRenderState);
+            blockEntityRenderState.outputs.add(itemStackRenderState2);
         }
     }
 
@@ -74,7 +85,9 @@ public class MillstoneBlockEntityRender implements BlockEntityRenderer<Millstone
     @Override
     public void submit(MillstoneBlockEntityRenderState blockEntityRenderState, @NonNull PoseStack poseStack, @NonNull SubmitNodeCollector submitNodeCollector, @NonNull CameraRenderState cameraRenderState) {
         if (blockEntityRenderState.levelAccessor == null) return;
+
         Direction facing = blockEntityRenderState.blockState.getValue(MillstoneBlock.FACING);
+
         int facingDeg = facing.get2DDataValue() * 90;
         MillstoneModel.State state = new MillstoneModel.State(
                 blockEntityRenderState.levelAccessor,
@@ -111,26 +124,38 @@ public class MillstoneBlockEntityRender implements BlockEntityRenderer<Millstone
         this.bodyModel.getRotStick().xRot = 0;
 
         if (!blockEntityRenderState.input.isEmpty()) {
-            ItemStack renderItem = blockEntityRenderState.input;
-            RandomSource source = RandomSource.create(blockEntityRenderState.hashCode());
-            int maxCount = Math.min(renderItem.getCount(), MillstoneBlockEntity.MAX_INPUT_COUNT);
-            for (int i = 0; i < maxCount; i++) {
-                ItemStackRenderState itemStackRenderState = blockEntityRenderState.itemsToRender.get(i);
-                poseStack.pushPose();
-                poseStack.translate(0, 0.875, 0);
-                poseStack.rotateAround(Axis.YP.rotationDegrees(i * 45 + source.nextInt(15)), 0.5f, 0, 0.5f);
-                poseStack.mulPose(Axis.YP.rotationDegrees(source.nextInt(20)));
-                poseStack.mulPose(Axis.XN.rotationDegrees(80 + source.nextInt(20)));
-                poseStack.scale(0.65F, 0.65F, 0.65F);
-                itemStackRenderState.submit(
-                        poseStack,
-                        submitNodeCollector,
-                        blockEntityRenderState.lightCoords,
-                        OverlayTexture.NO_OVERLAY,
-                        0
-                );
-                poseStack.popPose();
-            }
+            renderItems(blockEntityRenderState.inputs, blockEntityRenderState.input, blockEntityRenderState, poseStack, submitNodeCollector);
+        }else if (!blockEntityRenderState.output.isEmpty()) {
+            renderItems(blockEntityRenderState.outputs, blockEntityRenderState.output, blockEntityRenderState, poseStack, submitNodeCollector);
+        }
+    }
+
+    private static void renderItems(
+            List<ItemStackRenderState> list,
+            ItemStack renderItem,
+            MillstoneBlockEntityRenderState blockEntityRenderState,
+            @NonNull PoseStack poseStack,
+            @NonNull SubmitNodeCollector submitNodeCollector
+    ) {
+        if (list.isEmpty()) return;
+        RandomSource source = RandomSource.create(blockEntityRenderState.randomSeed);
+        int maxCount = Math.min(renderItem.getCount(), MillstoneBlockEntity.MAX_INPUT_COUNT);
+        for (int i = 0; i < maxCount; i++) {
+            ItemStackRenderState itemStackRenderState = list.get(i);
+            poseStack.pushPose();
+            poseStack.translate(0, 0.875, 0);
+            poseStack.rotateAround(Axis.YP.rotationDegrees(i * 45 + source.nextInt(15)), 0.5f, 0, 0.5f);
+            poseStack.mulPose(Axis.YP.rotationDegrees(source.nextInt(20)));
+            poseStack.mulPose(Axis.XN.rotationDegrees(80 + source.nextInt(20)));
+            poseStack.scale(0.65F, 0.65F, 0.65F);
+            itemStackRenderState.submit(
+                    poseStack,
+                    submitNodeCollector,
+                    blockEntityRenderState.lightCoords,
+                    OverlayTexture.NO_OVERLAY,
+                    0
+            );
+            poseStack.popPose();
         }
     }
 

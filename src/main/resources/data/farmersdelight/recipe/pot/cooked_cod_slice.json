@@ -1,0 +1,11 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "ingredients": [
+    "farmersdelight:cod_slice"
+  ],
+  "result": {
+    "id": "farmersdelight:cooked_cod_slice"
+  },
+  "stir_fry_count": 3,
+  "time": 200
+}

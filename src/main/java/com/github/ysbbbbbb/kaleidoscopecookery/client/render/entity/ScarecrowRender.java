@@ -44,6 +44,7 @@ public class ScarecrowRender extends LivingEntityRenderer<ScarecrowEntity, Scare
         livingEntityRenderState.entityOnShoulder = livingEntity.getShoulderEntity();
         livingEntityRenderState.partialTicks = f;
         livingEntityRenderState.lastHit = livingEntity.lastHit;
+        livingEntityRenderState.nameTag = livingEntity.getCustomName() == null ? null : livingEntity.getCustomName();
         livingEntityRenderState.leftHandItemStack = livingEntity.getItemBySlot(EquipmentSlot.OFFHAND);
         livingEntityRenderState.rightHandItemStack = livingEntity.getItemBySlot(EquipmentSlot.MAINHAND);
         this.itemModelResolver.updateForLiving(livingEntityRenderState.leftHandItemState, livingEntityRenderState.leftHandItemStack, ItemDisplayContext.THIRD_PERSON_LEFT_HAND, livingEntity);

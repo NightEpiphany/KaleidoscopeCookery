@@ -1,0 +1,14 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "ingredients": [
+    "#c:cooked_rice",
+    "#c:eggs",
+    "minecraft:carrot",
+    "#c:crops/onion"
+  ],
+  "result": {
+    "id": "farmersdelight:fried_rice"
+  },
+  "stir_fry_count": 3,
+  "time": 200
+}

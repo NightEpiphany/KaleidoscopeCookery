@@ -61,11 +61,11 @@ public class RecipeBlock extends FaceAttachedHorizontalDirectionalBlock implemen
     public @NotNull InteractionResult useItemOn(@NonNull ItemStack stack, @NonNull BlockState state, @NonNull Level level, @NonNull BlockPos pos, @NonNull Player player, @NonNull InteractionHand hand, @NonNull BlockHitResult hitResult) {
         // 空手右击取下来
         if (hand != InteractionHand.MAIN_HAND) {
-            return InteractionResult.TRY_WITH_EMPTY_HAND;
+            return InteractionResult.PASS;
         }
         ItemStack mainHandItem = player.getMainHandItem();
         if (!mainHandItem.isEmpty()) {
-            return InteractionResult.TRY_WITH_EMPTY_HAND;
+            return InteractionResult.PASS;
         }
         if (level.isClientSide()) {
             return InteractionResult.SUCCESS;
@@ -74,7 +74,7 @@ public class RecipeBlock extends FaceAttachedHorizontalDirectionalBlock implemen
         if (blockEntity instanceof RecipeBlockEntity recipeBlockEntity) {
             ItemStack itemStack = recipeBlockEntity.getItems().getStackInSlot(0);
             if (itemStack.isEmpty()) {
-                return InteractionResult.TRY_WITH_EMPTY_HAND;
+                return InteractionResult.PASS;
             }
             player.setItemInHand(hand, itemStack.copy());
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);

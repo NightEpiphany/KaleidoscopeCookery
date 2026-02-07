@@ -14,13 +14,16 @@ import java.util.List;
 public interface BaseRecipe<C extends RecipeInput> extends Recipe<C> {
     int RECIPES_SIZE = 9;
 
+    //咕咕嘎嘎！！
+    @Deprecated(forRemoval = true, since = "1.21.11")
     static Ingredient[] fillInputs(List<Ingredient> inputs) {
         Ingredient[] newInputs = new Ingredient[RECIPES_SIZE];
         for (int i = 0; i < RECIPES_SIZE; i++) {
             if (i < inputs.size()) {
                 newInputs[i] = inputs.get(i);
             } else {
-                newInputs[i] = Ingredient.of(Items.BARRIER);
+                // 高版本不支持空占位符
+                newInputs[i] = Ingredient.of(Items.AIR);
             }
         }
         return newInputs;

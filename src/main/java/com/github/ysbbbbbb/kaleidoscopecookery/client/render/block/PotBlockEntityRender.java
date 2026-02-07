@@ -2,6 +2,8 @@ package com.github.ysbbbbbb.kaleidoscopecookery.client.render.block;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.PotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates.PotBlockEntityRenderState;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.ModDataComponents;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.fabricmc.api.EnvType;
@@ -14,15 +16,16 @@ import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.core.NonNullList;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Environment(EnvType.CLIENT)
@@ -45,10 +48,16 @@ public class PotBlockEntityRender implements BlockEntityRenderer<PotBlockEntity,
         blockEntityRenderState.seed = blockEntity.getSeed();
         blockEntityRenderState.status = blockEntity.getStatus();
         int posLong = (int) blockEntity.getBlockPos().asLong();
-        blockEntityRenderState.inputs = NonNullList.withSize(blockEntity.getInputs().size(), new ItemStackRenderState());
+        blockEntityRenderState.inputs = new ArrayList<>();
         blockEntityRenderState.output = new ItemStackRenderState();
-        for (var index = 0; index < blockEntityRenderState.inputs.size(); index++) {
-            this.itemModelResolver.updateForTopItem(blockEntityRenderState.inputs.get(index), blockEntity.getInputs().get(index), ItemDisplayContext.FIXED, blockEntity.getLevel(), null, posLong + index);
+        for (var index = 0; index < blockEntity.getInputs().size(); index++) {
+            ItemStackRenderState itemStackRenderState = new ItemStackRenderState();
+            ItemStack itemStack = blockEntity.getInputs().get(index);
+            if (itemStack.is(TagMod.SPECIAL)) {
+                itemStack.set(ModDataComponents.SPECIAL_RENDER, true);
+            }
+            this.itemModelResolver.updateForTopItem(itemStackRenderState, itemStack, ItemDisplayContext.FIXED, blockEntity.getLevel(), null, posLong + index);
+            blockEntityRenderState.inputs.add(itemStackRenderState);
         }
         this.itemModelResolver.updateForTopItem(blockEntityRenderState.output, blockEntity.getResult(), ItemDisplayContext.FIXED, blockEntity.getLevel(), null, posLong - 1);
         blockEntityRenderState.hasCarrier = blockEntity.hasCarrier();
@@ -104,7 +113,13 @@ public class PotBlockEntityRender implements BlockEntityRenderer<PotBlockEntity,
                         blockEntityRenderState.lightCoords = OverlayTexture.u(burntLevel);
                     }
 
-                    item.submit(poseStack, submitNodeCollector, blockEntityRenderState.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+                    item.submit(
+                            poseStack,
+                            submitNodeCollector,
+                            blockEntityRenderState.lightCoords,
+                            OverlayTexture.NO_OVERLAY,
+                            0
+                    );
 
                     poseStack.popPose();
                     poseStack.translate(0, 0, 0.025);

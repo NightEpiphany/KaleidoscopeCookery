@@ -1,16 +1,22 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.api.client.render;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates.StockpotBlockEntityRenderState;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.Identifier;
+import org.jetbrains.annotations.Contract;
 import org.joml.Matrix4f;
 import org.jspecify.annotations.NonNull;
 
 public interface ISoupBaseRender {
+    Minecraft MC = Minecraft.getInstance();
     /**
      * 工具方法，用于渲染流体贴图
      *
@@ -20,41 +26,40 @@ public interface ISoupBaseRender {
      * @param light     PackedLight
      * @param y         汤底的高度
      */
+    @Contract(pure = true)
     static void renderSurface(TextureAtlasSprite sprite, int color, PoseStack poseStack, int light, float y) {
-        VertexFormat vertexFormat = DefaultVertexFormat.BLOCK;
-        try (ByteBufferBuilder byteBufferBuilder = ByteBufferBuilder.exactlySized(vertexFormat.getVertexSize())) {
-            BufferBuilder vertexConsumer = new BufferBuilder(byteBufferBuilder, VertexFormat.Mode.QUADS, vertexFormat);
-            Matrix4f matrix = poseStack.last().pose();
+        MultiBufferSource.BufferSource bufferSource = MC.renderBuffers().bufferSource();
+        VertexConsumer vertexConsumer = bufferSource.getBuffer(Sheets.solidBlockSheet());
+        Matrix4f matrix = poseStack.last().pose();
 
-            // 锅内水面的位置和大小（根据实际锅模型调整）
-            float min = 3 / 16f, max = 1 - 3 / 16f;
+        // 锅内水面的位置和大小（根据实际锅模型调整）
+        float min = 3 / 16f, max = 1 - 3 / 16f;
 
-            // 渲染一个平面
-            vertexConsumer.addVertex(matrix, min, y, min)
-                    .setColor(color)
-                    .setUv(sprite.getU0(), sprite.getV0())
-                    .setOverlay(OverlayTexture.NO_OVERLAY)
-                    .setLight(light)
-                    .setNormal(0, 1, 0);
-            vertexConsumer.addVertex(matrix, min, y, max)
-                    .setColor(color)
-                    .setUv(sprite.getU0(), sprite.getV(10 / 16f))
-                    .setOverlay(OverlayTexture.NO_OVERLAY)
-                    .setLight(light)
-                    .setNormal(0, 1, 0);
-            vertexConsumer.addVertex(matrix, max, y, max)
-                    .setColor(color)
-                    .setUv(sprite.getU(10 / 16f), sprite.getV(10 / 16f))
-                    .setOverlay(OverlayTexture.NO_OVERLAY)
-                    .setLight(light)
-                    .setNormal(0, 1, 0);
-            vertexConsumer.addVertex(matrix, max, y, min)
-                    .setColor(color)
-                    .setUv(sprite.getU(10 / 16f), sprite.getV0())
-                    .setOverlay(OverlayTexture.NO_OVERLAY)
-                    .setLight(light)
-                    .setNormal(0, 1, 0);
-        }
+        // 渲染一个平面
+        vertexConsumer.addVertex(matrix, min, y, min)
+                .setColor(color)
+                .setUv(sprite.getU0(), sprite.getV0())
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(light)
+                .setNormal(0, 1, 0);
+        vertexConsumer.addVertex(matrix, min, y, max)
+                .setColor(color)
+                .setUv(sprite.getU0(), sprite.getV(10 / 16f))
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(light)
+                .setNormal(0, 1, 0);
+        vertexConsumer.addVertex(matrix, max, y, max)
+                .setColor(color)
+                .setUv(sprite.getU(10 / 16f), sprite.getV(10 / 16f))
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(light)
+                .setNormal(0, 1, 0);
+        vertexConsumer.addVertex(matrix, max, y, min)
+                .setColor(color)
+                .setUv(sprite.getU(10 / 16f), sprite.getV0())
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(light)
+                .setNormal(0, 1, 0);
     }
     /**
      * 还没有放入原料时的汤底的渲染

@@ -4,7 +4,7 @@
   "version": "${version}",
   "name": "Kaleidoscope Cookery Refabricated",
   "description": "Cook all kinds of delicious food!",
-  "authors": ["ysbb", "tartaric_acid", "NightEpiphany"],
+  "authors": ["ysbb", "NightEpiphany", "tartaric_acid"],
   "contributors": ["chenjdy"],
   "contact": {
     "homepage": "https://modrinth.com/mod/kaleidoscope-cookery-refabricated",
@@ -17,7 +17,8 @@
   "entrypoints": {
     "main": ["com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery"],
     "client": ["com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookeryClient"],
-    "jei_mod_plugin": ["com.github.ysbbbbbb.kaleidoscopecookery.compact.jei.ModJeiPlugin"]
+    "jei_mod_plugin": ["com.github.ysbbbbbb.kaleidoscopecookery.compact.jei.ModJeiPlugin"],
+    "jade": ["com.github.ysbbbbbb.kaleidoscopecookery.compact.jade.ModJadePlugin"]
   },
   "mixins": ["kaleidoscope_cookery.mixins.json"],
   "accessWidener": "kaleidoscope_cookery.accesswidener",

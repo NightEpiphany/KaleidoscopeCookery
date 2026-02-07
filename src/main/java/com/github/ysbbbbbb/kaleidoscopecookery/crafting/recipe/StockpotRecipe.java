@@ -26,12 +26,20 @@ public record StockpotRecipe(NonNullList<Ingredient> ingredients,
                              Identifier soupBase, ItemStack result, int time,
                              Ingredient carrier, Identifier cookingTexture, Identifier finishedTexture,
                              int cookingBubbleColor, int finishedBubbleColor) implements BaseRecipe<StockpotInput> {
+
     public StockpotRecipe(List<Ingredient> ingredients, Identifier soupBase, ItemStack result,
                           int time, Ingredient carrier, Identifier cookingTexture, Identifier finishedTexture,
                           int cookingBubbleColor, int finishedBubbleColor) {
-        this(NonNullList.of(Ingredient.of(Items.BARRIER), BaseRecipe.fillInputs(ingredients)),
+        this(createNonNullList(ingredients),
                 soupBase, result, time, carrier, cookingTexture, finishedTexture,
                 cookingBubbleColor, finishedBubbleColor);
+    }
+
+    private static NonNullList<Ingredient> createNonNullList(List<Ingredient> ingredients) {
+        // 直接转换，不进行任何验证
+        NonNullList<Ingredient> list = NonNullList.create();
+        list.addAll(ingredients);
+        return list;
     }
 
     public StockpotRecipe(NonNullList<Ingredient> ingredients, ItemStack result, int time, ItemStack container) {
@@ -42,10 +50,43 @@ public record StockpotRecipe(NonNullList<Ingredient> ingredients,
 
     @Override
     public boolean matches(StockpotInput container, @NonNull Level level) {
-        return container.getSoupBase().equals(this.soupBase)
-               && RecipeMatcher.findMatches(container.getInputs(), ingredients) != null;
+        // 检查汤底是否匹配
+        if (!container.getSoupBase().equals(this.soupBase)) {
+            return false;
+        }
+
+        // 只考虑非空的输入槽位
+        List<ItemStack> nonEmptyInputs = container.getInputs().stream()
+                .filter(stack -> !stack.isEmpty())
+                .toList();
+
+        // 创建临时的Ingredient列表进行匹配（过滤掉已知的占位符）
+        List<Ingredient> recipeIngredients = this.ingredients.stream()
+                .filter(ing -> !isKnownPlaceholder(ing))
+                .toList();
+
+        // 数量必须匹配
+        if (nonEmptyInputs.size() != recipeIngredients.size()) {
+            return false;
+        }
+
+        return RecipeMatcher.findMatches(nonEmptyInputs, recipeIngredients) != null;
     }
 
+    private static boolean isKnownPlaceholder(Ingredient ingredient) {
+        // 只检查是否是明确的屏障方块，避免触发标签绑定
+        try {
+            var optionalHolder = ingredient.items().findFirst();
+            if (optionalHolder.isPresent()) {
+                var holder = optionalHolder.get();
+                return holder.value() == Items.AIR;
+            }
+        } catch (Exception e) {
+            // 如果出错，认为是标签，不是占位符
+            return false;
+        }
+        return false;
+    }
 
     public @NotNull NonNullList<Ingredient> getIngredients() {
         return ingredients;
@@ -73,6 +114,8 @@ public record StockpotRecipe(NonNullList<Ingredient> ingredients,
 
     @Override
     public @NonNull RecipeBookCategory recipeBookCategory() {
-        return Registry.register(BuiltInRegistries.RECIPE_BOOK_CATEGORY, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "stockpot"), new RecipeBookCategory());
+        return Registry.register(BuiltInRegistries.RECIPE_BOOK_CATEGORY,
+                Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "stockpot"),
+                new RecipeBookCategory());
     }
 }

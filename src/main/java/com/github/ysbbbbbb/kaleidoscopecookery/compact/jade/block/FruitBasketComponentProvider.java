@@ -1,0 +1,47 @@
+package com.github.ysbbbbbb.kaleidoscopecookery.compact.jade.block;
+
+import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.FruitBasketBlockEntity;
+import com.github.ysbbbbbb.kaleidoscopecookery.compact.jade.ModJadePlugin;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.neo.ItemStackHandler;
+import com.google.common.collect.Lists;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import snownee.jade.api.Accessor;
+import snownee.jade.api.view.*;
+
+import java.util.List;
+
+public enum FruitBasketComponentProvider implements IServerExtensionProvider<ItemStack>, IClientExtensionProvider<ItemStack, ItemView> {
+    INSTANCE;
+
+    @Override
+    public @NonNull List<ClientViewGroup<ItemView>> getClientGroups(@NonNull Accessor<?> accessor, @NonNull List<ViewGroup<ItemStack>> list) {
+        return ClientViewGroup.map(list, ItemView::new, null);
+    }
+
+    @Override
+    @Nullable
+    public List<ViewGroup<ItemStack>> getGroups(Accessor<?> accessor) {
+        Object target = accessor.getTarget();
+        if (target instanceof FruitBasketBlockEntity fruitBasket) {
+            ItemStackHandler handler = new ItemStackHandler(fruitBasket.getItems());
+            List<ItemStack> list = Lists.newArrayList();
+            for (int i = 0; i < handler.getSlots(); i++) {
+                ItemStack stack = handler.getStackInSlot(i);
+                if (stack.isEmpty()) {
+                    continue;
+                }
+                list.add(stack.copy());
+            }
+            return List.of(new ViewGroup<>(list));
+        }
+        return null;
+    }
+
+    @Override
+    public @NonNull Identifier getUid() {
+        return ModJadePlugin.FRUIT_BASKET;
+    }
+}

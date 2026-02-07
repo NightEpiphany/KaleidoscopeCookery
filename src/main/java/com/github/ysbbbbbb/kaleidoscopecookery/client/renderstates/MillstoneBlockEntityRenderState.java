@@ -16,7 +16,10 @@ public class MillstoneBlockEntityRenderState extends BlockEntityRenderState {
     public boolean hasEntity;
     public float cacheRot;
     public float rot;
-    public ItemStack input;
     public float liftAngle;
-    public List<ItemStackRenderState> itemsToRender = Collections.emptyList();
+    public int randomSeed;
+    public ItemStack input;
+    public List<ItemStackRenderState> inputs = Collections.emptyList();
+    public ItemStack output;
+    public List<ItemStackRenderState> outputs = Collections.emptyList();
 }

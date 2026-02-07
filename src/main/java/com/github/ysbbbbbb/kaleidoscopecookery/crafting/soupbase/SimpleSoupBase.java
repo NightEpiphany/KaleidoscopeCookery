@@ -13,6 +13,7 @@ import org.apache.commons.lang3.function.TriFunction;
 
 import java.util.function.Predicate;
 
+@Deprecated
 public class SimpleSoupBase implements ISoupBase {
     protected final Identifier name;
 

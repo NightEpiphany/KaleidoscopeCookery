@@ -67,7 +67,7 @@ public class ChairBlockEntityRender implements BlockEntityRenderer<ChairBlockEnt
                     1.0F,
                     1.0F,
                     1.0F,
-                    15728880,
+                    blockEntityRenderState.lightCoords,
                     OverlayTexture.NO_OVERLAY,
                     0
             );

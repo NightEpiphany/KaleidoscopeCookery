@@ -1,0 +1,19 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "carrier": "minecraft:bowl",
+  "ingredients": [
+    "farmersdelight:onion",
+    "#c:eggs",
+    "#c:bread",
+    "minecraft:carrot",
+    "minecraft:carrot",
+    "minecraft:chicken",
+    "minecraft:potato",
+    "minecraft:potato"
+  ],
+  "result": {
+    "id": "farmersdelight:roast_chicken"
+  },
+  "stir_fry_count": 3,
+  "time": 200
+}

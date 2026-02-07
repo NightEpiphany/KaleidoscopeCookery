@@ -6,6 +6,8 @@ import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.StockpotBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.StockpotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates.StockpotBlockEntityRenderState;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.soupbase.SoupBaseManager;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.ModDataComponents;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.fabricmc.api.EnvType;
@@ -21,14 +23,15 @@ import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.core.NonNullList;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Util;
 import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.function.Function;
 
 @Environment(EnvType.CLIENT)
@@ -58,9 +61,18 @@ public class StockpotBlockEntityRender implements BlockEntityRenderer<StockpotBl
     public void extractRenderState(StockpotBlockEntity blockEntity, StockpotBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, blockEntityRenderState, f, vec3, crumblingOverlay);
         int posLong = (int) blockEntity.getBlockPos().asLong();
-        blockEntityRenderState.items = NonNullList.withSize(blockEntity.getInputs().size(), new ItemStackRenderState());
-        for (var index = 0; index < blockEntityRenderState.items.size(); index++) {
-            this.itemModelResolver.updateForTopItem(blockEntityRenderState.items.get(index), blockEntity.getInputs().get(index), ItemDisplayContext.FIXED, blockEntity.getLevel(), null, posLong + index);
+        blockEntityRenderState.items = new ArrayList<>();
+        blockEntityRenderState.randomSeeds = new ArrayList<>();
+        blockEntityRenderState.status = blockEntity.getStatus();
+        for (var index = 0; index < blockEntity.getInputs().size(); index++) {
+            ItemStackRenderState itemStackRenderState = new ItemStackRenderState();
+            ItemStack itemStack = blockEntity.getInputs().get(index);
+            if (itemStack.is(TagMod.SPECIAL)) {
+                itemStack.set(ModDataComponents.SPECIAL_RENDER, true);
+            }
+            this.itemModelResolver.updateForTopItem(itemStackRenderState, itemStack, ItemDisplayContext.FIXED, blockEntity.getLevel(), null, posLong + index);
+            blockEntityRenderState.items.add(itemStackRenderState);
+            blockEntityRenderState.randomSeeds.add(itemStack.hashCode());
         }
         if (blockEntity.renderEntity != null)
             blockEntityRenderState.renderEntity = this.entityRenderDispatcher.extractEntity(blockEntity.renderEntity, f);
@@ -97,24 +109,30 @@ public class StockpotBlockEntityRender implements BlockEntityRenderer<StockpotBl
     }
 
     private void renderItems(StockpotBlockEntityRenderState blockEntityRenderState, @NonNull PoseStack poseStack, @NonNull SubmitNodeCollector submitNodeCollector) {
-        blockEntityRenderState.items.forEach(itemStackRenderState -> {
+        for (int i = 0; i < blockEntityRenderState.items.size(); i++) {
+            ItemStackRenderState itemStackRenderState = blockEntityRenderState.items.get(i);
+            long random = blockEntityRenderState.randomSeeds.get(i);
             if (!itemStackRenderState.isEmpty()) {
-                int random = itemStackRenderState.hashCode();
                 long time = random + System.currentTimeMillis();
                 float offsetX = (random % 100) * 0.002f;
                 float offsetZ = (float) (Math.sin(time * 0.0005) * 0.2);
                 float offsetY = random % 50 * 0.004f;
                 float yRot = (random % 2 == 0 ? -1 : 1) * 20 + random % 10;
-
                 poseStack.pushPose();
                 poseStack.mulPose(Axis.XP.rotationDegrees(85 + random % 10));
                 poseStack.scale(0.5f, 0.5f, 0.5f);
                 poseStack.translate(0.9 + offsetX, 0.9 + offsetY, -0.5 + offsetZ);
                 poseStack.mulPose(Axis.YP.rotationDegrees(yRot));
                 poseStack.mulPose(Axis.ZP.rotationDegrees(random % 360));
-                itemStackRenderState.submit(poseStack, submitNodeCollector, blockEntityRenderState.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+                itemStackRenderState.submit(
+                        poseStack,
+                        submitNodeCollector,
+                        blockEntityRenderState.lightCoords,
+                        OverlayTexture.NO_OVERLAY,
+                        0
+                );
                 poseStack.popPose();
             }
-        });
+        }
     }
 }

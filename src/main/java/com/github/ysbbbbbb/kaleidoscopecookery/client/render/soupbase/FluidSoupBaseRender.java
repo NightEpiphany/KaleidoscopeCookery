@@ -1,19 +1,17 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.render.soupbase;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.api.client.render.ISoupBaseRender;
-import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.StockpotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates.StockpotBlockEntityRenderState;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandler;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.Material;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import org.jspecify.annotations.NonNull;
@@ -32,15 +30,13 @@ public class FluidSoupBaseRender implements ISoupBaseRender {
 
     @Override
     public void renderWhenCooking(StockpotBlockEntityRenderState stockpot, float partialTick, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, int packedOverlay, Identifier cookingTexture, float soupHeight, @NonNull CameraRenderState cameraRenderState) {
-        TextureAtlas atlas = Minecraft.getInstance().getModelManager().atlasManager.getAtlasOrThrow(TextureAtlas.LOCATION_BLOCKS);
-        TextureAtlasSprite sprite = atlas.getSprite(cookingTexture);
+        TextureAtlasSprite sprite = Minecraft.getInstance().getModelManager().atlasManager.get(new Material(TextureAtlas.LOCATION_BLOCKS, cookingTexture));
         ISoupBaseRender.renderSurface(sprite, 0xFFFFFFFF, poseStack, packedLight, soupHeight);
     }
 
     @Override
     public void renderWhenFinished(StockpotBlockEntityRenderState stockpot, float partialTick, PoseStack poseStack, SubmitNodeCollector buffer, int packedLight, int packedOverlay, Identifier finishedTexture, float soupHeight, @NonNull CameraRenderState cameraRenderState) {
-        TextureAtlas atlas = Minecraft.getInstance().getModelManager().atlasManager.getAtlasOrThrow(TextureAtlas.LOCATION_BLOCKS);
-        TextureAtlasSprite sprite = atlas.getSprite(finishedTexture);
+        TextureAtlasSprite sprite = Minecraft.getInstance().getModelManager().atlasManager.get(new Material(TextureAtlas.LOCATION_BLOCKS, finishedTexture));
         ISoupBaseRender.renderSurface(sprite, 0xFFFFFFFF, poseStack, packedLight, soupHeight);
     }
 
@@ -49,13 +45,12 @@ public class FluidSoupBaseRender implements ISoupBaseRender {
         if (renderHandler != null) {
             FluidState fluidState = fluid.defaultFluidState();
             TextureAtlasSprite[] sprites = renderHandler.getFluidSprites(null, null, fluidState);
-            if (sprites != null && sprites.length > 0) {
+            if (sprites.length > 0) {
                 return sprites[0];
             }
         }
         // 如果没有找到渲染处理器，使用默认水纹理作为后备
-        TextureAtlas atlas = Minecraft.getInstance().getModelManager().atlasManager.getAtlasOrThrow(TextureAtlas.LOCATION_BLOCKS);
-        return atlas.getSprite(Identifier.fromNamespaceAndPath("minecraft", "block/water_still"));
+        return Minecraft.getInstance().getModelManager().atlasManager.get(new Material(TextureAtlas.LOCATION_BLOCKS, Identifier.fromNamespaceAndPath("minecraft", "block/water_still")));
     }
 
     private int getFluidColor(Fluid fluid) {

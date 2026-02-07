@@ -1,0 +1,14 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "carrier": "#c:cooked_rice",
+  "ingredients": [
+    "minecraft:beetroot",
+    "#c:raw_mutton",
+    "#c:crops/tomato"
+  ],
+  "result": {
+    "id": "farmersdelight:roasted_mutton_chops"
+  },
+  "stir_fry_count": 3,
+  "time": 200
+}
