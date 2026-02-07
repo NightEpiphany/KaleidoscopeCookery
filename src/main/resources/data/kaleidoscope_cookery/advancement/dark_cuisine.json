@@ -33,7 +33,7 @@
     }
   },
   "display": {
-    "background": "kaleidoscope_cookery:textures/advancement/background.png",
+    "background": "kaleidoscope_cookery:gui/advancements/backgrounds/background",
     "description": {
       "translate": "advancements.kaleidoscope_cookery.dark_cuisine.description"
     },

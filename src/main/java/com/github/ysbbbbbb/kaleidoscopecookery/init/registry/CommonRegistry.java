@@ -3,6 +3,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.init.registry;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.dispenser.OilPotDispenseBehavior;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteOneByTwoBlock;
+import com.github.ysbbbbbb.kaleidoscopecookery.compact.farmersdelight.FarmersDelightCompat;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.FlatulenceServerEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.PreservationEvent;
@@ -22,8 +23,6 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.*;
 
 public class CommonRegistry {
 
@@ -103,7 +102,7 @@ public class CommonRegistry {
     }
 
     private static void modCompat() {
-
+        FarmersDelightCompat.init();
     }
 
     private static void addDispenserBehavior() {
