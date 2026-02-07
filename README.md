@@ -1,4 +1,5 @@
-# Kaleidoscope Cookery 森罗物语：烹燃心动
+# Kaleidoscope Cookery Refabricated   
+# 森罗物语：烹燃心动-重织
 
 > A Minecraft mod that adds immersive cooking systems and delicious recipes to enhance your culinary adventure.
 
@@ -37,8 +38,8 @@ This project adopts a dual license agreement:
 
 If you encounter problems or have suggestions for improvements during use, please contact us through the following methods:
 
-- 🐛 [Issues](https://github.com/KaleidoscopeMods/KaleidoscopeCookery/issues) - Submit a bug report
-- 💡 [Issues](https://github.com/KaleidoscopeMods/KaleidoscopeCookery/issues) - Feature suggestions, discussions and exchanges
+- 🐛 [Issues](https://github.com/NightEpiphany/KaleidoscopeCookery-Refabricated/issues) - Submit a bug report
+- 💡 [Issues](https://github.com/NightEpiphany/KaleidoscopeCookery-Refabricated/issues) - Feature suggestions, discussions and exchanges
 
 ## Development Team
 
