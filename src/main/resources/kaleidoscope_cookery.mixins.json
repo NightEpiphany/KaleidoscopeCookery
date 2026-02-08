@@ -15,9 +15,7 @@
   ],
   "client": [
     "BlockEntityRendererMixin",
-    "GuiLayerRegistrationMixin",
-    "MCMixin",
-    "realize.HumanoidModelMixin"
+    "MCMixin"
   ],
   "injectors": {
     "defaultRequire": 1

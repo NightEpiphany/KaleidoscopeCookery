@@ -1,12 +1,13 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.event;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.PotBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.PotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.minecraft.ChatFormatting;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -15,6 +16,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
@@ -26,7 +28,7 @@ import net.minecraft.world.phys.HitResult;
 @Environment(EnvType.CLIENT)
 public class PotOverlayEvent {
     public static void register() {
-        HudRenderCallback.EVENT.register(PotOverlayEvent::render);
+        HudElementRegistry.attachElementBefore(VanillaHudElements.MISC_OVERLAYS, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "pot_overlay"), PotOverlayEvent::render);
     }
 
     private static void render(GuiGraphics guiGraphics, DeltaTracker tickCounter) {
@@ -67,22 +69,22 @@ public class PotOverlayEvent {
         if (blockState.getValue(PotBlock.HAS_OIL) && pot.hasHeatSource(level)) {
             int status = pot.getStatus();
             if (status == PotBlockEntity.PUT_INGREDIENT) {
-                drawWordWrap(guiGraphics, font, Component.translatable("tip.kaleidoscope_cookery.pot.add_ingredient"), x, y, 0xFFFFFF);
+                drawWordWrap(guiGraphics, font, Component.translatable("tip.kaleidoscope_cookery.pot.add_ingredient"), x, y);
                 return;
             }
             if (status == PotBlockEntity.COOKING) {
-                drawWordWrap(guiGraphics, font, Component.translatable("tip.kaleidoscope_cookery.pot.need_stir_fry"), x, y, 0xFFFFFF);
+                drawWordWrap(guiGraphics, font, Component.translatable("tip.kaleidoscope_cookery.pot.need_stir_fry"), x, y);
                 return;
             }
             if (status == PotBlockEntity.FINISHED) {
-                drawWordWrap(guiGraphics, font, Component.translatable("tip.kaleidoscope_cookery.pot.done"), x, y, ChatFormatting.RED.getColor());
+                drawWordWrap(guiGraphics, font, Component.translatable("tip.kaleidoscope_cookery.pot.done"), x, y);
             }
         }
     }
 
-    private static void drawWordWrap(GuiGraphics graphics, Font font, MutableComponent text, int pX, int pY, int color) {
+    private static void drawWordWrap(GuiGraphics graphics, Font font, MutableComponent text, int pX, int pY) {
         for (FormattedCharSequence sequence : font.split(text, 100)) {
-            graphics.drawString(font, sequence, pX - font.width(sequence) / 2, pY, color);
+            graphics.drawString(font, sequence, pX - font.width(sequence) / 2, pY, -1);
             pY += font.lineHeight;
         }
     }

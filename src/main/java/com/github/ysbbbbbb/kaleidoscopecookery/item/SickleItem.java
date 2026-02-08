@@ -4,7 +4,6 @@ import com.github.ysbbbbbb.kaleidoscopecookery.api.event.SickleHarvestEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.crop.RiceCropBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModEvents;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
-import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -12,11 +11,16 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ToolMaterial;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
@@ -31,8 +35,10 @@ import java.util.function.Consumer;
 
 public class SickleItem extends Item {
 
+    public static final ToolMaterial SICKLE = new ToolMaterial(BlockTags.INCORRECT_FOR_STONE_TOOL, 535, 3.5F, 1.0F, 15, ItemTags.WOODEN_TOOL_MATERIALS);
+
     public SickleItem(Properties p) {
-        super(p.stacksTo(1).sword(ToolMaterial.WOOD, 3.0F, -2.4F));
+        super(p.stacksTo(1).sword(SICKLE, 3.0F, -2.4F));
     }
 
     @Override

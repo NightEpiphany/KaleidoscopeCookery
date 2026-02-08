@@ -276,7 +276,11 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
         return new StockpotInput(this.inputs, this.soupBaseId);
     }
 
-    private void setRecipe(ServerLevel levelIn) {
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public void setRecipe(ServerLevel levelIn) {
         StockpotInput container = this.getContainer();
 
         StockpotMatchRecipeEvent.Pre preEvent = new StockpotMatchRecipeEvent.Pre(levelIn, this, container);

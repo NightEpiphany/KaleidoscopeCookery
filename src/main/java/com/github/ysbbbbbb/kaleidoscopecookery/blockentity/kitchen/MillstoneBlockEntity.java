@@ -130,7 +130,6 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
             }
         } else if (!bindEntity.isAlive()
                    || bindEntity.distanceToSqr(center) >= maxDistanceSqr
-                   || bindEntity.fallDistance > 0.5f
                    || bindEntity.isInWall()
                    || this.saddleEntityIsControlling(bindEntity)) {
             this.entityId = Util.NIL_UUID;
@@ -148,7 +147,7 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
                 .add(center);
         if (bindEntity == null) return;
         bindEntity.setPosRaw(pos.x, pos.y, pos.z);
-        bindEntity.setYRot(rot - 90);
+        bindEntity.setYRot(-rot - 90);
         bindEntity.setXRot(0);
         bindEntity.setOldPosAndRot();
 
@@ -287,11 +286,11 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
     }
 
     public boolean saddleEntityIsControlling(Mob mob) {
-        if (!(mob instanceof AbstractHorse saddleable)) {
+        if (!(mob instanceof AbstractHorse saddled)) {
             return false;
         }
         // 骑乘的生物不能被绑定
-        return saddleable.isSaddled() && mob.getControllingPassenger() != null;
+        return saddled.isSaddled() && mob.getControllingPassenger() != null;
     }
 
     public boolean canBindEntity(Mob mob) {
@@ -391,6 +390,10 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
 
     public float getCacheRot() {
         return this.cacheRot;
+    }
+
+    public void setCacheRot(float cacheRot) {
+        this.cacheRot = cacheRot;
     }
 
     public float getLiftAngle() {
