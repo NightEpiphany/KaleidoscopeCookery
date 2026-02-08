@@ -16,7 +16,6 @@
   ],
   "client": [
     "BlockEntityRendererMixin",
-    "GuiLayerRegistrationMixin",
     "ItemRendererMixin",
     "MCMixin",
     "ModelBakeryMixin",
