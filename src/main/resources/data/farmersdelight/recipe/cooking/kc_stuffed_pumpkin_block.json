@@ -3,6 +3,9 @@
   "cooking_bubble_color": 16772291,
   "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
   "finished_bubble_color": 16777215,
+  "carrier": {
+    "item": "minecraft:pumpkin"
+  },
   "finished_texture": "kaleidoscope_cookery:stockpot/rice_finished_sweet",
   "ingredients": [
     {
