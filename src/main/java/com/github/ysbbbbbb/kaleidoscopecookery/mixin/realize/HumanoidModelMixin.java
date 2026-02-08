@@ -15,7 +15,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Deprecated
 @Environment(EnvType.CLIENT)
 @Mixin(HumanoidModel.class)
 public abstract class HumanoidModelMixin<T extends HumanoidRenderState> extends EntityModel<T> {

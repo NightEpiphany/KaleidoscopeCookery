@@ -15,7 +15,8 @@
   ],
   "client": [
     "BlockEntityRendererMixin",
-    "MCMixin"
+    "MCMixin",
+    "realize.HumanoidModelMixin"
   ],
   "injectors": {
     "defaultRequire": 1
