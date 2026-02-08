@@ -546,6 +546,10 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
         return soupBaseId;
     }
 
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     @Nullable
     public ISoupBase getSoupBase() {
         return SoupBaseManager.getSoupBase(this.soupBaseId);

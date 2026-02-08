@@ -396,6 +396,10 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
         return this.output;
     }
 
+    public void setCacheRot(float cacheRot) {
+        this.cacheRot = cacheRot;
+    }
+
     public float getProgressPercent() {
         float total = Math.max(this.rotSpeedTick, 1);
         return (total - this.progress) / total;
