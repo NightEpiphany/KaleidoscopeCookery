@@ -8,6 +8,8 @@ import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.zurrtum.create.catnip.math.Pointing;
 import com.zurrtum.create.client.ponder.api.scene.*;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -21,6 +23,7 @@ import net.minecraft.world.level.Level;
 
 import static com.github.ysbbbbbb.kaleidoscopecookery.init.registry.FoodBiteRegistry.getItem;
 
+@Environment(EnvType.CLIENT)
 public class PotScenes {
     public static void introduction(SceneBuilder scene, SceneBuildingUtil util) {
         Level level = Minecraft.getInstance().level;

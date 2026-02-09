@@ -7,14 +7,18 @@ import com.github.ysbbbbbb.kaleidoscopecookery.client.event.PotOverlayEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.model.MillstoneModel;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.render.block.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.render.item.StrawHatArmorRenderer;
+import com.github.ysbbbbbb.kaleidoscopecookery.compact.create.ponder.init.PonderCompat;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.item.properties.conditional.ConditionalItemModelProperties;
 import net.minecraft.resources.Identifier;
 
+@Environment(EnvType.CLIENT)
 public class ClientRegistry {
     public static void init() {
         // 注册盔甲渲染器
@@ -23,7 +27,7 @@ public class ClientRegistry {
         registerItemProperties();
         registerClientEvents();
         registerBlockEntityRenderers();
-        registerResourceReloadListeners();
+        modCompat();
     }
 
     private static void registerItemProperties() {
@@ -58,7 +62,7 @@ public class ClientRegistry {
         EntityModelLayerRegistry.registerModelLayer(MillstoneModel.LAYER_LOCATION, MillstoneModel::createBodyLayer);
     }
 
-    private static void registerResourceReloadListeners() {
-        //ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new ItemRenderReplacerReloadListener());
+    private static void modCompat() {
+        PonderCompat.init();
     }
 }

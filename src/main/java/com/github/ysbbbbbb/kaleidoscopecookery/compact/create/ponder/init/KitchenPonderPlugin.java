@@ -9,13 +9,13 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.resources.Identifier;
 
+@Environment(EnvType.CLIENT)
 public class KitchenPonderPlugin implements PonderPlugin {
     @Override
     public String getModId() {
         return KaleidoscopeCookery.MOD_ID;
     }
 
-    @Environment(EnvType.CLIENT)
     @Override
     public void registerScenes(PonderSceneRegistrationHelper<Identifier> helper) {
         KitchenBlockPonderScreen.register(helper);

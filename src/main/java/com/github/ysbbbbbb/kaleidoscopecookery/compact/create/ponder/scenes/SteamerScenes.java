@@ -8,6 +8,8 @@ import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.zurrtum.create.catnip.math.Pointing;
 import com.zurrtum.create.client.ponder.api.PonderPalette;
 import com.zurrtum.create.client.ponder.api.scene.*;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -18,6 +20,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.storage.TagValueOutput;
 
+@Environment(EnvType.CLIENT)
 public class SteamerScenes {
     public static void introduction(SceneBuilder scene, SceneBuildingUtil util) {
         VectorUtil vector = util.vector();
