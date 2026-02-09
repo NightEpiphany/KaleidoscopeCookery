@@ -3,8 +3,11 @@ package com.github.ysbbbbbb.kaleidoscopecookery.compat.ponder.init;
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.ponder.scenes.*;
 import net.createmod.ponder.api.registration.PonderSceneRegistrationHelper;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.resources.ResourceLocation;
 
+@Environment(EnvType.CLIENT)
 public class KitchenBlockPonderScreen {
     public static void register(PonderSceneRegistrationHelper<ResourceLocation> helper) {
         helper.forComponents(new ResourceLocation(KaleidoscopeCookery.MOD_ID, "stockpot"))

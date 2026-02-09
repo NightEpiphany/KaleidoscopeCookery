@@ -3,11 +3,14 @@ package com.github.ysbbbbbb.kaleidoscopecookery.compat.ponder.init;
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import net.createmod.ponder.api.registration.PonderTagRegistrationHelper;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.Objects;
 
+@Environment(EnvType.CLIENT)
 public class KitchenBlockPonderTag {
     public static final ResourceLocation KITCHEN_BLOCKS = new ResourceLocation(KaleidoscopeCookery.MOD_ID, "kitchen_blocks");
 

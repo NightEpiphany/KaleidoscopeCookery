@@ -7,6 +7,8 @@ import net.createmod.catnip.math.Pointing;
 import net.createmod.ponder.api.element.ElementLink;
 import net.createmod.ponder.api.element.EntityElement;
 import net.createmod.ponder.api.scene.*;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -22,6 +24,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.UUID;
 
+@Environment(EnvType.CLIENT)
 public class MillstoneScenes {
     public static void introduction(SceneBuilder scene, SceneBuildingUtil util) {
         Level level = Minecraft.getInstance().level;

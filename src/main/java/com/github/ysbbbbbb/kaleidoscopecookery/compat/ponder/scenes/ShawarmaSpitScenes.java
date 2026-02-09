@@ -7,6 +7,8 @@ import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import net.createmod.catnip.math.Pointing;
 import net.createmod.ponder.api.PonderPalette;
 import net.createmod.ponder.api.scene.*;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -20,6 +22,7 @@ import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.RedstoneSide;
 
+@Environment(EnvType.CLIENT)
 public class ShawarmaSpitScenes {
     public static void introduction(SceneBuilder scene, SceneBuildingUtil util) {
         Level level = Minecraft.getInstance().level;

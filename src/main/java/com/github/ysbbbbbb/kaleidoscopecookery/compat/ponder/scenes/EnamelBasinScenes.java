@@ -8,10 +8,13 @@ import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.KitchenShovelItem;
 import net.createmod.catnip.math.Pointing;
 import net.createmod.ponder.api.scene.*;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 
+@Environment(EnvType.CLIENT)
 public class EnamelBasinScenes {
     public static void introduction(SceneBuilder scene, SceneBuildingUtil util) {
         VectorUtil vector = util.vector();

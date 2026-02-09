@@ -5,7 +5,6 @@ import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.ShawarmaSpitBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.BaseBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModParticles;
-import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -21,6 +20,7 @@ import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 public class ShawarmaSpitBlockEntity extends BaseBlockEntity implements IShawarmaSpit {
     private static final int MAX_ITEMS = 8;
@@ -159,7 +159,7 @@ public class ShawarmaSpitBlockEntity extends BaseBlockEntity implements IShawarm
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
+    protected void saveAdditional(@NotNull CompoundTag tag) {
         super.saveAdditional(tag);
         tag.put(COOKING_ITEM, this.cookingItem.save(new CompoundTag()));
         tag.put(COOKED_ITEM, this.cookedItem.save(new CompoundTag()));
@@ -167,7 +167,7 @@ public class ShawarmaSpitBlockEntity extends BaseBlockEntity implements IShawarm
     }
 
     @Override
-    public void load(CompoundTag tag) {
+    public void load(@NotNull CompoundTag tag) {
         super.load(tag);
         if (tag.contains(COOKING_ITEM)) {
             this.cookingItem = ItemStack.of(tag.getCompound(COOKING_ITEM));

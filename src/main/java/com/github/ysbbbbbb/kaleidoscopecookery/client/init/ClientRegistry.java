@@ -7,6 +7,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.client.model.MillstoneModel;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.render.block.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.render.item.StrawHatArmorRenderer;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.resources.ItemRenderReplacerReloadListener;
+import com.github.ysbbbbbb.kaleidoscopecookery.compat.ponder.init.PonderCompat;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.*;
@@ -32,6 +33,7 @@ public class ClientRegistry {
         registerClientEvents();
         registerBlockEntityRenderers();
         registerResourceReloadListeners();
+        modCompat();
     }
 
     private static void registerItemProperties() {
@@ -65,6 +67,10 @@ public class ClientRegistry {
 
         EntityModelLayerRegistry.registerModelLayer(MillstoneModel.LAYER_LOCATION, MillstoneModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(ColdCutHamSlicesModel.LAYER_LOCATION, ColdCutHamSlicesModel::createBodyLayer);
+    }
+
+    public static void modCompat() {
+        PonderCompat.init();
     }
 
     private static void registerResourceReloadListeners() {

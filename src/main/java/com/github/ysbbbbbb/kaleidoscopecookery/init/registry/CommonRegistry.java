@@ -7,7 +7,6 @@ import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteOneByTwoBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.farmersdelight.FarmersDelightCompat;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.harvest.HarvestCompat;
-import com.github.ysbbbbbb.kaleidoscopecookery.compat.ponder.init.PonderCompat;
 import com.github.ysbbbbbb.kaleidoscopecookery.datagen.lootable.GiftLootTables;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.PreservationEvent;
@@ -19,7 +18,6 @@ import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.ai.behavior.GiveGiftToHero;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -79,7 +77,6 @@ public class CommonRegistry {
     private static void modCompat() {
         FarmersDelightCompat.init();
         HarvestCompat.init();
-        PonderCompat.init();
     }
 
     private static void addVillagerGift() {

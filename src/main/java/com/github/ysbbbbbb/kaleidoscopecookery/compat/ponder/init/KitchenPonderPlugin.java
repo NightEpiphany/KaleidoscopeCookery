@@ -5,11 +5,14 @@ import net.createmod.ponder.api.registration.PonderPlugin;
 import net.createmod.ponder.api.registration.PonderSceneRegistrationHelper;
 import net.createmod.ponder.api.registration.PonderTagRegistrationHelper;
 import net.createmod.ponder.foundation.PonderIndex;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.resources.ResourceLocation;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+@Environment(EnvType.CLIENT)
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class KitchenPonderPlugin implements PonderPlugin {
