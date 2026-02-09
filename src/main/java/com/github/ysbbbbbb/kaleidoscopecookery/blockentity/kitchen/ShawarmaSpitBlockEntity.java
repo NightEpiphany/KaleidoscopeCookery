@@ -6,6 +6,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.BaseBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModParticles;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.BlockDrop;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -73,22 +74,51 @@ public class ShawarmaSpitBlockEntity extends BaseBlockEntity implements IShawarm
     }
 
     @Override
-    public boolean onTakeCookedItem(Level level, LivingEntity entity) {
-        ItemStack mainHandItem = entity.getMainHandItem();
+    public boolean onTakeCookedItem(Level level, LivingEntity entity, ItemStack mainHandItem) {
 
         // 如果有烹饪完成的物品，则将其取出
         if (this.cookTime <= 0 && !this.cookedItem.isEmpty()) {
-            giveItem(level, entity, mainHandItem, this.cookedItem.copy());
+            if (mainHandItem.isEmpty()) {
+                takeItem(level);
+            } else {
+                giveItem(level, entity, mainHandItem, this.cookedItem.copy());
+            }
             return true;
         }
 
         // 如果没有烹饪完成，返回原材料并重置
         if (this.cookTime > 0 && !this.cookingItem.isEmpty()) {
-            giveItem(level, entity, mainHandItem, this.cookingItem.copy());
+            if (mainHandItem.isEmpty()) {
+                takeItem(level);
+            } else {
+                giveItem(level, entity, mainHandItem, this.cookingItem.copy());
+            }
             return true;
         }
 
         return false;
+    }
+
+    public void takeItem(Level level) {
+        if (this.cookTime <= 0 && !this.cookedItem.isEmpty())
+            BlockDrop.popResource(level, this.getBlockPos(), 0.75, this.cookedItem.copy());
+        if (this.cookTime > 0 && !this.cookingItem.isEmpty())
+            BlockDrop.popResource(level, this.getBlockPos(), 0.75, this.cookingItem.copy());
+
+        if (level instanceof ServerLevel) {
+            level.playSound(null,
+                    worldPosition.getX() + 0.415,
+                    worldPosition.getY() + 0.435,
+                    worldPosition.getZ() + 0.425,
+                    SoundEvents.ITEM_FRAME_REMOVE_ITEM,
+                    SoundSource.BLOCKS,
+                    0.25F + level.random.nextFloat(),
+                    level.random.nextFloat() * 0.7F + 0.6F);
+        }
+        this.cookingItem = ItemStack.EMPTY;
+        this.cookedItem = ItemStack.EMPTY;
+        this.cookTime = 0;
+        this.refresh();
     }
 
     private void giveItem(Level level, LivingEntity entity, ItemStack mainHandItem, ItemStack copy) {
@@ -179,5 +209,10 @@ public class ShawarmaSpitBlockEntity extends BaseBlockEntity implements IShawarm
         this.cookingItem = valueInput.read(COOKING_ITEM, ItemStack.CODEC).orElse(ItemStack.EMPTY);
         this.cookedItem = valueInput.read(COOKED_ITEM, ItemStack.CODEC).orElse(ItemStack.EMPTY);
         this.cookTime = valueInput.getIntOr(COOK_TIME, 0);
+    }
+
+    @Override
+    public boolean hasItem() {
+        return !this.cookingItem.isEmpty() || !this.cookedItem.isEmpty();
     }
 }

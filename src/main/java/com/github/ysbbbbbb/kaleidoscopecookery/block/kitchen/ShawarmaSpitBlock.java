@@ -1,13 +1,13 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen;
 
-import com.github.ysbbbbbb.kaleidoscopecookery.api.blockentity.IShawarmaSpit;
+import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.ShawarmaSpitBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
-import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import com.google.common.collect.Lists;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -15,17 +15,22 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.*;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.*;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
@@ -81,11 +86,14 @@ public class ShawarmaSpitBlock extends HorizontalDirectionalBlock implements Sim
             return InteractionResult.PASS;
         }
         BlockEntity blockEntity = level.getBlockEntity(pos);
-        if (blockEntity instanceof IShawarmaSpit shawarmaSpit) {
-            ItemStack heldItem = player.getItemInHand(hand);
-            if (shawarmaSpit.onPutCookingItem(level, heldItem)) {
+        boolean isLocal = BuiltInRegistries.ITEM.getKey(stack.getItem()).getNamespace().equals(KaleidoscopeCookery.MOD_ID);
+        if (blockEntity instanceof ShawarmaSpitBlockEntity shawarmaSpit) {
+            if (!stack.isEmpty() && shawarmaSpit.onPutCookingItem(level, stack)) {
                 return InteractionResult.SUCCESS;
-            } else if (shawarmaSpit.onTakeCookedItem(level, player)) {
+            } else if (isLocal && shawarmaSpit.onTakeCookedItem(level, player, stack)) {
+                return InteractionResult.SUCCESS;
+            } else {
+                shawarmaSpit.takeItem(level);
                 return InteractionResult.SUCCESS;
             }
         }

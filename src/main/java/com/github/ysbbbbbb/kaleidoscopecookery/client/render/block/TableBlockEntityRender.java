@@ -37,7 +37,7 @@ import java.util.function.BiFunction;
 @Environment(EnvType.CLIENT)
 public class TableBlockEntityRender implements BlockEntityRenderer<TableBlockEntity, TableBlockEntityRenderState> {
 
-    public static final double RENDER_HEIGHT = 1.1625;
+    public static final double RENDER_HEIGHT = 1.27175D;
 
     private final ItemModelResolver itemModelResolver;
 

@@ -21,5 +21,12 @@ public interface IShawarmaSpit {
      * @param user  使用者实体
      * @return 是否成功取出
      */
-    boolean onTakeCookedItem(Level level, LivingEntity user);
+    boolean onTakeCookedItem(Level level, LivingEntity user, ItemStack mainHandItem);
+
+    /**
+     * 判断旋风烤肉架是否已经有物品了
+     *
+     * @return 是否已经有物品了
+     */
+    boolean hasItem();
 }
