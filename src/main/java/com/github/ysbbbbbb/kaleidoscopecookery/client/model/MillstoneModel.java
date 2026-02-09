@@ -13,7 +13,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 
 public class MillstoneModel extends Model<MillstoneModel.State> {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "millstone"), "main");
@@ -71,6 +70,9 @@ public class MillstoneModel extends Model<MillstoneModel.State> {
             this.wheel.yRot = -object.rot * Mth.DEG_TO_RAD;
             this.roll.zRot = object.rot * Mth.DEG_TO_RAD;
             this.rotStick.xRot = -object.liftAngle * Mth.DEG_TO_RAD;
+        } else {
+            float rot = object.facingDeg + object.cacheRot;
+            this.wheel.yRot = -rot * Mth.DEG_TO_RAD;
         }
     }
 
@@ -87,6 +89,6 @@ public class MillstoneModel extends Model<MillstoneModel.State> {
     }
 
     @Environment(EnvType.CLIENT)
-    public record State(Level levelAccessor, boolean hasEntity, float cacheRot, float rot, ItemStack input, float liftAngle) {
+    public record State(Level levelAccessor, boolean hasEntity, float cacheRot, float rot, ItemStack input, float liftAngle, float facingDeg) {
     }
 }

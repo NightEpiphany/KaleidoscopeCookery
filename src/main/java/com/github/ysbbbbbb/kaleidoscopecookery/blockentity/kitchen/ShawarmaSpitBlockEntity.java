@@ -56,8 +56,7 @@ public class ShawarmaSpitBlockEntity extends BaseBlockEntity implements IShawarm
                 this.cookedItem.setCount(this.cookingItem.getCount());
                 this.cookTime = recipe.value().cookingTime();
                 this.refresh();
-                if (level instanceof ServerLevel) {
-                    level.playSound(null,
+                level.playSound(null,
                             worldPosition.getX() + 0.5,
                             worldPosition.getY() + 0.5,
                             worldPosition.getZ() + 0.5,
@@ -65,7 +64,6 @@ public class ShawarmaSpitBlockEntity extends BaseBlockEntity implements IShawarm
                             SoundSource.BLOCKS,
                             0.5F + level.random.nextFloat(),
                             level.random.nextFloat() * 0.7F + 0.6F);
-                }
                 return true;
             }).orElse(false);
         } else {
@@ -206,8 +204,10 @@ public class ShawarmaSpitBlockEntity extends BaseBlockEntity implements IShawarm
     @Override
     protected void loadAdditional(@NonNull ValueInput valueInput) {
         super.loadAdditional(valueInput);
-        this.cookingItem = valueInput.read(COOKING_ITEM, ItemStack.CODEC).orElse(ItemStack.EMPTY);
-        this.cookedItem = valueInput.read(COOKED_ITEM, ItemStack.CODEC).orElse(ItemStack.EMPTY);
+        if (valueInput.contains(COOKING_ITEM))
+            this.cookingItem = valueInput.read(COOKING_ITEM, ItemStack.CODEC).orElse(ItemStack.EMPTY);
+        if (valueInput.contains(COOKED_ITEM))
+            this.cookedItem = valueInput.read(COOKED_ITEM, ItemStack.CODEC).orElse(ItemStack.EMPTY);
         this.cookTime = valueInput.getIntOr(COOK_TIME, 0);
     }
 

@@ -23,7 +23,6 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -95,14 +94,10 @@ public class MillstoneBlockEntityRender implements BlockEntityRenderer<Millstone
                 blockEntityRenderState.cacheRot,
                 blockEntityRenderState.rot,
                 blockEntityRenderState.input,
-                blockEntityRenderState.liftAngle
+                blockEntityRenderState.liftAngle,
+                facingDeg
         );
-        if (blockEntityRenderState.hasEntity) {
-            this.bodyModel.setupAnim(state);
-        } else {
-            float rot = facingDeg + blockEntityRenderState.cacheRot;
-            this.bodyModel.getWheel().yRot = -rot * Mth.DEG_TO_RAD;
-        }
+        this.bodyModel.setupAnim(state);
         poseStack.pushPose();
         poseStack.translate(0.5, 1.5, 0.5);
         poseStack.mulPose(Axis.ZN.rotationDegrees(180));

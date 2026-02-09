@@ -7,12 +7,10 @@ import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.zurrtum.create.catnip.math.Pointing;
 import com.zurrtum.create.client.ponder.api.PonderPalette;
 import com.zurrtum.create.client.ponder.api.scene.*;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeverBlock;
 import net.minecraft.world.level.block.RedStoneWireBlock;
@@ -22,10 +20,6 @@ import net.minecraft.world.level.block.state.properties.RedstoneSide;
 
 public class ShawarmaSpitScenes {
     public static void introduction(SceneBuilder scene, SceneBuildingUtil util) {
-        Level level = Minecraft.getInstance().level;
-        if (level == null) {
-            return;
-        }
 
         VectorUtil vector = util.vector();
         SelectionUtil select = util.select();
@@ -66,15 +60,22 @@ public class ShawarmaSpitScenes {
                 .withItem(new ItemStack(Items.BEEF));
         scene.idle(7);
         scene.world().modifyBlockEntity(spitPos, ShawarmaSpitBlockEntity.class, (e) -> {
-            e.onPutCookingItem(level, new ItemStack(Items.BEEF, 8));
+            e.cookingItem = new ItemStack(Items.BEEF, 8);
+            e.cookedItem = new ItemStack(Items.COOKED_BEEF, 8);
+            e.cookTime = 100;
+            e.refresh();
         });
         scene.idle(28);
         scene.overlay().showControls(vector.blockSurface(spitPos.above(), Direction.EAST), Pointing.RIGHT, 20)
                 .rightClick()
                 .withItem(new ItemStack(Items.BEEF));
         scene.idle(7);
-        scene.world().modifyBlockEntity(spitPos.above(), ShawarmaSpitBlockEntity.class, (e) ->
-                e.onPutCookingItem(level, new ItemStack(Items.BEEF, 8)));
+        scene.world().modifyBlockEntity(spitPos.above(), ShawarmaSpitBlockEntity.class, (e) ->{
+            e.cookingItem = new ItemStack(Items.BEEF, 8);
+            e.cookedItem = new ItemStack(Items.COOKED_BEEF, 8);
+            e.cookTime = 100;
+            e.refresh();
+        });
         scene.idle(33);
 
         scene.addKeyframe();
