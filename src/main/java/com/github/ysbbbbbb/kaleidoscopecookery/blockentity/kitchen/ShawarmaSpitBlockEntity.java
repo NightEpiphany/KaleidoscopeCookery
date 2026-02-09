@@ -77,7 +77,7 @@ public class ShawarmaSpitBlockEntity extends BaseBlockEntity implements IShawarm
         // 如果有烹饪完成的物品，则将其取出
         if (this.cookTime <= 0 && !this.cookedItem.isEmpty()) {
             if (mainHandItem.isEmpty()) {
-                takeItem(level);
+                takeItem(level, entity);
             } else {
                 giveItem(level, entity, mainHandItem, this.cookedItem.copy());
             }
@@ -87,7 +87,7 @@ public class ShawarmaSpitBlockEntity extends BaseBlockEntity implements IShawarm
         // 如果没有烹饪完成，返回原材料并重置
         if (this.cookTime > 0 && !this.cookingItem.isEmpty()) {
             if (mainHandItem.isEmpty()) {
-                takeItem(level);
+                takeItem(level, entity);
             } else {
                 giveItem(level, entity, mainHandItem, this.cookingItem.copy());
             }
@@ -97,9 +97,11 @@ public class ShawarmaSpitBlockEntity extends BaseBlockEntity implements IShawarm
         return false;
     }
 
-    public void takeItem(Level level) {
-        if (this.cookTime <= 0 && !this.cookedItem.isEmpty())
+    public void takeItem(Level level, LivingEntity entity) {
+        if (this.cookTime <= 0 && !this.cookedItem.isEmpty()) {
             BlockDrop.popResource(level, this.getBlockPos(), 0.75, this.cookedItem.copy());
+            entity.hurt(level.damageSources().inFire(), 1);
+        }
         if (this.cookTime > 0 && !this.cookingItem.isEmpty())
             BlockDrop.popResource(level, this.getBlockPos(), 0.75, this.cookingItem.copy());
 

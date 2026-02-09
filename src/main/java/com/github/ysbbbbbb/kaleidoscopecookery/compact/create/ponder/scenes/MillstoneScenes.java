@@ -10,19 +10,19 @@ import com.zurrtum.create.client.ponder.api.scene.*;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.equine.Donkey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 @Environment(EnvType.CLIENT)
 public class MillstoneScenes {
     public static void introduction(SceneBuilder scene, SceneBuildingUtil util) {
-        Level level = Minecraft.getInstance().level;
+        ClientLevel level = Minecraft.getInstance().level;
         if (level == null) {
             return;
         }
@@ -52,7 +52,7 @@ public class MillstoneScenes {
                 .withItem(new ItemStack(Items.FLINT));
         scene.idle(7);
         scene.world().modifyBlockEntity(millstonePos, MillstoneBlockEntity.class, (e) ->
-                e.onPutItem(level, new ItemStack(Items.FLINT, 4)));
+                e.onPutItemForPonder(level, new ItemStack(Items.FLINT, 4)));
         scene.idle(48);
 
         scene.addKeyframe();
@@ -66,7 +66,7 @@ public class MillstoneScenes {
         scene.world().modifyEntity(itemDrop, Entity::discard);
         scene.world().modifyBlockEntity(millstonePos, MillstoneBlockEntity.class, (e) -> {
             e.resetWhenTakeout();
-            e.onPutItem(level, new ItemStack(Items.FLINT, 8));
+            e.onPutItemForPonder(level, new ItemStack(Items.FLINT, 8));
         });
         scene.idle(48);
 
@@ -107,14 +107,13 @@ public class MillstoneScenes {
                 Vec3 pos = new Vec3(0.0F, 0.0F, 2.0F)
                         .yRot(rot * ((float) Math.PI / 180F))
                         .add(center);
-                e.move(MoverType.SELF, pos);
+                e.setPosRaw(pos.x, pos.y, pos.z);
+                e.setOldPosAndRot();
                 LivingEntity living = (LivingEntity) e;
                 living.setYBodyRot(-rot - 90);
                 living.setYHeadRot(-rot - 90);
             });
-            scene.world().modifyBlockEntity(millstonePos, MillstoneBlockEntity.class, (e) -> {
-                e.setCacheRot(cacheRot);
-            });
+            scene.world().modifyBlockEntity(millstonePos, MillstoneBlockEntity.class, (e) -> e.setCacheRot(cacheRot));
             scene.idle(1);
         }
 

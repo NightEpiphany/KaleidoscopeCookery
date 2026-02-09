@@ -93,7 +93,7 @@ public class ShawarmaSpitBlock extends HorizontalDirectionalBlock implements Sim
             } else if (isLocal && shawarmaSpit.onTakeCookedItem(level, player, stack)) {
                 return InteractionResult.SUCCESS;
             } else {
-                shawarmaSpit.takeItem(level);
+                shawarmaSpit.takeItem(level, player);
                 return InteractionResult.SUCCESS;
             }
         }

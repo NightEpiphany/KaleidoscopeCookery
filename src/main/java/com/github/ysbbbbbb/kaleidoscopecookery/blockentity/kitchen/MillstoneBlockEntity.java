@@ -10,6 +10,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.init.ModRecipes;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModSounds;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.neo.ItemStackHandler;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -277,6 +278,12 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
             }).orElse(false);
         }
         return false;
+    }
+
+    public void onPutItemForPonder(ClientLevel level, ItemStack putOnItem) {
+        this.input = putOnItem.split(MAX_INPUT_COUNT);
+        this.progress = Math.max(Math.round(this.rotSpeedTick), 1);
+        this.refresh();
     }
 
     public void resetWhenTakeout() {
