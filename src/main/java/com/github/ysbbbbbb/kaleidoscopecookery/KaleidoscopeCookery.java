@@ -19,11 +19,9 @@ public class KaleidoscopeCookery implements ModInitializer {
 
     @Override
     public void onInitialize() {
-
         ConfigRegistry.INSTANCE.register(MOD_ID, ModConfig.Type.COMMON, GeneralConfig.init());
         // 药水效果优先注册
         ModEffects.registerEffects();
-
         ModArmorMaterials.registerArmorMaterials();
         ModTrigger.init();
         ModBlocks.registerBlocks();
@@ -41,13 +39,10 @@ public class KaleidoscopeCookery implements ModInitializer {
         ModDataComponents.registerDataComponents();
         // 事件
         ModEvents.init();
-
         CommonRegistry.init();
         NetworkHandler.init();
-
         // 注册额外的战利品表事件
         ExtraLootTableDrop.register();
-
         if (FabricLoader.getInstance().isModLoaded("jei")) {
             ModJeiPlugin.syncRecipes();
         }

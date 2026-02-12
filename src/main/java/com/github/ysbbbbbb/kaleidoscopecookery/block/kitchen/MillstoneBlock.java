@@ -17,6 +17,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.animal.equine.AbstractHorse;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -152,7 +153,7 @@ public class MillstoneBlock extends HorizontalDirectionalBlock implements Entity
             NinePart part = pState.getValue(PART);
             BlockPos centerPos = pPos.subtract(new Vec3i(part.getPosX(), 0, part.getPosY()));
             BlockEntity blockEntity = pLevel.getBlockEntity(centerPos);
-            if (mob.getFirstPassenger() instanceof ServerPlayer player) {
+            if (mob.getFirstPassenger() instanceof ServerPlayer player && mob instanceof AbstractHorse horse && horse.isTamed()) {
                 // 检查实体的乘客是不是玩家，如果是，那么给予成就
                 ModTrigger.EVENT.trigger(player, ModEventTriggerType.DRIVE_THE_MILLSTONE);
             }
