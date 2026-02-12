@@ -7,6 +7,8 @@ import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteOneByTwoBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.farmersdelight.FarmersDelightCompat;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.harvest.HarvestCompat;
+import com.github.ysbbbbbb.kaleidoscopecookery.compat.trinkets.init.ModTrinketsCompat;
+import com.github.ysbbbbbb.kaleidoscopecookery.compat.trinkets.init.TrinketsCompatServer;
 import com.github.ysbbbbbb.kaleidoscopecookery.datagen.lootable.GiftLootTables;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.PreservationEvent;
@@ -25,12 +27,12 @@ import org.jetbrains.annotations.NotNull;
 
 public class CommonRegistry {
     public static void init() {
+        modCompat();
         addComposter();
         registerFoodBiteBlocks();
         registerServerEvents();
         addVillagerGift();
         addDispenserBehavior();
-        modCompat();
     }
 
     public static void registerServerEvents() {
@@ -77,6 +79,7 @@ public class CommonRegistry {
     private static void modCompat() {
         FarmersDelightCompat.init();
         HarvestCompat.init();
+        TrinketsCompatServer.init();
     }
 
     private static void addVillagerGift() {

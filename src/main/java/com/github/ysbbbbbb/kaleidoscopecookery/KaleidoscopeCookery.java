@@ -18,10 +18,8 @@ public class KaleidoscopeCookery implements ModInitializer {
     @Override
     public void onInitialize() {
         ForgeConfigRegistry.INSTANCE.register(MOD_ID, ModConfig.Type.COMMON, GeneralConfig.init());
-
         CommonRegistry.init();
         NetworkHandler.init();
-
         ModTrigger.init();
         ModBlocks.registerBlocks();
         ModItems.registerItems();
@@ -36,7 +34,6 @@ public class KaleidoscopeCookery implements ModInitializer {
         ModLootModifier.registerLootModifiers();
         ModTrades.registerTrades();
         ModSoupBases.registerSoupBases();
-
         // 注册额外的战利品表事件
         ExtraLootTableDrop.register();
     }

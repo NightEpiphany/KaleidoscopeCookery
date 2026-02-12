@@ -3,6 +3,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.init;
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.armor.FarmerArmorMaterial;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -50,8 +51,8 @@ public final class ModItems {
     public static final Item KITCHEN_SHOVEL = new KitchenShovelItem();
 
     // 服装
-    public static final Item STRAW_HAT = new StrawHatItem(false);
-    public static final Item STRAW_HAT_FLOWER = new StrawHatItem(true);
+    public static Item STRAW_HAT;
+    public static Item STRAW_HAT_FLOWER;
     public static final Item FARMER_CHEST_PLATE = new ArmorItem(FarmerArmorMaterial.INSTANCE, ArmorItem.Type.CHESTPLATE, new Item.Properties());
     public static final Item FARMER_LEGGINGS = new ArmorItem(FarmerArmorMaterial.INSTANCE, ArmorItem.Type.LEGGINGS, new Item.Properties());
     public static final Item FARMER_BOOTS = new ArmorItem(FarmerArmorMaterial.INSTANCE, ArmorItem.Type.BOOTS, new Item.Properties());
@@ -221,8 +222,12 @@ public final class ModItems {
         Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "kitchen_shovel"), KITCHEN_SHOVEL);
 
         // 服装
-        Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "straw_hat"), STRAW_HAT);
-        Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "straw_hat_flower"), STRAW_HAT_FLOWER);
+        if (!FabricLoader.getInstance().isModLoaded("trinkets")) {
+            STRAW_HAT = new StrawHatItem(false);
+            STRAW_HAT_FLOWER = new StrawHatItem(true);
+            Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "straw_hat"), STRAW_HAT);
+            Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "straw_hat_flower"), STRAW_HAT_FLOWER);
+        }
         Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "farmer_chest_plate"), FARMER_CHEST_PLATE);
         Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "farmer_leggings"), FARMER_LEGGINGS);
         Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "farmer_boots"), FARMER_BOOTS);

@@ -8,19 +8,17 @@ import com.github.ysbbbbbb.kaleidoscopecookery.client.render.block.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.render.item.StrawHatArmorRenderer;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.resources.ItemRenderReplacerReloadListener;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.ponder.init.PonderCompat;
+import com.github.ysbbbbbb.kaleidoscopecookery.compat.trinkets.init.TrinketsCompactClient;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.*;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.packs.PackType;
 
 @Environment(EnvType.CLIENT)
@@ -28,12 +26,11 @@ public class ClientRegistry {
     public static void init() {
         // 注册盔甲渲染器
         ArmorRenderer.register(new StrawHatArmorRenderer(), ModItems.STRAW_HAT, ModItems.STRAW_HAT_FLOWER);
-
+        modCompat();
         registerItemProperties();
         registerClientEvents();
         registerBlockEntityRenderers();
         registerResourceReloadListeners();
-        modCompat();
     }
 
     private static void registerItemProperties() {
@@ -71,6 +68,7 @@ public class ClientRegistry {
 
     public static void modCompat() {
         PonderCompat.init();
+        TrinketsCompactClient.init();
     }
 
     private static void registerResourceReloadListeners() {

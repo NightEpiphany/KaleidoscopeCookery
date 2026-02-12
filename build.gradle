@@ -117,6 +117,14 @@ repositories {
         }
     }
     maven {
+        name = "TerraformersMC"
+        url = "https://maven.terraformersmc.com/"
+    }
+    maven {
+        name = "Ladysnake Libs"
+        url = 'https://maven.ladysnake.org/releases'
+    }
+    maven {
         name = "Fuzs Mod Resources"
         url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
     }
@@ -193,6 +201,8 @@ dependencies {
     modImplementation "dev.latvian.mods:rhino-fabric:2001.2.3-build.10"
     modRuntimeOnly "dev.architectury:architectury-fabric:9.2.14"
     modRuntimeOnly "maven.modrinth:probejs:6.0.0"
+
+    modCompileOnly "dev.emi:trinkets:3.7.2"
 
     modImplementation "maven.modrinth:harvest-with-ease:9.4.0-fabric,1.20.1"
     modRuntimeOnly "maven.modrinth:cobweb:1.0.1-fabric,1.20.1"

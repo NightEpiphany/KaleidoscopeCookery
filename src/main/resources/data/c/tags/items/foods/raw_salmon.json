@@ -1,5 +1,6 @@
 {
   "values": [
-    "minecraft:salmon"
+    "minecraft:salmon",
+    {"id": "farmersdelight:salmon_slice", "required": false}
   ]
 }

@@ -16,6 +16,7 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 
@@ -29,12 +30,12 @@ public class AdvanceEntityMatchTool implements LootItemCondition {
     }
 
     @Override
-    public LootItemConditionType getType() {
+    public @NotNull LootItemConditionType getType() {
         return ModLootModifier.ADVANCE_ENTITY_MATCH_TOOL;
     }
 
     @Override
-    public Set<LootContextParam<?>> getReferencedContextParams() {
+    public @NotNull Set<LootContextParam<?>> getReferencedContextParams() {
         return ImmutableSet.of(LootContextParams.KILLER_ENTITY);
     }
 
@@ -56,13 +57,13 @@ public class AdvanceEntityMatchTool implements LootItemCondition {
 
     public static class AdvanceEntityMatchToolSerializer implements Serializer<AdvanceEntityMatchTool> {
         @Override
-        public void serialize(JsonObject object, AdvanceEntityMatchTool matchTool, JsonSerializationContext context) {
+        public void serialize(JsonObject object, AdvanceEntityMatchTool matchTool, @NotNull JsonSerializationContext context) {
             object.addProperty("slot", matchTool.slot.getName());
             object.add("predicate", matchTool.predicate.serializeToJson());
         }
 
         @Override
-        public AdvanceEntityMatchTool deserialize(JsonObject object, JsonDeserializationContext context) {
+        public @NotNull AdvanceEntityMatchTool deserialize(JsonObject object, @NotNull JsonDeserializationContext context) {
             EquipmentSlot slot = EquipmentSlot.byName(object.get("slot").getAsString());
             ItemPredicate itemPredicate = ItemPredicate.fromJson(object.get("predicate"));
             return new AdvanceEntityMatchTool(slot, itemPredicate);

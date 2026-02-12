@@ -22,6 +22,7 @@ import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunct
 import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -37,12 +38,12 @@ public class RecipeRandomlyFunction extends LootItemConditionalFunction {
     }
 
     @Override
-    public LootItemFunctionType getType() {
+    public @NotNull LootItemFunctionType getType() {
         return ModLootModifier.RECIPE_RANDOMLY;
     }
 
     @Override
-    protected ItemStack run(ItemStack stack, LootContext context) {
+    protected @NotNull ItemStack run(@NotNull ItemStack stack, LootContext context) {
         RandomSource randomsource = context.getRandom();
         RecipeItem.RecipeRecord record;
         // 如果配置了配方，则从配置的配方中随机一个

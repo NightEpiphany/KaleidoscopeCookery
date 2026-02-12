@@ -1,6 +1,7 @@
 {
   "values": [
     "kaleidoscope_cookery:raw_lamb_chops",
-    "minecraft:mutton"
+    "minecraft:mutton",
+    {"id": "farmersdelight:mutton_chops", "required": false}
   ]
 }

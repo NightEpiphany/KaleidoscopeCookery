@@ -1,0 +1,10 @@
+{
+  "type": "kaleidoscope_cookery:millstone",
+  "ingredient": {
+    "item": "create:zinc_ore"
+  },
+  "result": {
+    "count": 5,
+    "item": "create:raw_zinc"
+  }
+}
