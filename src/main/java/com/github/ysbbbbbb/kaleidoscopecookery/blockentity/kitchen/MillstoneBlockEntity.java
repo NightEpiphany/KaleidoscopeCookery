@@ -77,7 +77,7 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
     public float getRotation(Level level, float partialTick) {
         float degPerTick = 360f / Math.max(this.rotSpeedTick, 1);
         float gameTime = level.getGameTime() + partialTick;
-        return (this.cacheRot + gameTime * degPerTick) % 360;
+        return Mth.abs(getCacheRot() + gameTime * degPerTick) % 360;
     }
 
     public void tick(Level level) {
@@ -96,7 +96,7 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
             ItemStack outputStack = this.output.copyAndClear();
             ItemEntity entity = new ItemEntity(serverLevel,
                     outputPos.getX() + 0.5,
-                    outputPos.getY(),
+                          outputPos.getY(),
                     outputPos.getZ() + 0.5,
                     outputStack, 0, 0, 0);
             entity.setDefaultPickUpDelay();
@@ -322,7 +322,7 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
         this.bindEntity = mob;
         // 缓存角度纠正
         float rot = this.getRotation(this.level, 0);
-        this.cacheRot = this.cacheRot - (rot - this.cacheRot);
+        this.cacheRot = fixRot(getCacheRot() - (rot - getCacheRot()));
 
         // 读取数据地图，获取抬升角度
         MillstoneBindableData data = MillstoneBindableDataReloadListener.INSTANCE.getOrDefault(mob.getType(), MillstoneBindableData.DEFAULT);
@@ -343,7 +343,7 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
         tag.putUUID(ENTITY_ID_KEY, entityId);
-        tag.putFloat(CACHE_ROT_KEY, cacheRot);
+        tag.putFloat(CACHE_ROT_KEY, fixRot(getCacheRot()));
         tag.putFloat(ROT_SPEED_TICK_KEY, rotSpeedTick);
         tag.putFloat(LIFT_ANGLE_KEY, liftAngle);
         if (!input.isEmpty()) {
@@ -377,6 +377,16 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
 
     public float getCacheRot() {
         return this.cacheRot;
+    }
+
+    /**
+     * 修正 cacheRot 的值，此值应该在 0-360 之间，过大或过小都会导致动画异常
+     */
+    private float fixRot(float value) {
+        if (Float.isNaN(value) || Float.isInfinite(value)) {
+            return 0f;
+        }
+        return Mth.abs(value) % 360;
     }
 
     public float getLiftAngle() {

@@ -29,6 +29,14 @@ repositories {
         }
     }
     maven {
+        name = "TerraformersMC"
+        url = "https://maven.terraformersmc.com/"
+    }
+    maven {
+        name = "Ladysnake Libs"
+        url = 'https://maven.ladysnake.org/releases'
+    }
+    maven {
         name = "ModMaven"
         url = "https://modmaven.dev"
         content {
@@ -100,6 +108,7 @@ dependencies {
     modImplementation "curse.maven:cloth-config-348521:5729125"
     modApi("me.shedaniel.cloth:basic-math:+")
     modImplementation "curse.maven:architectury-api-419699:5786326"
+    modImplementation "dev.emi:trinkets:${trinkets_version}"
 
     // delight family compact
     modImplementation("vectorwing:FarmersDelight:${fdrf_version}") {

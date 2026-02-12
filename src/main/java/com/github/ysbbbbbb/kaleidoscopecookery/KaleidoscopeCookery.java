@@ -21,10 +21,8 @@ public class KaleidoscopeCookery implements ModInitializer {
         NeoForgeConfigRegistry.INSTANCE.register(MOD_ID, ModConfig.Type.COMMON, GeneralConfig.init());
         // 药水效果优先注册
         ModEffects.registerEffects();
-
         CommonRegistry.init();
         NetworkHandler.init();
-
         ModArmorMaterials.registerArmorMaterials();
         ModTrigger.init();
         ModBlocks.registerBlocks();
@@ -42,7 +40,6 @@ public class KaleidoscopeCookery implements ModInitializer {
         ModDataComponents.registerDataComponents();
         // 事件
         ModEvents.init();
-
         // 注册额外的战利品表事件
         ExtraLootTableDrop.register();
     }

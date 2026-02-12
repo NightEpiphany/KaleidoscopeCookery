@@ -1,5 +1,6 @@
 {
   "values": [
-    "minecraft:cod"
+    "minecraft:cod",
+    {"id": "farmersdelight:cod_slice", "required": false}
   ]
 }

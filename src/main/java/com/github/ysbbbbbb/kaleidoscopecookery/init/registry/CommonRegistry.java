@@ -4,34 +4,31 @@ import com.github.ysbbbbbb.kaleidoscopecookery.block.dispenser.OilPotDispenseBeh
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteOneByTwoBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.farmersdelight.FarmersDelightCompat;
-import com.github.ysbbbbbb.kaleidoscopecookery.compat.harvest.HarvestCompat;
+import com.github.ysbbbbbb.kaleidoscopecookery.compat.trinkets.init.ModTrinketsCompat;
+import com.github.ysbbbbbb.kaleidoscopecookery.compat.trinkets.init.TrinketsCompatServer;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.FlatulenceServerEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.PreservationEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.SatiatedShieldEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.BowlFoodBlockItem;
-import net.fabricmc.fabric.api.event.EventFactory;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
-
 public class CommonRegistry {
     public static void init() {
+        modCompat();
         addComposter();
         registerFoodBiteBlocks();
         registerServerEvents();
         addDispenserBehavior();
-        modCompat();
     }
 
     public static void registerServerEvents() {
@@ -93,8 +90,8 @@ public class CommonRegistry {
     }
 
     private static void modCompat() {
+        TrinketsCompatServer.init();
         FarmersDelightCompat.init();
-        HarvestCompat.init();
     }
 
     private static void addDispenserBehavior() {
