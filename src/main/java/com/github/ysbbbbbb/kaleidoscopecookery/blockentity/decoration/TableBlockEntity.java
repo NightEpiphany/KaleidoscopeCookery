@@ -1,5 +1,6 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.api.blockentity.ServerThreadSafe;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.BaseBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import net.minecraft.core.BlockPos;
@@ -23,7 +24,7 @@ public class TableBlockEntity extends BaseBlockEntity {
         super(ModBlocks.TABLE_BE, pos, blockState);
     }
 
-
+    @ServerThreadSafe
     @Override
     protected void saveAdditional(@NonNull ValueOutput valueOutput) {
         super.saveAdditional(valueOutput);
@@ -38,6 +39,7 @@ public class TableBlockEntity extends BaseBlockEntity {
         }
     }
 
+    @ServerThreadSafe
     @Override
     protected void loadAdditional(@NonNull ValueInput valueInput) {
         super.loadAdditional(valueInput);

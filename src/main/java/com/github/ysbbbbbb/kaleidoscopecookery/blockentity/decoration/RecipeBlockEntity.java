@@ -1,5 +1,6 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.api.blockentity.ServerThreadSafe;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.BaseBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.neo.ItemStackHandler;
@@ -18,7 +19,7 @@ public class RecipeBlockEntity extends BaseBlockEntity {
         super(ModBlocks.RECIPE_BLOCK_BE, pos, blockState);
     }
 
-
+    @ServerThreadSafe
     @Override
     protected void loadAdditional(@NonNull ValueInput valueInput) {
         super.loadAdditional(valueInput);
@@ -26,6 +27,7 @@ public class RecipeBlockEntity extends BaseBlockEntity {
         this.items.setStackInSlot(0, itemStack);
     }
 
+    @ServerThreadSafe
     @Override
     protected void saveAdditional(@NonNull ValueOutput valueOutput) {
         super.saveAdditional(valueOutput);

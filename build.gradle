@@ -52,7 +52,7 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "maven.modrinth:jade:${project.jade_version}"
 
-	modImplementation "curse.maven:create-fly-1346281:7572621"
+	modImplementation "curse.maven:create-fly-1346281:7658527"
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 	modImplementation("mezz.jei:jei-1.21.11-fabric:${project.jei_version}")

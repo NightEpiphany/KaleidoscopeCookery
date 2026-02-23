@@ -1,6 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.api.blockentity.IKitchenwareRacks;
+import com.github.ysbbbbbb.kaleidoscopecookery.api.blockentity.ServerThreadSafe;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.BaseBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
@@ -53,6 +54,7 @@ public class KitchenwareRacksBlockEntity extends BaseBlockEntity implements IKit
         return false;
     }
 
+    @ServerThreadSafe
     @Override
     protected void saveAdditional(@NonNull ValueOutput valueOutput) {
         super.saveAdditional(valueOutput);
@@ -62,6 +64,7 @@ public class KitchenwareRacksBlockEntity extends BaseBlockEntity implements IKit
             valueOutput.storeNullable(RIGHT_ITEM, ItemStack.CODEC, this.itemRight);
     }
 
+    @ServerThreadSafe
     @Override
     protected void loadAdditional(@NonNull ValueInput valueInput) {
         super.loadAdditional(valueInput);

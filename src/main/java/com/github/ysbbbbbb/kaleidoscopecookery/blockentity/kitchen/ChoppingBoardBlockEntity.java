@@ -1,6 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.api.blockentity.IChoppingBoard;
+import com.github.ysbbbbbb.kaleidoscopecookery.api.blockentity.ServerThreadSafe;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.BaseBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.ChoppingBoardRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
@@ -160,6 +161,7 @@ public class ChoppingBoardBlockEntity extends BaseBlockEntity implements IChoppi
         this.refresh();
     }
 
+    @ServerThreadSafe
     @Override
     protected void saveAdditional(@NonNull ValueOutput valueOutput) {
         super.saveAdditional(valueOutput);
@@ -174,6 +176,7 @@ public class ChoppingBoardBlockEntity extends BaseBlockEntity implements IChoppi
             valueOutput.storeNullable(RESULT_ITEM, ItemStack.CODEC, this.result);
     }
 
+    @ServerThreadSafe
     @Override
     protected void loadAdditional(@NonNull ValueInput valueInput) {
         super.loadAdditional(valueInput);

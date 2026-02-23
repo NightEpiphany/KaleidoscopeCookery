@@ -2,6 +2,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.advancements.critereon.ModEventTriggerType;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.blockentity.IStockpot;
+import com.github.ysbbbbbb.kaleidoscopecookery.api.blockentity.ServerThreadSafe;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.event.StockpotMatchRecipeEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.recipe.soupbase.ISoupBase;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.StockpotBlock;
@@ -71,6 +72,9 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
     private int status = PUT_SOUP_BASE;
     private int currentTick = -1;
     private int takeoutCount = 0;
+
+    // 强制刷新到服务器主线程，用于区块序列化存储
+    private volatile boolean hasLidCached = false;
     /**
      * 盖子，因为盖子可以当做盾牌，所以会记录很多额外内容，需要专门保存
      */
@@ -126,6 +130,7 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
         }
 
         boolean hasLid = this.hasLid();
+        this.hasLidCached = hasLid;
         // 音效播放
         if (level.getGameTime() % 15 == 0) {
             float volume = hasLid ? 0.075f : 0.2f;
@@ -240,9 +245,10 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
     }
 
     @Override
-    public boolean onLitClick(Level level, LivingEntity user, ItemStack stack) {
+    public boolean onLidClick(Level level, LivingEntity user, ItemStack stack) {
         BlockState blockState = level.getBlockState(worldPosition);
         boolean hasLid = this.hasLid();
+        this.hasLidCached = hasLid;
 
         // 第一种情况，放上盖子
         if (!hasLid && stack.is(ModItems.STOCKPOT_LID)) {
@@ -485,6 +491,7 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
         }
     }
 
+    @ServerThreadSafe
     @Override
     protected void saveAdditional(@NonNull ValueOutput valueOutput) {
         super.saveAdditional(valueOutput);
@@ -496,10 +503,11 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
         valueOutput.putInt(STATUS, this.status);
         valueOutput.putInt(CURRENT_TICK, this.currentTick);
         valueOutput.putInt(TAKEOUT_COUNT, this.takeoutCount);
-        if (this.hasLid())
+        if (this.hasLidCached)
             valueOutput.storeNullable(LID_ITEM, ItemStack.CODEC, this.lidItem);
     }
 
+    @ServerThreadSafe
     @Override
     protected void loadAdditional(@NonNull ValueInput valueInput) {
         super.loadAdditional(valueInput);
