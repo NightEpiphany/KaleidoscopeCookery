@@ -36,7 +36,7 @@ public class FoodBiteOneByTwoBlock extends FoodBiteBlock {
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+    public @NotNull BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
         int position = state.getValue(POSITION);
         Direction facing = state.getValue(FACING);
 
@@ -58,7 +58,7 @@ public class FoodBiteOneByTwoBlock extends FoodBiteBlock {
     }
 
     @Override
-    public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+    public @NotNull BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
         if (!level.isClientSide && player.isCreative() && state.getValue(POSITION) == LEFT) {
             BlockPos right = pos.relative(state.getValue(FACING).getCounterClockWise());
             BlockState rightState = level.getBlockState(right);

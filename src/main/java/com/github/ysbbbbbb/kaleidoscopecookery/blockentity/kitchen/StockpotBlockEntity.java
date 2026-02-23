@@ -19,7 +19,6 @@ import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -243,7 +242,6 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
     public boolean onLitClick(Level level, LivingEntity user, ItemStack stack) {
         BlockState blockState = level.getBlockState(worldPosition);
         boolean hasLid = this.hasLid();
-
         // 第一种情况，放上盖子
         if (!hasLid && stack.is(ModItems.STOCKPOT_LID)) {
             this.setLidItem(stack.split(1));
