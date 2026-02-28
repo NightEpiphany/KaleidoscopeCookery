@@ -239,7 +239,7 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
     }
 
     @Override
-    public boolean onLitClick(Level level, LivingEntity user, ItemStack stack) {
+    public boolean onLidClick(Level level, LivingEntity user, ItemStack stack) {
         BlockState blockState = level.getBlockState(worldPosition);
         boolean hasLid = this.hasLid();
         // 第一种情况，放上盖子

@@ -126,7 +126,7 @@ public class StockpotBlock extends HorizontalDirectionalBlock implements EntityB
         }
         // 先检查盖子
         ItemStack mainHandItem = player.getMainHandItem();
-        if (stockpot.onLitClick(level, player, mainHandItem)) {
+        if (stockpot.onLidClick(level, player, mainHandItem)) {
             return ItemInteractionResult.SUCCESS;
         }
         // 加入汤底

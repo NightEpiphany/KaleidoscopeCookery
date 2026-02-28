@@ -52,7 +52,7 @@ public interface IStockpot {
      * @param stack 使用者所持有的物品，如果是锅盖则盖上锅盖，如果是空物品则揭开锅盖
      * @return 如果操作成功则返回 true，否则返回 false
      */
-    boolean onLitClick(Level level, LivingEntity user, ItemStack stack);
+    boolean onLidClick(Level level, LivingEntity user, ItemStack stack);
 
     /**
      * 添加汤底到锅中
