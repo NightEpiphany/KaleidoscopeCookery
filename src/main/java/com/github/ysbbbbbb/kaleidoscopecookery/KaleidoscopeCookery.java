@@ -1,6 +1,6 @@
 package com.github.ysbbbbbb.kaleidoscopecookery;
 
-import com.github.ysbbbbbb.kaleidoscopecookery.compact.jei.ModJeiPlugin;
+import com.github.ysbbbbbb.kaleidoscopecookery.compat.jei.ModJeiPlugin;
 import com.github.ysbbbbbb.kaleidoscopecookery.config.GeneralConfig;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.ExtraLootTableDrop;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.*;
