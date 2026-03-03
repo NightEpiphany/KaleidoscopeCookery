@@ -1,4 +1,4 @@
-package com.github.ysbbbbbb.kaleidoscopecookery.compat.jei.recipes;
+package com.github.ysbbbbbb.kaleidoscopecookery.util.recipes;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModRecipes;

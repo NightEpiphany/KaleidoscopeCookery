@@ -39,6 +39,9 @@ public class BowlFoodOnlyItem extends FoodWithEffectsItem implements IHasContain
         }
         if (entity instanceof Player player) {
             player.getInventory().placeItemBackInInventory(bowl);
+            for (MobEffectInstance effectInstance : effectInstances) {
+                entity.addEffect(effectInstance);
+            }
         } else {
             ItemEntity itemEntity = new ItemEntity(level, entity.getX(), entity.getY(), entity.getZ(), bowl);
             level.addFreshEntity(itemEntity);
