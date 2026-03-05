@@ -14,6 +14,7 @@ public class GeneralConfig {
      */
     public static ModConfigSpec.BooleanValue SATIATED_SHIELD_ABSORB_ENABLED;
     public static ModConfigSpec.BooleanValue SATIATED_SHIELD_ABSORB_EXCESS_DAMAGE;
+    public static ModConfigSpec.BooleanValue STOVE_FIRING_ENABLED;
 
     private static void general(ModConfigSpec.Builder builder) {
         builder.push("cookery");
@@ -23,6 +24,9 @@ public class GeneralConfig {
 
         builder.comment("Whether the Satiated Shield effect should absorb excess damage beyond its capacity.");
         SATIATED_SHIELD_ABSORB_EXCESS_DAMAGE = builder.define("SatiatedShieldAbsorbExcessDamage", true);
+
+        builder.comment("Whether enabling the Stove Firing effect.");
+        STOVE_FIRING_ENABLED = builder.define("StoveFiringEnabled", false);
 
         builder.pop();
     }
