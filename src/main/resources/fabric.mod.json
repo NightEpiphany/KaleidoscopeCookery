@@ -19,7 +19,8 @@
     "client": ["com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookeryClient"],
     "jei_mod_plugin": ["com.github.ysbbbbbb.kaleidoscopecookery.compat.jei.ModJeiPlugin"],
     "jade": ["com.github.ysbbbbbb.kaleidoscopecookery.compat.jade.ModJadePlugin"],
-    "rei_client": ["com.github.ysbbbbbb.kaleidoscopecookery.compat.rei.ModREIClientPlugin"]
+    "rei_client": ["com.github.ysbbbbbb.kaleidoscopecookery.compat.rei.ModREIClientPlugin"],
+    "rei_common": ["com.github.ysbbbbbb.kaleidoscopecookery.compat.rei.ModREICommonPlugin"]
   },
   "mixins": ["kaleidoscope_cookery.mixins.json"],
   "accessWidener": "kaleidoscope_cookery.accesswidener",

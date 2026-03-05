@@ -2,6 +2,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.compat.rei.category;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.rei.ReiUtil;
+import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.PotRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.recipes.ModRecipesLibrary;
 import com.mojang.serialization.Codec;
@@ -20,7 +21,6 @@ import me.shedaniel.rei.api.common.display.DisplaySerializer;
 import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryStacks;
-import me.shedaniel.rei.plugin.common.displays.crafting.DefaultCustomDisplay;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -31,6 +31,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -125,12 +126,7 @@ public class ReiPotRecipeCategory implements DisplayCategory<ReiPotRecipeCategor
             List<EntryIngredient> input = ReiUtil.ofIngredients(r.value().getIngredients());
             List<EntryIngredient> output = ReiUtil.ofItemStacks(r.value().result());
 
-            registry.add(new DefaultCustomDisplay(input, output, Optional.of(r.id().registry())) {
-                @Override
-                public CategoryIdentifier<?> getCategoryIdentifier() {
-                    return ReiChoppingBoardRecipeCategory.ID;
-                }
-            });
+            registry.add(new PotRecipeDisplay(r.id().identifier(), input, output, ReiUtil.ofIngredient(r.value().carrier()), r.value().stirFryCount()));
         });
     }
 
@@ -154,6 +150,10 @@ public class ReiPotRecipeCategory implements DisplayCategory<ReiPotRecipeCategor
                         ByteBufCodecs.INT, PotRecipeDisplay::getStirFryCount,
                         PotRecipeDisplay::new
                 ));
+
+        public PotRecipeDisplay(RecipeHolder<PotRecipe> holder) {
+            this(holder.id().identifier(), ReiUtil.ofIngredients(holder.value().getIngredients()), ReiUtil.ofItemStacks(holder.value().result()), ReiUtil.ofIngredient(holder.value().carrier()), holder.value().stirFryCount());
+        }
 
         public PotRecipeDisplay(Identifier location, List<EntryIngredient> inputs, List<EntryIngredient> outputs, EntryIngredient carrier, int stirFryCount) {
             super(inputs, outputs, Optional.of(location));

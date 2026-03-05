@@ -22,6 +22,7 @@ import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.display.DisplaySerializer;
 import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
+import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.RegistryAccess;
@@ -154,6 +155,11 @@ public class ReiStockpotRecipeCategory implements DisplayCategory<ReiStockpotRec
                         EntryIngredient.streamCodec(), StockpotRecipeDisplay::getSoupBase,
                         StockpotRecipeDisplay::new
                 ));
+
+        public StockpotRecipeDisplay(RecipeHolder<StockpotRecipe> holder) {
+            this(holder.id().identifier(), EntryIngredients.ofIngredients(holder.value().ingredients()), ReiUtil.ofItemStacks(holder.value().getResultItem(RegistryAccess.EMPTY)),
+                    ReiUtil.ofIngredient(holder.value().carrier()), ReiUtil.ofItemStack(SoupBaseManager.getSoupBase(holder.value().soupBase()).getDisplayStack()));
+        }
 
         public StockpotRecipeDisplay(Identifier location, List<EntryIngredient> inputs, List<EntryIngredient> outputs, EntryIngredient carrier, EntryIngredient soupBase) {
             super(inputs, outputs, Optional.of(location));

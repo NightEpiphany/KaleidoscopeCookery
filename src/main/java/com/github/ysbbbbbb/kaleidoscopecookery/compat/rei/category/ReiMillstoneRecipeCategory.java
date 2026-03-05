@@ -2,6 +2,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.compat.rei.category;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.rei.ReiUtil;
+import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.MillstoneRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.recipes.ModRecipesLibrary;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -18,15 +19,18 @@ import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.display.DisplaySerializer;
 import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
+import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -112,6 +116,10 @@ public class ReiMillstoneRecipeCategory implements DisplayCategory<ReiMillstoneR
                         EntryIngredient.streamCodec().apply(ByteBufCodecs.list()), MillstoneRecipeDisplay::getOutputEntries,
                         MillstoneRecipeDisplay::new
                 ));
+
+        public MillstoneRecipeDisplay(RecipeHolder<MillstoneRecipe> holder) {
+            this(holder.id().identifier(), Collections.singletonList(EntryIngredients.ofIngredient(holder.value().getIngredient())), ReiUtil.ofItemStacks(holder.value().getResult()));
+        }
 
         public MillstoneRecipeDisplay(Identifier location, List<EntryIngredient> inputs, List<EntryIngredient> outputs) {
             super(inputs, outputs, Optional.of(location));
