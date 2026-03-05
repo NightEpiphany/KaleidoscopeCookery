@@ -2,6 +2,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.item;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.api.item.IHasContainer;
 import com.google.common.collect.Lists;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -29,10 +30,13 @@ public class BowlFoodOnlyItem extends FoodWithEffectsItem implements IHasContain
             }
         });
     }
-
+    public ItemStack finishUsingItemRaw(ItemStack itemStack, Level level, LivingEntity livingEntity) {
+        Consumable consumable = itemStack.get(DataComponents.CONSUMABLE);
+        return consumable != null ? consumable.onConsume(level, livingEntity, itemStack) : itemStack;
+    }
     @Override
     public @NotNull ItemStack finishUsingItem(@NonNull ItemStack stack, @NonNull Level level, @NonNull LivingEntity entity) {
-        ItemStack itemStack = super.finishUsingItem(stack, level, entity);
+        ItemStack itemStack = finishUsingItemRaw(stack, level, entity);
         ItemStack bowl = new ItemStack(Items.BOWL);
         if (itemStack.isEmpty()) {
             return bowl;
@@ -40,7 +44,7 @@ public class BowlFoodOnlyItem extends FoodWithEffectsItem implements IHasContain
         if (entity instanceof Player player) {
             player.getInventory().placeItemBackInInventory(bowl);
             for (MobEffectInstance effectInstance : effectInstances) {
-                entity.addEffect(effectInstance);
+                player.addEffect(copy(effectInstance));
             }
         } else {
             ItemEntity itemEntity = new ItemEntity(level, entity.getX(), entity.getY(), entity.getZ(), bowl);

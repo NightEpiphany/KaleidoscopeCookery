@@ -1,18 +1,14 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen;
 
-import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.advancements.critereon.ModEventTriggerType;
+import com.github.ysbbbbbb.kaleidoscopecookery.config.GeneralConfig;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTrigger;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
-import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -32,13 +28,11 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -107,19 +101,22 @@ public class StoveBlock extends HorizontalDirectionalBlock {
     }
 
     @Override
-    public void stepOn(@NonNull Level level, @NonNull BlockPos pos, BlockState state, @NonNull Entity entity) {
-        if (state.getValue(LIT)
-            && level instanceof ServerLevel serverLevel
-            && entity instanceof LivingEntity livingEntity
-            && !livingEntity.isSteppingCarefully()
-            && !livingEntity.isInvulnerable()
-            && livingEntity.invulnerableTime <= 10) {
+    public void stepOn(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Entity entity) {
+        if (GeneralConfig.STOVE_FIRING_ENABLED.get()
+                && state.getValue(LIT)
+                && level instanceof ServerLevel serverLevel
+                && entity instanceof LivingEntity livingEntity
+                && !livingEntity.isSteppingCarefully()
+                && !livingEntity.isInvulnerable()
+                && livingEntity.invulnerableTime <= 10) {
             // 排除创造模式玩家
             if (livingEntity instanceof Player player && player.isCreative()) {
                 return;
             }
-            livingEntity.invulnerableTime = 20;
-            serverLevel.broadcastDamageEvent(livingEntity, livingEntity.damageSources().hotFloor());
+            if (!livingEntity.isSteppingCarefully()) {
+                livingEntity.hurt(livingEntity.damageSources().hotFloor(), 1.0F);
+                serverLevel.broadcastDamageEvent(livingEntity, livingEntity.damageSources().hotFloor());
+            }
         }
         super.stepOn(level, pos, state, entity);
     }

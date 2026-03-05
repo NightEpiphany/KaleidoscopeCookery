@@ -18,6 +18,7 @@ public class WithTooltipsItem extends Item {
         this.key = "tooltip.kaleidoscope_cookery." + name;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext tooltip, @NonNull TooltipDisplay tooltipDisplay, @NonNull Consumer<Component> consumer, @NonNull TooltipFlag tooltipFlag) {
         consumer.accept(Component.translatable(key).withStyle(ChatFormatting.GRAY));

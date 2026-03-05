@@ -99,7 +99,7 @@ public class BowlFoodBlockItem extends BlockItem {
         }
     }
 
-
+    @SuppressWarnings("deprecation")
     @Override
     public void appendHoverText(ItemStack stack, @NonNull TooltipContext tooltip, @NonNull TooltipDisplay tooltipDisplay, @NonNull Consumer<Component> consumer, @NonNull TooltipFlag tooltipFlag) {
         Identifier id = BuiltInRegistries.ITEM.getKey(stack.getItem());
