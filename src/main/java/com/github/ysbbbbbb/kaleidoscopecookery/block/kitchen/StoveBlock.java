@@ -1,6 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.advancements.critereon.ModEventTriggerType;
+import com.github.ysbbbbbb.kaleidoscopecookery.config.GeneralConfig;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTrigger;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
@@ -17,13 +18,13 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -36,6 +37,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -60,7 +62,7 @@ public class StoveBlock extends HorizontalDirectionalBlock {
     }
 
     @Override
-    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+    public void animateTick(BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull RandomSource random) {
         if (state.getValue(LIT)) {
             double x = pos.getX() + 0.5;
             double y = pos.getY() + 0.5;
@@ -95,7 +97,7 @@ public class StoveBlock extends HorizontalDirectionalBlock {
     }
 
     @Override
-    public void randomTick(BlockState blockState, ServerLevel level, BlockPos pos, RandomSource random) {
+    public void randomTick(BlockState blockState, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
         if (blockState.getValue(LIT) && level.isRainingAt(pos.above())) {
             level.setBlockAndUpdate(pos, blockState.setValue(LIT, false));
             level.playSound(null, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -103,7 +105,7 @@ public class StoveBlock extends HorizontalDirectionalBlock {
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor levelAccessor, BlockPos pos, BlockPos neighborPos) {
+    public BlockState updateShape(BlockState state, @NotNull Direction direction, @NotNull BlockState neighborState, @NotNull LevelAccessor levelAccessor, @NotNull BlockPos pos, @NotNull BlockPos neighborPos) {
         if (state.getValue(LIT) && levelAccessor.isWaterAt(pos.above()) && levelAccessor instanceof ServerLevel serverLevel) {
             serverLevel.setBlockAndUpdate(pos, state.setValue(LIT, false));
             serverLevel.playSound(null, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -112,7 +114,7 @@ public class StoveBlock extends HorizontalDirectionalBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+    public InteractionResult use(BlockState state, @NotNull Level level, @NotNull BlockPos pos, Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult) {
         ItemStack itemInHand = player.getItemInHand(hand);
         // 点燃炉灶
         if (!state.getValue(LIT) && itemInHand.is(TagMod.LIT_STOVE)) {
@@ -150,7 +152,7 @@ public class StoveBlock extends HorizontalDirectionalBlock {
     }
 
     @Override
-    public void onProjectileHit(Level level, BlockState state, BlockHitResult hitResult, Projectile projectile) {
+    public void onProjectileHit(Level level, @NotNull BlockState state, BlockHitResult hitResult, @NotNull Projectile projectile) {
         BlockPos hitBlockPos = hitResult.getBlockPos();
         if (!level.isClientSide && projectile.isOnFire() && projectile.mayInteract(level, hitBlockPos) && !state.getValue(LIT)) {
             level.setBlock(hitBlockPos, state.setValue(BlockStateProperties.LIT, true), Block.UPDATE_ALL_IMMEDIATE);
@@ -158,6 +160,27 @@ public class StoveBlock extends HorizontalDirectionalBlock {
                 ModTrigger.EVENT.trigger(player, ModEventTriggerType.LIT_THE_STOVE);
             }
         }
+    }
+
+    @Override
+    public void stepOn(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Entity entity) {
+        if (GeneralConfig.STOVE_FIRING_ENABLED.get()
+                && state.getValue(LIT)
+                && level instanceof ServerLevel serverLevel
+                && entity instanceof LivingEntity livingEntity
+                && !livingEntity.isSteppingCarefully()
+                && !livingEntity.isInvulnerable()
+                && livingEntity.invulnerableTime <= 10) {
+            // 排除创造模式玩家
+            if (livingEntity instanceof Player player && player.isCreative()) {
+                return;
+            }
+            if (!livingEntity.isSteppingCarefully() && !EnchantmentHelper.hasFrostWalker(livingEntity)) {
+                livingEntity.hurt(livingEntity.damageSources().hotFloor(), 1.0F);
+                serverLevel.broadcastDamageEvent(livingEntity, livingEntity.damageSources().hotFloor());
+            }
+        }
+        super.stepOn(level, pos, state, entity);
     }
 
     @Override
@@ -172,7 +195,7 @@ public class StoveBlock extends HorizontalDirectionalBlock {
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable BlockGetter pLevel, List<Component> pTooltip, TooltipFlag pFlag) {
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable BlockGetter pLevel, List<Component> pTooltip, @NotNull TooltipFlag pFlag) {
         pTooltip.add(Component.translatable("tooltip.kaleidoscope_cookery.stove").withStyle(ChatFormatting.GRAY));
     }
 }
