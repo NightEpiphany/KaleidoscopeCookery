@@ -2,8 +2,10 @@ package com.github.ysbbbbbb.kaleidoscopecookery.compat.rei.category;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.rei.ReiUtil;
+import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.ChoppingBoardRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.recipes.ModRecipesLibrary;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
@@ -13,32 +15,38 @@ import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
 import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
+import me.shedaniel.rei.api.common.display.Display;
+import me.shedaniel.rei.api.common.display.DisplaySerializer;
+import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryStacks;
-import me.shedaniel.rei.plugin.common.displays.crafting.DefaultCustomDisplay;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ReiChoppingBoardRecipeCategory implements DisplayCategory<DefaultCustomDisplay> {
-    public static final CategoryIdentifier<DefaultCustomDisplay> ID = CategoryIdentifier.of(KaleidoscopeCookery.MOD_ID, "plugin/chopping_board");
+public class ReiChoppingBoardRecipeCategory implements DisplayCategory<ReiChoppingBoardRecipeCategory.ChoppingBoardRecipeDisplay> {
+    public static final CategoryIdentifier<ChoppingBoardRecipeDisplay> ID = CategoryIdentifier.of(KaleidoscopeCookery.MOD_ID, "plugin/chopping_board");
     private static final MutableComponent TITLE = Component.translatable("block.kaleidoscope_cookery.chopping_board");
     private static final Identifier BG = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "textures/gui/jei/chopping_board.png");
     public static final int WIDTH = 176;
     public static final int HEIGHT = 78;
 
     @Override
-    public CategoryIdentifier<? extends DefaultCustomDisplay> getCategoryIdentifier() {
+    public CategoryIdentifier<? extends ChoppingBoardRecipeDisplay> getCategoryIdentifier() {
         return ID;
     }
 
     @Override
-    public List<Widget> setupDisplay(DefaultCustomDisplay display, Rectangle bounds) {
+    public List<Widget> setupDisplay(ChoppingBoardRecipeDisplay display, Rectangle bounds) {
         List<Widget> widgets = new ArrayList<>();
         int startX = bounds.x;
         int startY = bounds.y;
@@ -58,7 +66,7 @@ public class ReiChoppingBoardRecipeCategory implements DisplayCategory<DefaultCu
     }
 
     @Override
-    public int getDisplayWidth(DefaultCustomDisplay display) {
+    public int getDisplayWidth(ChoppingBoardRecipeDisplay display) {
         return WIDTH;
     }
 
@@ -89,12 +97,44 @@ public class ReiChoppingBoardRecipeCategory implements DisplayCategory<DefaultCu
             List<EntryIngredient> input = ReiUtil.ofIngredients(r.value().getIngredient());
             List<EntryIngredient> output = ReiUtil.ofItemStacks(r.value().getResult());
 
-            registry.add(new DefaultCustomDisplay(input, output, Optional.of(r.id().registry())) {
-                @Override
-                public CategoryIdentifier<?> getCategoryIdentifier() {
-                    return ReiChoppingBoardRecipeCategory.ID;
-                }
-            });
+            registry.add(new ChoppingBoardRecipeDisplay(r.id().identifier(), input, output));
         });
+    }
+
+    public static class ChoppingBoardRecipeDisplay extends BasicDisplay {
+
+        public static final DisplaySerializer<ChoppingBoardRecipeDisplay> SERIALIZER = DisplaySerializer.of(
+                RecordCodecBuilder.mapCodec(instance -> instance.group(
+                        Identifier.CODEC.fieldOf("location").forGetter(r -> r.getDisplayLocation().orElse(Identifier.withDefaultNamespace("air"))),
+                        EntryIngredient.codec().listOf().fieldOf("inputs").forGetter(ChoppingBoardRecipeDisplay::getInputEntries),
+                        EntryIngredient.codec().listOf().fieldOf("outputs").forGetter(ChoppingBoardRecipeDisplay::getOutputEntries)
+                ).apply(instance, ChoppingBoardRecipeDisplay::new)),
+                StreamCodec.composite(
+                        Identifier.STREAM_CODEC, r -> r.getDisplayLocation().orElse(Identifier.withDefaultNamespace("air")),
+                        EntryIngredient.streamCodec().apply(ByteBufCodecs.list()),
+                        ChoppingBoardRecipeDisplay::getInputEntries,
+                        EntryIngredient.streamCodec().apply(ByteBufCodecs.list()),
+                        ChoppingBoardRecipeDisplay::getOutputEntries,
+                        ChoppingBoardRecipeDisplay::new
+                ));
+
+        public ChoppingBoardRecipeDisplay(Identifier identifier, List<EntryIngredient> inputs, List<EntryIngredient> outputs) {
+            super(inputs, outputs, Optional.of(identifier));
+        }
+
+        public ChoppingBoardRecipeDisplay(RecipeHolder<ChoppingBoardRecipe> holder) {
+            this(holder.id().identifier(), ReiUtil.ofIngredients(holder.value().getIngredient()), ReiUtil.ofItemStacks(holder.value().getResult()));
+        }
+
+
+        @Override
+        public CategoryIdentifier<?> getCategoryIdentifier() {
+            return ID;
+        }
+
+        @Override
+        public @Nullable DisplaySerializer<? extends Display> getSerializer() {
+            return SERIALIZER;
+        }
     }
 }
