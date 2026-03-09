@@ -276,9 +276,13 @@ public class SteamerBlockEntity extends BaseBlockEntity implements ISteamer {
         return Optional.empty();
     }
 
+    public static boolean isRecipeInput(ItemStack stack) {
+        return stack.is(TagMod.STEAMER_INGREDIENTS);
+    }
+
     @Override
     public boolean placeFood(Level level, LivingEntity user, ItemStack food) {
-        if (food.isEmpty()) {
+        if (food.isEmpty() || !isRecipeInput(food)) {
             return false;
         }
         // 先检查这层是否是能交互的

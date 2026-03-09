@@ -17,22 +17,38 @@ import java.util.Collections;
 import java.util.Optional;
 
 public class ModREICommonPlugin implements REICommonPlugin {
+    private static final Identifier MILLSTONE_ID = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "plugin/millstone");
+    private static final Identifier CHOPPING_BOARD_ID = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "plugin/chopping_board");
+    private static final Identifier STOCKPOT_ID = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "plugin/stockpot");
+    private static final Identifier POT_ID = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "plugin/pot");
 
     @Override
     public void registerDisplaySerializer(DisplaySerializerRegistry registry) {
-        registry.register(Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "plugin/millstone"), ReiMillstoneRecipeCategory.MillstoneRecipeDisplay.SERIALIZER);
-        registry.register(Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "plugin/chopping_board"), DefaultCustomDisplay.SERIALIZER);
-        registry.register(Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "plugin/steamer"), DefaultCustomDisplay.SERIALIZER);
-        registry.register(Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "plugin/stockpot"), ReiStockpotRecipeCategory.StockpotRecipeDisplay.SERIALIZER);
-        registry.register(Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "plugin/pot"), ReiPotRecipeCategory.PotRecipeDisplay.SERIALIZER);
+        registerSerializerIfNeeded(registry);
     }
 
     @Override
     public void registerDisplays(ServerDisplayRegistry registry) {
+       registerSerializerIfNeeded(DisplaySerializerRegistry.getInstance());
        registry.beginRecipeFiller(MillstoneRecipe.class).filterType(ModRecipes.MILLSTONE_RECIPE).fill(ReiMillstoneRecipeCategory.MillstoneRecipeDisplay::new);
        registry.beginRecipeFiller(ChoppingBoardRecipe.class).filterType(ModRecipes.CHOPPING_BOARD_RECIPE).fill(i -> new DefaultCustomDisplay(EntryIngredients.ofIngredients(Collections.singletonList(i.value().getIngredient())), ReiUtil.ofItemStacks(i.value().getResult()), Optional.of(i.id().identifier())));
        registry.beginRecipeFiller(SteamerRecipe.class).filterType(ModRecipes.STEAMER_RECIPE).fill(i -> new DefaultCustomDisplay(EntryIngredients.ofIngredients(Collections.singletonList(i.value().getIngredient())), ReiUtil.ofItemStacks(i.value().getResult()), Optional.of(i.id().identifier())));
        registry.beginRecipeFiller(StockpotRecipe.class).filterType(ModRecipes.STOCKPOT_RECIPE).fill(ReiStockpotRecipeCategory.StockpotRecipeDisplay::new);
        registry.beginRecipeFiller(PotRecipe.class).filterType(ModRecipes.POT_RECIPE).fill(ReiPotRecipeCategory.PotRecipeDisplay::new);
+    }
+
+    private static void registerSerializerIfNeeded(DisplaySerializerRegistry registry) {
+        if (!registry.isRegistered(ReiMillstoneRecipeCategory.MillstoneRecipeDisplay.SERIALIZER)) {
+            registry.register(MILLSTONE_ID, ReiMillstoneRecipeCategory.MillstoneRecipeDisplay.SERIALIZER);
+        }
+        if (!registry.isRegistered(DefaultCustomDisplay.SERIALIZER)) {
+            registry.register(CHOPPING_BOARD_ID, DefaultCustomDisplay.SERIALIZER);
+        }
+        if (!registry.isRegistered(ReiStockpotRecipeCategory.StockpotRecipeDisplay.SERIALIZER)) {
+            registry.register(STOCKPOT_ID, ReiStockpotRecipeCategory.StockpotRecipeDisplay.SERIALIZER);
+        }
+        if (!registry.isRegistered(ReiPotRecipeCategory.PotRecipeDisplay.SERIALIZER)) {
+            registry.register(POT_ID, ReiPotRecipeCategory.PotRecipeDisplay.SERIALIZER);
+        }
     }
 }

@@ -11,6 +11,10 @@ import net.minecraft.world.level.block.Block;
 
 public interface TagMod {
     /**
+     * 蒸笼允许的输入食材
+     */
+    TagKey<Item> STEAMER_INGREDIENTS = itemTag("steamer_ingredients");
+    /**
      * 本模组所有可以进食的食物
      */
     TagKey<Item> SPECIAL = itemTag("special");
