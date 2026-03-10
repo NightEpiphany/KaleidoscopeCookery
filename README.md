@@ -4,7 +4,7 @@
 > A Minecraft mod that adds immersive cooking systems and delicious recipes to enhance your culinary adventure.
 
 ![Minecraft](https://img.shields.io/badge/Minecraft-Java%20Edition-brightgreen)
-![Forge](https://img.shields.io/badge/Forge%20|%20NeoForge%20|%20Fabric-1.20.1%20|%201.21.1-orange)
+![Fabric](https://img.shields.io/badge/Fabric-1.20.1%20|%201.21.1|%201.21.11-orange)
 ![License](https://img.shields.io/badge/License-BSD%20|%20CC%20BY--NC--SA%204.0-blue)
 ![CurseForge](https://img.shields.io/curseforge/dt/1309203?logo=curseforge&label=CurseForge)
 ![Modrinth](https://img.shields.io/modrinth/dt/v17FatAc?logo=modrinth&label=Modrinth)
