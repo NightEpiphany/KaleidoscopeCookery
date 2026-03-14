@@ -8,6 +8,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -77,7 +78,7 @@ public class PotOverlayEvent {
                 return;
             }
             if (status == PotBlockEntity.FINISHED) {
-                drawWordWrap(guiGraphics, font, Component.translatable("tip.kaleidoscope_cookery.pot.done"), x, y);
+                drawWordWrap(guiGraphics, font, Component.translatable("tip.kaleidoscope_cookery.pot.done").withStyle(ChatFormatting.RED), x, y);
             }
         }
     }

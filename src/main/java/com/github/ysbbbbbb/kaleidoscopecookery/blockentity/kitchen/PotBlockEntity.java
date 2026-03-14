@@ -353,6 +353,7 @@ public class PotBlockEntity extends BaseBlockEntity implements IPot {
         }
     }
 
+    @SuppressWarnings("deprecation")
     private boolean takeOutWithCarrier(Level level, LivingEntity user, ItemStack mainHandItem, ItemStack finallyResult) {
         if (this.carrier != null && this.carrier.test(mainHandItem)) {
             if (mainHandItem.getCount() < finallyResult.getCount()) {
@@ -371,7 +372,8 @@ public class PotBlockEntity extends BaseBlockEntity implements IPot {
                 user.hurt(level.damageSources().inFire(), 1);
                 ModTrigger.EVENT.trigger(user, ModEventTriggerType.HURT_WHEN_TAKEOUT_FROM_POT);
             }
-            this.sendActionBarMessage(user, "need_carrier");
+            if (this.carrier != null && this.carrier.items().findFirst().isPresent())
+                this.sendActionBarMessage(user, "need_carrier", this.carrier.items().findFirst().get().value().getDefaultInstance().getItemName());
         }
         return false;
     }
