@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor;
 import net.minecraft.world.inventory.InventoryMenu;
 import org.joml.Matrix4f;
 
@@ -24,7 +25,7 @@ public interface ISoupBaseRender {
      * @param y         汤底的高度
      */
     static void renderSurface(TextureAtlasSprite sprite, int color, PoseStack poseStack, MultiBufferSource buffer, int light, float y) {
-        VertexConsumer vertexConsumer = buffer.getBuffer(Sheets.solidBlockSheet());
+        VertexConsumer vertexConsumer = buffer.getBuffer(Sheets.translucentCullBlockSheet());
         Matrix4f matrix = poseStack.last().pose();
 
         // 锅内水面的位置和大小（根据实际锅模型调整）

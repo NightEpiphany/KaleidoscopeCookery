@@ -13,6 +13,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.SatiatedShieldEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.BowlFoodBlockItem;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
+import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -29,6 +30,7 @@ public class CommonRegistry {
         registerFoodBiteBlocks();
         registerServerEvents();
         addDispenserBehavior();
+        fuelRegister();
     }
 
     public static void registerServerEvents() {
@@ -44,6 +46,10 @@ public class CommonRegistry {
         RightClickEvent.register();
         LeftClickEvent.register();
         ExtraLootTableDrop.register();
+    }
+
+    public static void fuelRegister() {
+        FuelRegistry.INSTANCE.add(ModItems.OIL, 1600);
     }
 
     private static void registerFoodBiteBlocks() {

@@ -26,11 +26,12 @@ public abstract class ModelBakeryMixin {
 
     @Shadow
     protected abstract void loadSpecialItemModelAndDependencies(ModelResourceLocation modelLocation);
-
+    @Unique
+    private static final ModelResourceLocation EGG = ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "egg"));
     @Unique
     private static final ModelResourceLocation HONEY = ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "honey"));
     @Unique
-    private static final ModelResourceLocation EGG = ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "egg"));
+    private static final ModelResourceLocation TOMATO_SAUCE = ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "tomato_sauce_spray"));
     @Unique
     private static final ModelResourceLocation RAW_DOUGH_IN_MILLSTONE = ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "raw_dough_in_millstone"));
     @Unique
@@ -46,5 +47,6 @@ public abstract class ModelBakeryMixin {
         this.loadSpecialItemModelAndDependencies(RAW_DOUGH_IN_MILLSTONE);
         this.loadSpecialItemModelAndDependencies(OIL_IN_MILLSTONE);
         this.loadSpecialItemModelAndDependencies(COLD_CUT_HAM_SLICES_GUI);
+        this.loadSpecialItemModelAndDependencies(TOMATO_SAUCE);
     }
 }

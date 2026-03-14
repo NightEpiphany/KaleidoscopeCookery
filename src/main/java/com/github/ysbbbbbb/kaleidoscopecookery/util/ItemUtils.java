@@ -154,7 +154,7 @@ public class ItemUtils {
             return Items.AIR;
         }
         FoodProperties foodProperties = stack.get(DataComponents.FOOD);
-        if (foodProperties != null) {
+        if (foodProperties != null && !(stack.is(TagMod.BOWL_CONTAINER) || stack.is(TagMod.GLASS_BOTTLE_CONTAINER) || stack.is(TagMod.BUCKET_CONTAINER))) {
             return foodProperties.usingConvertsTo()
                     .map(ItemStack::getItem)
                     .orElse(Items.AIR);
