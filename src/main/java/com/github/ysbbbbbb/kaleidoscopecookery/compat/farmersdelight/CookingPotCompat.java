@@ -24,7 +24,7 @@ public class CookingPotCompat {
         level.recipeAccess().getSynchronizedRecipes().getAllOfType(ModRecipeTypes.COOKING.get()).forEach(recipe -> recipes.add(transformRecipe(recipe)));
     }
 
-    static RecipeHolder<StockpotRecipe> transformRecipe(RecipeHolder<CookingPotRecipe> holder) {
+    public static RecipeHolder<StockpotRecipe> transformRecipe(RecipeHolder<CookingPotRecipe> holder) {
         CookingPotRecipe cookingPotRecipe = holder.value();
         // 默认全部使用水作为汤底
         StockpotRecipe recipe = new StockpotRecipe(

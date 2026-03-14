@@ -4,7 +4,6 @@ import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.rei.ReiUtil;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.PotRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
-import com.github.ysbbbbbb.kaleidoscopecookery.util.recipes.ModRecipesLibrary;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import me.shedaniel.math.Point;
@@ -14,7 +13,6 @@ import me.shedaniel.rei.api.client.gui.widgets.Widget;
 import me.shedaniel.rei.api.client.gui.widgets.Widgets;
 import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
 import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
-import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.display.DisplaySerializer;
@@ -119,15 +117,6 @@ public class ReiPotRecipeCategory implements DisplayCategory<ReiPotRecipeCategor
                 ReiUtil.ofIngredient(Ingredient.of(ModItems.KITCHEN_SHOVEL)),
                 ReiUtil.ofItem(ModItems.OIL)
         );
-    }
-
-    public static void registerDisplays(DisplayRegistry registry) {
-        ModRecipesLibrary.INSTANCE.potRecipes().forEach(r -> {
-            List<EntryIngredient> input = ReiUtil.ofIngredients(r.value().getIngredients());
-            List<EntryIngredient> output = ReiUtil.ofItemStacks(r.value().result());
-
-            registry.add(new PotRecipeDisplay(r.id().identifier(), input, output, ReiUtil.ofIngredient(r.value().carrier()), r.value().stirFryCount()));
-        });
     }
 
     public static class PotRecipeDisplay extends BasicDisplay {

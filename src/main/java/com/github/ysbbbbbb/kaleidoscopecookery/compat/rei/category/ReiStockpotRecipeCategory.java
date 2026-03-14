@@ -1,13 +1,10 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.compat.rei.category;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
-import com.github.ysbbbbbb.kaleidoscopecookery.api.recipe.soupbase.ISoupBase;
-import com.github.ysbbbbbb.kaleidoscopecookery.compat.farmersdelight.FarmersDelightCompat;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.rei.ReiUtil;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.StockpotRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.soupbase.SoupBaseManager;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
-import com.github.ysbbbbbb.kaleidoscopecookery.util.recipes.ModRecipesLibrary;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
@@ -16,7 +13,6 @@ import me.shedaniel.rei.api.client.gui.widgets.Widget;
 import me.shedaniel.rei.api.client.gui.widgets.Widgets;
 import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
 import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
-import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.display.DisplaySerializer;
@@ -24,7 +20,6 @@ import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.api.common.util.EntryStacks;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -114,25 +109,6 @@ public class ReiStockpotRecipeCategory implements DisplayCategory<ReiStockpotRec
                 ReiUtil.ofItem(ModItems.STOCKPOT),
                 ReiUtil.ofItem(ModItems.STOCKPOT_LID)
         );
-    }
-
-    public static void registerDisplays(DisplayRegistry registry) {
-        List<RecipeHolder<StockpotRecipe>> list = new ArrayList<>(ModRecipesLibrary.INSTANCE.stockpotRecipes());
-        FarmersDelightCompat.getTransformRecipeForJei(Minecraft.getInstance().level, list);
-
-        list.forEach(r -> {
-            List<EntryIngredient> inputs = ReiUtil.ofIngredients(r.value().getIngredients());
-            List<EntryIngredient> output = ReiUtil.ofItemStacks(r.value().getResultItem(RegistryAccess.EMPTY));
-            EntryIngredient carrier = r.value().carrier().isEmpty() ? EntryIngredient.empty() : ReiUtil.ofIngredient(r.value().carrier());
-
-            ISoupBase soupBase = SoupBaseManager.getSoupBase(r.value().soupBase());
-            if (soupBase == null) {
-                throw new RuntimeException("No soup found for " + r.value().soupBase());
-            }
-            EntryIngredient soupBaseEntry = ReiUtil.ofItemStack(soupBase.getDisplayStack());
-
-            registry.add(new StockpotRecipeDisplay(r.id().registry(), inputs, output, carrier, soupBaseEntry));
-        });
     }
 
     public static class StockpotRecipeDisplay extends BasicDisplay {

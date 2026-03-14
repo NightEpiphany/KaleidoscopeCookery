@@ -4,7 +4,6 @@ import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.rei.ReiUtil;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.MillstoneRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
-import com.github.ysbbbbbb.kaleidoscopecookery.util.recipes.ModRecipesLibrary;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
@@ -13,7 +12,6 @@ import me.shedaniel.rei.api.client.gui.widgets.Widget;
 import me.shedaniel.rei.api.client.gui.widgets.Widgets;
 import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
 import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
-import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.display.DisplaySerializer;
@@ -91,15 +89,6 @@ public class ReiMillstoneRecipeCategory implements DisplayCategory<ReiMillstoneR
         registry.addWorkstations(ReiMillstoneRecipeCategory.ID,
                 ReiUtil.ofItem(ModItems.MILLSTONE)
         );
-    }
-
-    public static void registerDisplays(DisplayRegistry registry) {
-        ModRecipesLibrary.INSTANCE.millstoneRecipes().forEach(r -> {
-            List<EntryIngredient> input = ReiUtil.ofIngredients(r.value().getIngredient());
-            List<EntryIngredient> output = ReiUtil.ofItemStacks(r.value().getResult());
-
-            registry.add(new MillstoneRecipeDisplay(r.id().registry(), input, output));
-        });
     }
 
     public static class MillstoneRecipeDisplay extends BasicDisplay {

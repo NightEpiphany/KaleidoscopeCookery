@@ -12,6 +12,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.BowlFoodBlockItem;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
+import net.fabricmc.fabric.api.registry.FuelRegistryEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.ItemLike;
@@ -32,6 +33,13 @@ public class CommonRegistry {
         registerServerEvents();
         addDispenserBehavior();
         modCompat();
+        fuelRegister();
+    }
+
+    public static void fuelRegister() {
+        FuelRegistryEvents.BUILD.register((registry, i) -> {
+            registry.add(ModItems.OIL, i.baseSmeltTime() * 8);
+        });
     }
 
     public static void registerServerEvents() {

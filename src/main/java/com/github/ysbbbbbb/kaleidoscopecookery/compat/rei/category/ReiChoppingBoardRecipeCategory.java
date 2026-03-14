@@ -4,7 +4,6 @@ import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.rei.ReiUtil;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.ChoppingBoardRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
-import com.github.ysbbbbbb.kaleidoscopecookery.util.recipes.ModRecipesLibrary;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
@@ -13,7 +12,6 @@ import me.shedaniel.rei.api.client.gui.widgets.Widget;
 import me.shedaniel.rei.api.client.gui.widgets.Widgets;
 import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
 import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
-import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.display.DisplaySerializer;
@@ -90,15 +88,6 @@ public class ReiChoppingBoardRecipeCategory implements DisplayCategory<ReiChoppi
         registry.addWorkstations(ReiChoppingBoardRecipeCategory.ID,
                 ReiUtil.ofItem(ModItems.CHOPPING_BOARD),
                 ReiUtil.ofIngredient(Ingredient.of(ModItems.DIAMOND_KITCHEN_KNIFE, ModItems.IRON_KITCHEN_KNIFE, ModItems.GOLD_KITCHEN_KNIFE, ModItems.NETHERITE_KITCHEN_KNIFE)));
-    }
-
-    public static void registerDisplays(DisplayRegistry registry) {
-        ModRecipesLibrary.INSTANCE.choppingBoardRecipes().forEach(r -> {
-            List<EntryIngredient> input = ReiUtil.ofIngredients(r.value().getIngredient());
-            List<EntryIngredient> output = ReiUtil.ofItemStacks(r.value().getResult());
-
-            registry.add(new ChoppingBoardRecipeDisplay(r.id().identifier(), input, output));
-        });
     }
 
     public static class ChoppingBoardRecipeDisplay extends BasicDisplay {

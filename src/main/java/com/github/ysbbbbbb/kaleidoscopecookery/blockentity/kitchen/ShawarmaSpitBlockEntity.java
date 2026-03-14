@@ -101,7 +101,8 @@ public class ShawarmaSpitBlockEntity extends BaseBlockEntity implements IShawarm
     public void takeItem(Level level, LivingEntity entity) {
         if (this.cookTime <= 0 && !this.cookedItem.isEmpty()) {
             BlockDrop.popResource(level, this.getBlockPos(), 0.75, this.cookedItem.copy());
-            entity.hurt(level.damageSources().inFire(), 1);
+            if (this.getBlockState().getValue(ShawarmaSpitBlock.POWERED))
+                entity.hurt(level.damageSources().inFire(), 1);
         }
         if (this.cookTime > 0 && !this.cookingItem.isEmpty())
             BlockDrop.popResource(level, this.getBlockPos(), 0.75, this.cookingItem.copy());
@@ -128,7 +129,7 @@ public class ShawarmaSpitBlockEntity extends BaseBlockEntity implements IShawarm
         this.cookTime = 0;
         this.refresh();
 
-        if (!mainHandItem.is(TagMod.KITCHEN_KNIFE) && this.getBlockState().getValue(ShawarmaSpitBlock.POWERED)) {
+        if (this.getBlockState().getValue(ShawarmaSpitBlock.POWERED) && !mainHandItem.is(TagMod.KITCHEN_KNIFE)) {
             entity.hurt(level.damageSources().inFire(), 1);
         }
         ItemUtils.getItemToLivingEntity(entity, copy);

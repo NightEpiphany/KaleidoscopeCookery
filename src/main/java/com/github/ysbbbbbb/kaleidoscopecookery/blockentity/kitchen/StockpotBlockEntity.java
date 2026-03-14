@@ -421,6 +421,8 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
             if (!containerIsMatch(user, stack)) {
                 return false;
             }
+            if (stack.has(ModDataComponents.SPECIAL_RENDER))
+                stack.remove(ModDataComponents.SPECIAL_RENDER);
             ItemUtils.getItemToLivingEntity(user, stack.copy());
             this.inputs.set(i, ItemStack.EMPTY);
             // 如果是流体汤底，且温度过高，玩家会受到伤害
@@ -511,10 +513,8 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
     @Override
     protected void loadAdditional(@NonNull ValueInput valueInput) {
         super.loadAdditional(valueInput);
-        if (valueInput.contains(INPUTS)) {
-            this.inputs = NonNullList.withSize(StockpotRecipe.RECIPES_SIZE, ItemStack.EMPTY);
-            ContainerHelper.loadAllItems(valueInput, this.inputs);
-        }
+        this.inputs = NonNullList.withSize(StockpotRecipe.RECIPES_SIZE, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(valueInput, this.inputs);
         if (valueInput.contains(RECIPE_ID)) {
             this.recipeId = Identifier.tryParse(valueInput.getString(RECIPE_ID).orElse(StockpotRecipeSerializer.EMPTY_ID.toString()));
             if (this.level != null && this.level instanceof ServerLevel serverLevel) {

@@ -14,6 +14,7 @@ import net.minecraft.client.resources.model.Material;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import org.jspecify.annotations.NonNull;
 
 public class FluidSoupBaseRender implements ISoupBaseRender {
@@ -54,6 +55,7 @@ public class FluidSoupBaseRender implements ISoupBaseRender {
     }
 
     private int getFluidColor(Fluid fluid) {
+        if (fluid == Fluids.WATER) return -12618012;
         FluidRenderHandler renderHandler = FluidRenderHandlerRegistry.INSTANCE.get(fluid);
         if (renderHandler != null) {
             FluidState fluidState = fluid.defaultFluidState();
