@@ -25,8 +25,7 @@ public interface ISoupBaseRender {
      * @param y         汤底的高度
      */
     static void renderSurface(TextureAtlasSprite sprite, int color, PoseStack poseStack, MultiBufferSource buffer, int light, float y) {
-        // FIXME：有问题，不能支持半透明渲染
-        VertexConsumer vertexConsumer = buffer.getBuffer(Sheets.solidBlockSheet());
+        VertexConsumer vertexConsumer = buffer.getBuffer(Sheets.translucentCullBlockSheet());
         Matrix4f matrix = poseStack.last().pose();
 
         // 锅内水面的位置和大小（根据实际锅模型调整）

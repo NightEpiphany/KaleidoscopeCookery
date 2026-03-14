@@ -1,0 +1,15 @@
+{
+  "pot": {
+    "farmersdelight:tomato_sauce": "kaleidoscope_cookery:tomato_sauce_spray#inventory"
+  },
+  "stockpot_cooking": {
+    "farmersdelight:tomato_sauce": "kaleidoscope_cookery:tomato_sauce_spray#inventory"
+  },
+  "stockpot_finished": {
+    "farmersdelight:tomato_sauce": "kaleidoscope_cookery:tomato_sauce_spray#inventory"
+  },
+  "millstone": {
+  },
+  "steamer": {
+  }
+}

@@ -13,6 +13,7 @@ public final class ModItems {
     // 显示用
     public static final Item VIS_HONEY = new Item(new Item.Properties());
     public static final Item VIS_EGG = new Item(new Item.Properties());
+    public static final Item VIS_TOMATO_SAUCE = new Item(new Item.Properties());
     public static final Item VIS_MILLSTONE_OIL = new Item(new Item.Properties());
     public static final Item VIS_MILLSTONE_DOUGH = new Item(new Item.Properties());
 
@@ -360,6 +361,7 @@ public final class ModItems {
 
         Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "honey"), VIS_HONEY);
         Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "egg"), VIS_EGG);
+        Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "tomato_sauce_spray"), VIS_TOMATO_SAUCE);
         Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "raw_dough_in_millstone"), VIS_MILLSTONE_DOUGH);
         Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "oil_in_millstone"), VIS_MILLSTONE_OIL);
 

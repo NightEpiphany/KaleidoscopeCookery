@@ -17,6 +17,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModVillager;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.BowlFoodBlockItem;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
+import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.ai.behavior.GiveGiftToHero;
@@ -33,6 +34,7 @@ public class CommonRegistry {
         registerServerEvents();
         addVillagerGift();
         addDispenserBehavior();
+        fuelRegister();
     }
 
     public static void registerServerEvents() {
@@ -47,6 +49,10 @@ public class CommonRegistry {
         RecipeItemEvent.register();
         SickleHarvestEvent.register();
         AddVillageStructuresEvent.addVillageStructures();
+    }
+
+    public static void fuelRegister() {
+        FuelRegistry.INSTANCE.add(ModItems.OIL, 1600);
     }
 
     private static void registerFoodBiteBlocks() {

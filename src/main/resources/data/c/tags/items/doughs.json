@@ -1,4 +1,10 @@
 {
   "values": [
+    {
+      "id": "create:dough", "required": false
+    },
+    {
+      "id": "farmersdelight:wheat_dough", "required": false
+    }
   ]
 }
