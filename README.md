@@ -1,5 +1,5 @@
 # Kaleidoscope Cookery Refabricated   
-# 森罗物语：烹燃心动-重织
+# 森罗物语：厨房-重织
 
 > A Minecraft mod that adds immersive cooking systems and delicious recipes to enhance your culinary adventure.
 
