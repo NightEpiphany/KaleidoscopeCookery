@@ -26,7 +26,7 @@ public class ClientRegistry {
     public static void init() {
         // 注册盔甲渲染器
         ArmorRenderer.register(new StrawHatArmorRenderer(), ModItems.STRAW_HAT, ModItems.STRAW_HAT_FLOWER);
-        modCompat();
+        modCompatClient();
         registerItemProperties();
         registerClientEvents();
         registerBlockEntityRenderers();
@@ -66,7 +66,7 @@ public class ClientRegistry {
         EntityModelLayerRegistry.registerModelLayer(ColdCutHamSlicesModel.LAYER_LOCATION, ColdCutHamSlicesModel::createBodyLayer);
     }
 
-    public static void modCompat() {
+    public static void modCompatClient() {
         PonderCompat.init();
         TrinketsCompactClient.init();
     }
