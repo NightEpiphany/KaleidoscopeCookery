@@ -8,8 +8,8 @@
   "contributors": ["chenjdy"],
   "contact": {
     "homepage": "https://modrinth.com/mod/kaleidoscope-cookery-refabricated",
-    "sources": "https://github.com/NightEpiphany/KaleidoscopeCookery",
-    "issues": "https://github.com/NightEpiphany/KaleidoscopeCookery/issues"
+    "sources": "https://github.com/NightEpiphany/KaleidoscopeCookery-Refabricated",
+    "issues": "https://github.com/NightEpiphany/KaleidoscopeCookery-Refabricated/issues"
   },
   "license": "BSD-3-Clause + CC BY-NC-SA 4.0",
   "icon": "assets/kaleidoscope_cookery/cover.png",
