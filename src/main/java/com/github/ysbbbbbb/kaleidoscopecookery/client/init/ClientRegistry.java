@@ -27,7 +27,7 @@ public class ClientRegistry {
         registerItemProperties();
         registerClientEvents();
         registerBlockEntityRenderers();
-        modCompat();
+        modCompatClient();
     }
 
     private static void registerItemProperties() {
@@ -62,7 +62,7 @@ public class ClientRegistry {
         EntityModelLayerRegistry.registerModelLayer(MillstoneModel.LAYER_LOCATION, MillstoneModel::createBodyLayer);
     }
 
-    private static void modCompat() {
+    private static void modCompatClient() {
         PonderCompat.init();
     }
 }
