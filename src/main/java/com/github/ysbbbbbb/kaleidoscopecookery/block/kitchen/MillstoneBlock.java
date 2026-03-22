@@ -98,11 +98,13 @@ public class MillstoneBlock extends HorizontalDirectionalBlock implements Entity
     }
 
     private static void handleRemove(Level world, BlockPos pos, BlockState state, @Nullable Player player) {
-        if (world.isClientSide) {
+        if (world.isClientSide()) {
             return;
         }
-        NinePart part = state.getValue(PART);
-        BlockPos centerPos = pos.subtract(new Vec3i(part.getPosX(), 0, part.getPosY()));
+        BlockPos centerPos = findCenterPos(world, pos, state);
+        if (centerPos == null) {
+            return;
+        }
         BlockEntity te = world.getBlockEntity(centerPos);
         if (!(te instanceof MillstoneBlockEntity millstone)) {
             return;
@@ -110,7 +112,9 @@ public class MillstoneBlock extends HorizontalDirectionalBlock implements Entity
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
                 BlockPos offsetPos = centerPos.offset(i, 0, j);
-                world.setBlock(offsetPos, Blocks.AIR.defaultBlockState(), Block.UPDATE_SUPPRESS_DROPS | Block.UPDATE_ALL);
+                if (world.getBlockState(offsetPos).is(ModBlocks.MILLSTONE)) {
+                    world.setBlock(offsetPos, Blocks.AIR.defaultBlockState(), Block.UPDATE_SUPPRESS_DROPS | Block.UPDATE_ALL);
+                }
             }
         }
         if (player != null && !player.isCreative()) {
@@ -122,6 +126,32 @@ public class MillstoneBlock extends HorizontalDirectionalBlock implements Entity
         if (!millstone.getInput().isEmpty()) {
             Block.popResource(world, pos, millstone.getInput());
         }
+    }
+
+    @Nullable
+    private static BlockPos findCenterPos(Level world, BlockPos pos, BlockState state) {
+        if (state.is(ModBlocks.MILLSTONE)) {
+            NinePart part = state.getValue(PART);
+            BlockPos centerPos = pos.subtract(new Vec3i(part.getPosX(), 0, part.getPosY()));
+            if (world.getBlockEntity(centerPos) instanceof MillstoneBlockEntity) {
+                return centerPos;
+            }
+        }
+        for (int i = -1; i < 2; i++) {
+            for (int j = -1; j < 2; j++) {
+                BlockPos searchPos = pos.offset(i, 0, j);
+                BlockState searchState = world.getBlockState(searchPos);
+                if (!searchState.is(ModBlocks.MILLSTONE)) {
+                    continue;
+                }
+                NinePart part = searchState.getValue(PART);
+                BlockPos centerPos = searchPos.subtract(new Vec3i(part.getPosX(), 0, part.getPosY()));
+                if (world.getBlockEntity(centerPos) instanceof MillstoneBlockEntity) {
+                    return centerPos;
+                }
+            }
+        }
+        return null;
     }
 
     @Nullable
@@ -184,7 +214,7 @@ public class MillstoneBlock extends HorizontalDirectionalBlock implements Entity
 
     @Override
     public void wasExploded(Level level, BlockPos pos, Explosion explosion) {
-        handleRemove(level, pos, this.defaultBlockState(), null);
+        handleRemove(level, pos, level.getBlockState(pos), null);
         super.wasExploded(level, pos, explosion);
     }
 
