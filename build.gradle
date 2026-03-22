@@ -6,7 +6,7 @@ plugins {
 
 version = project.mod_version
 group = project.maven_group
-archivesBaseName = "kaleidoscopecookery"
+archivesBaseName = "kaleidoscope_cookery"
 
 loom {
     accessWidenerPath = file("src/main/resources/kaleidoscope_cookery.accesswidener")
