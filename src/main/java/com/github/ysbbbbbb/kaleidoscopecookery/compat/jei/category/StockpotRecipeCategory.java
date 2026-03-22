@@ -23,6 +23,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -65,7 +66,10 @@ public class StockpotRecipeCategory implements IRecipeCategory<RecipeHolder<Stoc
     @Override
     public void draw(RecipeHolder<StockpotRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         this.bgDraw.draw(guiGraphics);
-        guiHelper.createDrawableItemStack(Items.BOWL.getDefaultInstance()).draw(guiGraphics, 133, 18);
+        if (!recipe.value().carrier().getItems()[0].isEmpty()) {
+            ItemStack carrier = recipe.value().carrier().getItems()[0];
+            guiHelper.createDrawableItemStack(carrier).draw(guiGraphics, 133, 18);
+        }
     }
 
     @Override
