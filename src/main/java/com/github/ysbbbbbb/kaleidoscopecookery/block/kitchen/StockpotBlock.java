@@ -148,9 +148,9 @@ public class StockpotBlock extends HorizontalDirectionalBlock implements EntityB
         }
         // 取出成品
         if (stockpot.takeOutProduct(level, player, mainHandItem)) {
-            return InteractionResult.SUCCESS;
+            return InteractionResult.SUCCESS_SERVER;
         }
-        return InteractionResult.PASS;
+        return InteractionResult.CONSUME;
     }
 
     @Override

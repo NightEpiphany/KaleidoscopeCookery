@@ -20,14 +20,15 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NonNull;
 
+@SuppressWarnings("deprecation")
 public class StockpotRecipeCategory implements IRecipeCategory<RecipeHolder<StockpotRecipe>> {
     public static final IRecipeHolderType<StockpotRecipe> TYPE = IRecipeType.create(ModRecipes.STOCKPOT_RECIPE);
     private static final Identifier BG = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "textures/gui/jei/stockpot.png");
@@ -49,7 +50,10 @@ public class StockpotRecipeCategory implements IRecipeCategory<RecipeHolder<Stoc
     @Override
     public void draw(RecipeHolder<StockpotRecipe> recipe, @NonNull IRecipeSlotsView recipeSlotsView, @NonNull GuiGraphics guiGraphics, double mouseX, double mouseY) {
         this.bgDraw.draw(guiGraphics);
-        guiHelper.createDrawableItemStack(Items.BOWL.getDefaultInstance()).draw(guiGraphics, 133, 18);
+        if (recipe.value().carrier().items().findFirst().isPresent()) {
+            Item carrier = recipe.value().carrier().items().findFirst().get().value();
+            guiHelper.createDrawableItemLike(carrier).draw(guiGraphics, 133, 18);
+        }
     }
 
     @Override

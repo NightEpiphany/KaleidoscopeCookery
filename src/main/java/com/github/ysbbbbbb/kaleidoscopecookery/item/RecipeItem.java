@@ -159,7 +159,7 @@ public class RecipeItem extends BlockItem {
             return handlePutRecipe(player, record, () -> stockpot.addAllIngredients(record.input(), player));
         }
 
-        return InteractionResult.PASS;
+        return InteractionResult.CONSUME;
     }
 
     @NotNull
