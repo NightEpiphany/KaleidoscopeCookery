@@ -1,6 +1,5 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.item;
 
-import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModDataComponents;
 import com.github.ysbbbbbb.kaleidoscopecookery.inventory.tooltip.ItemContainerTooltip;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
@@ -21,7 +20,6 @@ import net.minecraft.world.level.storage.ValueInput;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
-
 
 public class FruitBasketItem extends BlockItem {
 

@@ -12,4 +12,5 @@ import java.util.List;
 @Environment(EnvType.CLIENT)
 public class SteamerBlockEntityRenderState extends BlockEntityRenderState {
     public List<ItemStackRenderState> items = Collections.emptyList();
+    public boolean hasLid = false;
 }

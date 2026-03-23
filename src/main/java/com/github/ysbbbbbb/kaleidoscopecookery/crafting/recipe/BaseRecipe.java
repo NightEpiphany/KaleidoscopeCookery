@@ -13,6 +13,7 @@ import java.util.List;
 
 public interface BaseRecipe<C extends RecipeInput> extends Recipe<C> {
     int RECIPES_SIZE = 9;
+    CommonInfo NO_INFO = new CommonInfo(false);
 
     //咕咕嘎嘎！！
     @Deprecated(forRemoval = true, since = "1.21.11")
@@ -31,7 +32,7 @@ public interface BaseRecipe<C extends RecipeInput> extends Recipe<C> {
 
     ItemStack getResultItem(HolderLookup.Provider registries);
 
-    @Override
+
     default @NotNull ItemStack assemble(C container, HolderLookup.@NonNull Provider registryAccess) {
         return getResultItem(registryAccess).copy();
     }

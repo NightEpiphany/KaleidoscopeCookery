@@ -15,9 +15,8 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.item.ItemModelResolver;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.properties.AttachFace;
@@ -44,6 +43,8 @@ public class RecipeBlockEntityRender implements BlockEntityRenderer<RecipeBlockE
         BlockEntityRenderer.super.extractRenderState(blockEntity, blockEntityRenderState, f, vec3, crumblingOverlay);
         int posLong = (int) blockEntity.getBlockPos().asLong();
         blockEntityRenderState.data = blockEntity.getItems().getStackInSlot(0).getOrDefault(ModDataComponents.RECIPE_RECORD, RecipeItem.RecipeRecord.INSTANCE);
+        blockEntityRenderState.facing = blockEntity.getBlockState().getValue(HorizontalDirectionalBlock.FACING);
+        blockEntityRenderState.attachFace = blockEntity.getBlockState().getValue(BlockStateProperties.ATTACH_FACE);
         this.itemModelResolver.updateForTopItem(blockEntityRenderState.targetItem, blockEntityRenderState.data.output(), ItemDisplayContext.FIXED, blockEntity.getLevel(), null, posLong);
     }
 
@@ -55,11 +56,8 @@ public class RecipeBlockEntityRender implements BlockEntityRenderer<RecipeBlockE
         }
         if (blockEntityRenderState.data.output().isEmpty()) return;
 
-        Direction facing = blockEntityRenderState.blockState.getValue(HorizontalDirectionalBlock.FACING);
-        AttachFace attachFace = blockEntityRenderState.blockState.getValue(BlockStateProperties.ATTACH_FACE);
-
-        int rotationX = attachFace.ordinal();
-        int rotationY = facing.get2DDataValue() + (attachFace == AttachFace.CEILING ? 2 : 0);
+        int rotationX = blockEntityRenderState.attachFace.ordinal();
+        int rotationY = blockEntityRenderState.facing.get2DDataValue() + (blockEntityRenderState.attachFace == AttachFace.CEILING ? 2 : 0);
 
         poseStack.pushPose();
         poseStack.translate(0.5, 0.5, 0.5);
@@ -68,7 +66,7 @@ public class RecipeBlockEntityRender implements BlockEntityRenderer<RecipeBlockE
         poseStack.translate(-0.5, -0.5, -0.5);
         poseStack.scale(0.5f, 0.5f, 0.5f);
 
-        if (attachFace == AttachFace.WALL) {
+        if (blockEntityRenderState.attachFace == AttachFace.WALL) {
             poseStack.translate(1, 1.25, 0);
         } else {
             poseStack.translate(1, 0.75, 2);

@@ -7,14 +7,13 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import org.jspecify.annotations.NonNull;
 
-public class PotRecipeSerializer implements RecipeSerializer<PotRecipe> {
-    public static final MapCodec<PotRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
+public class PotRecipeSerializer {
+    private static final MapCodec<PotRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(
                     Codec.INT.optionalFieldOf("time", 200).forGetter(PotRecipe::time),
                     Codec.INT.optionalFieldOf("stir_fry_count", 3).forGetter(PotRecipe::stirFryCount),
@@ -23,27 +22,23 @@ public class PotRecipeSerializer implements RecipeSerializer<PotRecipe> {
                             list -> list,
                             list -> list.stream().filter(i -> !i.isEmpty()).toList()
                     ).forGetter(recipe -> recipe.ingredients().stream().toList()),
-                    ItemStack.CODEC.fieldOf("result").forGetter(PotRecipe::result)
+                    ItemStackTemplate.CODEC.fieldOf("result").forGetter(PotRecipe::result)
             ).apply(instance, PotRecipe::new)
     );
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, PotRecipe> STREAM_CODEC = StreamCodec.composite(
+    private static final StreamCodec<RegistryFriendlyByteBuf, PotRecipe> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.INT, PotRecipe::time,
             ByteBufCodecs.INT, PotRecipe::stirFryCount,
             Ingredient.CONTENTS_STREAM_CODEC, PotRecipe::carrier,
             Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()), PotRecipe::ingredients,
-            ItemStack.STREAM_CODEC, PotRecipe::result,
+            ItemStackTemplate.STREAM_CODEC, PotRecipe::result,
             PotRecipe::new);
 
-    @Override
-    public @NonNull MapCodec<PotRecipe> codec() {
+
+    public static @NonNull MapCodec<PotRecipe> codec() {
         return CODEC;
     }
-
-
-
-    @Override
-    public @NonNull StreamCodec<RegistryFriendlyByteBuf, PotRecipe> streamCodec() {
+    public static @NonNull StreamCodec<RegistryFriendlyByteBuf, PotRecipe> streamCodec() {
         return STREAM_CODEC;
     }
 }

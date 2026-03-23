@@ -81,7 +81,7 @@ public class ChoppingBoardBlockEntity extends BaseBlockEntity implements IChoppi
                 this.maxCutCount = recipe.getCutCount();
                 this.currentCutCount = 0;
                 this.currentCutStack = putOnItem.split(1);
-                this.result = recipe.assemble(container, level.registryAccess());
+                this.result = recipe.assemble(container);
                 this.refresh();
                 level.playSound(null, this.worldPosition,
                         SoundEvents.WOOD_PLACE,
@@ -105,7 +105,7 @@ public class ChoppingBoardBlockEntity extends BaseBlockEntity implements IChoppi
             level.playSound(null, this.worldPosition,
                     SoundEvents.WOOD_PLACE,
                     SoundSource.BLOCKS,
-                    1, 2 + level.random.nextFloat() * 0.2f);
+                    1, 2 + level.getRandom().nextFloat() * 0.2f);
             return true;
         } else if (cutterItem.is(TagMod.KITCHEN_KNIFE)) {
             // 否则，检测是否是刀具，进行切菜逻辑
@@ -130,7 +130,7 @@ public class ChoppingBoardBlockEntity extends BaseBlockEntity implements IChoppi
             level.playSound(null, this.worldPosition,
                     SoundEvents.ITEM_FRAME_REMOVE_ITEM,
                     SoundSource.BLOCKS,
-                    1, 1.2f + level.random.nextFloat() * 0.2f);
+                    1, 1.2f + level.getRandom().nextFloat() * 0.2f);
             return true;
         }
         return false;
@@ -148,7 +148,7 @@ public class ChoppingBoardBlockEntity extends BaseBlockEntity implements IChoppi
             serverLevel.playSound(null, this.worldPosition,
                     SoundEvents.WOOD_PLACE,
                     SoundSource.BLOCKS,
-                    1, 1.5f + level.random.nextFloat() * 0.4f);
+                    1, 1.5f + level.getRandom().nextFloat() * 0.4f);
         }
     }
 

@@ -42,7 +42,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
-
 public class RiceCropBlock extends BaseCropBlock implements SimpleWaterloggedBlock {
     public static final int DOWN = 0;
     public static final int MIDDLE = 1;
@@ -51,7 +50,7 @@ public class RiceCropBlock extends BaseCropBlock implements SimpleWaterloggedBlo
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final IntegerProperty LOCATION = IntegerProperty.create("location", DOWN, UP);
 
-    private static final Predicate<LivingEntity> RICE_GROWTH_BOOSTER = e -> e.isAlive() && e.getType().is(TagMod.RICE_GROWTH_BOOSTER);
+    private static final Predicate<LivingEntity> RICE_GROWTH_BOOSTER = e -> e.isAlive() && e.getType().builtInRegistryHolder().is(TagMod.RICE_GROWTH_BOOSTER);
 
     private static final VoxelShape BASE_SHAPE = Block.box(2, 0, 2, 14, 16, 14);
     private static final VoxelShape EMPTY_SHAPE = Shapes.empty();
@@ -234,7 +233,7 @@ public class RiceCropBlock extends BaseCropBlock implements SimpleWaterloggedBlo
 
     @Override
     protected int getBonemealAgeIncrease(Level level) {
-        return Mth.nextInt(level.random, 1, 2);
+        return Mth.nextInt(level.getRandom(), 1, 2);
     }
 
     @Override

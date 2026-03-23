@@ -1,7 +1,6 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.loot;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
-import com.github.ysbbbbbb.kaleidoscopecookery.init.ModLootModifier;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -15,7 +14,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
 import org.jspecify.annotations.NonNull;
 
 import java.util.Set;
@@ -33,11 +31,6 @@ public class AdvanceBlockMatchTool implements LootItemCondition {
     public AdvanceBlockMatchTool(EquipmentSlot slot, ItemPredicate predicate) {
         this.slot = slot;
         this.predicate = predicate;
-    }
-
-    @Override
-    public @NonNull LootItemConditionType getType() {
-        return ModLootModifier.ADVANCE_BLOCK_MATCH_TOOL;
     }
 
     @Override
@@ -59,5 +52,10 @@ public class AdvanceBlockMatchTool implements LootItemCondition {
 
     public static Builder toolMatches(EquipmentSlot slot, ItemPredicate builder) {
         return () -> new AdvanceBlockMatchTool(slot, builder);
+    }
+
+    @Override
+    public @NonNull MapCodec<? extends LootItemCondition> codec() {
+        return CODEC;
     }
 }

@@ -70,7 +70,7 @@ public class StrungMushroomsBlock extends Block {
         level.playSound(null, pos,
                 SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES,
                 SoundSource.BLOCKS, 1.0F,
-                0.8F + level.random.nextFloat() * 0.4F);
+                0.8F + level.getRandom().nextFloat() * 0.4F);
         if (level instanceof ServerLevel serverLevel) {
             serverLevel.sendParticles(
                     new BlockParticleOption(ParticleTypes.BLOCK, state),

@@ -44,13 +44,13 @@ import java.util.function.Consumer;
 
 public class BowlFoodBlockItem extends BlockItem {
     private final List<MobEffectInstance> effectInstances = Lists.newArrayList();
-    private final Optional<ItemStack> usingConvertsTo;
+    private final Optional<ItemLike> usingConvertsTo;
 
     public BowlFoodBlockItem(Block block, FoodProperties properties, Consumable consumable, @Nullable ItemLike usingConvertsTo, String name) {
         super(block, new Item.Properties().stacksTo(16).useBlockDescriptionPrefix()
                 .food(properties, consumable).setId(PortHelper.createItemId(name))
         );
-        this.usingConvertsTo = usingConvertsTo == null ? Optional.empty() : Optional.of(new ItemStack(usingConvertsTo));
+        this.usingConvertsTo = Optional.ofNullable(usingConvertsTo);
         consumable.onConsumeEffects().forEach(effect -> {
             if (effect instanceof ApplyStatusEffectsConsumeEffect(List<MobEffectInstance> effects, float probability)) {
                 effectInstances.addAll(effects);
@@ -73,7 +73,7 @@ public class BowlFoodBlockItem extends BlockItem {
                     return;
                 }
                 // 需要剔除 usingConvertsTo，因为已经给过了
-                if (this.usingConvertsTo.isPresent() && ItemStack.isSameItem(itemStack, this.usingConvertsTo.get())) {
+                if (this.usingConvertsTo.isPresent() && ItemStack.isSameItemSameComponents(itemStack, this.usingConvertsTo.get().asItem().getDefaultInstance())) {
                     return;
                 }
                 if (entity instanceof Player player) {

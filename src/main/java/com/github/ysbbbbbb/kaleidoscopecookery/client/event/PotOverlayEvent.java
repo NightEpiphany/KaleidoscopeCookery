@@ -12,7 +12,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -32,7 +32,7 @@ public class PotOverlayEvent {
         HudElementRegistry.attachElementBefore(VanillaHudElements.MISC_OVERLAYS, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "pot_overlay"), PotOverlayEvent::render);
     }
 
-    private static void render(GuiGraphics guiGraphics, DeltaTracker tickCounter) {
+    private static void render(GuiGraphicsExtractor guiGraphics, DeltaTracker tickCounter) {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.gameMode == null || minecraft.gameMode.getPlayerMode() == GameType.SPECTATOR) {
             return;
@@ -83,9 +83,9 @@ public class PotOverlayEvent {
         }
     }
 
-    private static void drawWordWrap(GuiGraphics graphics, Font font, MutableComponent text, int pX, int pY) {
+    private static void drawWordWrap(GuiGraphicsExtractor graphics, Font font, MutableComponent text, int pX, int pY) {
         for (FormattedCharSequence sequence : font.split(text, 100)) {
-            graphics.drawString(font, sequence, pX - font.width(sequence) / 2, pY, -1);
+            graphics.text(font, sequence, pX - font.width(sequence) / 2, pY, -1);
             pY += font.lineHeight;
         }
     }

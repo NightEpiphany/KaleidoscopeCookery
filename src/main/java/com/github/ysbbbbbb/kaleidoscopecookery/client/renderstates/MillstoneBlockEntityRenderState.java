@@ -4,6 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
+import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
@@ -22,4 +23,5 @@ public class MillstoneBlockEntityRenderState extends BlockEntityRenderState {
     public List<ItemStackRenderState> inputs = Collections.emptyList();
     public ItemStack output;
     public List<ItemStackRenderState> outputs = Collections.emptyList();
+    public Direction direction = Direction.NORTH;
 }

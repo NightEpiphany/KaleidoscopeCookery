@@ -27,7 +27,7 @@ public class ColdCutHamSlicesModel extends Model<ColdCutHamSlicesModel.State> {
     private final ModelPart bite8;
 
     public ColdCutHamSlicesModel(ModelPart root) {
-        super(root, RenderTypes::entityCutoutNoCull);
+        super(root, RenderTypes::entityCutout);
 
         this.base = root.getChild("base");
         this.food = root.getChild("food");

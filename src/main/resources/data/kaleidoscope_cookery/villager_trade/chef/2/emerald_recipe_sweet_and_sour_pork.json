@@ -1,0 +1,29 @@
+{
+  "given_item_modifiers": [
+    {
+      "function": "kaleidoscope_cookery:trade_custom_recipe",
+      "recipe": {
+        "input": [
+          "minecraft:sugar",
+          "minecraft:sugar",
+          "minecraft:sugar",
+          "minecraft:porkchop",
+          "minecraft:porkchop",
+          "minecraft:porkchop"
+        ],
+        "output": "kaleidoscope_cookery:sweet_and_sour_pork",
+        "type": "kaleidoscope_cookery:pot"
+      }
+    }
+  ],
+  "gives": {
+    "id": "kaleidoscope_cookery:recipe_item"
+  },
+  "max_uses": 16.0,
+  "reputation_discount": 0.1,
+  "wants": {
+    "count": 3.0,
+    "id": "minecraft:emerald"
+  },
+  "xp": 4.0
+}

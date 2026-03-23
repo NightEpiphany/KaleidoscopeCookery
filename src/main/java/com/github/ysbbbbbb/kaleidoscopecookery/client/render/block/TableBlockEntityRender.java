@@ -3,24 +3,23 @@ package com.github.ysbbbbbb.kaleidoscopecookery.client.render.block;
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.decoration.TableBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.TableBlockEntity;
-import com.github.ysbbbbbb.kaleidoscopecookery.client.init.ModModelKeys;
+import com.github.ysbbbbbb.kaleidoscopecookery.client.init.ModModelLoading;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates.TableBlockEntityRenderState;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.block.model.BlockStateModel;
+import net.minecraft.client.renderer.block.BlockModelRenderState;
+import net.minecraft.client.renderer.block.model.BlockDisplayContext;
+import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Util;
@@ -38,7 +37,8 @@ import java.util.function.BiFunction;
 public class TableBlockEntityRender implements BlockEntityRenderer<TableBlockEntity, TableBlockEntityRenderState> {
 
     public static final double RENDER_HEIGHT = 1.27175D;
-
+    private static final BlockDisplayContext BLOCK_DISPLAY_CONTEXT = BlockDisplayContext.create();
+    private static final long MODEL_SEED = 42L;
     private final ItemModelResolver itemModelResolver;
 
 
@@ -79,7 +79,7 @@ public class TableBlockEntityRender implements BlockEntityRenderer<TableBlockEnt
         BlockEntityRenderer.super.extractRenderState(blockEntity, blockEntityRenderState, f, vec3, crumblingOverlay);
         int posLong = (int) blockEntity.getBlockPos().asLong();
         blockEntityRenderState.items = new ArrayList<>();
-
+        blockEntityRenderState.blockState = blockEntity.getBlockState();
         for (var index = 0; index < 4; index++) {
             ItemStackRenderState itemStackRenderState = new ItemStackRenderState();
             this.itemModelResolver.updateForTopItem(itemStackRenderState, blockEntity.getItems().get(index), ItemDisplayContext.FIXED, blockEntity.getLevel(), null, posLong + index);
@@ -99,24 +99,17 @@ public class TableBlockEntityRender implements BlockEntityRenderer<TableBlockEnt
             if (cacheModel == null) {
                 return;
             }
+            BlockModel model = ModModelLoading.getModel(cacheModel);
+            if (model == null) return;
             int rotation = axis == Direction.Axis.X ? 180 : 270;
             poseStack.pushPose();
             poseStack.translate(0.5, 0, 0.5);
             poseStack.mulPose(Axis.YP.rotationDegrees(-rotation));
             poseStack.translate(-0.5, 0, -0.5);
-            BlockStateModel model = Minecraft.getInstance().getModelManager().getModel(ModModelKeys.get(cacheModel));
-            if (model != null)
-                submitNodeCollector.submitBlockModel(
-                        poseStack,
-                        RenderTypes.entityCutoutNoCullZOffset(TextureAtlas.LOCATION_BLOCKS),
-                        model,
-                        1.0F,
-                        1.0F,
-                        1.0F,
-                        blockEntityRenderState.lightCoords,
-                        OverlayTexture.NO_OVERLAY,
-                        0
-                );
+            BlockModelRenderState renderState = new BlockModelRenderState();
+            model.update(renderState, blockEntityRenderState.blockState, BLOCK_DISPLAY_CONTEXT, MODEL_SEED);
+            if (renderState.isEmpty()) return;
+            renderState.submit(poseStack, submitNodeCollector, blockEntityRenderState.lightCoords, OverlayTexture.NO_OVERLAY, 0);
             poseStack.popPose();
         }
 

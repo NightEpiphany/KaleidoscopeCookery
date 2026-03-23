@@ -1,24 +1,26 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.init;
 
-import net.fabricmc.fabric.api.client.model.loading.v1.ExtraModelKey;
-import net.minecraft.client.renderer.block.model.BlockStateModel;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.resources.Identifier;
 
-import java.util.HashMap;
-import java.util.Map;
-
-//获取全局模型注册键
+@Environment(EnvType.CLIENT)
 public class ModModelKeys {
+    private static final Map<Identifier, Identifier> MODEL_KEYS = new ConcurrentHashMap<>();
 
-    private static final Map<Identifier, ExtraModelKey<BlockStateModel>> KEYS = new HashMap<>();
+    private ModModelKeys() {}
 
-    public static ExtraModelKey<BlockStateModel> getOrCreate(Identifier id) {
-        return KEYS.computeIfAbsent(id, key ->
-                ExtraModelKey.create(key::toString)
-        );
+    public static Identifier getOrCreate(Identifier modelId) {
+        return MODEL_KEYS.computeIfAbsent(modelId, id -> id);
     }
 
-    public static ExtraModelKey<BlockStateModel> get(Identifier id) {
-        return KEYS.get(id);
+    public static Identifier get(Identifier modelId) {
+        return MODEL_KEYS.getOrDefault(modelId, modelId);
+    }
+
+    public static void clear() {
+        MODEL_KEYS.clear();
     }
 }

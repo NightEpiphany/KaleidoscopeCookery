@@ -108,7 +108,7 @@ public class FoodBiteBlock extends FoodBlock {
         for (ConsumeEffect effect : consumable.onConsumeEffects()) {
             if (!level.isClientSide() && effect instanceof ApplyStatusEffectsConsumeEffect(
                     List<MobEffectInstance> effects, float probability
-            ) && level.random.nextFloat() < probability) {
+            ) && level.getRandom().nextFloat() < probability) {
                 player.addEffect(new MobEffectInstance(effects.getFirst()));
             }
         }

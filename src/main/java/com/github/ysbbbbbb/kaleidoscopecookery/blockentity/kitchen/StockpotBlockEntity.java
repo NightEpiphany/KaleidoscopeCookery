@@ -137,7 +137,7 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
         // 音效播放
         if (level.getGameTime() % 15 == 0) {
             float volume = hasLid ? 0.075f : 0.2f;
-            float pitch = hasLid ? 0.1f + level.random.nextFloat() * 0.05f : 1f + level.random.nextFloat() * 0.1f;
+            float pitch = hasLid ? 0.1f + level.getRandom().nextFloat() * 0.05f : 1f + level.getRandom().nextFloat() * 0.1f;
             level.playSound(null,
                     worldPosition.getX() + 0.5, worldPosition.getY() + 0.5, worldPosition.getZ() + 0.5,
                     ModSounds.BLOCK_STOCKPOT, SoundSource.BLOCKS, volume, pitch);
@@ -198,13 +198,13 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
         }
         level.playSound(null, this.worldPosition,
                 SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.2F,
-                ((level.random.nextFloat() - level.random.nextFloat()) * 0.7F + 1.0F) * 2.0F);
+                ((level.getRandom().nextFloat() - level.getRandom().nextFloat()) * 0.7F + 1.0F) * 2.0F);
         this.refresh();
     }
 
     private void spawnParticleWithLid(Level level) {
-        if (level instanceof ServerLevel serverLevel && level.random.nextFloat() < 0.05F) {
-            RandomSource random = serverLevel.random;
+        if (level instanceof ServerLevel serverLevel && level.getRandom().nextFloat() < 0.05F) {
+            RandomSource random = serverLevel.getRandom();
             serverLevel.sendParticles(ModParticles.COOKING,
                     worldPosition.getX() + 0.5 + random.nextDouble() / 3 * (random.nextBoolean() ? 1 : -1),
                     worldPosition.getY() + 0.375 + random.nextDouble() / 3,
@@ -214,16 +214,16 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
     }
 
     private void spawnParticleWithoutLid(Level level) {
-        if (level instanceof ServerLevel serverLevel && serverLevel.random.nextFloat() < 0.25F) {
+        if (level instanceof ServerLevel serverLevel && serverLevel.getRandom().nextFloat() < 0.25F) {
             int color = this.getBubbleColor();
             serverLevel.sendParticles(new StockpotParticleOptions(PortHelper.fromRGB24(color).toVector3f(), 1f),
-                    worldPosition.getX() + 0.25 + (level.random.nextFloat() * 0.5F),
+                    worldPosition.getX() + 0.25 + (level.getRandom().nextFloat() * 0.5F),
                     worldPosition.getY() + 0.375,
-                    worldPosition.getZ() + 0.25 + (level.random.nextFloat() * 0.5F),
+                    worldPosition.getZ() + 0.25 + (level.getRandom().nextFloat() * 0.5F),
                     2,
-                    (level.random.nextFloat() - 0.5) * 0.1F,
+                    (level.getRandom().nextFloat() - 0.5) * 0.1F,
                     0,
-                    (level.random.nextFloat() - 0.5) * 0.1F,
+                    (level.getRandom().nextFloat() - 0.5) * 0.1F,
                     0);
         }
     }
@@ -403,7 +403,7 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
             this.inputs.set(i, itemStack.split(1));
             level.playSound(null, user.getX(), user.getY() + 0.5, user.getZ(),
                     SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.2F,
-                    ((level.random.nextFloat() - level.random.nextFloat()) * 0.7F + 1.0F) * 2.0F);
+                    ((level.getRandom().nextFloat() - level.getRandom().nextFloat()) * 0.7F + 1.0F) * 2.0F);
             this.refresh();
             return true;
         }

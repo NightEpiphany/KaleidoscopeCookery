@@ -1,4 +1,4 @@
-accessWidener v2 named
+accessWidener v2 official
 
 accessible field net/minecraft/world/entity/Mob goalSelector Lnet/minecraft/world/entity/ai/goal/GoalSelector;
 accessible field net/minecraft/world/item/MobBucketItem type Lnet/minecraft/world/entity/EntityType;
@@ -12,4 +12,4 @@ mutable field net/minecraft/world/level/levelgen/structure/pools/StructureTempla
 accessible field net/minecraft/core/registries/BuiltInRegistries LOADERS Ljava/util/Map;
 accessible field net/minecraft/world/entity/animal/equine/AbstractHorse inventory Lnet/minecraft/world/SimpleContainer;
 accessible method net/minecraft/world/item/crafting/RecipeManager byKeyTyped (Lnet/minecraft/world/item/crafting/RecipeType;Lnet/minecraft/resources/ResourceKey;)Lnet/minecraft/world/item/crafting/RecipeHolder;
-accessible field net/minecraft/client/resources/model/ModelManager atlasManager Lnet/minecraft/client/resources/model/AtlasManager;
+accessible field net/minecraft/client/resources/model/ModelManager atlasManager Lnet/minecraft/client/resources/model/sprite/AtlasManager;

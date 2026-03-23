@@ -14,7 +14,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -50,6 +50,7 @@ public class PotBlockEntityRender implements BlockEntityRenderer<PotBlockEntity,
         int posLong = (int) blockEntity.getBlockPos().asLong();
         blockEntityRenderState.inputs = new ArrayList<>();
         blockEntityRenderState.output = new ItemStackRenderState();
+        blockEntityRenderState.rotation = blockEntity.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING).get2DDataValue() * 90;
         for (var index = 0; index < blockEntity.getInputs().size(); index++) {
             ItemStackRenderState itemStackRenderState = new ItemStackRenderState();
             ItemStack itemStack = blockEntity.getInputs().get(index);
@@ -83,11 +84,10 @@ public class PotBlockEntityRender implements BlockEntityRenderer<PotBlockEntity,
                 }
             }
         }
-        int rotation = blockEntityRenderState.blockState.getValue(BlockStateProperties.HORIZONTAL_FACING).get2DDataValue() * 90;
 
         poseStack.pushPose();
         poseStack.translate(0.5, 0.1, 0.5);
-        poseStack.mulPose(Axis.YN.rotationDegrees(rotation));
+        poseStack.mulPose(Axis.YN.rotationDegrees(blockEntityRenderState.rotation));
         poseStack.mulPose(Axis.XN.rotationDegrees(90));
         poseStack.scale(0.5f, 0.5f, 0.5f);
 

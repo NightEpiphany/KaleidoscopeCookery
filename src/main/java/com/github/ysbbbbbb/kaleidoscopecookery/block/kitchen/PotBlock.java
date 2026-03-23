@@ -115,7 +115,7 @@ public class PotBlock extends HorizontalDirectionalBlock implements EntityBlock,
             return InteractionResult.PASS;
         }
         ItemStack itemInHand = player.getItemInHand(hand);
-        RandomSource random = level.random;
+        RandomSource random = level.getRandom();
         // 先检查执行配菜取出逻辑
         if (itemInHand.isEmpty() && pot.removeIngredient(level, player)) {
             return InteractionResult.SUCCESS;
@@ -140,7 +140,7 @@ public class PotBlock extends HorizontalDirectionalBlock implements EntityBlock,
         }
         // 如果拿着锅铲，那么开始执行锅铲逻辑
         if (itemInHand.is(ModItems.KITCHEN_SHOVEL)) {
-            if (level.random.nextDouble() < DURABILITY_COST_PROBABILITY) {
+            if (level.getRandom().nextDouble() < DURABILITY_COST_PROBABILITY) {
                 itemInHand.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
             }
             pot.onShovelHit(level, player, itemInHand);

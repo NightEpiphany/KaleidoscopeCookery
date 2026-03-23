@@ -46,7 +46,7 @@ public class ItemUtils {
             return;
         }
         if (entity.getMainHandItem().isEmpty()) {
-            RandomSource random = entity.level().random;
+            RandomSource random = entity.level().getRandom();
             entity.setItemInHand(InteractionHand.MAIN_HAND, stack);
             entity.playSound(SoundEvents.ITEM_PICKUP, 0.2F, ((random.nextFloat() - random.nextFloat()) * 0.7F + 1.0F) * 2.0F);
         } else if (entity instanceof Player player) {
@@ -89,7 +89,7 @@ public class ItemUtils {
             }
 
             if (remainder.isEmpty() || remainder.getCount() != stack.getCount()) {
-                level.playSound(null, player.getX(), player.getY() + (double)0.5F, player.getZ(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.2F, ((level.random.nextFloat() - level.random.nextFloat()) * 0.7F + 1.0F) * 2.0F);
+                level.playSound(null, player.getX(), player.getY() + (double)0.5F, player.getZ(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.2F, ((level.getRandom().nextFloat() - level.getRandom().nextFloat()) * 0.7F + 1.0F) * 2.0F);
             }
 
             if (!remainder.isEmpty() && !level.isClientSide()) {
@@ -156,10 +156,13 @@ public class ItemUtils {
         }
         UseRemainder useRemainder = stack.get(DataComponents.USE_REMAINDER);
         if (useRemainder != null) {
-            return useRemainder.convertInto().getItem();
+            return useRemainder.convertInto().item().value();
         }
         Item item = stack.getItem();
-        ItemStack remainingItem = item.getCraftingRemainder();
+        if (item.getCraftingRemainder() == null) {
+            return item;
+        }
+        ItemStack remainingItem = item.getCraftingRemainder().create();
         if (!remainingItem.isEmpty()) {
             return remainingItem.getItem();
         }

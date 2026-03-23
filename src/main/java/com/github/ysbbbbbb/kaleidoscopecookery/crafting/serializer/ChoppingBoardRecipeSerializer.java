@@ -9,36 +9,34 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import org.jetbrains.annotations.NotNull;
 
-public class ChoppingBoardRecipeSerializer implements RecipeSerializer<ChoppingBoardRecipe> {
+public class ChoppingBoardRecipeSerializer {
     public static final Identifier EMPTY = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "empty");
-    public static final MapCodec<ChoppingBoardRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
+    private static final MapCodec<ChoppingBoardRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(
                     Ingredient.CODEC.fieldOf("ingredient").forGetter(ChoppingBoardRecipe::getIngredient),
-                    ItemStack.CODEC.fieldOf("result").forGetter(ChoppingBoardRecipe::getResult),
+                    ItemStackTemplate.CODEC.fieldOf("result").forGetter(ChoppingBoardRecipe::getResult),
                     Codec.INT.optionalFieldOf("cut_count", 3).forGetter(ChoppingBoardRecipe::getCutCount),
                     Identifier.CODEC.optionalFieldOf("model_id", EMPTY).forGetter(ChoppingBoardRecipe::getModelId)
             ).apply(instance, ChoppingBoardRecipe::new)
     );
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, ChoppingBoardRecipe> STREAM_CODEC = StreamCodec.composite(
+    private static final StreamCodec<RegistryFriendlyByteBuf, ChoppingBoardRecipe> STREAM_CODEC = StreamCodec.composite(
             Ingredient.CONTENTS_STREAM_CODEC, ChoppingBoardRecipe::getIngredient,
-            ItemStack.STREAM_CODEC, ChoppingBoardRecipe::getResult,
+            ItemStackTemplate.STREAM_CODEC, ChoppingBoardRecipe::getResult,
             ByteBufCodecs.INT, ChoppingBoardRecipe::getCutCount,
             Identifier.STREAM_CODEC, ChoppingBoardRecipe::getModelId,
             ChoppingBoardRecipe::new);
 
-    @Override
-    public @NotNull MapCodec<ChoppingBoardRecipe> codec() {
+
+    public static @NotNull MapCodec<ChoppingBoardRecipe> codec() {
         return CODEC;
     }
 
-    @Override
-    public @NotNull StreamCodec<RegistryFriendlyByteBuf, ChoppingBoardRecipe> streamCodec() {
+    public static @NotNull StreamCodec<RegistryFriendlyByteBuf, ChoppingBoardRecipe> streamCodec() {
         return STREAM_CODEC;
     }
 }

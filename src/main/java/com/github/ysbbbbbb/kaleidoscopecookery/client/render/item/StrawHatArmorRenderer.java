@@ -42,7 +42,7 @@ public class StrawHatArmorRenderer implements ArmorRenderer {
                 false,
                 orderedRenderCommandQueue,
                 matrices,
-                RenderTypes.entityCutoutNoCull(texture),
+                RenderTypes.entityCutout(texture),
                 bipedEntityRenderState.lightCoords,
                 OverlayTexture.NO_OVERLAY,
                 0,

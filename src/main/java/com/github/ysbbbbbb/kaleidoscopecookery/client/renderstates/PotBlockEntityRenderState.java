@@ -18,4 +18,5 @@ public class PotBlockEntityRenderState extends BlockEntityRenderState {
     public ItemStackRenderState output;
     public boolean hasCarrier;
     public int currentTick;
+    public int rotation = 0;
 }

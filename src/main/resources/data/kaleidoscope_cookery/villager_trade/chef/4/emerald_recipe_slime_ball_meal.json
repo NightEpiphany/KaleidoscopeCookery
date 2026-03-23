@@ -1,0 +1,29 @@
+{
+  "given_item_modifiers": [
+    {
+      "function": "kaleidoscope_cookery:trade_custom_recipe",
+      "recipe": {
+        "input": [
+          "minecraft:slime_ball",
+          "minecraft:slime_ball",
+          "minecraft:slime_ball",
+          "minecraft:slime_ball",
+          "minecraft:slime_ball",
+          "minecraft:slime_ball"
+        ],
+        "output": "kaleidoscope_cookery:slime_ball_meal",
+        "type": "kaleidoscope_cookery:pot"
+      }
+    }
+  ],
+  "gives": {
+    "id": "kaleidoscope_cookery:recipe_item"
+  },
+  "max_uses": 16.0,
+  "reputation_discount": 0.1,
+  "wants": {
+    "count": 5.0,
+    "id": "minecraft:emerald"
+  },
+  "xp": 4.0
+}

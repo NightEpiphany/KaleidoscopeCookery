@@ -94,7 +94,7 @@ public class ScarecrowEntity extends LivingEntity {
     }
 
     @Override
-    public @NotNull InteractionResult interactAt(Player player, @NonNull Vec3 vec3, @NonNull InteractionHand hand) {
+    public @NonNull InteractionResult interact(@NonNull Player player, @NonNull InteractionHand hand, @NonNull Vec3 location) {
         ItemStack itemInHand = player.getItemInHand(hand);
         if (itemInHand.is(Items.NAME_TAG)) {
             return InteractionResult.PASS;
@@ -111,10 +111,10 @@ public class ScarecrowEntity extends LivingEntity {
         if (this.cooldown > 0) {
             return InteractionResult.PASS;
         }
-        if (isClickHand(vec3)) {
+        if (isClickHand(location)) {
             return handleHandItems(player, itemInHand);
         }
-        if (isClickHead(vec3)) {
+        if (isClickHead(location)) {
             return handleHeadItems(player, itemInHand);
         }
         return InteractionResult.PASS;

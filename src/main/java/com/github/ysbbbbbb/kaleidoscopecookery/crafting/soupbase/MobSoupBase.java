@@ -1,6 +1,5 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.crafting.soupbase;
 
-
 import com.github.ysbbbbbb.kaleidoscopecookery.api.client.render.ISoupBaseRender;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.render.soupbase.MobSoupBaseRender;
 import net.minecraft.resources.Identifier;

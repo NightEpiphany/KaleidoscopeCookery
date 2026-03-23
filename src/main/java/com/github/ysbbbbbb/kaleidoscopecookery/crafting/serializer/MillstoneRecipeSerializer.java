@@ -5,31 +5,29 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import org.jetbrains.annotations.NotNull;
 
-public class MillstoneRecipeSerializer implements RecipeSerializer<MillstoneRecipe> {
-    public static final MapCodec<MillstoneRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
+public class MillstoneRecipeSerializer {
+    private static final MapCodec<MillstoneRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
             instance.group(
                     Ingredient.CODEC.fieldOf("ingredient").forGetter(MillstoneRecipe::getIngredient),
-                    ItemStack.CODEC.fieldOf("result").forGetter(MillstoneRecipe::getResult)
+                    ItemStackTemplate.CODEC.fieldOf("result").forGetter(MillstoneRecipe::getResult)
             ).apply(instance, MillstoneRecipe::new)
     );
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, MillstoneRecipe> STREAM_CODEC = StreamCodec.composite(
+    private static final StreamCodec<RegistryFriendlyByteBuf, MillstoneRecipe> STREAM_CODEC = StreamCodec.composite(
             Ingredient.CONTENTS_STREAM_CODEC, MillstoneRecipe::getIngredient,
-            ItemStack.STREAM_CODEC, MillstoneRecipe::getResult,
+            ItemStackTemplate.STREAM_CODEC, MillstoneRecipe::getResult,
             MillstoneRecipe::new);
 
-    @Override
-    public @NotNull MapCodec<MillstoneRecipe> codec() {
+
+    public static @NotNull MapCodec<MillstoneRecipe> codec() {
         return CODEC;
     }
 
-    @Override
-    public StreamCodec<RegistryFriendlyByteBuf, MillstoneRecipe> streamCodec() {
+    public static StreamCodec<RegistryFriendlyByteBuf, MillstoneRecipe> streamCodec() {
         return STREAM_CODEC;
     }
 }

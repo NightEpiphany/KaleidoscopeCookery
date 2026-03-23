@@ -12,9 +12,8 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
@@ -40,7 +39,7 @@ public class FruitBasketBlockEntityRender implements BlockEntityRenderer<FruitBa
     public void extractRenderState(FruitBasketBlockEntity blockEntity, FruitBasketBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, blockEntityRenderState, f, vec3, crumblingOverlay);
         blockEntityRenderState.items = new ArrayList<>();
-
+        blockEntityRenderState.rotation = blockEntity.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING).get2DDataValue() * 90;
         int posLong = (int) blockEntity.getBlockPos().asLong();
         for (var index = 0; index < blockEntity.getItems().size(); index++) {
             ItemStackRenderState itemStackRenderState = new ItemStackRenderState();
@@ -52,10 +51,9 @@ public class FruitBasketBlockEntityRender implements BlockEntityRenderer<FruitBa
     @Override
     public void submit(FruitBasketBlockEntityRenderState blockEntityRenderState, @NonNull PoseStack poseStack, @NonNull SubmitNodeCollector submitNodeCollector, @NonNull CameraRenderState cameraRenderState) {
         var items = blockEntityRenderState.items;
-        int rotation = blockEntityRenderState.blockState.getValue(BlockStateProperties.HORIZONTAL_FACING).get2DDataValue() * 90;
         poseStack.pushPose();
         poseStack.translate(0.5, 0, 0.5);
-        poseStack.mulPose(Axis.YN.rotationDegrees(rotation));
+        poseStack.mulPose(Axis.YN.rotationDegrees(blockEntityRenderState.rotation));
         poseStack.translate(-0.5, 0, -0.5);
         poseStack.translate(0.1, 0.3, 0.35);
         for (int i = 0; i < 2; i++) {

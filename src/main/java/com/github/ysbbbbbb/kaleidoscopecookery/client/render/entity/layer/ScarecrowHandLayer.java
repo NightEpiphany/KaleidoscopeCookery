@@ -7,10 +7,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.block.BlockRenderDispatcher;
-import net.minecraft.client.renderer.block.model.BlockStateModel;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -18,16 +15,13 @@ import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.LanternBlock;
-import net.minecraft.world.level.block.state.BlockState;
 import org.jspecify.annotations.NonNull;
 
 @Environment(EnvType.CLIENT)
 public class ScarecrowHandLayer extends ItemInHandLayer<ScarecrowEntityRenderState, ScarecrowModel> {
-    private final BlockRenderDispatcher blockRenderer;
 
-    public ScarecrowHandLayer(ScarecrowRender entityRenderer, BlockRenderDispatcher blockRenderDispatcher) {
+    public ScarecrowHandLayer(ScarecrowRender entityRenderer) {
         super(entityRenderer);
-        this.blockRenderer = blockRenderDispatcher;
     }
 
     @Override
@@ -47,19 +41,14 @@ public class ScarecrowHandLayer extends ItemInHandLayer<ScarecrowEntityRenderSta
             poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
             boolean isLeft = arm == HumanoidArm.LEFT;
             if (isLeft) {
-                if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof LanternBlock lanternBlock) {
+                if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof LanternBlock && !armedEntityRenderState.leftHandLantern.isEmpty()) {
                     poseStack.translate(-1.865, 0.375, -2);
                     poseStack.mulPose(Axis.XP.rotationDegrees(90));
-                    BlockState blockState = lanternBlock.defaultBlockState();
-                    BlockStateModel blockStateModel = this.blockRenderer.getBlockModel(blockState);
                     poseStack.scale(0.75F, 0.75F, 0.75F);
-                    submitNodeCollector.submitBlockModel(
+                    armedEntityRenderState.leftHandLantern.submit(
                             poseStack,
-                            ItemBlockRenderTypes.getRenderType(blockState),
-                            blockStateModel,
-                            1.0F,
-                            1.0F,
-                            1.0F, 15728880,
+                            submitNodeCollector,
+                            armedEntityRenderState.lightCoords,
                             OverlayTexture.NO_OVERLAY,
                             0
                     );

@@ -3,7 +3,6 @@ package com.github.ysbbbbbb.kaleidoscopecookery.loot;
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.PotRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.StockpotRecipe;
-import com.github.ysbbbbbb.kaleidoscopecookery.init.ModLootModifier;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModRecipes;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.FoodBiteRegistry;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.RecipeItem;
@@ -21,7 +20,6 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
-import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
@@ -44,8 +42,8 @@ public class RecipeRandomlyFunction extends LootItemConditionalFunction {
     }
 
     @Override
-    public @NotNull LootItemFunctionType<RecipeRandomlyFunction> getType() {
-        return ModLootModifier.RECIPE_RANDOMLY;
+    public @NonNull MapCodec<? extends LootItemConditionalFunction> codec() {
+        return CODEC;
     }
 
     @Override
@@ -137,7 +135,7 @@ public class RecipeRandomlyFunction extends LootItemConditionalFunction {
         }
 
         @Override
-        public LootItemFunction build() {
+        public @NonNull LootItemFunction build() {
             return new RecipeRandomlyFunction(this.getConditions(), this.recipes);
         }
     }

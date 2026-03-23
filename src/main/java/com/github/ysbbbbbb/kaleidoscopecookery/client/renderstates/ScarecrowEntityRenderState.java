@@ -2,6 +2,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.renderer.block.BlockModelRenderState;
 import net.minecraft.client.renderer.entity.state.ArmedEntityRenderState;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -15,4 +16,5 @@ public class ScarecrowEntityRenderState extends ArmedEntityRenderState {
     public float partialTicks;
     public long lastHit;
     public long time;
+    public BlockModelRenderState leftHandLantern = new BlockModelRenderState();
 }

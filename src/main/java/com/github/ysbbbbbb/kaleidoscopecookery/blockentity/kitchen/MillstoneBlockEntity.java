@@ -213,7 +213,7 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
                             5, 0.1, 0.1, 0.1,
                             0.05);
                 } else {
-                    ItemParticleOption option = new ItemParticleOption(ParticleTypes.ITEM, item.getDefaultInstance());
+                    ItemParticleOption option = new ItemParticleOption(ParticleTypes.ITEM, item.getDefaultInstance().getItem());
                     serverLevel.sendParticles(option,
                             particlePos.x, particlePos.y, particlePos.z,
                             5, 0.1, 0.1, 0.1,
@@ -224,7 +224,7 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
 
         // 播放音频
         if (serverLevel.getGameTime() % 25 == 0) {
-            float pitch = level.random.nextFloat() * 0.2f + 0.9f;
+            float pitch = level.getRandom().nextFloat() * 0.2f + 0.9f;
             serverLevel.playSound(null, this.worldPosition,
                     ModSounds.BLOCK_MILLSTONE, SoundSource.BLOCKS, 0.5f, pitch);
         }
@@ -242,7 +242,7 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
         if (this.progress <= 0 && !this.input.isEmpty() && this.output.isEmpty()) {
             SingleRecipeInput container = new SingleRecipeInput(this.input);
                 this.quickCheck.getRecipeFor(container, serverLevel).ifPresentOrElse(recipe -> {
-                    this.output = recipe.value().assemble(container, level.registryAccess());
+                    this.output = recipe.value().assemble(container);
                     // 依据输入数量决定输出数量
                     this.output.setCount(this.output.getCount() * this.input.getCount());
                     this.input = ItemStack.EMPTY;
@@ -274,7 +274,7 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
                 this.refresh();
                 level.playSound(null, this.worldPosition,
                         SoundEvents.STONE_HIT, SoundSource.BLOCKS, 0.8f,
-                        level.random.nextFloat() * 0.2f + 0.9f);
+                        level.getRandom().nextFloat() * 0.2f + 0.9f);
                 return true;
             }).orElse(false);
         }
@@ -302,7 +302,7 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
     }
 
     public boolean canBindEntity(Mob mob) {
-        if (!mob.getType().is(TagMod.MILLSTONE_BINDABLE)) {
+        if (!mob.getType().builtInRegistryHolder().is(TagMod.MILLSTONE_BINDABLE)) {
             return false;
         }
         if (mob.getVehicle() != null) {

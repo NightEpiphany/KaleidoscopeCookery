@@ -5,9 +5,13 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.state.properties.AttachFace;
 
 @Environment(EnvType.CLIENT)
 public class RecipeBlockEntityRenderState extends BlockEntityRenderState {
     public ItemStackRenderState targetItem = new ItemStackRenderState();
     public RecipeItem.RecipeRecord data;
+    public Direction facing;
+    public AttachFace attachFace;
 }

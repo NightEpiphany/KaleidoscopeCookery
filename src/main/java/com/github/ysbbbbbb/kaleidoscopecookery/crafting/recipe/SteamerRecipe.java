@@ -6,6 +6,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import org.jspecify.annotations.NonNull;
@@ -13,8 +14,8 @@ import org.jspecify.annotations.NonNull;
 public class SteamerRecipe extends SingleItemRecipe {
     private final int cookTick;
 
-    public SteamerRecipe(Ingredient ingredient, ItemStack result, int cookTick) {
-        super("steamer", ingredient, result);
+    public SteamerRecipe(Ingredient ingredient, ItemStackTemplate result, int cookTick) {
+        super(BaseRecipe.NO_INFO, ingredient, result);
         this.cookTick = Math.max(cookTick, 1);
     }
 
@@ -43,11 +44,16 @@ public class SteamerRecipe extends SingleItemRecipe {
         return true;
     }
 
+    @Override
+    public @NonNull String group() {
+        return "steamer";
+    }
+
     public Ingredient getIngredient() {
         return this.input();
     }
 
-    public ItemStack getResult() {
+    public ItemStackTemplate getResult() {
         return this.result();
     }
 

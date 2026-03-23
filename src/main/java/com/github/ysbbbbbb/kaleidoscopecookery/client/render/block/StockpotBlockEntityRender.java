@@ -21,7 +21,7 @@ import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Util;
@@ -64,6 +64,7 @@ public class StockpotBlockEntityRender implements BlockEntityRenderer<StockpotBl
         blockEntityRenderState.items = new ArrayList<>();
         blockEntityRenderState.randomSeeds = new ArrayList<>();
         blockEntityRenderState.status = blockEntity.getStatus();
+        blockEntityRenderState.hasLid = blockEntity.getBlockState().getValue(StockpotBlock.HAS_LID);
         for (var index = 0; index < blockEntity.getInputs().size(); index++) {
             ItemStackRenderState itemStackRenderState = new ItemStackRenderState();
             ItemStack itemStack = blockEntity.getInputs().get(index);
@@ -89,7 +90,7 @@ public class StockpotBlockEntityRender implements BlockEntityRenderer<StockpotBl
         if (level == null) {
             return;
         }
-        if (blockEntityRenderState.blockState.getValue(StockpotBlock.HAS_LID)) {
+        if (blockEntityRenderState.hasLid) {
             return;
         }
         int status = blockEntityRenderState.status;

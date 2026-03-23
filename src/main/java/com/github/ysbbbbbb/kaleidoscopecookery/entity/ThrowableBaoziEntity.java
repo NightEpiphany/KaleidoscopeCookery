@@ -9,10 +9,7 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityEvent;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.wolf.Wolf;
 import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
@@ -49,7 +46,7 @@ public class ThrowableBaoziEntity extends ThrowableItemProjectile {
     public void handleEntityEvent(byte id) {
         ItemStack entityStack = new ItemStack(this.getDefaultItem());
         if (id == EntityEvent.DEATH) {
-            ParticleOptions option = new ItemParticleOption(ParticleTypes.ITEM, entityStack);
+            ParticleOptions option = new ItemParticleOption(ParticleTypes.ITEM, entityStack.getItem());
             for (int i = 0; i < 12; i++) {
                 this.level().addParticle(option, this.getX(), this.getY(), this.getZ(),
                         (this.random.nextFloat() * 2 - 1) * 0.1,

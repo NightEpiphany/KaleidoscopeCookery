@@ -18,7 +18,7 @@ import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -50,7 +50,8 @@ public class MillstoneBlockEntityRender implements BlockEntityRenderer<Millstone
     @Override
     public void extractRenderState(MillstoneBlockEntity blockEntity, MillstoneBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, blockEntityRenderState, f, vec3, crumblingOverlay);
-        Direction facing = blockEntityRenderState.blockState.getValue(MillstoneBlock.FACING);
+        Direction facing = blockEntity.getBlockState().getValue(MillstoneBlock.FACING);
+        blockEntityRenderState.direction = facing;
         int facingDeg = facing.get2DDataValue() * 90;
         int i = (int)blockEntity.getBlockPos().asLong();
         blockEntityRenderState.levelAccessor = blockEntity.getLevel();
@@ -85,9 +86,7 @@ public class MillstoneBlockEntityRender implements BlockEntityRenderer<Millstone
     public void submit(MillstoneBlockEntityRenderState blockEntityRenderState, @NonNull PoseStack poseStack, @NonNull SubmitNodeCollector submitNodeCollector, @NonNull CameraRenderState cameraRenderState) {
         if (blockEntityRenderState.levelAccessor == null) return;
 
-        Direction facing = blockEntityRenderState.blockState.getValue(MillstoneBlock.FACING);
-
-        int facingDeg = facing.get2DDataValue() * 90;
+        int facingDeg = blockEntityRenderState.direction.get2DDataValue() * 90;
         MillstoneModel.State state = new MillstoneModel.State(
                 blockEntityRenderState.levelAccessor,
                 blockEntityRenderState.hasEntity,
@@ -102,7 +101,7 @@ public class MillstoneBlockEntityRender implements BlockEntityRenderer<Millstone
         poseStack.translate(0.5, 1.5, 0.5);
         poseStack.mulPose(Axis.ZN.rotationDegrees(180));
         poseStack.mulPose(Axis.YN.rotationDegrees(180 - facingDeg));
-        RenderType renderType = RenderTypes.entityCutoutNoCull(TEXTURE);
+        RenderType renderType = RenderTypes.entityCutout(TEXTURE);
         submitNodeCollector.submitModel(
                 bodyModel,
                 state,

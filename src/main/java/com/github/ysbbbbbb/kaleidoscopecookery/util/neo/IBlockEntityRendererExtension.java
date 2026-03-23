@@ -1,6 +1,5 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.util.neo;
 
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
 

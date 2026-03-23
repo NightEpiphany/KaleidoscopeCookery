@@ -32,14 +32,14 @@ public final class ModItems {
             p.durability(245)
             .repairable(Items.IRON_INGOT)
             .equippableUnswappable(EquipmentSlot.OFFHAND)
-            .component(
+            .delayedComponent(
                     DataComponents.BLOCKS_ATTACKS,
-                    new BlocksAttacks(
+                    ctx -> new BlocksAttacks(
                             0.15F,
                             1.23F,
                             List.of(new BlocksAttacks.DamageReduction(34.2F, Optional.empty(), 0.0F, 1.0F)),
                             new BlocksAttacks.ItemDamageFunction(3.0F, 1.0F, 1.0F),
-                            Optional.of(DamageTypeTags.BYPASSES_SHIELD),
+                            Optional.of(ctx.getOrThrow(DamageTypeTags.BYPASSES_SHIELD)),
                             Optional.of(SoundEvents.SHIELD_BLOCK),
                             Optional.of(SoundEvents.SHIELD_BREAK)
                     )

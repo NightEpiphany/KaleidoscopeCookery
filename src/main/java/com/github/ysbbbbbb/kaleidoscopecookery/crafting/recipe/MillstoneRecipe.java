@@ -6,6 +6,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import org.jspecify.annotations.NonNull;
@@ -13,8 +14,8 @@ import org.jspecify.annotations.NonNull;
 public class MillstoneRecipe extends SingleItemRecipe {
 
 
-    public MillstoneRecipe(Ingredient ingredient, ItemStack result) {
-        super("millstone", ingredient, result);
+    public MillstoneRecipe(Ingredient ingredient, ItemStackTemplate result) {
+        super(BaseRecipe.NO_INFO, ingredient, result);
     }
 
     @Override
@@ -42,11 +43,16 @@ public class MillstoneRecipe extends SingleItemRecipe {
         return true;
     }
 
+    @Override
+    public @NonNull String group() {
+        return "millstone";
+    }
+
     public Ingredient getIngredient() {
         return this.input();
     }
 
-    public ItemStack getResult() {
+    public ItemStackTemplate getResult() {
         return this.result();
     }
 }

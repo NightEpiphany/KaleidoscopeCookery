@@ -1,13 +1,14 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.init;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.util.ExtraBlockModelLoadingUtil;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.model.loading.v1.ExtraModelKey;
-import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
-import net.fabricmc.fabric.api.client.model.loading.v1.SimpleUnbakedExtraModel;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.resources.Identifier;
-import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.resources.ReloadableResourceManager;
 
 @Environment(EnvType.CLIENT)
 public class ModModelLoading {
@@ -15,17 +16,37 @@ public class ModModelLoading {
     private static final String MODELS_CHOPPING_BOARD = MODELS + "chopping_board";
     private static final String MODELS_CARPET = MODELS + "block/carpet";
     private static final String JSON = ".json";
+    private static final Set<Identifier> REGISTERED_MODELS = ConcurrentHashMap.newKeySet();
 
     public static void register() {
-        ModelLoadingPlugin.register(context -> {
-            ResourceManager resourceManager = Minecraft.getInstance().getResourceManager();
+        REGISTERED_MODELS.clear();
+        ModModelKeys.clear();
+        registerFromPath(MODELS_CHOPPING_BOARD);
+        registerFromPath(MODELS_CARPET);
+        ExtraBlockModelLoadingUtil.clearCache();
+    }
 
-            resourceManager.listResources(MODELS_CHOPPING_BOARD, id -> id.getPath().endsWith(JSON))
-                    .keySet().stream().map(ModModelLoading::handleModelId).forEach(ids -> context.addModel(ModModelKeys.getOrCreate(ids), SimpleUnbakedExtraModel.blockStateModel(ids)));
+    public static BlockModel getModel(Identifier modelId) {
+        return ExtraBlockModelLoadingUtil.getBlockModel(ModModelKeys.get(modelId));
+    }
 
-            resourceManager.listResources(MODELS_CARPET, id -> id.getPath().endsWith(JSON))
-                    .keySet().stream().map(ModModelLoading::handleModelId).forEach(ids -> context.addModel(ModModelKeys.getOrCreate(ids), SimpleUnbakedExtraModel.blockStateModel(ids)));
-        });
+    public static boolean isRegistered(Identifier modelId) {
+        return REGISTERED_MODELS.contains(modelId);
+    }
+
+    private static void registerFromPath(String path) {
+        try (ReloadableResourceManager resourceManager = new ReloadableResourceManager(PackType.CLIENT_RESOURCES)) {
+            resourceManager.listResources(path, id -> id.getPath().endsWith(JSON))
+                    .keySet()
+                    .stream()
+                    .map(ModModelLoading::handleModelId)
+                    .forEach(ModModelLoading::registerSingleModel);
+        }
+    }
+
+    private static void registerSingleModel(Identifier modelId) {
+        Identifier key = ModModelKeys.getOrCreate(modelId);
+        REGISTERED_MODELS.add(key);
     }
 
     public static Identifier handleModelId(Identifier input) {

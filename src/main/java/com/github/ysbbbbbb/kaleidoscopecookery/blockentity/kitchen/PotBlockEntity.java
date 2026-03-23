@@ -90,7 +90,7 @@ public class PotBlockEntity extends BaseBlockEntity implements IPot {
         if (!this.hasHeatSource(level)) {
             return;
         }
-        RandomSource random = level.random;
+        RandomSource random = level.getRandom();
         if (currentTick > 0) {
             this.currentTick--;
             // 每 5tick 刷新一次
@@ -219,19 +219,19 @@ public class PotBlockEntity extends BaseBlockEntity implements IPot {
     public boolean onPlaceOil(Level level, LivingEntity user, ItemStack stack) {
         if (stack.is(TagMod.OIL)) {
             // 普通情况油脂
-            placeOil(level, user, level.random);
+            placeOil(level, user, level.getRandom());
             stack.shrink(1);
             ModTrigger.EVENT.trigger(user, ModEventTriggerType.PUT_OIL_IN_POT);
             return true;
         } else if (stack.is(ModItems.KITCHEN_SHOVEL) && KitchenShovelItem.hasOil(stack)) {
             // 带油锅铲特判
-            placeOil(level, user, level.random);
+            placeOil(level, user, level.getRandom());
             KitchenShovelItem.setHasOil(stack, false);
             ModTrigger.EVENT.trigger(user, ModEventTriggerType.PUT_OIL_IN_POT);
             return true;
         } else if (stack.is(ModItems.OIL_POT) && OilPotItem.hasOil(stack)) {
             // 油壶特判
-            placeOil(level, user, level.random);
+            placeOil(level, user, level.getRandom());
             OilPotItem.shrinkOilCount(stack);
             ModTrigger.EVENT.trigger(user, ModEventTriggerType.PUT_OIL_IN_POT);
             return true;
@@ -263,7 +263,7 @@ public class PotBlockEntity extends BaseBlockEntity implements IPot {
 
         // 每次翻炒给点粒子效果
         if (this.level instanceof ServerLevel serverLevel) {
-            RandomSource random = serverLevel.random;
+            RandomSource random = serverLevel.getRandom();
             serverLevel.sendParticles(ModParticles.COOKING,
                     worldPosition.getX() + 0.5 + random.nextDouble() / 3 * (random.nextBoolean() ? 1 : -1),
                     worldPosition.getY() + 0.1 + random.nextDouble() / 3,

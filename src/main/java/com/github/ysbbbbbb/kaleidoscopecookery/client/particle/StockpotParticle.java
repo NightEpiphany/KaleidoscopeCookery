@@ -22,8 +22,8 @@ public class StockpotParticle extends SingleQuadParticle {
     }
 
     @Override
-    public int getLightColor(float partialTick) {
-        return 240;
+    protected int getLightCoords(float a) {
+        return super.getLightCoords(a);
     }
 
     @Override
@@ -43,12 +43,12 @@ public class StockpotParticle extends SingleQuadParticle {
         public @NonNull Particle createParticle(StockpotParticleOptions particleOptions, @NonNull ClientLevel clientLevel, double d, double e, double f, double g, double h, double i, @NonNull RandomSource randomSource) {
             StockpotParticle particle = new StockpotParticle(clientLevel, d, e, f, this.spriteSet, this.spriteSet.get(randomSource));
             Vector3f color = (Vector3f) particleOptions.getColor();
-            float scale = particleOptions.getScale() - 0.1f + clientLevel.random.nextFloat() * 0.2f;
+            float scale = particleOptions.getScale() - 0.1f + clientLevel.getRandom().nextFloat() * 0.2f;
             particle.setAlpha(1);
             particle.setColor(color.x, color.y, color.z);
             particle.setSize(scale, scale);
             particle.setParticleSpeed(g, h, i);
-            particle.setLifetime(clientLevel.random.nextInt(4) + 6);
+            particle.setLifetime(clientLevel.getRandom().nextInt(4) + 6);
             return particle;
         }
     }

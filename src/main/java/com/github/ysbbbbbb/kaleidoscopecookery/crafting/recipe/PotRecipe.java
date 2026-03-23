@@ -10,22 +10,19 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NonNull;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public record PotRecipe(int time, int stirFryCount, Ingredient carrier,
-                        NonNullList<Ingredient> ingredients, ItemStack result) implements BaseRecipe<SimpleInput> {
+                        NonNullList<Ingredient> ingredients, ItemStackTemplate result) implements BaseRecipe<SimpleInput> {
     public PotRecipe(int time, int stirFryCount, Ingredient carrier,
-                     List<Ingredient> ingredients, ItemStack result) {
+                     List<Ingredient> ingredients, ItemStackTemplate result) {
         this(time, stirFryCount, carrier, createNonNullList(ingredients), result);
     }
 
@@ -57,6 +54,21 @@ public record PotRecipe(int time, int stirFryCount, Ingredient carrier,
         }
 
         return RecipeMatcher.findMatches(nonEmptyInputs, ingredients) != null;
+    }
+
+    @Override
+    public @NonNull ItemStack assemble(SimpleInput input) {
+        return this.result.item().value().getDefaultInstance().copy();
+    }
+
+    @Override
+    public boolean showNotification() {
+        return false;
+    }
+
+    @Override
+    public @NonNull String group() {
+        return "pot";
     }
 
     private static boolean isKnownPlaceholder(Ingredient ingredient) {
@@ -104,7 +116,7 @@ public record PotRecipe(int time, int stirFryCount, Ingredient carrier,
 
     @Override
     public ItemStack getResultItem(HolderLookup.Provider registryAccess) {
-        return this.result;
+        return this.result.item().value().getDefaultInstance();
     }
 
 }

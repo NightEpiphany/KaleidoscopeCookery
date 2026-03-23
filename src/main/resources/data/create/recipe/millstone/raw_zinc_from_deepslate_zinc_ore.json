@@ -1,8 +1,0 @@
-{
-  "type": "kaleidoscope_cookery:millstone",
-  "ingredient": "create:deepslate_zinc_ore",
-  "result": {
-    "count": 5,
-    "id": "create:raw_zinc"
-  }
-}

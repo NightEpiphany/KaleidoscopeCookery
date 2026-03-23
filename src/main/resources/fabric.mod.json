@@ -17,18 +17,14 @@
   "entrypoints": {
     "main": ["com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery"],
     "client": ["com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookeryClient"],
-    "jei_mod_plugin": ["com.github.ysbbbbbb.kaleidoscopecookery.compat.jei.ModJeiPlugin"],
-    "jade": ["com.github.ysbbbbbb.kaleidoscopecookery.compat.jade.ModJadePlugin"],
-    "rei_client": ["com.github.ysbbbbbb.kaleidoscopecookery.compat.rei.ModREIClientPlugin"],
-    "rei_common": ["com.github.ysbbbbbb.kaleidoscopecookery.compat.rei.ModREICommonPlugin"]
+    "jade": ["com.github.ysbbbbbb.kaleidoscopecookery.compat.jade.ModJadePlugin"]
   },
   "mixins": ["kaleidoscope_cookery.mixins.json"],
   "accessWidener": "kaleidoscope_cookery.accesswidener",
   "depends": {
     "fabricloader": ">=0.18",
-    "fabric": "*",
     "fabric-api": "*",
-    "minecraft": "1.21.11",
-    "forgeconfigapiport": "*"
+    "minecraft": "~26.1-",
+    "java": ">=25"
   }
 }

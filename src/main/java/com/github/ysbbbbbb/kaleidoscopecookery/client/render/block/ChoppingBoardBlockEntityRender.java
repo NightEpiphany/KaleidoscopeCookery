@@ -2,21 +2,20 @@ package com.github.ysbbbbbb.kaleidoscopecookery.client.render.block;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.ChoppingBoardBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.ChoppingBoardBlockEntity;
-import com.github.ysbbbbbb.kaleidoscopecookery.client.init.ModModelKeys;
+import com.github.ysbbbbbb.kaleidoscopecookery.client.init.ModModelLoading;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates.ChoppingBoardBlockEntityRenderState;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.block.model.BlockStateModel;
+import net.minecraft.client.renderer.block.BlockModelRenderState;
+import net.minecraft.client.renderer.block.model.BlockDisplayContext;
+import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
-import net.minecraft.client.renderer.rendertype.RenderType;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.Vec3;
@@ -25,7 +24,8 @@ import org.jspecify.annotations.Nullable;
 
 @Environment(EnvType.CLIENT)
 public class ChoppingBoardBlockEntityRender implements BlockEntityRenderer<ChoppingBoardBlockEntity, ChoppingBoardBlockEntityRenderState> {
-    private final Minecraft minecraft = Minecraft.getInstance();
+    private static final long MODEL_SEED = 42L;
+    private static final BlockDisplayContext BLOCK_DISPLAY_CONTEXT = BlockDisplayContext.create();
     public ChoppingBoardBlockEntityRender(BlockEntityRendererProvider.Context context) {
     }
 
@@ -42,6 +42,8 @@ public class ChoppingBoardBlockEntityRender implements BlockEntityRenderer<Chopp
         blockEntityRenderState.cacheModels = blockEntity.cacheModels;
         blockEntityRenderState.maxCutCount = blockEntity.getMaxCutCount();
         blockEntityRenderState.currentCutCount = blockEntity.getCurrentCutCount();
+        blockEntityRenderState.blockState = blockEntity.getBlockState();
+        blockEntityRenderState.rotation = blockEntity.getBlockState().getValue(ChoppingBoardBlock.FACING).getOpposite().get2DDataValue();
     }
 
     @Override
@@ -63,25 +65,16 @@ public class ChoppingBoardBlockEntityRender implements BlockEntityRenderer<Chopp
         if (cacheModel == null) {
             return;
         }
-        BlockStateModel model = minecraft.getModelManager().getModel(ModModelKeys.get(cacheModel));
+        BlockModel model = ModModelLoading.getModel(cacheModel);
         if (model == null) return;
-        RenderType renderType = Sheets.cutoutBlockSheet();
+        BlockModelRenderState renderState = new BlockModelRenderState();
+        model.update(renderState, blockEntityRenderState.blockState, BLOCK_DISPLAY_CONTEXT, MODEL_SEED);
+        if (renderState.isEmpty()) return;
         poseStack.pushPose();
-        int rotation = blockEntityRenderState.blockState.getValue(ChoppingBoardBlock.FACING).get2DDataValue();
         poseStack.translate(0.5D, 0, 0.5D);
-        poseStack.mulPose(Axis.YP.rotationDegrees(rotation * 90));
+        poseStack.mulPose(Axis.YP.rotationDegrees(blockEntityRenderState.rotation * 90));
         poseStack.translate(-0.5D, 0.125, -0.5D);
-        submitNodeCollector.submitBlockModel(
-                poseStack,
-                renderType,
-                model,
-                1.0F,
-                1.0F,
-                1.0F,
-                blockEntityRenderState.lightCoords,
-                OverlayTexture.NO_OVERLAY,
-                0
-        );
+        renderState.submit(poseStack, submitNodeCollector, blockEntityRenderState.lightCoords, OverlayTexture.NO_OVERLAY, 0);
         poseStack.popPose();
     }
 }

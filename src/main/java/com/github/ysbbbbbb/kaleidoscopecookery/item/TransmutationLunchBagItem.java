@@ -248,7 +248,7 @@ public class TransmutationLunchBagItem extends Item {
                     if (effect instanceof ApplyStatusEffectsConsumeEffect(
                             List<MobEffectInstance> effects1, float probability
                     )) {
-                        if (level.isClientSide() || probability <= 0.0F || level.random.nextFloat() >= probability) {
+                        if (level.isClientSide() || probability <= 0.0F || level.getRandom().nextFloat() >= probability) {
                             continue;
                         }
                         entity.addEffect(new MobEffectInstance(effects1.getFirst()));
@@ -267,7 +267,7 @@ public class TransmutationLunchBagItem extends Item {
                     }
                 }
                 if (!foodSlots.isEmpty()) {
-                    int randomIndex = level.random.nextInt(foodSlots.size());
+                    int randomIndex = level.getRandom().nextInt(foodSlots.size());
                     int slotToExtract = foodSlots.getInt(randomIndex);
                     items.extractItem(slotToExtract, 1, false);
                 }

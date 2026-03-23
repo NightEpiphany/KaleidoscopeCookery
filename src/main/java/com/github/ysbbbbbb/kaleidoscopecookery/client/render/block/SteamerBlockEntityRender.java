@@ -15,10 +15,8 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.core.NonNullList;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
@@ -27,7 +25,6 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Environment(EnvType.CLIENT)
 public class SteamerBlockEntityRender implements BlockEntityRenderer<SteamerBlockEntity, SteamerBlockEntityRenderState> {
@@ -42,6 +39,7 @@ public class SteamerBlockEntityRender implements BlockEntityRenderer<SteamerBloc
         BlockEntityRenderer.super.extractRenderState(blockEntity, blockEntityRenderState, f, vec3, crumblingOverlay);
         int posLong = (int) blockEntity.getBlockPos().asLong();
         blockEntityRenderState.items = new ArrayList<>();
+        blockEntityRenderState.hasLid = blockEntity.getBlockState().getValue(SteamerBlock.HAS_LID);
         for (var index = 0; index < blockEntity.getItems().size(); index++) {
             ItemStackRenderState itemStackRenderState = new ItemStackRenderState();
             ItemStack itemStack = blockEntity.getItems().get(index);
@@ -63,7 +61,7 @@ public class SteamerBlockEntityRender implements BlockEntityRenderer<SteamerBloc
             return;
         }
         // 盖住了就不渲染
-        if (blockEntityRenderState.blockState.getValue(SteamerBlock.HAS_LID)) {
+        if (blockEntityRenderState.hasLid) {
             return;
         }
         List<ItemStackRenderState> items = blockEntityRenderState.items;

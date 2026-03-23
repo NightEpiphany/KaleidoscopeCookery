@@ -1,0 +1,27 @@
+{
+  "given_item_modifiers": [
+    {
+      "function": "kaleidoscope_cookery:trade_custom_recipe",
+      "recipe": {
+        "input": [
+          "kaleidoscope_cookery:fried_egg",
+          "kaleidoscope_cookery:fried_egg",
+          "kaleidoscope_cookery:tomato",
+          "kaleidoscope_cookery:tomato"
+        ],
+        "output": "kaleidoscope_cookery:scramble_egg_with_tomatoes",
+        "type": "kaleidoscope_cookery:pot"
+      }
+    }
+  ],
+  "gives": {
+    "id": "kaleidoscope_cookery:recipe_item"
+  },
+  "max_uses": 16.0,
+  "reputation_discount": 0.1,
+  "wants": {
+    "count": 3.0,
+    "id": "minecraft:emerald"
+  },
+  "xp": 4.0
+}

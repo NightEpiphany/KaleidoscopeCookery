@@ -12,7 +12,6 @@ import net.minecraft.util.ExtraCodecs;
 import org.joml.Vector3fc;
 import org.jspecify.annotations.NonNull;
 
-@SuppressWarnings("deprecation")
 public class StockpotParticleOptions extends ScalableParticleOptionsBase {
 
     public static final MapCodec<StockpotParticleOptions> CODEC = RecordCodecBuilder.mapCodec(

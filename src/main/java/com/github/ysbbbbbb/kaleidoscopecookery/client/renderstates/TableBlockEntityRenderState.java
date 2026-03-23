@@ -7,6 +7,8 @@ import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Collections;
 import java.util.List;
@@ -15,4 +17,5 @@ import java.util.List;
 public class TableBlockEntityRenderState extends BlockEntityRenderState {
     public List<ItemStackRenderState> items = Collections.emptyList();
     public DyeColor color;
+    public BlockState blockState = Blocks.AIR.defaultBlockState();
 }

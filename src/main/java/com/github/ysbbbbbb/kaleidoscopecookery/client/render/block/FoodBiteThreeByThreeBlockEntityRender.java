@@ -7,17 +7,16 @@ import com.github.ysbbbbbb.kaleidoscopecookery.client.model.ColdCutHamSlicesMode
 import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates.FoodBiteThreeByThreeBlockEntityRenderState;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.neo.IBlockEntityRendererExtension;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -25,7 +24,9 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 @Environment(EnvType.CLIENT)
 public class FoodBiteThreeByThreeBlockEntityRender implements BlockEntityRenderer<FoodBiteThreeByThreeBlockEntity, FoodBiteThreeByThreeBlockEntityRenderState>, IBlockEntityRendererExtension<FoodBiteThreeByThreeBlockEntity> {
@@ -37,34 +38,15 @@ public class FoodBiteThreeByThreeBlockEntityRender implements BlockEntityRendere
         this.coldCutHamSlicesModel = new ColdCutHamSlicesModel(context.bakeLayer(ColdCutHamSlicesModel.LAYER_LOCATION));
     }
 
-    @Deprecated(forRemoval = true)
-    public void render(FoodBiteThreeByThreeBlockEntity be, float partialTick, PoseStack poseStack,
-                       MultiBufferSource buffer, int packedLight, int packedOverlay) {
-        BlockState blockState = be.getBlockState();
-        if (!(blockState.getBlock() instanceof FoodBiteThreeByThreeBlock block)) {
-            return;
-        }
-
-        Direction facing = blockState.getValue(BlockStateProperties.HORIZONTAL_FACING);
-        int facingDeg = facing.get2DDataValue() * 90;
-        int bites = blockState.getValue(block.getBites());
-
-        poseStack.pushPose();
-        coldCutHamSlicesModel.updateBites(bites);
-
-        poseStack.translate(0.5, 1.5, 0.5);
-        poseStack.mulPose(Axis.ZN.rotationDegrees(180));
-        poseStack.mulPose(Axis.YN.rotationDegrees(180 - facingDeg));
-        VertexConsumer checkerBoardBuff = buffer.getBuffer(RenderTypes.entityCutoutNoCull(COLD_CUT_HAM_SLICES_TEXTURE));
-        coldCutHamSlicesModel.renderToBuffer(poseStack, checkerBoardBuff, packedLight, packedOverlay, -1);
-
-        coldCutHamSlicesModel.resetBites();
-        poseStack.popPose();
-    }
-
     @Override
     public FoodBiteThreeByThreeBlockEntityRenderState createRenderState() {
         return new FoodBiteThreeByThreeBlockEntityRenderState();
+    }
+
+    @Override
+    public void extractRenderState(FoodBiteThreeByThreeBlockEntity blockEntity, FoodBiteThreeByThreeBlockEntityRenderState state, float partialTicks, @NonNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+        BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
+        state.blockState = blockEntity.getBlockState();
     }
 
     @Override
@@ -83,7 +65,7 @@ public class FoodBiteThreeByThreeBlockEntityRender implements BlockEntityRendere
         poseStack.translate(0.5, 1.5, 0.5);
         poseStack.mulPose(Axis.ZN.rotationDegrees(180));
         poseStack.mulPose(Axis.YN.rotationDegrees(180 - facingDeg));
-        RenderType renderType = RenderTypes.entityCutoutNoCull(COLD_CUT_HAM_SLICES_TEXTURE);
+        RenderType renderType = RenderTypes.entityCutout(COLD_CUT_HAM_SLICES_TEXTURE);
         submitNodeCollector.submitModel(
                 coldCutHamSlicesModel,
                 new ColdCutHamSlicesModel.State(),

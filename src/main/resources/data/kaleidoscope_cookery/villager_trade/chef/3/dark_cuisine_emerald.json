@@ -1,0 +1,13 @@
+{
+  "gives": {
+    "id": "minecraft:emerald",
+    "count": 2
+  },
+  "max_uses": 16.0,
+  "reputation_discount": 0.1,
+  "wants": {
+    "count": 5.0,
+    "id": "kaleidoscope_cookery:dark_cuisine"
+  },
+  "xp": 5.0
+}

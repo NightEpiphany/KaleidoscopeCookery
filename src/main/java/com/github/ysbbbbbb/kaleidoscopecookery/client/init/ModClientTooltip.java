@@ -6,12 +6,12 @@ import com.github.ysbbbbbb.kaleidoscopecookery.inventory.tooltip.ItemContainerTo
 import com.github.ysbbbbbb.kaleidoscopecookery.inventory.tooltip.RecipeItemTooltip;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.rendering.v1.TooltipComponentCallback;
+import net.fabricmc.fabric.api.client.rendering.v1.ClientTooltipComponentCallback;
 
 @Environment(EnvType.CLIENT)
 public class ModClientTooltip {
     public static void register() {
-        TooltipComponentCallback.EVENT.register(tooltipData -> {
+        ClientTooltipComponentCallback.EVENT.register(tooltipData -> {
             if (tooltipData instanceof ItemContainerTooltip itemContainerTooltip) {
                 return new ClientItemContainerTooltip(itemContainerTooltip);
             }

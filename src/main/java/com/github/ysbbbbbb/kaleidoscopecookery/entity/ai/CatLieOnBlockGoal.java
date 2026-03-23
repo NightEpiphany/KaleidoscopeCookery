@@ -7,6 +7,7 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MoveToBlockGoal;
 import net.minecraft.world.level.LevelReader;
+import org.jspecify.annotations.NonNull;
 
 import java.util.EnumSet;
 
@@ -31,7 +32,7 @@ public class CatLieOnBlockGoal extends MoveToBlockGoal {
     }
 
     @Override
-    protected int nextStartTick(PathfinderMob mob) {
+    protected int nextStartTick(@NonNull PathfinderMob mob) {
         return 40;
     }
 

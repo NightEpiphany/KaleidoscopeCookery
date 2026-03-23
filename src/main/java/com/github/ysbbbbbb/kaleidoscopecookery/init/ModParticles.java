@@ -24,7 +24,6 @@ public class ModParticles {
         Registry.register(BuiltInRegistries.PARTICLE_TYPE, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "stockpot_particle"), STOCKPOT);
     }
 
-    @SuppressWarnings("deprecation")
     public static class ModParticleType<T extends ParticleOptions> extends ParticleType<T> {
         private final MapCodec<T> codec;
         private final StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec;

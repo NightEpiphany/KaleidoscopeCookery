@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.item.ItemModelResolver;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -31,6 +31,7 @@ public class KitchenwareRacksBlockEntityRender implements BlockEntityRenderer<Ki
     public void extractRenderState(KitchenwareRacksBlockEntity blockEntity, KitchenwareRacksBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, blockEntityRenderState, f, vec3, crumblingOverlay);
         int posLong = (int) blockEntity.getBlockPos().asLong();
+        blockEntityRenderState.rotation = blockEntity.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING).get2DDataValue() * 90;
         this.itemModelResolver.updateForTopItem(blockEntityRenderState.left, blockEntity.getItemLeft(), ItemDisplayContext.FIXED, blockEntity.getLevel(), null, posLong);
         this.itemModelResolver.updateForTopItem(blockEntityRenderState.right, blockEntity.getItemRight(), ItemDisplayContext.FIXED, blockEntity.getLevel(), null, posLong + 1);
     }
@@ -45,9 +46,8 @@ public class KitchenwareRacksBlockEntityRender implements BlockEntityRenderer<Ki
         var leftState = blockEntityRenderState.left;
         var rightState = blockEntityRenderState.right;
 
-        int rotation = blockEntityRenderState.blockState.getValue(BlockStateProperties.HORIZONTAL_FACING).get2DDataValue() * 90;
         poseStack.translate(0.5, 0, 0.5);
-        poseStack.mulPose(Axis.YN.rotationDegrees(rotation));
+        poseStack.mulPose(Axis.YN.rotationDegrees(blockEntityRenderState.rotation));
 
         if (!leftState.isEmpty()) {
             poseStack.pushPose();

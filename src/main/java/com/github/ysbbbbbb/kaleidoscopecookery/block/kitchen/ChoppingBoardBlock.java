@@ -96,7 +96,7 @@ public class ChoppingBoardBlock extends HorizontalDirectionalBlock implements En
             }
             if (choppingBoard.onCutItem(level, player, itemInHand)) {
                 // 切菜成功时，有 25% 的概率消耗耐久度
-                if (level.random.nextDouble() < DURABILITY_COST_PROBABILITY) {
+                if (level.getRandom().nextDouble() < DURABILITY_COST_PROBABILITY) {
                     itemInHand.hurtAndBreak(1, player, hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
                 }
                 ModTrigger.EVENT.trigger(player, ModEventTriggerType.USE_CHOPPING_BOARD);

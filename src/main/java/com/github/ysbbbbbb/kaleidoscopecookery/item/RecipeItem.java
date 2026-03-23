@@ -25,6 +25,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
@@ -214,7 +215,7 @@ public class RecipeItem extends BlockItem {
                 i++;
             }
             if (!player.level().isClientSide()) {
-                player.displayClientMessage(component, true);
+                player.sendOverlayMessage(component);
             }
             return InteractionResult.FAIL;
         }
@@ -392,6 +393,23 @@ public class RecipeItem extends BlockItem {
         public static RecipeRecord stockpot(Item output, Item[] input) {
             List<ItemStack> inputList = Arrays.stream(input).map(ItemStack::new).toList();
             return new RecipeRecord(inputList, new ItemStack(output), STOCKPOT);
+        }
+    }
+
+    public record RecipeTemplate(List<Identifier> input, Identifier output, Identifier type) {
+        public static final Codec<RecipeTemplate> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+                Identifier.CODEC.listOf().fieldOf("input").forGetter(RecipeTemplate::input),
+                Identifier.CODEC.fieldOf("output").forGetter(RecipeTemplate::output),
+                Identifier.CODEC.fieldOf("type").forGetter(RecipeTemplate::type)
+        ).apply(instance, RecipeTemplate::new));
+        public static final RecipeTemplate EMPTY = new RecipeTemplate(List.of(), Identifier.fromNamespaceAndPath("minecraft", "air"), POT);
+
+        public RecipeRecord toRecipeRecord() {
+            List<ItemStack> inputs = this.input.stream()
+                    .map(id -> BuiltInRegistries.ITEM.getValue(id).getDefaultInstance())
+                    .toList();
+            ItemStack outputStack = BuiltInRegistries.ITEM.getValue(this.output).getDefaultInstance();
+            return new RecipeRecord(inputs, outputStack, this.type);
         }
     }
 }

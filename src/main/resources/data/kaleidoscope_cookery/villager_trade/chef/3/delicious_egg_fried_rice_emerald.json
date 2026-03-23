@@ -1,0 +1,13 @@
+{
+  "gives": {
+    "id": "minecraft:emerald",
+    "count": 3
+  },
+  "max_uses": 16.0,
+  "reputation_discount": 0.05,
+  "wants": {
+    "count": 1.0,
+    "id": "kaleidoscope_cookery:delicious_egg_fried_rice"
+  },
+  "xp": 5.0
+}

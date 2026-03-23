@@ -1,0 +1,29 @@
+{
+  "given_item_modifiers": [
+    {
+      "function": "kaleidoscope_cookery:trade_custom_recipe",
+      "recipe": {
+        "input": [
+          "minecraft:brown_mushroom",
+          "minecraft:brown_mushroom",
+          "minecraft:porkchop",
+          "minecraft:porkchop",
+          "minecraft:porkchop",
+          "kaleidoscope_cookery:green_chili"
+        ],
+        "output": "kaleidoscope_cookery:fish_flavored_shredded_pork",
+        "type": "kaleidoscope_cookery:pot"
+      }
+    }
+  ],
+  "gives": {
+    "id": "kaleidoscope_cookery:recipe_item"
+  },
+  "max_uses": 16.0,
+  "reputation_discount": 0.1,
+  "wants": {
+    "count": 3.0,
+    "id": "minecraft:emerald"
+  },
+  "xp": 4.0
+}

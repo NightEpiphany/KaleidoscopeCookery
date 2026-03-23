@@ -10,6 +10,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
@@ -23,11 +24,11 @@ import static com.github.ysbbbbbb.kaleidoscopecookery.crafting.serializer.Stockp
 import static com.github.ysbbbbbb.kaleidoscopecookery.crafting.serializer.StockpotRecipeSerializer.DEFAULT_FINISHED_BUBBLE_COLOR;
 
 public record StockpotRecipe(NonNullList<Ingredient> ingredients,
-                             Identifier soupBase, ItemStack result, int time,
+                             Identifier soupBase, ItemStackTemplate result, int time,
                              Ingredient carrier, Identifier cookingTexture, Identifier finishedTexture,
                              int cookingBubbleColor, int finishedBubbleColor) implements BaseRecipe<StockpotInput> {
 
-    public StockpotRecipe(List<Ingredient> ingredients, Identifier soupBase, ItemStack result,
+    public StockpotRecipe(List<Ingredient> ingredients, Identifier soupBase, ItemStackTemplate result,
                           int time, Ingredient carrier, Identifier cookingTexture, Identifier finishedTexture,
                           int cookingBubbleColor, int finishedBubbleColor) {
         this(createNonNullList(ingredients),
@@ -42,7 +43,7 @@ public record StockpotRecipe(NonNullList<Ingredient> ingredients,
         return list;
     }
 
-    public StockpotRecipe(NonNullList<Ingredient> ingredients, ItemStack result, int time, ItemStack container) {
+    public StockpotRecipe(NonNullList<Ingredient> ingredients, ItemStackTemplate result, int time, ItemStack container) {
         this(ingredients, DEFAULT_SOUP_BASE, result, time, Ingredient.of(container.getItem()),
                 DEFAULT_COOKING_TEXTURE, DEFAULT_FINISHED_TEXTURE,
                 DEFAULT_COOKING_BUBBLE_COLOR, DEFAULT_FINISHED_BUBBLE_COLOR);
@@ -73,6 +74,21 @@ public record StockpotRecipe(NonNullList<Ingredient> ingredients,
         return RecipeMatcher.findMatches(nonEmptyInputs, recipeIngredients) != null;
     }
 
+    @Override
+    public @NonNull ItemStack assemble(StockpotInput input) {
+        return this.result.item().value().getDefaultInstance().copy();
+    }
+
+    @Override
+    public boolean showNotification() {
+        return false;
+    }
+
+    @Override
+    public @NonNull String group() {
+        return "stockpot";
+    }
+
     private static boolean isKnownPlaceholder(Ingredient ingredient) {
         // 只检查是否是明确的屏障方块，避免触发标签绑定
         try {
@@ -94,7 +110,7 @@ public record StockpotRecipe(NonNullList<Ingredient> ingredients,
 
     @Override
     public @NotNull ItemStack getResultItem(HolderLookup.Provider registryAccess) {
-        return this.result;
+        return this.result.item().value().getDefaultInstance();
     }
 
     @Override

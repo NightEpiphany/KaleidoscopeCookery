@@ -9,4 +9,5 @@ import net.minecraft.client.renderer.item.ItemStackRenderState;
 public class KitchenwareRacksBlockEntityRenderState extends BlockEntityRenderState {
     public ItemStackRenderState left = new ItemStackRenderState();
     public ItemStackRenderState right = new ItemStackRenderState();
+    public int rotation = 0;
 }

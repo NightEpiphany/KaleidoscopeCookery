@@ -1,0 +1,29 @@
+{
+  "given_item_modifiers": [
+    {
+      "function": "kaleidoscope_cookery:trade_custom_recipe",
+      "recipe": {
+        "input": [
+          "minecraft:beef",
+          "minecraft:beef",
+          "minecraft:beef",
+          "kaleidoscope_cookery:tomato",
+          "kaleidoscope_cookery:tomato",
+          "kaleidoscope_cookery:tomato"
+        ],
+        "output": "kaleidoscope_cookery:tomato_beef_brisket_soup",
+        "type": "kaleidoscope_cookery:stockpot"
+      }
+    }
+  ],
+  "gives": {
+    "id": "kaleidoscope_cookery:recipe_item"
+  },
+  "max_uses": 16.0,
+  "reputation_discount": 0.1,
+  "wants": {
+    "count": 3.0,
+    "id": "minecraft:emerald"
+  },
+  "xp": 4.0
+}

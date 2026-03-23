@@ -3,7 +3,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.blockentity.ServerThreadSafe;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.BaseBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
-import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
+import net.fabricmc.fabric.api.transfer.v1.item.ContainerStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.core.BlockPos;
@@ -33,7 +33,7 @@ public class FruitBasketBlockEntity extends BaseBlockEntity {
             return;
         }
         try (Transaction tx = Transaction.openOuter()) {
-            InventoryStorage storage = InventoryStorage.of(this.items, null);
+            ContainerStorage storage = ContainerStorage.of(this.items, null);
             long inserted = storage.insert(ItemVariant.of(stack), stack.getCount(), tx);
             if (inserted > 0) {
                 tx.commit();
@@ -54,7 +54,7 @@ public class FruitBasketBlockEntity extends BaseBlockEntity {
                 continue;
             }
             try (Transaction tx = Transaction.openOuter()) {
-                InventoryStorage storage = InventoryStorage.of(this.items, null);
+                ContainerStorage storage = ContainerStorage.of(this.items, null);
                 ItemVariant itemVariant = ItemVariant.of(stack);
                 long extracted = storage.extract(itemVariant, stack.getCount(), tx);
                 if (extracted > 0) {

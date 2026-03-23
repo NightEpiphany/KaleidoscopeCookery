@@ -6,7 +6,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -38,23 +38,24 @@ public class ClientRecipeItemTooltip implements ClientTooltipComponent {
     }
 
     @Override
-    public void renderImage(Font font, int pX, int pY, int a, int b, GuiGraphics guiGraphics) {
+    public void extractImage(@NonNull Font font, int pX, int pY, int a, int b, GuiGraphicsExtractor guiGraphics) {
         int ingredientsWidth = font.width(ingredientsText);
         int outputWidth = font.width(outputText);
 
-        guiGraphics.drawString(font, ingredientsText, pX, pY + 4, ChatFormatting.GRAY.getColor());
+        guiGraphics.text(font, ingredientsText, pX, pY + 4, ChatFormatting.GRAY.getColor());
         int i = 0;
         for (ItemStack stack : recipeRecord.input()) {
             int xOffset = pX + ingredientsWidth + i * 12;
-            guiGraphics.renderFakeItem(stack, xOffset, pY);
+            guiGraphics.fakeItem(stack, xOffset, pY);
             i++;
         }
 
         int xOffset = pX + outputWidth;
         int yOffset = pY + 12;
-        guiGraphics.drawString(font, outputText, pX, yOffset + 4, ChatFormatting.GRAY.getColor());
+        guiGraphics.text(font, outputText, pX, yOffset + 4, ChatFormatting.GRAY.getColor());
         ItemStack stack = recipeRecord.output();
-        guiGraphics.renderFakeItem(stack, xOffset, yOffset);
-        guiGraphics.renderItemDecorations(font, stack, xOffset, yOffset);
+        guiGraphics.fakeItem(stack, xOffset, yOffset);
+        guiGraphics.itemDecorations(font, stack, xOffset, yOffset);
     }
+
 }

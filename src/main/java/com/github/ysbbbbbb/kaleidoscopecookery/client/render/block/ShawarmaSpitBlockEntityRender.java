@@ -10,10 +10,9 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.item.ItemModelResolver;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.block.state.BlockState;
@@ -38,6 +37,7 @@ public class ShawarmaSpitBlockEntityRender implements BlockEntityRenderer<Shawar
         this.itemModelResolver.updateForTopItem(blockEntityRenderState.cookedItem, blockEntity.cookedItem, ItemDisplayContext.FIXED, blockEntity.getLevel(), null, posLong);
         this.itemModelResolver.updateForTopItem(blockEntityRenderState.cookingItem, blockEntity.cookingItem, ItemDisplayContext.FIXED, blockEntity.getLevel(), null, posLong + 1);
         blockEntityRenderState.count = blockEntity.cookedItem.getCount();
+        blockEntityRenderState.blockState = blockEntity.getBlockState();
     }
 
     @Override
