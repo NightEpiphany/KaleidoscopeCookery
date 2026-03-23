@@ -4,6 +4,6 @@
     "minecraft:soul_fire",
     "minecraft:lava",
     "minecraft:magma_block",
-    "#farmersdelight:heat_sources"
+    {"id": "#farmersdelight:heat_sources", "required":  false}
   ]
 }

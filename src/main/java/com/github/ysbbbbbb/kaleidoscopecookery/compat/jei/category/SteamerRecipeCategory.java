@@ -21,6 +21,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -53,12 +54,12 @@ public class SteamerRecipeCategory implements IRecipeCategory<SteamerRecipe> {
     }
 
     @Override
-    public void draw(SteamerRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void draw(@NotNull SteamerRecipe recipe, @NotNull IRecipeSlotsView recipeSlotsView, @NotNull GuiGraphics guiGraphics, double mouseX, double mouseY) {
         this.bgDraw.draw(guiGraphics);
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, SteamerRecipe recipe, IFocusGroup focuses) {
+    public void setRecipe(IRecipeLayoutBuilder builder, SteamerRecipe recipe, @NotNull IFocusGroup focuses) {
         Ingredient input = recipe.getIngredient();
         ItemStack output = recipe.getResult();
 
@@ -67,12 +68,12 @@ public class SteamerRecipeCategory implements IRecipeCategory<SteamerRecipe> {
     }
 
     @Override
-    public RecipeType<SteamerRecipe> getRecipeType() {
+    public @NotNull RecipeType<SteamerRecipe> getRecipeType() {
         return TYPE;
     }
 
     @Override
-    public Component getTitle() {
+    public @NotNull Component getTitle() {
         return TITLE;
     }
 
