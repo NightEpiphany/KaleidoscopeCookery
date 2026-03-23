@@ -60,7 +60,6 @@ public class RawDoughItem extends Item {
 
     @Override
     public @NonNull InteractionResult use(@NonNull Level worldIn, Player playerIn, @NonNull InteractionHand handIn) {
-        ItemStack stack = playerIn.getItemInHand(handIn);
         playerIn.startUsingItem(handIn);
         return InteractionResult.CONSUME;
     }

@@ -129,7 +129,6 @@ public class PotBlockEntityRender implements BlockEntityRenderer<PotBlockEntity,
             // 结束阶段，并且不需要碗的菜，直接渲染结果
             poseStack.pushPose();
 
-            int count = 90 + source.nextInt(90);
             poseStack.mulPose(Axis.ZN.rotationDegrees(0));
             if (time < 1000) {
                 poseStack.translate(0, 0, data.randomHeights[0] * Mth.sin(Mth.PI * time / 1000f));
