@@ -10,10 +10,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.ToolMaterial;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.BlocksAttacks;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.level.block.Block;
@@ -200,6 +197,8 @@ public final class ModItems {
     public static final Item COOKED_CUT_SMALL_MEATS = registerItem("cooked_cut_small_meats", p -> new Item(p.food(ModFoods.COOKED_CUT_SMALL_MEATS)));
     public static final Item COOKED_MEATBALL  = registerItem("cooked_meatball", p -> new Item(p.food(ModFoods.COOKED_MEATBALL)));
 
+    // Special
+    public static final Item MODEL_DISPLAY = registerItem("model_display", p -> new ModelDisplayItem(p.stacksTo(1).rarity(Rarity.EPIC).component(ModDataComponents.MODEL_DISPLAY_MODEL, "")));
     public static void registerItems() {
 
     }

@@ -67,6 +67,15 @@ public class ModDataComponents {
                     .build()
     );
 
+    public static final DataComponentType<String> MODEL_DISPLAY_MODEL = Registry.register(
+            BuiltInRegistries.DATA_COMPONENT_TYPE,
+            Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "model_data"),
+            DataComponentType.<String>builder()
+                    .persistent(Codec.STRING)
+                    .networkSynchronized(ByteBufCodecs.STRING_UTF8)
+                    .build()
+    );
+
     public static void registerDataComponents() {
         // 注册方法，用于确保类被加载
     }

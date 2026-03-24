@@ -1,41 +1,34 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.render.block;
 
-import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.decoration.ChairBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.ChairBlockEntity;
-import com.github.ysbbbbbb.kaleidoscopecookery.client.init.ModModelLoading;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates.ChairBlockEntityRenderState;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.ModDataComponents;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.block.BlockModelRenderState;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
-import net.minecraft.client.renderer.block.model.BlockDisplayContext;
-import net.minecraft.client.renderer.block.model.BlockModel;
+import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.Identifier;
-import net.minecraft.util.Util;
-import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
-import java.util.function.Function;
-
 @Environment(EnvType.CLIENT)
 public class ChairBlockEntityRender implements BlockEntityRenderer<ChairBlockEntity, ChairBlockEntityRenderState> {
-    private static final Function<DyeColor, Identifier> CACHE_MODEL = Util.memoize(color ->
-            Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "block/carpet/chair/" + color.getName()));
-    private static final BlockDisplayContext BLOCK_DISPLAY_CONTEXT = BlockDisplayContext.create();
-    private static final long MODEL_SEED = 42L;
-
+    private final ItemModelResolver itemModelResolver;
+    private static final String MODEL_KEY_PREFIX = "carpet/chair/";
     public ChairBlockEntityRender(BlockEntityRendererProvider.Context context) {
+        this.itemModelResolver = context.itemModelResolver();
     }
 
     @Override
@@ -47,26 +40,49 @@ public class ChairBlockEntityRender implements BlockEntityRenderer<ChairBlockEnt
     public void extractRenderState(ChairBlockEntity blockEntity, ChairBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, blockEntityRenderState, f, vec3, crumblingOverlay);
         blockEntityRenderState.hasCarpet = blockEntity.getBlockState().getValue(ChairBlock.HAS_CARPET);
-        blockEntityRenderState.color = blockEntity.getColor();
-        blockEntityRenderState.blockState = blockEntity.getBlockState();
-        blockEntityRenderState.rotation = blockEntity.getBlockState().getValue(HorizontalDirectionalBlock.FACING).getOpposite().get2DDataValue();
+        blockEntityRenderState.rotation = blockEntity.getBlockState().getValue(HorizontalDirectionalBlock.FACING).get2DDataValue();
+        if (blockEntityRenderState.hasCarpet) {
+            ItemStack carpet = ModItems.MODEL_DISPLAY.getDefaultInstance();
+            carpet.set(ModDataComponents.MODEL_DISPLAY_MODEL, MODEL_KEY_PREFIX + blockEntity.getColor().getName());
+            this.itemModelResolver.updateForTopItem(blockEntityRenderState.carpetModel, carpet, ItemDisplayContext.NONE, blockEntity.getLevel(), null, 0);
+        }
     }
 
     @Override
     public void submit(ChairBlockEntityRenderState blockEntityRenderState, @NonNull PoseStack poseStack, @NonNull SubmitNodeCollector submitNodeCollector, @NonNull CameraRenderState cameraRenderState) {
         if (!blockEntityRenderState.hasCarpet) return;
-        Identifier cacheModel = CACHE_MODEL.apply(blockEntityRenderState.color);
-        if (!ModModelLoading.isRegistered(cacheModel)) return;
-        BlockModel model = ModModelLoading.getModel(cacheModel);
-        if (model == null) return;
-        BlockModelRenderState renderState = new BlockModelRenderState();
-        model.update(renderState, blockEntityRenderState.blockState, BLOCK_DISPLAY_CONTEXT, MODEL_SEED);
-        if (renderState.isEmpty()) return;
         poseStack.pushPose();
-        poseStack.translate(0.5, 0, 0.5);
         poseStack.mulPose(Axis.YP.rotationDegrees(-blockEntityRenderState.rotation * 90));
-        poseStack.translate(-0.5, 0, -0.5);
-        renderState.submit(poseStack, submitNodeCollector, blockEntityRenderState.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+        int i;
+        float j;
+        switch (blockEntityRenderState.rotation) {
+            case 0 -> {
+                i = 1;
+                j = 1.0F;
+            }
+            case 1 -> {
+                i = 1;
+                j = -0.72F;
+            }
+            case 2 -> {
+                i = -1;
+                j = -0.72F;
+            }
+            default -> {
+                i = -1;
+                j = 1.0F;
+            }
+
+        }
+        poseStack.translate(i * 0.5f, 0.5f, j * 0.58f);
+        if (!blockEntityRenderState.carpetModel.isEmpty())
+            blockEntityRenderState.carpetModel.submit(
+                    poseStack,
+                    submitNodeCollector,
+                    blockEntityRenderState.lightCoords,
+                    OverlayTexture.NO_OVERLAY,
+                    0
+            );
         poseStack.popPose();
     }
 }

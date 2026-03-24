@@ -6,6 +6,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.resources.Identifier;
 
+@Deprecated
 @Environment(EnvType.CLIENT)
 public class ModModelKeys {
     private static final Map<Identifier, Identifier> MODEL_KEYS = new ConcurrentHashMap<>();

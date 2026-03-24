@@ -1,8 +1,6 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.init;
 
-import com.github.ysbbbbbb.kaleidoscopecookery.util.ExtraBlockModelLoadingUtil;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.ExtraModelLoadingUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.block.model.BlockModel;
@@ -10,6 +8,10 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
+@Deprecated
 @Environment(EnvType.CLIENT)
 public class ModModelLoading {
     private static final String MODELS = "models/";
@@ -23,11 +25,11 @@ public class ModModelLoading {
         ModModelKeys.clear();
         registerFromPath(MODELS_CHOPPING_BOARD);
         registerFromPath(MODELS_CARPET);
-        ExtraBlockModelLoadingUtil.clearCache();
+        ExtraModelLoadingUtil.clearCache();
     }
 
     public static BlockModel getModel(Identifier modelId) {
-        return ExtraBlockModelLoadingUtil.getBlockModel(ModModelKeys.get(modelId));
+        return ExtraModelLoadingUtil.getBlockModel(ModModelKeys.get(modelId));
     }
 
     public static boolean isRegistered(Identifier modelId) {
