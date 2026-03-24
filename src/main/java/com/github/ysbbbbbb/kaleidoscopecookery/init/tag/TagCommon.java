@@ -81,6 +81,9 @@ public interface TagCommon {
     TagKey<Block> MOIST_HUMID = eclipticSeasonsTag("crops/moist_humid");
     TagKey<Block> HUMID_HUMID = eclipticSeasonsTag("crops/humid_humid");
 
+
+    TagKey<Block> ORES = blockTag("ores");
+
     // 农夫乐事
     TagKey<Item> FD_KNIVES = TagKey.create(Registries.ITEM, ResourceLocation.parse("farmersdelight:tools/knives"));
     TagKey<Block> FD_HEAT_SOURCES = TagKey.create(Registries.BLOCK, ResourceLocation.parse("farmersdelight:heat_sources"));

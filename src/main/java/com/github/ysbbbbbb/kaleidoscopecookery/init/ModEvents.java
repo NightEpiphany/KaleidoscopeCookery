@@ -22,15 +22,6 @@ public class ModEvents {
                 }
             });
 
-
-
-    public static final Event<ActionEventCallback.LivingEntityHurt> LIVING_ENTITY_HURT =
-            EventFactory.createArrayBacked(ActionEventCallback.LivingEntityHurt.class, call -> action -> {
-                for (ActionEventCallback.LivingEntityHurt listener : call) {
-                    listener.onLivingEntityHurt(action);
-                }
-            });
-
     public static final Event<ActionEventCallback.PlayerLeftClick> PLAYER_LEFT_CLICK =
             EventFactory.createArrayBacked(ActionEventCallback.PlayerLeftClick.class, call -> (player, hand) -> {
                 for (ActionEventCallback.PlayerLeftClick listener : call) {
@@ -63,6 +54,13 @@ public class ModEvents {
             EventFactory.createArrayBacked(ActionEventCallback.SickleHarvest.class, call -> (event) -> {
                 for (ActionEventCallback.SickleHarvest listener : call) {
                     listener.onSickleHarvest(event);
+                }
+            });
+
+    public static final Event<ActionEventCallback.ProjectileImpact> PROJECTILE_IMPACT =
+            EventFactory.createArrayBacked(ActionEventCallback.ProjectileImpact.class, call -> (event) -> {
+                for (ActionEventCallback.ProjectileImpact listener : call) {
+                    listener.onProjectileImpact(event);
                 }
             });
 

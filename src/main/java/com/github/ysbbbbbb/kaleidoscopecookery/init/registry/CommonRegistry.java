@@ -7,9 +7,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.compat.farmersdelight.FarmersDeli
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.trinkets.init.ModTrinketsCompat;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.trinkets.init.TrinketsCompatServer;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.*;
-import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.FlatulenceServerEvent;
-import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.PreservationEvent;
-import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.SatiatedShieldEvent;
+import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.BowlFoodBlockItem;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
@@ -37,6 +35,9 @@ public class CommonRegistry {
         SatiatedShieldEvent.register();
         FlatulenceServerEvent.register();
         PreservationEvent.register();
+        ProjectileDodgeEvent.register();
+        HinderEvent.register();
+        VitalityEvent.register();
         ArmorEffectHandler.register();
         AddVillageStructuresEvent.register();
         ScarecrowFarmlandTrampleEvent.register();
