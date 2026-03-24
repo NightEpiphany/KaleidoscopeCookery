@@ -13,3 +13,4 @@ accessible field net/minecraft/core/registries/BuiltInRegistries LOADERS Ljava/u
 accessible field net/minecraft/world/entity/animal/equine/AbstractHorse inventory Lnet/minecraft/world/SimpleContainer;
 accessible method net/minecraft/world/item/crafting/RecipeManager byKeyTyped (Lnet/minecraft/world/item/crafting/RecipeType;Lnet/minecraft/resources/ResourceKey;)Lnet/minecraft/world/item/crafting/RecipeHolder;
 accessible field net/minecraft/client/resources/model/ModelManager atlasManager Lnet/minecraft/client/resources/model/sprite/AtlasManager;
+accessible field net/minecraft/world/effect/MobEffectInstance duration I

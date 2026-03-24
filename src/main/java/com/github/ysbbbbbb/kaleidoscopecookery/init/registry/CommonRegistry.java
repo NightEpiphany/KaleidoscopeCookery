@@ -4,9 +4,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.block.dispenser.OilPotDispenseBeh
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteOneByTwoBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.*;
-import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.FlatulenceServerEvent;
-import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.PreservationEvent;
-import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.SatiatedShieldEvent;
+import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.BowlFoodBlockItem;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
@@ -45,6 +43,9 @@ public class CommonRegistry {
         SatiatedShieldEvent.register();
         FlatulenceServerEvent.register();
         PreservationEvent.register();
+        HinderEvent.register();
+        ProjectileDodgeEvent.register();
+        VitalityEvent.register();
         ArmorEffectHandler.register();
         AddVillageStructuresEvent.register();
         ScarecrowFarmlandTrampleEvent.register();
