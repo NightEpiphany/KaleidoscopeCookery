@@ -1,6 +1,5 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.event;
 
-import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.world.effect.MobEffectInstance;

@@ -11,8 +11,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.compat.trinkets.init.ModTrinketsC
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.trinkets.init.TrinketsCompatServer;
 import com.github.ysbbbbbb.kaleidoscopecookery.datagen.lootable.GiftLootTables;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.*;
-import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.PreservationEvent;
-import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.SatiatedShieldEvent;
+import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModVillager;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.BowlFoodBlockItem;
@@ -40,6 +39,9 @@ public class CommonRegistry {
     public static void registerServerEvents() {
         SatiatedShieldEvent.register();
         PreservationEvent.register();
+        VitalityEvent.register();
+        HinderEvent.register();
+        ProjectileDodgeEvent.register();
         EntityJoinWorldEvent.register();
         HoeUseEvent.register();
         RightClickEvent.register();
