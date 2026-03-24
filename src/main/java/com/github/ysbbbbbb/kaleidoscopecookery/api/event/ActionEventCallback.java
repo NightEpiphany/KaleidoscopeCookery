@@ -17,11 +17,6 @@ public interface ActionEventCallback {
     }
 
     @FunctionalInterface
-    interface LivingEntityHurt {
-        void onLivingEntityHurt(LivingDamageEvent event);
-    }
-
-    @FunctionalInterface
     interface PlayerLeftClick {
         void onPlayerLeftClick(@Nullable Player player, InteractionHand hand);
     }
@@ -44,5 +39,10 @@ public interface ActionEventCallback {
     @FunctionalInterface
     interface SickleHarvest {
         void onSickleHarvest(SickleHarvestEvent event);
+    }
+
+    @FunctionalInterface
+    interface ProjectileImpact {
+        void onProjectileImpact(ProjectileImpactEvent event);
     }
 }

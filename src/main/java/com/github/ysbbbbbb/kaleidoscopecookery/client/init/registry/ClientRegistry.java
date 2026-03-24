@@ -1,4 +1,4 @@
-package com.github.ysbbbbbb.kaleidoscopecookery.client.init;
+package com.github.ysbbbbbb.kaleidoscopecookery.client.init.registry;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.conditions.*;

@@ -4,6 +4,9 @@
   "package": "com.github.ysbbbbbb.kaleidoscopecookery.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "AbstractArrowMixin",
+    "AbstractHurtingProjectileMixin",
+    "BlockMixin",
     "FallingBlockEntityMixin",
     "FarmBlockMixin",
     "ItemEntityMixin",
