@@ -1,0 +1,17 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 9127187,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_brown",
+  "ingredients": [
+    "#c:raw_mutton",
+    "#c:pasta",
+    "farmersdelight:tomato_sauce"
+  ],
+  "result": {
+    "id": "farmersdelight:pasta_with_mutton_chop"
+  },
+  "soup_base": "minecraft:water",
+  "time": 300
+}

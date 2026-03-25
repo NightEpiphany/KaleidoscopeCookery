@@ -1,0 +1,14 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "carrier": "#c:cooked_rice",
+  "ingredients": [
+    "minecraft:potato",
+    "minecraft:beef",
+    "#c:crops/onion"
+  ],
+  "result": {
+    "id": "farmersdelight:steak_and_potatoes"
+  },
+  "stir_fry_count": 3,
+  "time": 200
+}

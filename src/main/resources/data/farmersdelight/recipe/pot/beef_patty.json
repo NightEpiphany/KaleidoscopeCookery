@@ -1,0 +1,11 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "ingredients": [
+    "farmersdelight:minced_beef"
+  ],
+  "result": {
+    "id": "farmersdelight:beef_patty"
+  },
+  "stir_fry_count": 3,
+  "time": 200
+}

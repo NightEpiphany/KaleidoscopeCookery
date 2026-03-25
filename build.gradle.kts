@@ -18,6 +18,28 @@ loom {
 
 repositories {
 	maven {
+		name = "Greenhouse Maven"
+		url = URI("https://repo.greenhouse.house/releases/")
+	}
+	maven {
+		name = "Greenhouse Maven"
+		url = URI("https://repo.greenhouse.house/snapshots/") // Porting Lib Hotfixes
+	}
+	maven { url = URI("https://mvn.devos.one/snapshots/") } // Porting Lib Betas
+	maven {
+		url = URI("https://jitpack.io/") // Fabric ASM
+		content {
+			excludeGroup ("io.github.fabricators_of_create")
+		}
+	}
+	maven {
+		url = URI("https://cursemaven.com")
+	}
+	maven {
+		name = "cassian's maven"
+		url = URI("https://maven.cassian.cc")
+	}
+	maven {
 		name = "Fuzs Mod Resources"
 		url = URI("https://raw.githubusercontent.com/Fuzss/modresources/main/maven/")
 	}
@@ -27,7 +49,10 @@ repositories {
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft("com.mojang:minecraft:${providers.gradleProperty("minecraft_version").get()}")
-	
+	implementation("vectorwing:FarmersDelight:${providers.gradleProperty("fdrf_version").get()}") {
+		exclude(group = "net.fabricmc")
+	}
+	implementation ("curse.maven:create-fly-1346281:7752013")
 	implementation("net.fabricmc:fabric-loader:${providers.gradleProperty("loader_version").get()}")
 	implementation("maven.modrinth:jade:${providers.gradleProperty("jade_version").get()}")
 	// Fabric API. This is technically optional, but you probably want it anyway.

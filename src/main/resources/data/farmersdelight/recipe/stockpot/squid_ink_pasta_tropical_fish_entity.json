@@ -1,0 +1,17 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 15232152,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_light_purple",
+  "ingredients": [
+    "#c:pasta",
+    "#c:crops/tomato",
+    "minecraft:ink_sac"
+  ],
+  "result": {
+    "id": "farmersdelight:squid_ink_pasta"
+  },
+  "soup_base": "minecraft:tropical_fish_bucket",
+  "time": 300
+}

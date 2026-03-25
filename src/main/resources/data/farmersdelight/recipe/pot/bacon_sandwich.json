@@ -1,0 +1,14 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "carrier": "minecraft:bread",
+  "ingredients": [
+    "#c:raw_bacon",
+    "#c:crops/cabbage",
+    "#c:crops/tomato"
+  ],
+  "result": {
+    "id": "farmersdelight:bacon_sandwich"
+  },
+  "stir_fry_count": 3,
+  "time": 200
+}

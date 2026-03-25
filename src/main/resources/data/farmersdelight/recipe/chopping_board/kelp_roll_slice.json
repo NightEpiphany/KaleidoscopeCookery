@@ -1,0 +1,10 @@
+{
+  "type": "kaleidoscope_cookery:chopping_board",
+  "cut_count": 2,
+  "ingredient": "farmersdelight:kelp_roll",
+  "model_id": "kaleidoscope_cookery:kelp_roll",
+  "result": {
+    "count": 3,
+    "id": "farmersdelight:kelp_roll_slice"
+  }
+}

@@ -3,6 +3,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.init.registry;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.dispenser.OilPotDispenseBehavior;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteOneByTwoBlock;
+import com.github.ysbbbbbb.kaleidoscopecookery.compat.farmersdelight.FarmersDelightCompat;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
@@ -110,7 +111,7 @@ public class CommonRegistry {
     }
 
     private static void modCompat() {
-        //FarmersDelightCompat.init();
+        FarmersDelightCompat.init();
     }
 
     private static void addDispenserBehavior() {

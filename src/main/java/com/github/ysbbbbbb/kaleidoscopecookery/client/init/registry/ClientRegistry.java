@@ -1,15 +1,15 @@
-package com.github.ysbbbbbb.kaleidoscopecookery.client.init;
+package com.github.ysbbbbbb.kaleidoscopecookery.client.init.registry;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.conditions.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.conditions.model.ExtraLoadingItemModel;
-import com.github.ysbbbbbb.kaleidoscopecookery.client.conditions.prop.ExtraModelLoadingProperty;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.conditions.registry.ExtraModelLoadingProperties;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.event.FlatulenceEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.event.PotOverlayEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.model.MillstoneModel;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.render.block.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.render.item.StrawHatArmorRenderer;
+import com.github.ysbbbbbb.kaleidoscopecookery.compat.create.ponder.init.PonderCompat;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import net.fabricmc.api.EnvType;
@@ -68,6 +68,6 @@ public class ClientRegistry {
     }
 
     private static void modCompatClient() {
-
+        PonderCompat.init();
     }
 }
