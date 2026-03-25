@@ -17,6 +17,10 @@ loom {
 }
 
 repositories {
+	maven {
+		name = "Fuzs Mod Resources"
+		url = URI("https://raw.githubusercontent.com/Fuzss/modresources/main/maven/")
+	}
 	maven { url = URI("https://api.modrinth.com/maven") }
 }
 
@@ -28,7 +32,7 @@ dependencies {
 	implementation("maven.modrinth:jade:${providers.gradleProperty("jade_version").get()}")
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	implementation("net.fabricmc.fabric-api:fabric-api:${providers.gradleProperty("fabric_api_version").get()}")
-	
+	implementation ("fuzs.forgeconfigapiport:forgeconfigapiport-fabric:26.1.0.1")
 }
 
 tasks.processResources {
