@@ -36,10 +36,10 @@
   "mixins": ["kaleidoscope_cookery.mixins.json"],
   "accessWidener": "kaleidoscope_cookery.accesswidener",
   "depends": {
-    "fabricloader": ">=${loader_version}",
+    "fabricloader": ">=0.18",
     "fabric": "*",
     "fabric-api": "*",
-    "minecraft": "${minecraft_version}",
+    "minecraft": "~1.20.1",
     "forgeconfigapiport": "*"
   },
   "suggests": {
