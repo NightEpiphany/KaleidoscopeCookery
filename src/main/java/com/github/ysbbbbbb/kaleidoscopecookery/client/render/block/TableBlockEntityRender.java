@@ -96,6 +96,8 @@ public class TableBlockEntityRender implements BlockEntityRenderer<TableBlockEnt
         if (blockEntityRenderState.hasCarpet) {
             int rotation = blockEntityRenderState.axis == Direction.Axis.X ? 180 : 270;
             poseStack.pushPose();
+            if (blockEntityRenderState.axis == Direction.Axis.X)
+                poseStack.translate(0, 0, 1);
             poseStack.mulPose(Axis.YP.rotationDegrees(-rotation));
             poseStack.translate(-0.5f, 0.5f, 0.5f);
             if (!blockEntityRenderState.carpetModel.isEmpty()) {
