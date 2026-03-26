@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Environment(EnvType.CLIENT)
 @Mixin(Minecraft.class)
-public class MCMixin {
+public class LeftClickMixin {
 
     @Shadow
     @Nullable

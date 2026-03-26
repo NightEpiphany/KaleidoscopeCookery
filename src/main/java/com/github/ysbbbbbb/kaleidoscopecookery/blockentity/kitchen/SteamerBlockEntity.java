@@ -13,7 +13,6 @@ import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import com.google.common.collect.Lists;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -309,7 +308,7 @@ public class SteamerBlockEntity extends BaseBlockEntity implements ISteamer {
     }
 
     public Optional<RecipeHolder<SteamerRecipe>> getSteamerRecipe(Level level, ItemStack stack) {
-        if (this.items.stream().noneMatch(ItemStack::isEmpty) || level instanceof ClientLevel) {
+        if (this.items.stream().noneMatch(ItemStack::isEmpty) || level.isClientSide()) {
             return Optional.empty();
         }
         return this.quickCheck.getRecipeFor(new SingleRecipeInput(stack), (ServerLevel) level);
