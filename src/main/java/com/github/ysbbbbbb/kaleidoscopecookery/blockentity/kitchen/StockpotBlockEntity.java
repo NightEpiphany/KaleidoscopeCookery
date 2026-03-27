@@ -397,7 +397,7 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
             }
             // 如果带有容器，此时返还容器
             Item containerItem = ItemUtils.getContainerItem(itemStack);
-            if (containerItem != Items.AIR) {
+            if (!containerItem.getDefaultInstance().isEmpty()) {
                 ItemUtils.getItemToLivingEntity(user, containerItem.getDefaultInstance());
             }
             this.inputs.set(i, itemStack.split(1));

@@ -160,7 +160,7 @@ public class ItemUtils {
         }
         Item item = stack.getItem();
         if (item.getCraftingRemainder() == null) {
-            return item;
+            return Items.AIR;
         }
         ItemStack remainingItem = item.getCraftingRemainder().create();
         if (!remainingItem.isEmpty()) {
