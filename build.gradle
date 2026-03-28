@@ -39,6 +39,10 @@ repositories {
         name = "Fuzs Mod Resources"
         url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
     }
+	maven {
+		name = "cassian's maven"
+		url = "https://maven.cassian.cc"
+	}
 	maven { url "https://maven.shedaniel.me/" }
 	maven { url "https://maven.terraformersmc.com/releases/" }
 }
@@ -54,7 +58,10 @@ dependencies {
 	mappings loom.officialMojangMappings()
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "maven.modrinth:jade:${project.jade_version}"
-
+	modImplementation("cc.cassian.rrv:reliable-recipe-viewer-fabric:${project.rrv_version}") {
+		exclude(group: "net.fabricmc.fabric-api")
+		exclude(group: "eu.pb4")
+	}
 	modImplementation "curse.maven:create-fly-1346281:7658527"
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
@@ -67,7 +74,7 @@ dependencies {
 	// REI API for Fabric
 	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:21.11.814"
 	modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:21.11.814"
-	modRuntimeOnly "maven.modrinth:rei:21.11.814+fabric-fabric,1.21.11"
+	modCompileOnly "maven.modrinth:rei:21.11.814+fabric-fabric,1.21.11"
 	
 }
 

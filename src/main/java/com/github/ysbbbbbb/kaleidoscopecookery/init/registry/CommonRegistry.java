@@ -41,6 +41,7 @@ public class CommonRegistry {
     }
 
     public static void registerServerEvents() {
+        PlaceIngredientEvent.register();
         SatiatedShieldEvent.register();
         FlatulenceServerEvent.register();
         PreservationEvent.register();

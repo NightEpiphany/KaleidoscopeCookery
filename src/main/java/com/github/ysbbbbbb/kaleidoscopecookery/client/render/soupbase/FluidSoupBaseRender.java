@@ -29,18 +29,21 @@ public class FluidSoupBaseRender implements ISoupBaseRender {
         ISoupBaseRender.renderSurface(getStillFluidSprite(fluid), getFluidColor(fluid), poseStack, packedLight, soupHeight);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void renderWhenCooking(StockpotBlockEntityRenderState stockpot, float partialTick, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, int packedOverlay, Identifier cookingTexture, float soupHeight, @NonNull CameraRenderState cameraRenderState) {
         TextureAtlasSprite sprite = Minecraft.getInstance().getModelManager().atlasManager.get(new Material(TextureAtlas.LOCATION_BLOCKS, cookingTexture));
         ISoupBaseRender.renderSurface(sprite, 0xFFFFFFFF, poseStack, packedLight, soupHeight);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void renderWhenFinished(StockpotBlockEntityRenderState stockpot, float partialTick, PoseStack poseStack, SubmitNodeCollector buffer, int packedLight, int packedOverlay, Identifier finishedTexture, float soupHeight, @NonNull CameraRenderState cameraRenderState) {
         TextureAtlasSprite sprite = Minecraft.getInstance().getModelManager().atlasManager.get(new Material(TextureAtlas.LOCATION_BLOCKS, finishedTexture));
         ISoupBaseRender.renderSurface(sprite, 0xFFFFFFFF, poseStack, packedLight, soupHeight);
     }
 
+    @SuppressWarnings("deprecation")
     private TextureAtlasSprite getStillFluidSprite(Fluid fluid) {
         FluidRenderHandler renderHandler = FluidRenderHandlerRegistry.INSTANCE.get(fluid);
         if (renderHandler != null) {

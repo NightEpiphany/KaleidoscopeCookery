@@ -5,6 +5,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.api.recipe.soupbase.ISoupBase;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.StockpotBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.StockpotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates.StockpotBlockEntityRenderState;
+import com.github.ysbbbbbb.kaleidoscopecookery.crafting.soupbase.MobSoupBase;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.soupbase.SoupBaseManager;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModDataComponents;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
@@ -25,6 +26,7 @@ import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Util;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
@@ -53,14 +55,16 @@ public class StockpotBlockEntityRender implements BlockEntityRenderer<StockpotBl
     }
 
     @Override
-    public StockpotBlockEntityRenderState createRenderState() {
+    public @NonNull StockpotBlockEntityRenderState createRenderState() {
         return new StockpotBlockEntityRenderState();
     }
 
     @Override
-    public void extractRenderState(StockpotBlockEntity blockEntity, StockpotBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
+    public void extractRenderState(@NonNull StockpotBlockEntity blockEntity, @NonNull StockpotBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, blockEntityRenderState, f, vec3, crumblingOverlay);
         int posLong = (int) blockEntity.getBlockPos().asLong();
+        blockEntityRenderState.seed = blockEntity.hashCode();
+        blockEntityRenderState.soupBaseID = blockEntity.getSoupBaseId();
         blockEntityRenderState.items = new ArrayList<>();
         blockEntityRenderState.randomSeeds = new ArrayList<>();
         blockEntityRenderState.status = blockEntity.getStatus();
@@ -70,13 +74,18 @@ public class StockpotBlockEntityRender implements BlockEntityRenderer<StockpotBl
             if (itemStack.is(TagMod.SPECIAL)) {
                 itemStack.set(ModDataComponents.SPECIAL_RENDER, true);
             }
+            // TODO: 这里到底要不要渲染含有容器的特殊物品
+//            if (!ItemUtils.getContainerItem(itemStack).getDefaultInstance().isEmpty() && !itemStack.is(TagMod.SPECIAL))
+//                continue;
             this.itemModelResolver.updateForTopItem(itemStackRenderState, itemStack, ItemDisplayContext.FIXED, blockEntity.getLevel(), null, posLong + index);
             blockEntityRenderState.items.add(itemStackRenderState);
             blockEntityRenderState.randomSeeds.add(itemStack.hashCode());
         }
         if (blockEntity.renderEntity != null)
             blockEntityRenderState.renderEntity = this.entityRenderDispatcher.extractEntity(blockEntity.renderEntity, f);
-        blockEntityRenderState.soupBaseID = blockEntity.getSoupBaseId();
+        else if (SoupBaseManager.getSoupBase(blockEntityRenderState.soupBaseID) instanceof MobSoupBase soupBase && blockEntity.getLevel() != null) {
+            blockEntity.renderEntity = soupBase.getType().create(blockEntity.getLevel(), EntitySpawnReason.BUCKET);
+        }
         blockEntityRenderState.cookingTexture = blockEntity.recipe.value().cookingTexture();
         blockEntityRenderState.finishedTexture = blockEntity.recipe.value().finishedTexture();
         blockEntityRenderState.takeOutCount = blockEntity.getTakeoutCount();
@@ -84,7 +93,7 @@ public class StockpotBlockEntityRender implements BlockEntityRenderer<StockpotBl
     }
 
     @Override
-    public void submit(StockpotBlockEntityRenderState blockEntityRenderState, @NonNull PoseStack poseStack, @NonNull SubmitNodeCollector submitNodeCollector, @NonNull CameraRenderState cameraRenderState) {
+    public void submit(@NonNull StockpotBlockEntityRenderState blockEntityRenderState, @NonNull PoseStack poseStack, @NonNull SubmitNodeCollector submitNodeCollector, @NonNull CameraRenderState cameraRenderState) {
         ClientLevel level = Minecraft.getInstance().level;
         if (level == null) {
             return;

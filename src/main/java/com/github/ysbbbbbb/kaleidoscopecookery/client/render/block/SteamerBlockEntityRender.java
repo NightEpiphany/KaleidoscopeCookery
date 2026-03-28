@@ -17,8 +17,6 @@ import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.core.NonNullList;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
@@ -27,7 +25,6 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Environment(EnvType.CLIENT)
 public class SteamerBlockEntityRender implements BlockEntityRenderer<SteamerBlockEntity, SteamerBlockEntityRenderState> {
@@ -38,7 +35,7 @@ public class SteamerBlockEntityRender implements BlockEntityRenderer<SteamerBloc
     }
 
     @Override
-    public void extractRenderState(SteamerBlockEntity blockEntity, SteamerBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
+    public void extractRenderState(@NonNull SteamerBlockEntity blockEntity, @NonNull SteamerBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, blockEntityRenderState, f, vec3, crumblingOverlay);
         int posLong = (int) blockEntity.getBlockPos().asLong();
         blockEntityRenderState.items = new ArrayList<>();
@@ -52,12 +49,12 @@ public class SteamerBlockEntityRender implements BlockEntityRenderer<SteamerBloc
     }
 
     @Override
-    public SteamerBlockEntityRenderState createRenderState() {
+    public @NonNull SteamerBlockEntityRenderState createRenderState() {
         return new SteamerBlockEntityRenderState();
     }
 
     @Override
-    public void submit(SteamerBlockEntityRenderState blockEntityRenderState, @NonNull PoseStack poseStack, @NonNull SubmitNodeCollector submitNodeCollector, @NonNull CameraRenderState cameraRenderState) {
+    public void submit(@NonNull SteamerBlockEntityRenderState blockEntityRenderState, @NonNull PoseStack poseStack, @NonNull SubmitNodeCollector submitNodeCollector, @NonNull CameraRenderState cameraRenderState) {
         ClientLevel level = Minecraft.getInstance().level;
         if (level == null) {
             return;

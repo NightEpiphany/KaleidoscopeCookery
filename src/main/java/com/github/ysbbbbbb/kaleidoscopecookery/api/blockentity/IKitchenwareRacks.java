@@ -3,7 +3,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.api.blockentity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
-public interface IKitchenwareRacks {
+public interface IKitchenwareRacks extends IKaleidoscopeBlockEntity {
     /**
      * 处理实体点击厨具架
      *

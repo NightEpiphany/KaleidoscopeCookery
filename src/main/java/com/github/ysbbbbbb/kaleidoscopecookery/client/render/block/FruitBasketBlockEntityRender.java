@@ -14,7 +14,6 @@ import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
@@ -32,12 +31,12 @@ public class FruitBasketBlockEntityRender implements BlockEntityRenderer<FruitBa
     }
 
     @Override
-    public FruitBasketBlockEntityRenderState createRenderState() {
+    public @NonNull FruitBasketBlockEntityRenderState createRenderState() {
         return new FruitBasketBlockEntityRenderState();
     }
 
     @Override
-    public void extractRenderState(FruitBasketBlockEntity blockEntity, FruitBasketBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
+    public void extractRenderState(@NonNull FruitBasketBlockEntity blockEntity, @NonNull FruitBasketBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, blockEntityRenderState, f, vec3, crumblingOverlay);
         blockEntityRenderState.items = new ArrayList<>();
 

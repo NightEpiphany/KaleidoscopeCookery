@@ -35,12 +35,12 @@ public class RecipeBlockEntityRender implements BlockEntityRenderer<RecipeBlockE
     }
 
     @Override
-    public RecipeBlockEntityRenderState createRenderState() {
+    public @NonNull RecipeBlockEntityRenderState createRenderState() {
         return new RecipeBlockEntityRenderState();
     }
 
     @Override
-    public void extractRenderState(RecipeBlockEntity blockEntity, RecipeBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
+    public void extractRenderState(@NonNull RecipeBlockEntity blockEntity, @NonNull RecipeBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, blockEntityRenderState, f, vec3, crumblingOverlay);
         int posLong = (int) blockEntity.getBlockPos().asLong();
         blockEntityRenderState.data = blockEntity.getItems().getStackInSlot(0).getOrDefault(ModDataComponents.RECIPE_RECORD, RecipeItem.RecipeRecord.INSTANCE);
@@ -48,7 +48,7 @@ public class RecipeBlockEntityRender implements BlockEntityRenderer<RecipeBlockE
     }
 
     @Override
-    public void submit(RecipeBlockEntityRenderState blockEntityRenderState, @NonNull PoseStack poseStack, @NonNull SubmitNodeCollector submitNodeCollector, @NonNull CameraRenderState cameraRenderState) {
+    public void submit(@NonNull RecipeBlockEntityRenderState blockEntityRenderState, @NonNull PoseStack poseStack, @NonNull SubmitNodeCollector submitNodeCollector, @NonNull CameraRenderState cameraRenderState) {
         ClientLevel level = Minecraft.getInstance().level;
         if (level == null || blockEntityRenderState.targetItem == null) {
             return;

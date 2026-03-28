@@ -10,7 +10,6 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.state.CameraRenderState;
@@ -32,7 +31,7 @@ public class ShawarmaSpitBlockEntityRender implements BlockEntityRenderer<Shawar
     }
 
     @Override
-    public void extractRenderState(ShawarmaSpitBlockEntity blockEntity, ShawarmaSpitBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
+    public void extractRenderState(@NonNull ShawarmaSpitBlockEntity blockEntity, @NonNull ShawarmaSpitBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, blockEntityRenderState, f, vec3, crumblingOverlay);
         int posLong = (int) blockEntity.getBlockPos().asLong();
         this.itemModelResolver.updateForTopItem(blockEntityRenderState.cookedItem, blockEntity.cookedItem, ItemDisplayContext.FIXED, blockEntity.getLevel(), null, posLong);

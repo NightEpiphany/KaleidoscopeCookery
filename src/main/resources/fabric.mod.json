@@ -20,7 +20,8 @@
     "jei_mod_plugin": ["com.github.ysbbbbbb.kaleidoscopecookery.compat.jei.ModJeiPlugin"],
     "jade": ["com.github.ysbbbbbb.kaleidoscopecookery.compat.jade.ModJadePlugin"],
     "rei_client": ["com.github.ysbbbbbb.kaleidoscopecookery.compat.rei.ModREIClientPlugin"],
-    "rei_common": ["com.github.ysbbbbbb.kaleidoscopecookery.compat.rei.ModREICommonPlugin"]
+    "rei_common": ["com.github.ysbbbbbb.kaleidoscopecookery.compat.rei.ModREICommonPlugin"],
+    "rrv": ["com.github.ysbbbbbb.kaleidoscopecookery.compat.rrv.ModRRVPlugin"]
   },
   "mixins": ["kaleidoscope_cookery.mixins.json"],
   "accessWidener": "kaleidoscope_cookery.accesswidener",

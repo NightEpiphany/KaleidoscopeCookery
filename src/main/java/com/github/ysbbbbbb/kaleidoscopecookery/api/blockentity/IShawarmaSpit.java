@@ -4,7 +4,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public interface IShawarmaSpit {
+public interface IShawarmaSpit extends IKaleidoscopeBlockEntity {
     /**
      * 尝试往旋风烤肉架上放置烹饪物品
      *

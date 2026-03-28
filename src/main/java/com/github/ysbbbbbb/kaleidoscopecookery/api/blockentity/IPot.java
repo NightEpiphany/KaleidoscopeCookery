@@ -4,7 +4,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public interface IPot {
+public interface IPot extends IKaleidoscopeBlockEntity {
     /**
      * 锅的起始状态。此时可以放入原料
      */

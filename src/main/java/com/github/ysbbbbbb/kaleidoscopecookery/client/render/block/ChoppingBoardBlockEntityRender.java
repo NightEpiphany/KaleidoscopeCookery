@@ -30,12 +30,12 @@ public class ChoppingBoardBlockEntityRender implements BlockEntityRenderer<Chopp
     }
 
     @Override
-    public ChoppingBoardBlockEntityRenderState createRenderState() {
+    public @NonNull ChoppingBoardBlockEntityRenderState createRenderState() {
         return new ChoppingBoardBlockEntityRenderState();
     }
 
     @Override
-    public void extractRenderState(ChoppingBoardBlockEntity blockEntity, ChoppingBoardBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
+    public void extractRenderState(@NonNull ChoppingBoardBlockEntity blockEntity, @NonNull ChoppingBoardBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, blockEntityRenderState, f, vec3, crumblingOverlay);
         blockEntityRenderState.modelId = blockEntity.getModelId();
         blockEntityRenderState.previousModel = blockEntity.previousModel;

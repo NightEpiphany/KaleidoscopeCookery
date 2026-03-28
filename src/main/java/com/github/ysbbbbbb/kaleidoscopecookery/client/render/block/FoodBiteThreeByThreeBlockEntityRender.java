@@ -63,7 +63,7 @@ public class FoodBiteThreeByThreeBlockEntityRender implements BlockEntityRendere
     }
 
     @Override
-    public FoodBiteThreeByThreeBlockEntityRenderState createRenderState() {
+    public @NonNull FoodBiteThreeByThreeBlockEntityRenderState createRenderState() {
         return new FoodBiteThreeByThreeBlockEntityRenderState();
     }
 

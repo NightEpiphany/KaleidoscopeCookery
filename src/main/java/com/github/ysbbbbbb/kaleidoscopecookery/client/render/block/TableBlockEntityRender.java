@@ -70,12 +70,12 @@ public class TableBlockEntityRender implements BlockEntityRenderer<TableBlockEnt
     }
 
     @Override
-    public TableBlockEntityRenderState createRenderState() {
+    public @NonNull TableBlockEntityRenderState createRenderState() {
         return new TableBlockEntityRenderState();
     }
 
     @Override
-    public void extractRenderState(TableBlockEntity blockEntity, TableBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
+    public void extractRenderState(@NonNull TableBlockEntity blockEntity, @NonNull TableBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, blockEntityRenderState, f, vec3, crumblingOverlay);
         int posLong = (int) blockEntity.getBlockPos().asLong();
         blockEntityRenderState.items = new ArrayList<>();
