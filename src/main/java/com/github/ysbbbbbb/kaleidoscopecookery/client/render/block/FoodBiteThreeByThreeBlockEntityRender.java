@@ -39,12 +39,12 @@ public class FoodBiteThreeByThreeBlockEntityRender implements BlockEntityRendere
     }
 
     @Override
-    public FoodBiteThreeByThreeBlockEntityRenderState createRenderState() {
+    public @NonNull FoodBiteThreeByThreeBlockEntityRenderState createRenderState() {
         return new FoodBiteThreeByThreeBlockEntityRenderState();
     }
 
     @Override
-    public void extractRenderState(FoodBiteThreeByThreeBlockEntity blockEntity, FoodBiteThreeByThreeBlockEntityRenderState state, float partialTicks, @NonNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+    public void extractRenderState(@NonNull FoodBiteThreeByThreeBlockEntity blockEntity, @NonNull FoodBiteThreeByThreeBlockEntityRenderState state, float partialTicks, @NonNull Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
         state.blockState = blockEntity.getBlockState();
     }

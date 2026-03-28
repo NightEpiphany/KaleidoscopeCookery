@@ -23,6 +23,10 @@ public class MobSoupBase extends FluidSoupBase {
         this(name, bucket, 0x3F76E4);
     }
 
+    public EntityType<?> getType() {
+        return type;
+    }
+
     @Override
     public ISoupBaseRender getRender() {
         return new MobSoupBaseRender(this.fluid, this.type);

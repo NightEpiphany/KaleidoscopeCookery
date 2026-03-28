@@ -52,6 +52,10 @@ dependencies {
 	implementation("vectorwing:FarmersDelight:${providers.gradleProperty("fdrf_version").get()}") {
 		exclude(group = "net.fabricmc")
 	}
+	implementation("cc.cassian.rrv:reliable-recipe-viewer-fabric:${providers.gradleProperty("rrv_version").get()}") {
+		exclude(group = "net.fabricmc.fabric-api")
+		exclude(group = "eu.pb4")
+	}
 	implementation ("curse.maven:create-fly-1346281:7752013")
 	implementation("net.fabricmc:fabric-loader:${providers.gradleProperty("loader_version").get()}")
 	implementation("maven.modrinth:jade:${providers.gradleProperty("jade_version").get()}")

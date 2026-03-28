@@ -32,12 +32,12 @@ public class ChairBlockEntityRender implements BlockEntityRenderer<ChairBlockEnt
     }
 
     @Override
-    public ChairBlockEntityRenderState createRenderState() {
+    public @NonNull ChairBlockEntityRenderState createRenderState() {
         return new ChairBlockEntityRenderState();
     }
 
     @Override
-    public void extractRenderState(ChairBlockEntity blockEntity, ChairBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
+    public void extractRenderState(@NonNull ChairBlockEntity blockEntity, @NonNull ChairBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, blockEntityRenderState, f, vec3, crumblingOverlay);
         blockEntityRenderState.hasCarpet = blockEntity.getBlockState().getValue(ChairBlock.HAS_CARPET);
         blockEntityRenderState.rotation = blockEntity.getBlockState().getValue(HorizontalDirectionalBlock.FACING).get2DDataValue();

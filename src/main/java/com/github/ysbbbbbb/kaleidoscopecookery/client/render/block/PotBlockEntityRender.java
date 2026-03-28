@@ -37,12 +37,12 @@ public class PotBlockEntityRender implements BlockEntityRenderer<PotBlockEntity,
     }
 
     @Override
-    public PotBlockEntityRenderState createRenderState() {
+    public @NonNull PotBlockEntityRenderState createRenderState() {
         return new PotBlockEntityRenderState();
     }
 
     @Override
-    public void extractRenderState(PotBlockEntity blockEntity, PotBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
+    public void extractRenderState(@NonNull PotBlockEntity blockEntity, @NonNull PotBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, blockEntityRenderState, f, vec3, crumblingOverlay);
         blockEntityRenderState.data = blockEntity.animationData;
         blockEntityRenderState.seed = blockEntity.getSeed();

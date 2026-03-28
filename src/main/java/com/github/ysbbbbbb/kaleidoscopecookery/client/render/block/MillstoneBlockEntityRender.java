@@ -48,7 +48,7 @@ public class MillstoneBlockEntityRender implements BlockEntityRenderer<Millstone
 
 
     @Override
-    public void extractRenderState(MillstoneBlockEntity blockEntity, MillstoneBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
+    public void extractRenderState(@NonNull MillstoneBlockEntity blockEntity, @NonNull MillstoneBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, blockEntityRenderState, f, vec3, crumblingOverlay);
         Direction facing = blockEntity.getBlockState().getValue(MillstoneBlock.FACING);
         blockEntityRenderState.direction = facing;
@@ -78,7 +78,7 @@ public class MillstoneBlockEntityRender implements BlockEntityRenderer<Millstone
     }
 
     @Override
-    public MillstoneBlockEntityRenderState createRenderState() {
+    public @NonNull MillstoneBlockEntityRenderState createRenderState() {
         return new MillstoneBlockEntityRenderState();
     }
 

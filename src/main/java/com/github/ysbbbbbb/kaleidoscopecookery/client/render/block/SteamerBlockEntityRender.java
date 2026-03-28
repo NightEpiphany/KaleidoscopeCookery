@@ -35,7 +35,7 @@ public class SteamerBlockEntityRender implements BlockEntityRenderer<SteamerBloc
     }
 
     @Override
-    public void extractRenderState(SteamerBlockEntity blockEntity, SteamerBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
+    public void extractRenderState(@NonNull SteamerBlockEntity blockEntity, @NonNull SteamerBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, blockEntityRenderState, f, vec3, crumblingOverlay);
         int posLong = (int) blockEntity.getBlockPos().asLong();
         blockEntityRenderState.items = new ArrayList<>();
@@ -50,12 +50,12 @@ public class SteamerBlockEntityRender implements BlockEntityRenderer<SteamerBloc
     }
 
     @Override
-    public SteamerBlockEntityRenderState createRenderState() {
+    public @NonNull SteamerBlockEntityRenderState createRenderState() {
         return new SteamerBlockEntityRenderState();
     }
 
     @Override
-    public void submit(SteamerBlockEntityRenderState blockEntityRenderState, @NonNull PoseStack poseStack, @NonNull SubmitNodeCollector submitNodeCollector, @NonNull CameraRenderState cameraRenderState) {
+    public void submit(@NonNull SteamerBlockEntityRenderState blockEntityRenderState, @NonNull PoseStack poseStack, @NonNull SubmitNodeCollector submitNodeCollector, @NonNull CameraRenderState cameraRenderState) {
         ClientLevel level = Minecraft.getInstance().level;
         if (level == null) {
             return;

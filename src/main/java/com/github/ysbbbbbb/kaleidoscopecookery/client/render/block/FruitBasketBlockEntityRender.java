@@ -31,12 +31,12 @@ public class FruitBasketBlockEntityRender implements BlockEntityRenderer<FruitBa
     }
 
     @Override
-    public FruitBasketBlockEntityRenderState createRenderState() {
+    public @NonNull FruitBasketBlockEntityRenderState createRenderState() {
         return new FruitBasketBlockEntityRenderState();
     }
 
     @Override
-    public void extractRenderState(FruitBasketBlockEntity blockEntity, FruitBasketBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
+    public void extractRenderState(@NonNull FruitBasketBlockEntity blockEntity, @NonNull FruitBasketBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, blockEntityRenderState, f, vec3, crumblingOverlay);
         blockEntityRenderState.items = new ArrayList<>();
         blockEntityRenderState.rotation = blockEntity.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING).get2DDataValue() * 90;

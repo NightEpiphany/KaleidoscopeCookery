@@ -28,7 +28,7 @@ public class KitchenwareRacksBlockEntityRender implements BlockEntityRenderer<Ki
     }
 
     @Override
-    public void extractRenderState(KitchenwareRacksBlockEntity blockEntity, KitchenwareRacksBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
+    public void extractRenderState(@NonNull KitchenwareRacksBlockEntity blockEntity, @NonNull KitchenwareRacksBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, blockEntityRenderState, f, vec3, crumblingOverlay);
         int posLong = (int) blockEntity.getBlockPos().asLong();
         blockEntityRenderState.rotation = blockEntity.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING).get2DDataValue() * 90;
@@ -37,7 +37,7 @@ public class KitchenwareRacksBlockEntityRender implements BlockEntityRenderer<Ki
     }
 
     @Override
-    public KitchenwareRacksBlockEntityRenderState createRenderState() {
+    public @NonNull KitchenwareRacksBlockEntityRenderState createRenderState() {
         return new KitchenwareRacksBlockEntityRenderState();
     }
 

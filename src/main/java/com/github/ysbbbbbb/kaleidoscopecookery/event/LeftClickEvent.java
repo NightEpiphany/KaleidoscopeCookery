@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 public class LeftClickEvent {
     public static void register() {
         ModEvents.PLAYER_LEFT_CLICK.register(LeftClickEvent::onHandle);
+
     }
 
     //肉包打狗，AUV，地道！

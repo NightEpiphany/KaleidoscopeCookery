@@ -7,7 +7,7 @@ import net.minecraft.world.level.Level;
 /**
  * 把切菜板单独拆分出一个接口类，方便其他模组操纵，比如女仆
  */
-public interface IChoppingBoard {
+public interface IChoppingBoard extends IKaleidoscopeBlockEntity {
     /**
      * 放置物品到切菜板上
      *

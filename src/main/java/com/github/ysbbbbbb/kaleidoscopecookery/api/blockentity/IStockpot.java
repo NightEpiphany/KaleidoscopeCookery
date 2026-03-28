@@ -4,7 +4,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public interface IStockpot {
+public interface IStockpot extends IKaleidoscopeBlockEntity {
     /**
      * 起始状态。此时锅内没有任何东西，需要放入汤底
      */

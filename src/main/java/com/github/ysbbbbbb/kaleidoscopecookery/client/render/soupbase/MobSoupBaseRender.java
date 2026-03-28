@@ -39,20 +39,20 @@ public class MobSoupBaseRender extends FluidSoupBaseRender {
             return;
         }
         EntityRenderState renderEntity = stockpot.renderEntity;
-        boolean shouldRefreshCache = renderEntity == null || renderEntity.entityType != mobType;
+        boolean shouldRefreshCache = renderEntity == null || renderEntity.entityType != this.mobType;
         if (shouldRefreshCache) {
             return;
         }
 
-        int random = stockpot.renderEntity.hashCode();
-        float entityY = (float) (Math.sin(random + System.currentTimeMillis() * 0.0005) * 0.25);
+        int random = stockpot.seed;
+        float entityY = (float) (Math.sin(random + System.currentTimeMillis() * 0.0005) * 0.15);
 
         poseStack.pushPose();
-        poseStack.translate(0.5, 0.5, 0.5);
+        poseStack.translate(0.5, 0, 0.5);
         poseStack.mulPose(Axis.YP.rotationDegrees(random % 360));
-        poseStack.translate(-0.5, -0.5, -0.5);
-        poseStack.scale(0.5f, 0.5f, 0.5f);
-        Minecraft.getInstance().getEntityRenderDispatcher().submit(renderEntity, cameraRenderState, 0.0, 0.0, 0.0, poseStack, submitNodeCollector);
+        poseStack.scale(0.65f, 0.65f, 0.65f);
+        renderEntity.lightCoords = packedLight;
+        Minecraft.getInstance().getEntityRenderDispatcher().submit(renderEntity, cameraRenderState, 0, 0.475f + entityY, 0, poseStack, submitNodeCollector);
         poseStack.popPose();
     }
 }

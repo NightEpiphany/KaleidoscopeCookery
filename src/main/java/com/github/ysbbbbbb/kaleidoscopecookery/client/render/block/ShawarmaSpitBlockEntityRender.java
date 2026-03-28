@@ -31,7 +31,7 @@ public class ShawarmaSpitBlockEntityRender implements BlockEntityRenderer<Shawar
     }
 
     @Override
-    public void extractRenderState(ShawarmaSpitBlockEntity blockEntity, ShawarmaSpitBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
+    public void extractRenderState(@NonNull ShawarmaSpitBlockEntity blockEntity, @NonNull ShawarmaSpitBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, blockEntityRenderState, f, vec3, crumblingOverlay);
         int posLong = (int) blockEntity.getBlockPos().asLong();
         this.itemModelResolver.updateForTopItem(blockEntityRenderState.cookedItem, blockEntity.cookedItem, ItemDisplayContext.FIXED, blockEntity.getLevel(), null, posLong);
@@ -41,7 +41,7 @@ public class ShawarmaSpitBlockEntityRender implements BlockEntityRenderer<Shawar
     }
 
     @Override
-    public ShawarmaSpitBlockEntityRenderState createRenderState() {
+    public @NonNull ShawarmaSpitBlockEntityRenderState createRenderState() {
         return new ShawarmaSpitBlockEntityRenderState();
     }
 

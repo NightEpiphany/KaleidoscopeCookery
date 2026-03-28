@@ -25,4 +25,5 @@ public class StockpotBlockEntityRenderState extends BlockEntityRenderState {
     public ItemStack output;
     public List<Integer> randomSeeds = Collections.emptyList();
     public boolean hasLid = false;
+    public int seed;
 }
