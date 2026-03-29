@@ -75,7 +75,7 @@ public record StockpotRecipe(NonNullList<Ingredient> ingredients,
     }
 
     @Override
-    public @NonNull ItemStack assemble(StockpotInput input) {
+    public @NonNull ItemStack assemble(@NonNull StockpotInput input) {
         return this.result.item().value().getDefaultInstance().copy();
     }
 
