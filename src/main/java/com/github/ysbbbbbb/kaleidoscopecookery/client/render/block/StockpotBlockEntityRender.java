@@ -86,8 +86,8 @@ public class StockpotBlockEntityRender implements BlockEntityRenderer<StockpotBl
         else if (SoupBaseManager.getSoupBase(blockEntityRenderState.soupBaseID) instanceof MobSoupBase soupBase && blockEntity.getLevel() != null) {
             blockEntity.renderEntity = soupBase.getType().create(blockEntity.getLevel(), EntitySpawnReason.BUCKET);
         }
-        blockEntityRenderState.cookingTexture = blockEntity.recipe.value().cookingTexture();
-        blockEntityRenderState.finishedTexture = blockEntity.recipe.value().finishedTexture();
+        blockEntityRenderState.cookingTexture = blockEntity.getCookingTexture();
+        blockEntityRenderState.finishedTexture = blockEntity.getFinishedTexture();
         blockEntityRenderState.takeOutCount = blockEntity.getTakeoutCount();
         blockEntityRenderState.output = blockEntity.getResult();
     }

@@ -57,7 +57,6 @@ import java.util.Objects;
 public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
     public static final int MAX_TAKEOUT_COUNT = 9;
 
-    private static final String INPUTS = "Inputs";
     private static final String RECIPE_ID = "RecipeId";
     private static final String SOUP_BASE_ID = "SoupBaseId";
     private static final String RESULT = "Result";
@@ -65,6 +64,8 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
     private static final String CURRENT_TICK = "CurrentTick";
     private static final String TAKEOUT_COUNT = "TakeoutCount";
     private static final String LID_ITEM = "LidItem";
+    private static final String COOKING_TEXTURE = "CookingTexture";
+    private static final String FINISHED_TEXTURE = "FinishedTexture";
 
     private final RecipeManager.CachedCheck<StockpotInput, StockpotRecipe> quickCheck = RecipeManager.createCheck(ModRecipes.STOCKPOT_RECIPE);
 
@@ -75,6 +76,8 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
     private int status = PUT_SOUP_BASE;
     private int currentTick = -1;
     private int takeoutCount = 0;
+    private Identifier cookingTexture = StockpotRecipeSerializer.DEFAULT_COOKING_TEXTURE;
+    private Identifier finishedTexture = StockpotRecipeSerializer.DEFAULT_FINISHED_TEXTURE;
 
     // 强制刷新到服务器主线程，用于区块序列化存储
     private volatile boolean hasLidCached = false;
@@ -307,12 +310,16 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
             this.result = recipe.value().assemble(container, levelIn.registryAccess());
             this.currentTick = recipe.value().time();
             this.takeoutCount = Math.min(this.result.getCount(), MAX_TAKEOUT_COUNT);
+            this.cookingTexture = recipe.value().cookingTexture();
+            this.finishedTexture = recipe.value().finishedTexture();
         }, () -> {
             this.recipeId = StockpotRecipeSerializer.EMPTY_ID;
             this.recipe = StockpotRecipeSerializer.getEmptyRecipe();
             this.result = Items.SUSPICIOUS_STEW.getDefaultInstance();
             this.currentTick = StockpotRecipeSerializer.DEFAULT_TIME;
             this.takeoutCount = 1;
+            this.cookingTexture = StockpotRecipeSerializer.DEFAULT_COOKING_TEXTURE;
+            this.finishedTexture = StockpotRecipeSerializer.DEFAULT_FINISHED_TEXTURE;
         });
 
         // 触发事件，允许其他 mod 在配方匹配后进行操作
@@ -329,6 +336,8 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
         this.result = recipe.value().assemble(container, level.registryAccess());
         this.currentTick = recipe.value().time();
         this.takeoutCount = Math.min(this.result.getCount(), MAX_TAKEOUT_COUNT);
+        this.cookingTexture = recipe.value().cookingTexture();
+        this.finishedTexture = recipe.value().finishedTexture();
     }
 
     @Override
@@ -367,6 +376,8 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
                 return false;
             }
             this.renderEntity = null;
+            this.cookingTexture = StockpotRecipeSerializer.DEFAULT_COOKING_TEXTURE;
+            this.finishedTexture = StockpotRecipeSerializer.DEFAULT_FINISHED_TEXTURE;
             this.soupBaseId = ModSoupBases.WATER;
             this.status = PUT_SOUP_BASE;
             this.refresh();
@@ -516,6 +527,8 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
         valueOutput.putInt(STATUS, this.status);
         valueOutput.putInt(CURRENT_TICK, this.currentTick);
         valueOutput.putInt(TAKEOUT_COUNT, this.takeoutCount);
+        valueOutput.putString(COOKING_TEXTURE, this.cookingTexture.toString());
+        valueOutput.putString(FINISHED_TEXTURE, this.finishedTexture.toString());
         if (this.hasLidCached && !this.lidItem.isEmpty())
             valueOutput.storeNullable(LID_ITEM, ItemStack.CODEC, this.lidItem);
     }
@@ -541,6 +554,14 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
             this.status = valueInput.getIntOr(STATUS, PUT_SOUP_BASE);
             this.currentTick = valueInput.getIntOr(CURRENT_TICK, 0);
             this.takeoutCount = valueInput.getIntOr(TAKEOUT_COUNT, 0);
+            this.cookingTexture = Objects.requireNonNullElse(
+                    Identifier.tryParse(valueInput.getString(COOKING_TEXTURE).orElse(StockpotRecipeSerializer.DEFAULT_COOKING_TEXTURE.toString())),
+                    StockpotRecipeSerializer.DEFAULT_COOKING_TEXTURE
+            );
+            this.finishedTexture = Objects.requireNonNullElse(
+                    Identifier.tryParse(valueInput.getString(FINISHED_TEXTURE).orElse(StockpotRecipeSerializer.DEFAULT_FINISHED_TEXTURE.toString())),
+                    StockpotRecipeSerializer.DEFAULT_FINISHED_TEXTURE
+            );
             if (valueInput.contains(LID_ITEM)) this.lidItem = valueInput.read(LID_ITEM, ItemStack.CODEC).orElse(ItemStack.EMPTY);
         }
     }
@@ -573,6 +594,15 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
 
     public Identifier getSoupBaseId() {
         return soupBaseId;
+    }
+
+
+    public Identifier getCookingTexture() {
+        return this.cookingTexture;
+    }
+
+    public Identifier getFinishedTexture() {
+        return this.finishedTexture;
     }
 
     @Nullable
