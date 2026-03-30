@@ -9,10 +9,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.BowlFoodItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
 //import net.minecraftforge.items.IItemHandler;
 //import net.minecraftforge.items.ItemHandlerHelper;
 import org.apache.commons.lang3.tuple.Pair;
@@ -65,6 +62,8 @@ public class ItemUtils {
         if (item instanceof IHasContainer hasContainer) {
             return hasContainer.getContainerItem();
         } else if (item instanceof BowlFoodItem) {
+            return Items.BOWL;
+        } else if (item instanceof SuspiciousStewItem) {
             return Items.BOWL;
         } else if (stack.is(TagMod.BOWL_CONTAINER)) {
             return Items.BOWL;
