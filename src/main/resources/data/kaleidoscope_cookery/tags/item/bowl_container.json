@@ -1,0 +1,7 @@
+{
+  "values": [
+    { "id": "farmersdelight:tomato_sauce", "required":false },
+    { "id": "farmersdelight:cooked_rice", "required":false },
+    "kaleidoscope_cookery:cooked_rice"
+  ]
+}

@@ -159,10 +159,6 @@ public class ItemUtils {
             return useRemainder.convertInto().getItem();
         }
         Item item = stack.getItem();
-        ItemStack remainingItem = item.getCraftingRemainder();
-        if (!remainingItem.isEmpty()) {
-            return remainingItem.getItem();
-        }
         if (item instanceof IHasContainer hasContainer) {
             return hasContainer.getContainerItem();
         } else if (stack.is(TagMod.BOWL_CONTAINER)) {
@@ -173,6 +169,10 @@ public class ItemUtils {
             return Items.BUCKET;
         } else if (stack.is(Items.POTION)) {
             return Items.GLASS_BOTTLE;
+        }
+        ItemStack remainingItem = item.getCraftingRemainder();
+        if (!remainingItem.isEmpty()) {
+            return remainingItem.getItem();
         }
         return Items.AIR;
     }
