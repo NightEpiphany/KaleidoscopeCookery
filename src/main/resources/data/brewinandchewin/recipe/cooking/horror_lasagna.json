@@ -18,10 +18,10 @@
       "item": "farmersdelight:tomato_sauce"
     },
     {
-      "tag": "c:pasta/raw_pasta"
+      "tag": "c:pasta"
     },
     {
-      "tag": "brewinandchewin:horror_meats"
+      "tag": "brewinandchewin:foods/horror_meat"
     }
   ],
   "result": {

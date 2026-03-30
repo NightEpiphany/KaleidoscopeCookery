@@ -9,7 +9,7 @@
   "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_brown",
   "ingredients": [
     {
-      "tag": "brewinandchewin:cheese_wedges"
+      "tag": "brewinandchewin:foods/cheese_wedge"
     },
     {
       "tag": "c:vegetables/onion"

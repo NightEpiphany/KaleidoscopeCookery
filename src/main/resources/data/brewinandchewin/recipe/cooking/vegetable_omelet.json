@@ -5,7 +5,7 @@
   },
   "ingredients": [
     {
-      "tag": "brewinandchewin:cheese_wedges"
+      "tag": "brewinandchewin:foods/cheese_wedge"
     },
     {
       "tag": "c:eggs"

@@ -7,6 +7,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.StockpotBlock
 import com.github.ysbbbbbb.kaleidoscopecookery.client.resources.ItemRenderReplacer;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.resources.ItemRenderReplacerReloadListener;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.soupbase.SoupBaseManager;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.fabricmc.api.EnvType;
@@ -68,7 +69,7 @@ public class StockpotBlockEntityRender implements BlockEntityRenderer<StockpotBl
 
     private void renderItems(StockpotBlockEntity stockpot, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay, boolean isFinished) {
         NonNullList<ItemStack> items = stockpot.getInputs();
-        items.forEach(stack -> {
+        items.stream().filter(s -> ItemUtils.getContainerItem(s).getDefaultInstance().isEmpty()).forEach(stack -> {
             if (!stack.isEmpty()) {
                 int random = stack.hashCode();
                 long time = random + System.currentTimeMillis();

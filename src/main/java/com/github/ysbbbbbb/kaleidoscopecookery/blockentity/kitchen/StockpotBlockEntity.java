@@ -521,6 +521,14 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
         }
     }
 
+    public boolean hasContainerIngredients() {
+        for (ItemStack stack : this.inputs) {
+            if (!ItemUtils.getContainerItem(stack).getDefaultInstance().isEmpty())
+                return true;
+        }
+        return false;
+    }
+
     public boolean isEmpty() {
         for (ItemStack stack : this.inputs) {
             if (!stack.isEmpty()) {
