@@ -9,6 +9,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.crafting.soupbase.MobSoupBase;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.soupbase.SoupBaseManager;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModDataComponents;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.fabricmc.api.EnvType;
@@ -61,7 +62,6 @@ public class StockpotBlockEntityRender implements BlockEntityRenderer<StockpotBl
 
     @Override
     public void extractRenderState(@NonNull StockpotBlockEntity blockEntity, @NonNull StockpotBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
-        assert crumblingOverlay != null;
         BlockEntityRenderer.super.extractRenderState(blockEntity, blockEntityRenderState, f, vec3, crumblingOverlay);
         int posLong = (int) blockEntity.getBlockPos().asLong();
         blockEntityRenderState.seed = blockEntity.hashCode();
@@ -70,15 +70,15 @@ public class StockpotBlockEntityRender implements BlockEntityRenderer<StockpotBl
         blockEntityRenderState.randomSeeds = new ArrayList<>();
         blockEntityRenderState.status = blockEntity.getStatus();
         blockEntityRenderState.hasLid = blockEntity.getBlockState().getValue(StockpotBlock.HAS_LID);
+        blockEntityRenderState.hasLiquidIngredients = blockEntity.hasContainerIngredients();
         for (var index = 0; index < blockEntity.getInputs().size(); index++) {
             ItemStackRenderState itemStackRenderState = new ItemStackRenderState();
             ItemStack itemStack = blockEntity.getInputs().get(index);
             if (itemStack.is(TagMod.SPECIAL)) {
                 itemStack.set(ModDataComponents.SPECIAL_RENDER, true);
             }
-            // TODO: 这里到底要不要渲染含有容器的特殊物品
-//            if (!ItemUtils.getContainerItem(itemStack).getDefaultInstance().isEmpty() && !itemStack.is(TagMod.SPECIAL))
-//                continue;
+            if (!ItemUtils.getContainerItem(itemStack).getDefaultInstance().isEmpty() && !itemStack.is(TagMod.SPECIAL))
+                continue;
             this.itemModelResolver.updateForTopItem(itemStackRenderState, itemStack, ItemDisplayContext.FIXED, blockEntity.getLevel(), null, posLong + index);
             blockEntityRenderState.items.add(itemStackRenderState);
             blockEntityRenderState.randomSeeds.add(itemStack.hashCode());

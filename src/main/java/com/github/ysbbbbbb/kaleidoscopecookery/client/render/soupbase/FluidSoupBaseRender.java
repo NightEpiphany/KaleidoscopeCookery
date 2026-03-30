@@ -1,5 +1,6 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.render.soupbase;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.client.render.ISoupBaseRender;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates.StockpotBlockEntityRenderState;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -26,9 +27,14 @@ public class FluidSoupBaseRender implements ISoupBaseRender {
         this.fluid = fluid;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void renderWhenPutIngredient(StockpotBlockEntityRenderState stockpot, float partialTick, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, int packedOverlay, float soupHeight, @NonNull CameraRenderState cameraRenderState) {
-        ISoupBaseRender.renderSurface(getStillFluidSprite(fluid), getFluidColor(fluid), poseStack, packedLight, soupHeight);
+        if (stockpot.hasLiquidIngredients) {
+            TextureAtlasSprite sprite = Minecraft.getInstance().getModelManager().atlasManager.get(new SpriteId(TextureAtlas.LOCATION_BLOCKS, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "stockpot/default_preparing_soup")));
+            ISoupBaseRender.renderSurface(sprite, 0xFFFFFFFF, poseStack, packedLight, soupHeight);
+        }else
+            ISoupBaseRender.renderSurface(getStillFluidSprite(fluid), getFluidColor(fluid), poseStack, packedLight, soupHeight);
     }
 
     @SuppressWarnings("deprecation")
