@@ -69,14 +69,14 @@ public class StockpotBlockEntityRender implements BlockEntityRenderer<StockpotBl
         blockEntityRenderState.items = new ArrayList<>();
         blockEntityRenderState.randomSeeds = new ArrayList<>();
         blockEntityRenderState.status = blockEntity.getStatus();
-        blockEntityRenderState.hasLiquidIngredients = blockEntity.hasContainerIngredients();
+        blockEntityRenderState.hasLiquidIngredients = blockEntity.liquidMerged();
         for (var index = 0; index < blockEntity.getInputs().size(); index++) {
             ItemStackRenderState itemStackRenderState = new ItemStackRenderState();
             ItemStack itemStack = blockEntity.getInputs().get(index);
             if (itemStack.is(TagMod.SPECIAL)) {
                 itemStack.set(ModDataComponents.SPECIAL_RENDER, true);
             }
-            if (!ItemUtils.getContainerItem(itemStack).getDefaultInstance().isEmpty() && !itemStack.is(TagMod.SPECIAL))
+            if (!(ItemUtils.getContainerItem(itemStack).getDefaultInstance().isEmpty() || itemStack.is(TagMod.SPECIAL)))
                 continue;
             this.itemModelResolver.updateForTopItem(itemStackRenderState, itemStack, ItemDisplayContext.FIXED, blockEntity.getLevel(), null, posLong + index);
             blockEntityRenderState.items.add(itemStackRenderState);
