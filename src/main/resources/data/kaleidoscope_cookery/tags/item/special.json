@@ -5,6 +5,9 @@
     "minecraft:honey_bottle",
     {
       "id": "farmersdelight:tomato_sauce", "required": false
+    },
+    {
+      "id": "farmersdelight:cooked_rice", "required": false
     }
   ]
 }
