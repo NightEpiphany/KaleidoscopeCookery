@@ -12,16 +12,16 @@
       "item": "brewinandchewin:scarlet_cheese_wedge"
     },
     {
-      "tag": "forge:vegetables/beetroot"
+      "tag": "c:vegetables/beetroot"
     },
     {
       "item": "farmersdelight:tomato_sauce"
     },
     {
-      "tag": "forge:pasta/raw_pasta"
+      "tag": "c:pasta"
     },
     {
-      "tag": "brewinandchewin:horror_meats"
+      "tag": "brewinandchewin:horror_lasagna_meats"
     }
   ],
   "result": {

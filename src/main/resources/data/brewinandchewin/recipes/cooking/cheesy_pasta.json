@@ -12,13 +12,13 @@
       "item": "brewinandchewin:flaxen_cheese_wedge"
     },
     {
-      "tag": "forge:pasta/raw_pasta"
+      "tag": "c:pasta"
     },
     {
-      "tag": "forge:vegetables/tomato"
+      "tag": "c:vegetables/tomato"
     },
     {
-      "tag": "forge:raw_fishes"
+      "tag": "c:raw_fishes"
     }
   ],
   "result": {

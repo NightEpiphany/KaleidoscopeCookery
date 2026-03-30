@@ -5,19 +5,19 @@
   },
   "ingredients": [
     {
-      "tag": "brewinandchewin:cheese_wedges"
+      "item": "brewinandchewin:flaxen_cheese_wedge"
     },
     {
-      "tag": "forge:eggs"
+      "tag": "c:eggs"
     },
     {
-      "tag": "forge:eggs"
+      "tag": "c:eggs"
     },
     {
-      "tag": "forge:vegetables/onion"
+      "tag": "c:vegetables/onion"
     },
     {
-      "tag": "forge:vegetables/carrot"
+      "tag": "c:vegetables/carrot"
     }
   ],
   "result": {

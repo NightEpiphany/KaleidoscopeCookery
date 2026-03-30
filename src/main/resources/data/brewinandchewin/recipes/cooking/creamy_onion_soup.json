@@ -9,16 +9,16 @@
   "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_brown",
   "ingredients": [
     {
-      "tag": "brewinandchewin:cheese_wedges"
+      "item": "brewinandchewin:flaxen_cheese_wedge"
     },
     {
-      "tag": "forge:vegetables/onion"
+      "tag": "c:vegetables/onion"
     },
     {
-      "tag": "forge:vegetables"
+      "tag": "c:vegetables"
     },
     {
-      "tag": "forge:bread"
+      "tag": "c:bread"
     }
   ],
   "result": {

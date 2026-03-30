@@ -42,6 +42,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -473,8 +474,16 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
         }
     }
 
+    public boolean hasContainerIngredients() {
+        for (ItemStack stack : this.inputs) {
+            if (!ItemUtils.getContainerItem(stack).getDefaultInstance().isEmpty())
+                return true;
+        }
+        return false;
+    }
+
     @Override
-    protected void saveAdditional(CompoundTag tag) {
+    protected void saveAdditional(@NotNull CompoundTag tag) {
         super.saveAdditional(tag);
         tag.put(INPUTS, ContainerHelper.saveAllItems(new CompoundTag(), this.inputs));
         tag.putString(RECIPE_ID, this.recipeId.toString());
@@ -489,7 +498,7 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
     }
 
     @Override
-    public void load(CompoundTag tag) {
+    public void load(@NotNull CompoundTag tag) {
         super.load(tag);
         if (tag.contains(INPUTS)) {
             this.inputs = NonNullList.withSize(StockpotRecipe.RECIPES_SIZE, ItemStack.EMPTY);

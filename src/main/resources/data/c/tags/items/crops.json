@@ -1,6 +1,8 @@
 {
   "values": [
     "#c:crops/chilipepper",
+    "#c:crops/beetroot",
+    "#c:crops/onion",
     "#c:crops/tomato",
     "#c:crops/lettuce",
     "#c:crops/rice"

@@ -12,10 +12,10 @@
       "item": "farmersdelight:tomato_sauce"
     },
     {
-      "tag": "forge:vegetables/potato"
+      "tag": "c:vegetables/potato"
     },
     {
-      "tag": "forge:milk"
+      "tag": "c:milk"
     },
     {
       "item": "brewinandchewin:scarlet_cheese_wheel"
@@ -24,7 +24,7 @@
       "item": "farmersdelight:ham"
     },
     {
-      "tag": "forge:bread"
+      "tag": "c:bread"
     }
   ],
   "result": {
