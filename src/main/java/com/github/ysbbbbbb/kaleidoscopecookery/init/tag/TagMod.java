@@ -85,6 +85,10 @@ public interface TagMod {
      */
     TagKey<Item> FEASTS = itemTag("feasts");
     /**
+     * 本模组使用特殊渲染的物品
+     */
+    TagKey<Item> SPECIAL = itemTag("special");
+    /**
      * 寒带疾行效果可以提速的方块
      */
     TagKey<Block> TUNDRA_STRIDER_SPEED_BLOCKS = blockTag("tundra_strider_speed_blocks");

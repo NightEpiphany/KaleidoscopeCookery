@@ -521,8 +521,8 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
         }
     }
 
-    public boolean hasContainerIngredients() {
-        for (ItemStack stack : this.inputs) {
+    public boolean liquidMerged() {
+        for (ItemStack stack : this.inputs.stream().filter(s -> !s.is(TagMod.SPECIAL)).toList()) {
             if (!ItemUtils.getContainerItem(stack).getDefaultInstance().isEmpty())
                 return true;
         }

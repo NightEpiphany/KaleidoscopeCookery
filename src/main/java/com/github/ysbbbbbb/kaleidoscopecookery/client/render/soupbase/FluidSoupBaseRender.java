@@ -30,7 +30,7 @@ public class FluidSoupBaseRender implements ISoupBaseRender {
     public void renderWhenPutIngredient(StockpotBlockEntity stockpot, float partialTick, PoseStack poseStack,
                                         MultiBufferSource buffer, int packedLight, int packedOverlay,
                                         float soupHeight) {
-        if (stockpot.hasContainerIngredients()) {
+        if (stockpot.liquidMerged()) {
             TextureAtlas atlas = Minecraft.getInstance().getModelManager().getAtlas(InventoryMenu.BLOCK_ATLAS);
             TextureAtlasSprite sprite = atlas.getSprite(ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "stockpot/default_preparing_soup"));
             ISoupBaseRender.renderSurface(sprite, 0x80FFFFFF, poseStack, buffer, packedLight, soupHeight);

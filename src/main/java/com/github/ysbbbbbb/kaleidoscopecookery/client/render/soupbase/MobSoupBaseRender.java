@@ -60,7 +60,7 @@ public class MobSoupBaseRender extends FluidSoupBaseRender {
             poseStack.translate(0.5, 0.5, 0.5);
             poseStack.mulPose(Axis.YP.rotationDegrees(random % 360));
             poseStack.translate(-0.5, -0.5, -0.5);
-            poseStack.scale(0.65f, 0.65f, 0.65f);
+            poseStack.scale(0.5f, 0.5f, 0.5f);
             Minecraft.getInstance().getEntityRenderDispatcher().render(stockpot.renderEntity, 1, 0.375f + entityY, 1,
                     0, 0, poseStack, buffer, packedLight);
             poseStack.popPose();
