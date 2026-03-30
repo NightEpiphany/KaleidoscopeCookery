@@ -5,8 +5,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -29,7 +29,7 @@ public interface ISoupBaseRender {
     @Contract(pure = true)
     static void renderSurface(TextureAtlasSprite sprite, int color, PoseStack poseStack, int light, float y) {
         MultiBufferSource.BufferSource bufferSource = MC.renderBuffers().bufferSource();
-        VertexConsumer vertexConsumer = bufferSource.getBuffer(Sheets.translucentBlockSheet());
+        VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderTypes.entityTranslucentEmissive(sprite.atlasLocation()));
         Matrix4f matrix = poseStack.last().pose();
 
         // 锅内水面的位置和大小（根据实际锅模型调整）
