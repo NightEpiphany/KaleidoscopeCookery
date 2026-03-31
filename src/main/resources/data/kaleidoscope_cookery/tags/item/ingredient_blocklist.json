@@ -33,6 +33,7 @@
     "minecraft:tadpole_bucket",
     "minecraft:bowl",
     "minecraft:glass_bottle",
-    "kaleidoscope_cookery:recipe_item"
+    "kaleidoscope_cookery:recipe_item",
+    { "id": "kaleidoscope_tavern:empty_bottle", "required":  false }
   ]
 }
