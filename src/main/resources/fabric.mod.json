@@ -18,6 +18,7 @@
     "main": ["com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery"],
     "client": ["com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookeryClient"],
     "jade": ["com.github.ysbbbbbb.kaleidoscopecookery.compat.jade.ModJadePlugin"],
+    "jei_mod_plugin": ["com.github.ysbbbbbb.kaleidoscopecookery.compat.jei.ModJeiPlugin"],
     "rrv": ["com.github.ysbbbbbb.kaleidoscopecookery.compat.rrv.ModRRVPlugin"]
   },
   "mixins": ["kaleidoscope_cookery.mixins.json"],

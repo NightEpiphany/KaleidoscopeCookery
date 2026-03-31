@@ -44,6 +44,16 @@ repositories {
 		url = URI("https://raw.githubusercontent.com/Fuzss/modresources/main/maven/")
 	}
 	maven { url = URI("https://api.modrinth.com/maven") }
+	maven {
+		// location of the maven that hosts JEI files since January 2023
+		name = "Jared's maven"
+		url = URI("https://maven.blamejared.com/")
+	}
+	maven {
+		// location of a maven mirror for JEI files, as a fallback
+		name = "ModMaven"
+		url = URI("https://modmaven.dev")
+	}
 }
 
 dependencies {
@@ -52,7 +62,7 @@ dependencies {
 	implementation("vectorwing:FarmersDelight:${providers.gradleProperty("fdrf_version").get()}") {
 		exclude(group = "net.fabricmc")
 	}
-	implementation("cc.cassian.rrv:reliable-recipe-viewer-fabric:${providers.gradleProperty("rrv_version").get()}") {
+	compileOnly("cc.cassian.rrv:reliable-recipe-viewer-fabric:${providers.gradleProperty("rrv_version").get()}") {
 		exclude(group = "net.fabricmc.fabric-api")
 		exclude(group = "eu.pb4")
 	}
@@ -62,6 +72,7 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	implementation("net.fabricmc.fabric-api:fabric-api:${providers.gradleProperty("fabric_api_version").get()}")
 	implementation ("fuzs.forgeconfigapiport:forgeconfigapiport-fabric:26.1.0.1")
+	compileOnly("mezz.jei:jei-26.1-fabric:29.2.0.20")
 }
 
 tasks.processResources {
