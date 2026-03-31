@@ -2,6 +2,7 @@
   "values": [
     "minecraft:bucket",
     "minecraft:bowl",
-    "minecraft:glass_bottle"
+    "minecraft:glass_bottle",
+    { "id": "kaleidoscope_tavern:empty_bottle", "required":  false }
   ]
 }
