@@ -48,7 +48,7 @@ public class TableBlockEntity extends BaseBlockEntity {
         for (ItemStackWithSlot itemStackWithSlot : valueInput.listOrEmpty(SHOW_ITEMS, ItemStackWithSlot.CODEC)) {
             if (itemStackWithSlot.isValidInContainer(this.items.size())) {
                 this.items.set(itemStackWithSlot.slot(), itemStackWithSlot.stack());
-            }
+            } else this.items.set(itemStackWithSlot.slot(), ItemStack.EMPTY);
         }
     }
 

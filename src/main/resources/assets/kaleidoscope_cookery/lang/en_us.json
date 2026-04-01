@@ -233,6 +233,7 @@
   "tooltip.kaleidoscope_cookery.recipe_item.ingredient": "Ingredient: ",
   "tooltip.kaleidoscope_cookery.recipe_item.output": "Output: ",
   "tooltip.kaleidoscope_cookery.recipe_item.missing": "Missing: ",
+  "tooltip.kaleidoscope_cookery.recipe_item.address": "Package address: %s",
   "tooltip.kaleidoscope_cookery.steamer": "Stack up to 8 layers for steaming. Sneak right-click to start the steaming process.",
   "tooltip.kaleidoscope_cookery.raw_dough": "Hold right-click to stretch dough",
   "tooltip.kaleidoscope_cookery.kitchenware_racks": "Used to hang kitchen tools",

@@ -15,6 +15,7 @@ public class GeneralConfig {
     public static ModConfigSpec.BooleanValue SATIATED_SHIELD_ABSORB_ENABLED;
     public static ModConfigSpec.BooleanValue SATIATED_SHIELD_ABSORB_EXCESS_DAMAGE;
     public static ModConfigSpec.BooleanValue STOVE_FIRING_ENABLED;
+    public static ModConfigSpec.BooleanValue CREATE_AUTOMATION_ENABLED;
 
     private static void general(ModConfigSpec.Builder builder) {
         builder.push("cookery");
@@ -27,6 +28,9 @@ public class GeneralConfig {
 
         builder.comment("Whether enabling the Stove Firing effect.");
         STOVE_FIRING_ENABLED = builder.define("StoveFiringEnabled", false);
+
+        builder.comment("Whether enabling the auto cooking feature. (Create fly mod required)");
+        CREATE_AUTOMATION_ENABLED = builder.define("CreateAutomation", true);
 
         builder.pop();
     }

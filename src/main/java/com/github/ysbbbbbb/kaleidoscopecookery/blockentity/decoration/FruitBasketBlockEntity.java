@@ -92,7 +92,7 @@ public class FruitBasketBlockEntity extends BaseBlockEntity {
         for (ItemStackWithSlot itemStackWithSlot : valueInput.listOrEmpty(ITEMS, ItemStackWithSlot.CODEC)) {
             if (itemStackWithSlot.isValidInContainer(this.items.items.size())) {
                 this.items.items.set(itemStackWithSlot.slot(), itemStackWithSlot.stack());
-            }
+            } else this.items.items.set(itemStackWithSlot.slot(), ItemStack.EMPTY);
         }
     }
 

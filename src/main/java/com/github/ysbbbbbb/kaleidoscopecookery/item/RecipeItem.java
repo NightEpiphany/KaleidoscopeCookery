@@ -56,7 +56,6 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 public class RecipeItem extends BlockItem {
-    public static final Identifier HAS_RECIPE_PROPERTY = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "has_recipe");
     public static final Identifier POT = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "pot");
     public static final Identifier STOCKPOT = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "stockpot");
 
@@ -339,6 +338,10 @@ public class RecipeItem extends BlockItem {
     @Override
     public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext tooltip, @NonNull TooltipDisplay tooltipDisplay, @NonNull Consumer<Component> consumer, @NonNull TooltipFlag tooltipFlag) {
         consumer.accept(Component.translatable("tooltip.kaleidoscope_cookery.recipe_item").withStyle(ChatFormatting.GRAY));
+        String address = stack.get(ModDataComponents.RECIPE_ADDRESS);
+        if (address != null && !address.isBlank()) {
+            consumer.accept(Component.translatable("tooltip.kaleidoscope_cookery.recipe_item.address", address).withStyle(ChatFormatting.GRAY));
+        }
     }
 
     public record RecipeRecord(List<ItemStack> input, ItemStack output, Identifier type) {

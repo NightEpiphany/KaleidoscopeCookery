@@ -233,6 +233,7 @@
   "tooltip.kaleidoscope_cookery.recipe_item.ingredient": "原料：",
   "tooltip.kaleidoscope_cookery.recipe_item.output": "输出：",
   "tooltip.kaleidoscope_cookery.recipe_item.missing": "缺少：",
+  "tooltip.kaleidoscope_cookery.recipe_item.address": "包裹地址：%s",
   "tooltip.kaleidoscope_cookery.steamer": "可叠八层，潜行右键封顶后进行蒸制",
   "tooltip.kaleidoscope_cookery.raw_dough": "长按右键拉扯面团",
   "tooltip.kaleidoscope_cookery.kitchenware_racks": "用于挂载工具",
