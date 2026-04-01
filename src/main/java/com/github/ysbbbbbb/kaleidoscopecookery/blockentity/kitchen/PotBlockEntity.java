@@ -15,9 +15,12 @@ import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -31,6 +34,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -58,6 +63,7 @@ public class PotBlockEntity extends BaseBlockEntity implements IPot {
     private static final String CURRENT_TICK = "CurrentTick";
     private static final String STIR_FRY_COUNT = "StirFryCount";
     private static final String SEED = "Seed";
+    private static final String AUTOMATION_RECIPE_ID = "AutomationRecipeId";
 
     private NonNullList<ItemStack> inputs = NonNullList.withSize(PotRecipe.RECIPES_SIZE, ItemStack.EMPTY);
     private @Nullable Ingredient carrier;
@@ -65,6 +71,7 @@ public class PotBlockEntity extends BaseBlockEntity implements IPot {
     private int status = PUT_INGREDIENT;
     private int currentTick = 0;
     private int stirFryCount = 0;
+    private @Nullable Identifier automationRecipeId;
 
     /**
      * 用于渲染动画时数据
@@ -462,6 +469,9 @@ public class PotBlockEntity extends BaseBlockEntity implements IPot {
         valueOutput.putInt(CURRENT_TICK, this.currentTick);
         valueOutput.putInt(STIR_FRY_COUNT, this.stirFryCount);
         valueOutput.putLong(SEED, this.seed);
+        if (this.automationRecipeId != null) {
+            valueOutput.putString(AUTOMATION_RECIPE_ID, this.automationRecipeId.toString());
+        }
     }
 
     @ServerThreadSafe
@@ -480,6 +490,9 @@ public class PotBlockEntity extends BaseBlockEntity implements IPot {
         this.currentTick = valueInput.getIntOr(CURRENT_TICK, 0);
         this.stirFryCount = valueInput.getIntOr(STIR_FRY_COUNT, 0);
         this.seed = valueInput.getLongOr(SEED, 0);
+        this.automationRecipeId = valueInput.contains(AUTOMATION_RECIPE_ID)
+                ? Identifier.tryParse(valueInput.getString(AUTOMATION_RECIPE_ID).orElse(""))
+                : null;
     }
 
 
@@ -545,6 +558,20 @@ public class PotBlockEntity extends BaseBlockEntity implements IPot {
 
     public ItemStack getResult() {
         return result;
+    }
+
+    public void setAutomationRecipeId(@Nullable Identifier automationRecipeId) {
+        this.automationRecipeId = automationRecipeId;
+        this.setChanged();
+    }
+
+    @Nullable
+    public RecipeHolder<PotRecipe> getAutomationRecipe(ServerLevel level) {
+        if (this.automationRecipeId == null) {
+            return null;
+        }
+        ResourceKey<Recipe<?>> recipeKey = ResourceKey.create(Registries.RECIPE, this.automationRecipeId);
+        return level.recipeAccess().byKeyTyped(ModRecipes.POT_RECIPE, recipeKey);
     }
 
     public long getSeed() {

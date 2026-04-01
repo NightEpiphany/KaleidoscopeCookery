@@ -66,6 +66,7 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
     private static final String LID_ITEM = "LidItem";
     private static final String COOKING_TEXTURE = "CookingTexture";
     private static final String FINISHED_TEXTURE = "FinishedTexture";
+    private static final String AUTOMATION_RECIPE_ID = "AutomationRecipeId";
 
     private final RecipeManager.CachedCheck<StockpotInput, StockpotRecipe> quickCheck = RecipeManager.createCheck(ModRecipes.STOCKPOT_RECIPE);
 
@@ -78,6 +79,7 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
     private int takeoutCount = 0;
     private Identifier cookingTexture = StockpotRecipeSerializer.DEFAULT_COOKING_TEXTURE;
     private Identifier finishedTexture = StockpotRecipeSerializer.DEFAULT_FINISHED_TEXTURE;
+    private @Nullable Identifier automationRecipeId;
 
     // 强制刷新到服务器主线程，用于区块序列化存储
     private volatile boolean hasLidCached = false;
@@ -531,6 +533,9 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
         valueOutput.putString(FINISHED_TEXTURE, this.finishedTexture.toString());
         if (this.hasLidCached && !this.lidItem.isEmpty())
             valueOutput.storeNullable(LID_ITEM, ItemStack.CODEC, this.lidItem);
+        if (this.automationRecipeId != null) {
+            valueOutput.putString(AUTOMATION_RECIPE_ID, this.automationRecipeId.toString());
+        }
     }
 
     @ServerThreadSafe
@@ -564,6 +569,9 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
             );
             if (valueInput.contains(LID_ITEM)) this.lidItem = valueInput.read(LID_ITEM, ItemStack.CODEC).orElse(ItemStack.EMPTY);
         }
+        this.automationRecipeId = valueInput.contains(AUTOMATION_RECIPE_ID)
+                ? Identifier.tryParse(valueInput.getString(AUTOMATION_RECIPE_ID).orElse(""))
+                : null;
     }
 
     public boolean liquidMerged() {
@@ -615,6 +623,20 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
 
     public void setLidItem(ItemStack lidItem) {
         this.lidItem = lidItem;
+    }
+
+    public void setAutomationRecipeId(@Nullable Identifier automationRecipeId) {
+        this.automationRecipeId = automationRecipeId;
+        this.setChanged();
+    }
+
+    @Nullable
+    public RecipeHolder<StockpotRecipe> getAutomationRecipe(ServerLevel level) {
+        if (this.automationRecipeId == null) {
+            return null;
+        }
+        ResourceKey<Recipe<?>> recipeKey = ResourceKey.create(Registries.RECIPE, this.automationRecipeId);
+        return level.recipeAccess().byKeyTyped(ModRecipes.STOCKPOT_RECIPE, recipeKey);
     }
 
     public Identifier getCookingTexture() {

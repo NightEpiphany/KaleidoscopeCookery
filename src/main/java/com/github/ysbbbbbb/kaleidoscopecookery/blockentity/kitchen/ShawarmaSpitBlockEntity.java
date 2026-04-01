@@ -210,10 +210,12 @@ public class ShawarmaSpitBlockEntity extends BaseBlockEntity implements IShawarm
     @Override
     protected void loadAdditional(@NonNull ValueInput valueInput) {
         super.loadAdditional(valueInput);
-        if (valueInput.contains(COOKING_ITEM))
-            this.cookingItem = valueInput.read(COOKING_ITEM, ItemStack.CODEC).orElse(ItemStack.EMPTY);
-        if (valueInput.contains(COOKED_ITEM))
-            this.cookedItem = valueInput.read(COOKED_ITEM, ItemStack.CODEC).orElse(ItemStack.EMPTY);
+        this.cookingItem = valueInput.contains(COOKING_ITEM)
+                ? valueInput.read(COOKING_ITEM, ItemStack.CODEC).orElse(ItemStack.EMPTY)
+                : ItemStack.EMPTY;
+        this.cookedItem = valueInput.contains(COOKED_ITEM)
+                ? valueInput.read(COOKED_ITEM, ItemStack.CODEC).orElse(ItemStack.EMPTY)
+                : ItemStack.EMPTY;
         this.cookTime = valueInput.getIntOr(COOK_TIME, 0);
     }
 
