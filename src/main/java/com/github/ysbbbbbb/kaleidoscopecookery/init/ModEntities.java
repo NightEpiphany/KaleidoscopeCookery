@@ -28,7 +28,7 @@ public class ModEntities {
     public static final EntityType<ThrowableBaoziEntity> THROWABLE_BAOZI = Registry.register(
             BuiltInRegistries.ENTITY_TYPE,
             Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "throwable_baozi"),
-            EntityType.Builder.<ThrowableBaoziEntity>of(ThrowableBaoziEntity::new, MobCategory.MISC) .sized(0.25F, 0.25F).clientTrackingRange(4)
+            EntityType.Builder.<ThrowableBaoziEntity>of(ThrowableBaoziEntity::new, MobCategory.MISC).sized(0.25F, 0.25F).clientTrackingRange(4)
                     .updateInterval(10).build(ResourceKey.create(Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "throwable_baozi")))
     );
 

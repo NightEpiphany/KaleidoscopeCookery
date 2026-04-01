@@ -1,10 +1,9 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.render.block;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.api.client.render.ICustomModel;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.ChoppingBoardBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.ChoppingBoardBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates.ChoppingBoardBlockEntityRenderState;
-import com.github.ysbbbbbb.kaleidoscopecookery.init.ModDataComponents;
-import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.fabricmc.api.EnvType;
@@ -24,7 +23,7 @@ import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 @Environment(EnvType.CLIENT)
-public class ChoppingBoardBlockEntityRender implements BlockEntityRenderer<ChoppingBoardBlockEntity, ChoppingBoardBlockEntityRenderState> {
+public class ChoppingBoardBlockEntityRender implements BlockEntityRenderer<ChoppingBoardBlockEntity, ChoppingBoardBlockEntityRenderState>, ICustomModel {
     private final ItemModelResolver itemModelResolver;
     public ChoppingBoardBlockEntityRender(BlockEntityRendererProvider.Context context) {
         this.itemModelResolver = context.itemModelResolver();
@@ -58,8 +57,7 @@ public class ChoppingBoardBlockEntityRender implements BlockEntityRenderer<Chopp
             int index = Math.min(blockEntityRenderState.currentCutCount, blockEntityRenderState.cacheModels.length - 1);
             Identifier cacheModel = blockEntityRenderState.cacheModels[index];
             if (cacheModel == null) return;
-            ItemStack chopContent = ModItems.MODEL_DISPLAY.getDefaultInstance();
-            chopContent.set(ModDataComponents.MODEL_DISPLAY_MODEL, cacheModel.getPath());
+            ItemStack chopContent = getBaseModelDisplay(cacheModel.getPath());
             this.itemModelResolver.updateForTopItem(blockEntityRenderState.contentModel, chopContent, ItemDisplayContext.NONE, blockEntity.getLevel(), null, 0);
         }
     }

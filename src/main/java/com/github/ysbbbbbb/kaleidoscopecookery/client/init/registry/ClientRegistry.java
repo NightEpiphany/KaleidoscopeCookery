@@ -16,19 +16,13 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
-import net.minecraft.client.color.block.BlockColors;
-import net.minecraft.client.color.block.BlockTintSource;
-import net.minecraft.client.color.block.BlockTintSources;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.item.ItemModels;
 import net.minecraft.client.renderer.item.properties.conditional.ConditionalItemModelProperties;
 import net.minecraft.resources.Identifier;
 
-import java.util.List;
-
 @Environment(EnvType.CLIENT)
 public class ClientRegistry {
-    private static final BlockTintSource BLANK_LAYER = BlockTintSources.constant(-1);
     public static void init() {
         // 注册盔甲渲染器
         ArmorRenderer.register(new StrawHatArmorRenderer(), ModItems.STRAW_HAT, ModItems.STRAW_HAT_FLOWER);
@@ -37,12 +31,6 @@ public class ClientRegistry {
         registerClientEvents();
         registerBlockEntityRenderers();
         modCompatClient();
-        blockColors();
-    }
-
-    private static void blockColors() {
-        BlockColors colors = new BlockColors();
-        colors.register(List.of(BlockTintSources.water()), ModBlocks.STOCKPOT);
     }
 
     private static void registerItemProperties() {

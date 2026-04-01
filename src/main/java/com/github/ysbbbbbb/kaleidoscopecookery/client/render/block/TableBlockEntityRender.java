@@ -1,10 +1,9 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.render.block;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.api.client.render.ICustomModel;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.decoration.TableBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.TableBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates.TableBlockEntityRenderState;
-import com.github.ysbbbbbb.kaleidoscopecookery.init.ModDataComponents;
-import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.fabricmc.api.EnvType;
@@ -29,7 +28,7 @@ import java.util.ArrayList;
 import java.util.function.Function;
 
 @Environment(EnvType.CLIENT)
-public class TableBlockEntityRender implements BlockEntityRenderer<TableBlockEntity, TableBlockEntityRenderState> {
+public class TableBlockEntityRender implements BlockEntityRenderer<TableBlockEntity, TableBlockEntityRenderState>, ICustomModel {
 
     public static final double RENDER_HEIGHT = 1.27175D;
     private final ItemModelResolver itemModelResolver;
@@ -67,21 +66,19 @@ public class TableBlockEntityRender implements BlockEntityRenderer<TableBlockEnt
     }
 
     @Override
-    public TableBlockEntityRenderState createRenderState() {
+    public @NonNull TableBlockEntityRenderState createRenderState() {
         return new TableBlockEntityRenderState();
     }
 
     @Override
-    public void extractRenderState(TableBlockEntity blockEntity, TableBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
+    public void extractRenderState(@NonNull TableBlockEntity blockEntity, @NonNull TableBlockEntityRenderState blockEntityRenderState, float f, @NonNull Vec3 vec3, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, blockEntityRenderState, f, vec3, crumblingOverlay);
         int posLong = (int) blockEntity.getBlockPos().asLong();
         blockEntityRenderState.items = new ArrayList<>();
         blockEntityRenderState.hasCarpet = blockEntity.getBlockState().getValue(TableBlock.HAS_CARPET);
         blockEntityRenderState.axis = blockEntity.getBlockState().getValue(TableBlock.AXIS);
         if (blockEntityRenderState.hasCarpet) {
-            ItemStack carpet = ModItems.MODEL_DISPLAY.getDefaultInstance();
-            int pos = blockEntity.getBlockState().getValue(TableBlock.POSITION);
-            carpet.set(ModDataComponents.MODEL_DISPLAY_MODEL, MODEL_KEY_PREFIX + blockEntity.getColor().getName() + CACHE_POS.apply(pos));
+            ItemStack carpet = getBaseModelDisplay(MODEL_KEY_PREFIX + blockEntity.getColor().getName() + CACHE_POS.apply(blockEntity.getBlockState().getValue(TableBlock.POSITION)));
             this.itemModelResolver.updateForTopItem(blockEntityRenderState.carpetModel, carpet, ItemDisplayContext.NONE, blockEntity.getLevel(), null, 0);
         }
         for (var index = 0; index < 4; index++) {

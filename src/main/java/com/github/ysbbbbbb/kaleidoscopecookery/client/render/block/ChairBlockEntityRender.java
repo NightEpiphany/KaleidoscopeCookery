@@ -1,10 +1,9 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.render.block;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.api.client.render.ICustomModel;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.decoration.ChairBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.ChairBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates.ChairBlockEntityRenderState;
-import com.github.ysbbbbbb.kaleidoscopecookery.init.ModDataComponents;
-import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.fabricmc.api.EnvType;
@@ -24,7 +23,7 @@ import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 @Environment(EnvType.CLIENT)
-public class ChairBlockEntityRender implements BlockEntityRenderer<ChairBlockEntity, ChairBlockEntityRenderState> {
+public class ChairBlockEntityRender implements BlockEntityRenderer<ChairBlockEntity, ChairBlockEntityRenderState>, ICustomModel {
     private final ItemModelResolver itemModelResolver;
     private static final String MODEL_KEY_PREFIX = "carpet/chair/";
     public ChairBlockEntityRender(BlockEntityRendererProvider.Context context) {
@@ -42,8 +41,7 @@ public class ChairBlockEntityRender implements BlockEntityRenderer<ChairBlockEnt
         blockEntityRenderState.hasCarpet = blockEntity.getBlockState().getValue(ChairBlock.HAS_CARPET);
         blockEntityRenderState.rotation = blockEntity.getBlockState().getValue(HorizontalDirectionalBlock.FACING).get2DDataValue();
         if (blockEntityRenderState.hasCarpet) {
-            ItemStack carpet = ModItems.MODEL_DISPLAY.getDefaultInstance();
-            carpet.set(ModDataComponents.MODEL_DISPLAY_MODEL, MODEL_KEY_PREFIX + blockEntity.getColor().getName());
+            ItemStack carpet = getBaseModelDisplay(MODEL_KEY_PREFIX + blockEntity.getColor().getName());
             this.itemModelResolver.updateForTopItem(blockEntityRenderState.carpetModel, carpet, ItemDisplayContext.NONE, blockEntity.getLevel(), null, 0);
         }
     }
