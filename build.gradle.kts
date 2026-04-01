@@ -71,7 +71,7 @@ dependencies {
 	implementation("maven.modrinth:jade:${providers.gradleProperty("jade_version").get()}")
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	implementation("net.fabricmc.fabric-api:fabric-api:${providers.gradleProperty("fabric_api_version").get()}")
-	implementation ("fuzs.forgeconfigapiport:forgeconfigapiport-fabric:26.1.0.1")
+	compileOnly ("fuzs.forgeconfigapiport:forgeconfigapiport-fabric:26.1.0.2")
 	compileOnly("mezz.jei:jei-26.1-fabric:29.2.0.20")
 }
 
