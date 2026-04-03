@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "kaleidoscope_cookery:item/roasted_endermite_meat_eating_0"
+  }
+}

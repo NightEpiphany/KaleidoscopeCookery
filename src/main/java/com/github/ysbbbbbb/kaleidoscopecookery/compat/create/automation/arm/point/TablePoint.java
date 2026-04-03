@@ -25,7 +25,7 @@ public class TablePoint extends ArmInteractionPoint {
 
     @Override
     public ItemStack insert(ArmBlockEntity armBlockEntity, ItemStack stack, boolean simulate) {
-        if (!stack.is(TagMod.RESULT)) return stack;
+        if (!(stack.is(TagMod.FEASTS) || stack.is(TagMod.MEALS))) return stack;
 
         if (level.getBlockEntity(pos) instanceof TableBlockEntity table) {
             ItemStackHandler tableItems = new ItemStackHandler(table.getItems());

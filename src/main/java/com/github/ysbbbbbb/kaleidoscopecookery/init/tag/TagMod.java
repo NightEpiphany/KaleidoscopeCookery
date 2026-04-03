@@ -92,9 +92,6 @@ public interface TagMod {
      * 本模组可以放置出来的食物
      */
     TagKey<Item> FEASTS = itemTag("feasts");
-
-    // create
-    TagKey<Item> RESULT = itemTag("result");
     /**
      * 寒带疾行效果可以提速的方块
      */
