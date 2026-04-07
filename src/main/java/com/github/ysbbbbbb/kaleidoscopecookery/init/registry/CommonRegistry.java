@@ -71,7 +71,8 @@ public class CommonRegistry {
                 Block block = BuiltInRegistries.BLOCK.getValue(resourceLocation);
                 // 选取第一个掉落物作为 usingConvertsTo
                 ItemLike first = data.getLootItems().getFirst();
-                Registry.register(BuiltInRegistries.ITEM, resourceLocation, new BowlFoodBlockItem(block, data.itemFood(), data.itemConsumable(), first, resourceLocation.getPath()));
+            BowlFoodBlockItem register = Registry.register(BuiltInRegistries.ITEM, resourceLocation, new BowlFoodBlockItem(block, data.itemFood(), data.itemConsumable(), first, resourceLocation.getPath()));
+            FoodBiteRegistry.FOOD_ITEM_MAP.put(resourceLocation, register);
         });
     }
 

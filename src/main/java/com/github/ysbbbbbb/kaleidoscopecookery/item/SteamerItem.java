@@ -1,6 +1,5 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.item;
 
-import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.SteamerBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.SteamerBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
@@ -14,7 +13,6 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.LivingEntity;
@@ -35,7 +33,6 @@ import org.jspecify.annotations.NonNull;
 import java.util.function.Consumer;
 
 public class SteamerItem extends BlockItem {
-    public static final Identifier HAS_ITEMS = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "has_items");
     private static final int NONE = 0;
     private static final int HAS = 1;
 

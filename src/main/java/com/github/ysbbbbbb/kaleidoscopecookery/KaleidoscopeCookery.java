@@ -34,7 +34,6 @@ public class KaleidoscopeCookery implements ModInitializer {
         ModParticles.registerParticles();
         ModRecipes.registerRecipes();
         ModLootModifier.registerLootModifiers();
-        ModTrades.registerTrades();
         ModSoupBases.registerSoupBases();
         ModDataComponents.registerDataComponents();
         // 事件
@@ -43,6 +42,8 @@ public class KaleidoscopeCookery implements ModInitializer {
         NetworkHandler.init();
         // 注册额外的战利品表事件
         ExtraLootTableDrop.register();
+        // 村民交易涉及配方数据需在食物注册之后初始化
+        ModTrades.registerTrades();
         if (FabricLoader.getInstance().isModLoaded("jei")) {
             ModJeiPlugin.syncRecipes();
         }

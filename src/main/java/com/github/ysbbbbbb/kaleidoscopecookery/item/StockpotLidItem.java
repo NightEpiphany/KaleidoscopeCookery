@@ -1,9 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.item;
 
-import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
@@ -15,7 +13,6 @@ import org.jspecify.annotations.NonNull;
 import java.util.function.Consumer;
 
 public class StockpotLidItem extends ShieldItem {
-    public static final Identifier USING_PROPERTY = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "using");
     private static final int NORMAL = 0;
     private static final int USING = 1;
 

@@ -14,6 +14,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
@@ -24,6 +25,7 @@ import static com.github.ysbbbbbb.kaleidoscopecookery.init.ModFoods.*;
 
 public class FoodBiteRegistry {
     public static final Map<Identifier, FoodData> FOOD_DATA_MAP = Maps.newLinkedHashMap();
+    public static final Map<Identifier, Item> FOOD_ITEM_MAP = Maps.newLinkedHashMap();
 
     public static Identifier DARK_CUISINE;
     public static Identifier SUSPICIOUS_STIR_FRY;
@@ -58,7 +60,6 @@ public class FoodBiteRegistry {
     public static Identifier FRIED_SPRING_ROLL;
     public static Identifier SPICY_BLOOD_STEW;
     public static Identifier FRUIT_PLATTER;
-
     public static Identifier BRAISED_PORK_RIBS;
     public static Identifier COLD_ROASTED_MEAT;
     public static Identifier OIL_SPLASHED_FISH;
@@ -248,7 +249,10 @@ public class FoodBiteRegistry {
         return Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, name);
     }
 
+    @NotNull
     public static Item getItem(Identifier name) {
+        if (FOOD_ITEM_MAP.containsKey(name)) return FOOD_ITEM_MAP.get(name);
+        // fallback方法
         return BuiltInRegistries.ITEM.getValue(name);
     }
 
