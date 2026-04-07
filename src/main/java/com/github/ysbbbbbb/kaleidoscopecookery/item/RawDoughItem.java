@@ -1,6 +1,5 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.item;
 
-import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.advancements.critereon.ModEventTriggerType;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModSounds;
@@ -11,7 +10,6 @@ import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -29,7 +27,6 @@ import org.jspecify.annotations.NonNull;
 import java.util.function.Consumer;
 
 public class RawDoughItem extends Item {
-    public static final Identifier PULL_PROPERTY = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "pull");
     private static final int MIN_USE_DURATION = 30;
 
     public RawDoughItem(Properties p) {

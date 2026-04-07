@@ -42,7 +42,6 @@ public class KaleidoscopeCookery implements ModInitializer {
         NetworkHandler.init();
         // 注册额外的战利品表事件
         ExtraLootTableDrop.register();
-
         if (FabricLoader.getInstance().isModLoaded("jei")) {
             ModJeiPlugin.syncRecipes();
         }

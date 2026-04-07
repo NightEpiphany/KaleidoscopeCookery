@@ -57,7 +57,6 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 public class RecipeItem extends BlockItem {
-    public static final Identifier HAS_RECIPE_PROPERTY = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "has_recipe");
     public static final Identifier POT = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "pot");
     public static final Identifier STOCKPOT = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "stockpot");
 
