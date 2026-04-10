@@ -17,7 +17,6 @@ public class KaleidoscopeCookery implements ModInitializer {
 
     @Override
     public void onInitialize() {
-
         NeoForgeConfigRegistry.INSTANCE.register(MOD_ID, ModConfig.Type.COMMON, GeneralConfig.init());
         // 药水效果优先注册
         ModEffects.registerEffects();
