@@ -1,20 +1,28 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.event;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.advancements.critereon.ModEventTriggerType;
+import com.github.ysbbbbbb.kaleidoscopecookery.api.recipe.teafluid.ITeaFluid;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.FruitBasketBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTrigger;
+import com.github.ysbbbbbb.kaleidoscopecookery.item.TeapotItem;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -30,10 +38,20 @@ public class RightClickEvent {
     private static InteractionResult onUseBlock(Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
         BlockPos pos = hitResult.getBlockPos();
         ItemStack itemInHand = player.getItemInHand(hand);
+        Item item = itemInHand.getItem();
+        // 需兼容 Touhou Little Maid: Orihime
+        Item maidItem = BuiltInRegistries.ITEM.get(new ResourceLocation("touhou_little_maid", "smart_slab_has_maid"));
         if (player.isSecondaryUseActive() && hand == InteractionHand.MAIN_HAND
-            // FIXME: 目前仅排除调试棒，这导致其他方块无法潜行右击果篮使用
-            && !itemInHand.is(Items.DEBUG_STICK)
-            && level.getBlockEntity(pos) instanceof FruitBasketBlockEntity fruitBasketBlock) {
+                && !itemInHand.is(Items.DEBUG_STICK)
+                && !itemInHand.is(Items.FIREWORK_ROCKET)
+                && !itemInHand.is(maidItem)
+                && level.getBlockEntity(pos) instanceof FruitBasketBlockEntity fruitBasketBlock) {
+            if (item instanceof BlockItem) {
+                Direction clickedFace = hitResult.getDirection();
+                if (!(clickedFace == Direction.UP)) {
+                    return InteractionResult.PASS;
+                }
+            }
             fruitBasketBlock.takeOut(player);
             return InteractionResult.SUCCESS;
         }
@@ -41,8 +59,8 @@ public class RightClickEvent {
     }
 
     private static InteractionResult onUseEntity(Player player, Level level, InteractionHand hand, Entity target, EntityHitResult hitResult) {
-        if (target instanceof Chicken chicken && chicken.isBaby()
-            && player.getMainHandItem().is(ModItems.CATERPILLAR)) {
+        ItemStack mainHandItem = player.getMainHandItem();
+        if (target instanceof Chicken chicken && chicken.isBaby() && mainHandItem.is(ModItems.CATERPILLAR)) {
             // 让鸡瞬间成年
             chicken.setAge(0);
             // 加一些特性和音效
@@ -60,6 +78,16 @@ public class RightClickEvent {
             player.getMainHandItem().shrink(1);
             ModTrigger.EVENT.trigger(player, ModEventTriggerType.USE_CATERPILLAR_FEED_CHICKEN);
             return InteractionResult.SUCCESS;
+        } else if (hand == InteractionHand.MAIN_HAND && mainHandItem.getItem() instanceof TeapotItem && target instanceof LivingEntity living) {
+            ITeaFluid teaType = TeapotItem.getTeaFluid(mainHandItem);
+            if (TeapotItem.getFluidAmount(mainHandItem) > 0) {
+                int consumed = teaType.onPouredOnEntity(level, living, player, mainHandItem);
+                if (consumed != 0) {
+                    TeapotItem.shrinkFluidAmount(mainHandItem, consumed);
+                    player.swing(InteractionHand.MAIN_HAND);
+                    return InteractionResult.SUCCESS;
+                }
+            }
         }
         return InteractionResult.PASS;
     }
