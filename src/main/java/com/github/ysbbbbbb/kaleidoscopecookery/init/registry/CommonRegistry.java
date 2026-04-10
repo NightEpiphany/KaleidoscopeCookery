@@ -10,15 +10,20 @@ import com.github.ysbbbbbb.kaleidoscopecookery.compat.harvest.HarvestCompat;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.trinkets.init.ModTrinketsCompat;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.trinkets.init.TrinketsCompatServer;
 import com.github.ysbbbbbb.kaleidoscopecookery.datagen.lootable.GiftLootTables;
+import com.github.ysbbbbbb.kaleidoscopecookery.datamap.resources.MillstoneBindableDataReloadListener;
+import com.github.ysbbbbbb.kaleidoscopecookery.datamap.resources.TeaEffectDataReloadListener;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTeaFluids;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModVillager;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.BowlFoodBlockItem;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.world.entity.ai.behavior.GiveGiftToHero;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
@@ -27,6 +32,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class CommonRegistry {
     public static void init() {
+        ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new TeaEffectDataReloadListener());
+        ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new MillstoneBindableDataReloadListener());
         modCompat();
         addComposter();
         registerFoodBiteBlocks();
@@ -50,6 +57,7 @@ public class CommonRegistry {
         ArmorEffectEvent.register();
         RecipeItemEvent.register();
         SickleHarvestEvent.register();
+        ModTeaFluids.registerAll();
         AddVillageStructuresEvent.addVillageStructures();
     }
 

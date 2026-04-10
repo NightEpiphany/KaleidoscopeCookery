@@ -28,6 +28,7 @@ public final class ModItems {
     public static final Item MILLSTONE = new BlockItem(ModBlocks.MILLSTONE, new Item.Properties());
     public static final Item STEAMER = new SteamerItem();
     public static final Item SICKLE = new SickleItem();
+    public static final Item TEAPOT = new TeapotItem();
 
     // 油
     public static final Item OIL = new WithTooltipsItem(new Item.Properties(), "oil");
@@ -187,6 +188,11 @@ public final class ModItems {
     // 特殊
     public static final Item COLD_CUT_HAM_SLICES = new LiftBlockItem(ModBlocks.COLD_CUT_HAM_SLICES, "cold_cut_ham_slices");
 
+    // 茶
+    public static Item TEACUP = new TeacupBlockItem(ModBlocks.TEACUP);
+    public static Item TIEGUANYIN = new TeaBlockItem(ModBlocks.TIEGUANYIN);
+    public static Item FLOWER_TEA = new TeaBlockItem(ModBlocks.FLOWER_TEA);
+
     public static void registerItems() {
         // 厨具
         Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "stove"), STOVE);
@@ -199,6 +205,7 @@ public final class ModItems {
         Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "millstone"), MILLSTONE);
         Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "steamer"), STEAMER);
         Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "sickle"), SICKLE);
+        Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "teapot"), TEAPOT);
 
         // 油
         Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "oil"), OIL);
@@ -359,11 +366,17 @@ public final class ModItems {
         Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "cooked_cut_small_meats"), COOKED_CUT_SMALL_MEATS);
         Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "cooked_meatball"), COOKED_MEATBALL);
 
+        // 可见物品
         Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "honey"), VIS_HONEY);
         Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "egg"), VIS_EGG);
         Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "tomato_sauce_spray"), VIS_TOMATO_SAUCE);
         Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "raw_dough_in_millstone"), VIS_MILLSTONE_DOUGH);
         Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "oil_in_millstone"), VIS_MILLSTONE_OIL);
+
+        // 茶
+        Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "teacup"), TEACUP);
+        Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "tieguanyin"), TIEGUANYIN);
+        Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "flower_tea"), FLOWER_TEA);
 
         Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "cold_cut_ham_slices"), COLD_CUT_HAM_SLICES);
     }

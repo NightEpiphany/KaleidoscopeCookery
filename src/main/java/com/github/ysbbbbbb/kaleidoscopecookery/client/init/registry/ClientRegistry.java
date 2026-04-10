@@ -2,6 +2,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.client.init.registry;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.client.event.FlatulenceEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.event.PotOverlayEvent;
+import com.github.ysbbbbbb.kaleidoscopecookery.client.event.TipOverlayEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.model.ColdCutHamSlicesModel;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.model.MillstoneModel;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.render.block.*;
@@ -46,6 +47,7 @@ public class ClientRegistry {
     private static void registerClientEvents() {
         FlatulenceEvent.register();
         PotOverlayEvent.register();
+        TipOverlayEvent.register();
     }
 
     private static void registerBlockEntityRenderers() {

@@ -37,6 +37,8 @@ public class ModCreativeTabs {
                     output.accept(ModItems.CHOPPING_BOARD);
                     output.accept(ModItems.MILLSTONE);
                     output.accept(ModItems.STEAMER);
+                    output.accept(ModItems.TEAPOT);
+                    output.accept(ModItems.TEACUP);
                     output.accept(ModItems.KITCHENWARE_RACKS);
                     output.accept(ModItems.FRUIT_BASKET);
                     output.accept(ModItems.SCARECROW);
@@ -188,6 +190,9 @@ public class ModCreativeTabs {
                         var foodItem = BuiltInRegistries.ITEM.get(foodName);
                         output.accept(foodItem);
                     });
+                    // 茶
+                    output.accept(ModItems.TIEGUANYIN);
+                    output.accept(ModItems.FLOWER_TEA);
                 }).build());
     }
 }

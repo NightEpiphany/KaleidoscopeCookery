@@ -45,6 +45,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone {
@@ -321,7 +322,7 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
             return;
         }
         if (mob.hasControllingPassenger())
-            mob.getFirstPassenger().ejectPassengers();
+            Objects.requireNonNull(mob.getFirstPassenger()).ejectPassengers();
         this.entityId = mob.getUUID();
         this.bindEntity = mob;
         // 缓存角度纠正
