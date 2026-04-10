@@ -1,6 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.item;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteBlock;
+import com.github.ysbbbbbb.kaleidoscopecookery.config.ClientConfig;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import com.google.common.collect.Lists;
 import net.minecraft.ChatFormatting;
@@ -114,7 +115,7 @@ public class BowlFoodBlockItem extends BlockItem {
                 consumer.accept(CommonComponents.EMPTY);
             }
         }
-        if (!this.effectInstances.isEmpty()) {
+        if (!this.effectInstances.isEmpty() && ClientConfig.SHOW_FOOD_EFFECT_TOOLTIPS.get()) {
             consumer.accept(CommonComponents.space());
             PotionContents.addPotionTooltip(this.effectInstances, consumer, 1.0F, tooltip.tickRate());
         }
