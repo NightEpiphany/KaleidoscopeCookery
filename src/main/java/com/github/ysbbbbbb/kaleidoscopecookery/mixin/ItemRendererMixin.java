@@ -37,8 +37,11 @@ public abstract class ItemRendererMixin {
             int overlay
     ) {
         boolean bl = renderMode == ItemDisplayContext.GUI || renderMode == ItemDisplayContext.GROUND || renderMode == ItemDisplayContext.FIXED;
-        if (bl && stack.is(ModItems.COLD_CUT_HAM_SLICES)) {
-            return getItemModelShaper().getModelManager().getModel(new ModelResourceLocation(new ResourceLocation(MOD_ID, "cold_cut_ham_slices_in_gui"), "inventory"));
+        if (bl) {
+            if (stack.is(ModItems.COLD_CUT_HAM_SLICES))
+                return getItemModelShaper().getModelManager().getModel(new ModelResourceLocation(new ResourceLocation(MOD_ID, "cold_cut_ham_slices_in_gui"), "inventory"));
+            if (stack.is(ModItems.TEAPOT))
+                return getItemModelShaper().getModelManager().getModel(new ModelResourceLocation(new ResourceLocation(MOD_ID, "teapot_in_gui"), "inventory"));
         }
         return model;
     }

@@ -1,4 +1,4 @@
-package com.github.ysbbbbbb.kaleidoscopecookery.compat.ponder.init;
+package com.github.ysbbbbbb.kaleidoscopecookery.compat.create.ponder.init;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import net.createmod.ponder.api.registration.PonderPlugin;

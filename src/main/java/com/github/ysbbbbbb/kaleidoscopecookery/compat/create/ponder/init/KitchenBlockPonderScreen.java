@@ -1,7 +1,7 @@
-package com.github.ysbbbbbb.kaleidoscopecookery.compat.ponder.init;
+package com.github.ysbbbbbb.kaleidoscopecookery.compat.create.ponder.init;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
-import com.github.ysbbbbbb.kaleidoscopecookery.compat.ponder.scenes.*;
+import com.github.ysbbbbbb.kaleidoscopecookery.compat.create.ponder.scenes.*;
 import net.createmod.ponder.api.registration.PonderSceneRegistrationHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

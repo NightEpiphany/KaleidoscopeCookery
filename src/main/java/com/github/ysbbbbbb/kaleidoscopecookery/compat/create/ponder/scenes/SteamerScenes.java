@@ -1,4 +1,4 @@
-package com.github.ysbbbbbb.kaleidoscopecookery.compat.ponder.scenes;
+package com.github.ysbbbbbb.kaleidoscopecookery.compat.create.ponder.scenes;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.SteamerBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.StoveBlock;

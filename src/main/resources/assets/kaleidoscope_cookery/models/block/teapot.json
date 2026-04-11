@@ -1,5 +1,5 @@
 {
-	"format_version": "1.21.11",
+	"format_version": "1.9.0",
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"texture_size": [64, 64],
@@ -164,6 +164,7 @@
 			}
 		}
 	],
+	"gui_light": "front",
 	"groups": [
 		{
 			"name": "bone",

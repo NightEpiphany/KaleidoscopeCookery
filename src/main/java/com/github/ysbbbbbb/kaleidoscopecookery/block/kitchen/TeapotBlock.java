@@ -13,6 +13,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -42,10 +43,12 @@ public class TeapotBlock extends HorizontalDirectionalBlock implements EntityBlo
     public static final int COMMON = 0;
     public static final int BASED = 1;
     public static final int CHAINED = 2;
-
-    private static final VoxelShape AABB = Shapes.or(
-            Block.box(0, 0, 2, 16, 15, 14)
+    public static final VoxelShape AABB = Shapes.or(
+            Shapes.box(0.4375, 0.5, 0.4375, 0.5625, 0.5625, 0.5625),
+            Shapes.box(0.3125, 0.375, 0.3125, 0.6875, 0.5, 0.6875),
+            Shapes.box(0.1875, 0, 0.1875, 0.8125, 0.375, 0.8125)
     );
+
 
     public TeapotBlock() {
         super(Properties.of().noOcclusion().sound(SoundType.LANTERN));
@@ -57,15 +60,20 @@ public class TeapotBlock extends HorizontalDirectionalBlock implements EntityBlo
     }
 
     @Nullable
-    protected static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> createTickerHelper(
-            BlockEntityType<A> serverType, BlockEntityType<E> clientType, BlockEntityTicker<? super E> ticker) {
-        return clientType == serverType ? (BlockEntityTicker<A>) ticker : null;
+    protected static <A extends BlockEntity> BlockEntityTicker<A> createTickerHelper(
+            BlockEntityType<A> serverType, BlockEntityTicker<TeapotBlockEntity> ticker) {
+        return ModBlocks.TEAPOT_BE == serverType ? (BlockEntityTicker<A>) ticker : null;
+    }
+
+    @Override
+    public boolean canSurvive(@NotNull BlockState blockState, @NotNull LevelReader levelReader, @NotNull BlockPos blockPos) {
+        return levelReader.getBlockState(blockPos.below()).isFaceSturdy(levelReader, blockPos.below(), Direction.UP);
     }
 
     @Override
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState state, @NotNull BlockEntityType<T> blockEntityType) {
-        return createTickerHelper(blockEntityType, ModBlocks.TEAPOT_BE,
+        return createTickerHelper(blockEntityType,
                 (lvl, blockPos, blockState, teapot) -> teapot.tick(lvl));
     }
 
@@ -133,7 +141,7 @@ public class TeapotBlock extends HorizontalDirectionalBlock implements EntityBlo
         FluidState fluidState = level.getFluidState(context.getClickedPos());
         Direction clickFace = context.getClickedFace();
         BlockState blockState = this.defaultBlockState()
-                .setValue(FACING, context.getHorizontalDirection().getOpposite())
+                .setValue(FACING, context.getHorizontalDirection().getClockWise())
                 .setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER);
 
         // 如果点击的是上方，那么依据是否是可支持方块添加锁链

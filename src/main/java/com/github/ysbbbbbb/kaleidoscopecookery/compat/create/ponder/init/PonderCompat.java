@@ -1,4 +1,4 @@
-package com.github.ysbbbbbb.kaleidoscopecookery.compat.ponder.init;
+package com.github.ysbbbbbb.kaleidoscopecookery.compat.create.ponder.init;
 
 
 import net.fabricmc.api.EnvType;

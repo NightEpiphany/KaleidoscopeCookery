@@ -25,6 +25,8 @@ public abstract class ModelBakeryMixin {
 
     @Unique
     private static final ModelResourceLocation COLD_CUT_HAM_SLICES_GUI = new ModelResourceLocation(new ResourceLocation(KaleidoscopeCookery.MOD_ID, "cold_cut_ham_slices_in_gui"), "inventory");
+    @Unique
+    private static final ModelResourceLocation TEAPOT_GUI = new ModelResourceLocation(new ResourceLocation(KaleidoscopeCookery.MOD_ID, "teapot_in_gui"), "inventory");
 
     @Shadow
     protected abstract void loadTopLevel(ModelResourceLocation modelLocation);
@@ -32,5 +34,6 @@ public abstract class ModelBakeryMixin {
     @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/resources/model/ModelBakery;loadTopLevel(Lnet/minecraft/client/resources/model/ModelResourceLocation;)V", shift = At.Shift.AFTER, ordinal = 3))
     private void loadSpecialItemModelAndDependencies(BlockColors blockColors, ProfilerFiller profilerFiller, Map<ResourceLocation, BlockModel> modelResources, Map<ResourceLocation, List<ModelBakery.LoadedJson>> blockStateResources, CallbackInfo ci) {
         this.loadTopLevel(COLD_CUT_HAM_SLICES_GUI);
+        this.loadTopLevel(TEAPOT_GUI);
     }
 }

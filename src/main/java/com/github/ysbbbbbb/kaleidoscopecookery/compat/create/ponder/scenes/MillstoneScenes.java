@@ -1,4 +1,4 @@
-package com.github.ysbbbbbb.kaleidoscopecookery.compat.ponder.scenes;
+package com.github.ysbbbbbb.kaleidoscopecookery.compat.create.ponder.scenes;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.MillstoneBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.MillstoneBlockEntity;
