@@ -12,9 +12,15 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.npc.villager.VillagerProfession;
 import net.minecraft.world.item.trading.TradeSet;
+import net.minecraft.world.level.storage.loot.LootTable;
 
 @SuppressWarnings("all")
 public class ModVillager {
+
+    public static final Identifier CHEF_GIFT = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "gameplay/hero_of_the_village/chef_gift");
+
+    public static final ResourceKey<LootTable> CHEF_GIFT_LOOT_KEY = ResourceKey.create(Registries.LOOT_TABLE, CHEF_GIFT);
+
     private static final ResourceKey<TradeSet> CHEF_LEVEL_1 = ResourceKey.create(Registries.TRADE_SET, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "chef/level_1"));
     private static final ResourceKey<TradeSet> CHEF_LEVEL_2 = ResourceKey.create(Registries.TRADE_SET, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "chef/level_2"));
     private static final ResourceKey<TradeSet> CHEF_LEVEL_3 = ResourceKey.create(Registries.TRADE_SET, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "chef/level_3"));

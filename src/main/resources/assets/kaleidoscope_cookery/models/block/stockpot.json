@@ -3,7 +3,7 @@
 	"texture_size": [32, 32],
 	"textures": {
 		"2": "kaleidoscope_cookery:block/stockpot",
-		"particle": "kaleidoscope_cookery:block/stockpot"
+		"particle": "kaleidoscope_cookery:block/pot_top"
 	},
 	"elements": [
 		{

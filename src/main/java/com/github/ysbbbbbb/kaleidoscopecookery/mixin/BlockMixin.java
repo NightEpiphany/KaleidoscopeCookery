@@ -29,10 +29,10 @@ public class BlockMixin {
             ServerLevel level,
             BlockPos pos,
             @Nullable BlockEntity blockEntity,
-            @Nullable Entity entity,
+            @Nullable Entity breaker,
             ItemInstance tool,
             CallbackInfoReturnable<List<ItemStack>> cir
     ) {
-        InstantSmeltingEffect.onGetDrops(state, level, entity, cir);
+        InstantSmeltingEffect.onGetDrops(state, level, breaker, cir);
     }
 }
