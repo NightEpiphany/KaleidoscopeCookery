@@ -20,7 +20,7 @@ public class EntityJoinWorldEvent {
             cat.goalSelector.addGoal(5, new CatLieOnBlockGoal(cat, 1.1, 8));
         } else if (entity instanceof Creeper creeper) {
             creeper.goalSelector.addGoal(3, new AvoidEntityGoal<>(creeper, LivingEntity.class, 6,
-                    1, 1.2, e -> e.hasEffect(ModEffects.MUSTARD)));
+                    1, 1.2, e -> e.hasEffect(ModEffects.MUSTARD.get())));
         }
     }
 }

@@ -3,21 +3,20 @@ package com.github.ysbbbbbb.kaleidoscopecookery.init.registry;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.event.RecipeItemEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.event.SickleHarvestEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.dispenser.OilPotDispenseBehavior;
+import com.github.ysbbbbbb.kaleidoscopecookery.block.drink.TeacupBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteOneByTwoBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.farmersdelight.FarmersDelightCompat;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.harvest.HarvestCompat;
-import com.github.ysbbbbbb.kaleidoscopecookery.compat.trinkets.init.ModTrinketsCompat;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.trinkets.init.TrinketsCompatServer;
 import com.github.ysbbbbbb.kaleidoscopecookery.datagen.lootable.GiftLootTables;
 import com.github.ysbbbbbb.kaleidoscopecookery.datamap.resources.MillstoneBindableDataReloadListener;
-import com.github.ysbbbbbb.kaleidoscopecookery.datamap.resources.TeaEffectDataReloadListener;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
-import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTeaFluids;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModVillager;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.BowlFoodBlockItem;
+import com.github.ysbbbbbb.kaleidoscopecookery.item.TeacupItem;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
@@ -32,10 +31,10 @@ import org.jetbrains.annotations.NotNull;
 
 public class CommonRegistry {
     public static void init() {
-        ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new TeaEffectDataReloadListener());
         ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new MillstoneBindableDataReloadListener());
         modCompat();
         addComposter();
+        registerTeacupBlocks();
         registerFoodBiteBlocks();
         registerServerEvents();
         addVillagerGift();
@@ -57,12 +56,27 @@ public class CommonRegistry {
         ArmorEffectEvent.register();
         RecipeItemEvent.register();
         SickleHarvestEvent.register();
-        ModTeaFluids.registerAll();
         AddVillageStructuresEvent.addVillageStructures();
     }
 
     public static void fuelRegister() {
         FuelRegistry.INSTANCE.add(ModItems.OIL, 1600);
+    }
+
+    private static void registerTeacupBlocks() {
+        TeacupRegistry.init();
+
+        TeacupRegistry.TEACUP_DATA_MAP.forEach((resourceLocation, data) -> {
+            TeacupBlock teacupBlock = new TeacupBlock(data.getMaxCount());
+            VoxelShape aabb = data.getAABB();
+            if (aabb != null) {
+                teacupBlock.setAABB(aabb);
+            }
+            Registry.register(BuiltInRegistries.BLOCK, resourceLocation, teacupBlock);
+
+            Block block = BuiltInRegistries.BLOCK.get(resourceLocation);
+            Registry.register(BuiltInRegistries.ITEM, resourceLocation, new TeacupItem(block, data.getEffects()));
+        });
     }
 
     private static void registerFoodBiteBlocks() {

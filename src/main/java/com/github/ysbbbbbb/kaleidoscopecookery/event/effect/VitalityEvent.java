@@ -11,6 +11,7 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
+@SuppressWarnings("deprecation")
 public class VitalityEvent {
     public static void register() {
         LivingDeathEvent.DEATH.register(VitalityEvent::onLivingDeath);
@@ -25,7 +26,7 @@ public class VitalityEvent {
         // TODO：是否添加粒子效果和音效？
 
         Entity entity = event.getEntity();
-        if (event.getSource().getEntity() instanceof LivingEntity living && living.hasEffect(ModEffects.VITALITY)) {
+        if (event.getSource().getEntity() instanceof LivingEntity living && living.hasEffect(ModEffects.VITALITY.get())) {
             EntityType<?> type = entity.getType();
             Vec3 pos = entity.position();
 

@@ -32,7 +32,7 @@ public class FlatulenceEvent {
             if (player == null) {
                 return;
             }
-            if (!player.hasEffect(ModEffects.FLATULENCE)) {
+            if (!player.hasEffect(ModEffects.FLATULENCE.get())) {
                 return;
             }
             keyShift.consumeClick();

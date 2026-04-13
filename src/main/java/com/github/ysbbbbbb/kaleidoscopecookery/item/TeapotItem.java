@@ -1,234 +1,354 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.item;
 
-import com.github.ysbbbbbb.kaleidoscopecookery.api.recipe.teafluid.ITeaFluid;
+import com.github.ysbbbbbb.kaleidoscopecookery.api.blockentity.ITeapot;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.TeapotBlockEntity;
-import com.github.ysbbbbbb.kaleidoscopecookery.crafting.teafluid.TeaFluidManager;
+import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.TeapotRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
-import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTeaFluids;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.fluids.CustomFluidTank;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.fluids.FluidUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentUtils;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
-import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BucketPickup;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.phys.*;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
+import java.util.function.Function;
 
+import static com.github.ysbbbbbb.kaleidoscopecookery.crafting.serializer.TeapotRecipeSerializer.EMPTY_TEA_FLUID;
+
+@SuppressWarnings("UnstableApiUsage")
 public class TeapotItem extends BlockItem {
-    private static final String FLUID_AMOUNT = "fluid_amount";
-    private static final String TEA_FLUID = "tea_fluid";
-
     public TeapotItem() {
-        super(ModBlocks.TEAPOT, new Item.Properties().stacksTo(1));
+        super(ModBlocks.TEAPOT, new Properties().stacksTo(1));
     }
 
-    public static void setFluidAmount(ItemStack stack, int amount) {
-        amount = Mth.clamp(amount, 0, TeapotBlockEntity.MAX_FLUID_AMOUNT);
-        stack.getOrCreateTag().putInt(FLUID_AMOUNT, amount);
-        if (amount == 0) {
-            setTeaFluid(stack, TeaFluidManager.getTeaFluid(ModTeaFluids.EMPTY));
+    /**
+     * 获取当前茶壶倾倒出的茶叶
+     */
+    public static ItemStack getPourOut(ItemStack stack) {
+        CompoundTag data = BlockItem.getBlockEntityData(stack);
+        if (data == null) {
+            return ItemStack.EMPTY;
         }
-    }
 
-    public static int getFluidAmount(ItemStack stack) {
-        CompoundTag element = stack.getTag();
-        if (element == null || !element.contains(FLUID_AMOUNT)) {
-            return 0;
+        // 先判断状态
+        int status = data.getInt(TeapotBlockEntity.STATUS);
+        if (status != ITeapot.FINISHED) {
+            return ItemStack.EMPTY;
         }
-        return element.getInt(FLUID_AMOUNT);
+
+        // 还有茶水剩余么
+        return ItemStack.of(data.getCompound(TeapotBlockEntity.RESULT));
     }
 
-    public static boolean isEmpty(ItemStack stack) {
-        return getFluidAmount(stack) == 0;
-    }
-
-    public static void shrinkFluidAmount(ItemStack stack, int amount) {
-        int currentAmount = getFluidAmount(stack);
-        if (currentAmount > 0) {
-            setFluidAmount(stack, Math.max(0, currentAmount - amount));
+    /**
+     * 执行倾倒，此时会扣除一数量成品
+     */
+    public static void pourOut(ItemStack stack) {
+        CompoundTag data = BlockItem.getBlockEntityData(stack);
+        if (data == null) {
+            return;
         }
-    }
 
-    public static void setTeaFluid(ItemStack stack, ITeaFluid teaFluid) {
-        stack.getOrCreateTag().putString(TEA_FLUID, teaFluid.name().toString());
-    }
-
-    public static ITeaFluid getTeaFluid(ItemStack stack) {
-        CompoundTag element = stack.getTag();
-        if (element == null || !element.contains(TEA_FLUID)) {
-            return TeaFluidManager.getTeaFluid(ModTeaFluids.EMPTY);
+        int status = data.getInt(TeapotBlockEntity.STATUS);
+        if (status != ITeapot.FINISHED) {
+            return;
         }
-        return TeaFluidManager.getTeaFluid(new ResourceLocation(element.getString(TEA_FLUID)));
+
+        ItemStack result = ItemStack.of(data.getCompound(TeapotBlockEntity.RESULT));
+        if (result.isEmpty()) {
+            return;
+        }
+
+        result.shrink(1);
+        // 如果倒完了，直接重置所有内容
+        if (result.isEmpty()) {
+            stack.removeTagKey(BlockItem.BLOCK_ENTITY_TAG);
+            return;
+        }
+
+        // 否则只更新数量
+        data.put(TeapotBlockEntity.RESULT, result.serializeNBT());
+        BlockItem.setBlockEntityData(stack, ModBlocks.TEAPOT_BE, data);
     }
 
     @Override
-    public int getUseDuration(@NotNull ItemStack stack) {
-        return 12;
+    public @NotNull InteractionResult interactLivingEntity(@NotNull ItemStack stack, @NotNull Player player, @NotNull LivingEntity target, @NotNull InteractionHand hand) {
+        ItemStack pourOut = getPourOut(stack);
+        if (pourOut.isEmpty()) {
+            return InteractionResult.PASS;
+        }
+
+        pourOut(stack);
+
+        Level level = player.level();
+        RandomSource random = level.random;
+        target.hurt(level.damageSources().inFire(), 1);
+
+        double x = target.getX();
+        double y = target.getY() + target.getEyeHeight() + 0.25;
+        double z = target.getZ();
+
+        player.playSound(SoundEvents.FIRE_EXTINGUISH, 1.0F, 1.0F);
+
+        for (int i = 0; i < 10; i++) {
+            level.addParticle(ParticleTypes.LAVA,
+                    x + random.nextDouble() / 3 * (random.nextBoolean() ? 1 : -1),
+                    y + random.nextDouble() / 3,
+                    z + random.nextDouble() / 3 * (random.nextBoolean() ? 1 : -1),
+                    0.3, 0.1, 0.3);
+        }
+
+        return InteractionResult.SUCCESS;
     }
 
-    @Override
-    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack stack) {
-        return UseAnim.DRINK;
+    public static boolean fillFluid(ItemStack stack, Fluid fluid, LivingEntity user) {
+        CompoundTag data = BlockItem.getBlockEntityData(stack);
+        if (data == null) {
+            data = new CompoundTag();
+        }
+        // 先判断状态
+        int status = data.getInt(TeapotBlockEntity.STATUS);
+        if (status != ITeapot.PUT_INGREDIENT) {
+            return false;
+        }
+        // 再判断是否存在流体
+        String fluidId = StringUtils.defaultIfBlank(data.getString(TeapotBlockEntity.TEA_FLUID_ID), EMPTY_TEA_FLUID.toString());
+        if (!fluidId.equals(EMPTY_TEA_FLUID.toString())) {
+            return false;
+        }
+        // 执行流体添加
+        ResourceLocation key = BuiltInRegistries.FLUID.getKey(fluid);
+        data.putString(TeapotBlockEntity.TEA_FLUID_ID, key.toString());
+        CompoundTag tankTag = new CompoundTag();
+        tankTag.putLong("amount", CustomFluidTank.MB_PER_BUCKET);
+        tankTag.putString("fluid", key.toString());
+        data.put(TeapotBlockEntity.TANK, tankTag);
+        BlockItem.setBlockEntityData(stack, ModBlocks.TEAPOT_BE, data);
+
+        var sound = FluidVariantAttributes.getFillSound(FluidVariant.of(fluid));
+        if (sound != null) {
+            user.playSound(sound);
+        }
+        return true;
+    }
+
+    private static void sendActionBarMessage(LivingEntity user, String key, Object... args) {
+        if (user instanceof ServerPlayer serverPlayer) {
+            MutableComponent message = Component.translatable(key, args);
+            serverPlayer.connection.send(new ClientboundSetActionBarTextPacket(message));
+        }
     }
 
     @Override
     public @NotNull InteractionResult useOn(UseOnContext context) {
-        Level level = context.getLevel();
-        BlockPos pos = context.getClickedPos();
         Player player = context.getPlayer();
-        ItemStack itemInHand = context.getItemInHand();
-        ITeaFluid teaFluid = getTeaFluid(itemInHand);
-
         // 潜行时只放置方块
         if (player == null || player.isSecondaryUseActive()) {
             return super.useOn(context);
         }
-
-        FluidState fluidState = level.getFluidState(pos);
-        FluidState fluidState1 = level.getFluidState(pos.relative(context.getClickedFace()));
-        // 尝试装水
-        if (tryFillWithFluid(itemInHand, teaFluid, fluidState, fluidState1)) {
-            level.playSound(player, pos, SoundEvents.BUCKET_FILL, SoundSource.PLAYERS);
-            return InteractionResult.SUCCESS;
-        }
-
-        // 尝试向方块倒茶
-        if (TeapotItem.getFluidAmount(itemInHand) > 0) {
-            if (teaFluid.instantPouring(context)) {
-                BlockHitResult blockHit = new BlockHitResult(context.getClickLocation(), context.getClickedFace(), pos, context.isInside());
-                int consumed = teaFluid.onPouredOnBlock(level, blockHit, player, itemInHand);
-                if (consumed != 0) {
-                    shrinkFluidAmount(itemInHand, consumed);
-                    return InteractionResult.SUCCESS;
-                }
-            } else {
-                InteractionResult result = ItemUtils.startUsingInstantly(level, player, context.getHand()).getResult();
-                return result == InteractionResult.CONSUME ? InteractionResult.CONSUME_PARTIAL : result;
-            }
-        }
-
-        return super.useOn(context);
+        return InteractionResult.PASS;
     }
 
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
-        // 尝试装水
         ItemStack itemInHand = player.getItemInHand(hand);
-        ITeaFluid teaType = getTeaFluid(itemInHand);
-        BlockHitResult blockhitresult = getPlayerPOVHitResult(level, player, ClipContext.Fluid.SOURCE_ONLY);
-        if (blockhitresult.getType() == HitResult.Type.BLOCK) {
-            BlockPos blockPos = blockhitresult.getBlockPos();
-            FluidState fluidState = level.getFluidState(blockPos);
-            if (tryFillWithFluid(itemInHand, teaType, fluidState)) {
-                level.playSound(player, blockPos, SoundEvents.BUCKET_FILL, SoundSource.PLAYERS);
-                return InteractionResultHolder.success(itemInHand);
+
+        // 如果已经有流体了，返回
+        CompoundTag data = BlockItem.getBlockEntityData(itemInHand);
+        if (data != null) {
+            String fluidId = StringUtils.defaultIfBlank(data.getString(TeapotBlockEntity.TEA_FLUID_ID), EMPTY_TEA_FLUID.toString());
+            if (!fluidId.equals(EMPTY_TEA_FLUID.toString())) {
+                sendActionBarMessage(player, "tooltip.kaleidoscope_cookery.teapot.add_tea_fluid.has_fluid");
+                return InteractionResultHolder.fail(itemInHand);
             }
         }
 
-        return super.use(level, player, hand);
+        BlockHitResult hitResult = getPlayerPOVHitResult(level, player, ClipContext.Fluid.SOURCE_ONLY);
+        if (hitResult.getType() == HitResult.Type.MISS) {
+            return InteractionResultHolder.pass(itemInHand);
+        }
+        if (hitResult.getType() != HitResult.Type.BLOCK) {
+            return InteractionResultHolder.pass(itemInHand);
+        }
+
+        BlockPos pos = hitResult.getBlockPos();
+        Direction direction = hitResult.getDirection();
+        BlockPos relative = pos.relative(direction);
+
+        // 权限检查
+        if (!level.mayInteract(player, pos) || !player.mayUseItemAt(relative, direction, itemInHand)) {
+            return InteractionResultHolder.fail(itemInHand);
+        }
+
+        BlockState blockState = level.getBlockState(pos);
+        // 必须是可以用桶取流体的方块
+        if (!(blockState.getBlock() instanceof BucketPickup bucketpickup)) {
+            return InteractionResultHolder.fail(itemInHand);
+        }
+
+        // 执行取流体操作
+        ItemStack pickup = bucketpickup.pickupBlock(level, pos, blockState);
+        if (pickup.isEmpty()) {
+            return InteractionResultHolder.fail(itemInHand);
+        }
+
+        Storage<FluidVariant> storage = FluidUtils.getItemStorage(pickup);
+        if (storage == null) {
+            return InteractionResultHolder.fail(itemInHand);
+        }
+        FluidVariant resource = FluidUtils.findFirstResource(storage);
+        if (resource.isBlank()) {
+            return InteractionResultHolder.fail(itemInHand);
+        }
+        boolean result = fillFluid(itemInHand, resource.getFluid(), player);
+        if (result) {
+            return InteractionResultHolder.sidedSuccess(itemInHand, level.isClientSide());
+        }
+        sendActionBarMessage(player, "tooltip.kaleidoscope_cookery.teapot.add_tea_fluid.has_fluid");
+        return InteractionResultHolder.fail(itemInHand);
     }
 
-    protected boolean tryFillWithFluid(ItemStack teapotItem, ITeaFluid teaFluid, FluidState... fluidStates) {
-        List<FluidState> fluidStateList = Arrays.stream(fluidStates).toList();
-        // 若茶壶为空，遍历检查所有绑定有茶的流体类型
-        if (teaFluid.isEmpty()) {
-            for (Map.Entry<ResourceLocation, Fluid> entry : TeaFluidManager.getBoundFluidTypes().entrySet()) {
-                ITeaFluid type = TeaFluidManager.getTeaFluid(entry.getKey());
-                Fluid fluidType = TeaFluidManager.getBoundFluid(entry.getKey());
-                if (fluidType != null && fluidStateList.stream().anyMatch(s -> s.getType().isSame(fluidType))) {
-                    setFluidAmount(teapotItem, TeapotBlockEntity.MAX_FLUID_AMOUNT);
-                    setTeaFluid(teapotItem, type);
-                    return true;
-                }
-            }
-        } // 否则只检查茶壶装的流体
-        else {
-            Fluid fluidType = TeaFluidManager.getBoundFluid(teaFluid.name());
-            if (fluidType != null && fluidStateList.stream().anyMatch(s -> s.getType().isSame(fluidType))) {
-                setFluidAmount(teapotItem, TeapotBlockEntity.MAX_FLUID_AMOUNT);
-                return true;
-            }
+    @Override
+    public boolean isBarVisible(@NotNull ItemStack stack) {
+        // 两种情况显示进度条
+        // 1 准备阶段，装了流体
+        // 2 完成阶段，有产物
+        CompoundTag data = BlockItem.getBlockEntityData(stack);
+        if (data == null) {
+            return false;
+        }
+
+        int status = data.getInt(TeapotBlockEntity.STATUS);
+
+        if (status == ITeapot.PUT_INGREDIENT) {
+            String fluidId = StringUtils.defaultIfBlank(data.getString(TeapotBlockEntity.TEA_FLUID_ID), EMPTY_TEA_FLUID.toString());
+            return !fluidId.equals(EMPTY_TEA_FLUID.toString());
+        }
+
+        if (status == ITeapot.FINISHED) {
+            ItemStack result = ItemStack.of(data.getCompound(TeapotBlockEntity.RESULT));
+            return !result.isEmpty();
         }
 
         return false;
     }
 
     @Override
-    public @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity entity) {
-        if (getFluidAmount(stack) > 0) {
-            Vec3 start = entity.getEyePosition();
-            Vec3 direction = entity.getViewVector(1.0F);
-            Vec3 end = start.add(direction.scale(4.5));
-            BlockHitResult blockHit = level.clip(new ClipContext(start, end, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, entity));
-            ITeaFluid teaFluid = getTeaFluid(stack);
-            // 尝试向方块倒茶
-            if (blockHit.getType() == HitResult.Type.BLOCK) {
-                int consumed = teaFluid.onPouredOnBlock(level, blockHit, entity, stack);
-                if (consumed != 0) {
-                    shrinkFluidAmount(stack, consumed);
-                }
-            }
-        }
-        return stack;
-    }
-
-    @Override
-    protected boolean placeBlock(BlockPlaceContext context, @NotNull BlockState state) {
-        Player player = context.getPlayer();
-        // 只有潜行时允许放置
-        if (player != null && !player.isSecondaryUseActive()) {
-            return false;
-        }
-
-        return super.placeBlock(context, state);
-    }
-
-    @Override
-    protected boolean updateCustomBlockEntityTag(@NotNull BlockPos pos, Level level, @Nullable Player player, @NotNull ItemStack stack, @NotNull BlockState state) {
-        // 放置需要载入内含流体信息
-        if (level.getBlockEntity(pos) instanceof TeapotBlockEntity be) {
-            be.loadFromItem(stack);
-        }
-        return super.updateCustomBlockEntityTag(pos, level, player, stack, state);
-    }
-
-    @Override
-    public boolean isBarVisible(@NotNull ItemStack stack) {
-        return getFluidAmount(stack) > 0;
-    }
-
-    @Override
     public int getBarColor(@NotNull ItemStack stack) {
-        return getTeaFluid(stack).barColor();
+        CompoundTag data = BlockItem.getBlockEntityData(stack);
+        if (data == null) {
+            return 0x9df7ff;
+        }
+        String fluidId = StringUtils.defaultIfBlank(data.getString(TeapotBlockEntity.TEA_FLUID_ID), EMPTY_TEA_FLUID.toString());
+        if (fluidId.contains("milk")) {
+            return 0xf4eee1;
+        }
+        if (fluidId.contains("honey")) {
+            return 0xedce52;
+        }
+        if (fluidId.contains("lava")) {
+            return 0xe28120;
+        }
+        if (fluidId.contains("chocolate")) {
+            return 0x4c2807;
+        }
+        return 0x9df7ff;
     }
 
     @Override
     public int getBarWidth(@NotNull ItemStack stack) {
-        return Math.round((float)getFluidAmount(stack) * 13.0F / (float)TeapotBlockEntity.MAX_FLUID_AMOUNT);
+        CompoundTag data = BlockItem.getBlockEntityData(stack);
+        if (data == null) {
+            return 0;
+        }
+
+        int status = data.getInt(TeapotBlockEntity.STATUS);
+
+        if (status == ITeapot.PUT_INGREDIENT) {
+            String fluidId = StringUtils.defaultIfBlank(data.getString(TeapotBlockEntity.TEA_FLUID_ID), EMPTY_TEA_FLUID.toString());
+            if (fluidId.equals(EMPTY_TEA_FLUID.toString())) {
+                return 0;
+            }
+            return 13;
+        }
+
+        if (status == ITeapot.FINISHED) {
+            ItemStack result = ItemStack.of(data.getCompound(TeapotBlockEntity.RESULT));
+            if (result.isEmpty()) {
+                return 0;
+            }
+            // 进度条长度根据剩余产物数量占总量的比例来计算，满了是13格
+            int count = result.getCount();
+            return Math.round(13.0F * count / TeapotRecipe.OUTPUT_COUNT);
+        }
+
+        return 0;
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.translatable("tea_fluid.%s.name".formatted(getTeaFluid(stack).name().toLanguageKey())).withStyle(ChatFormatting.GRAY));
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> list, @NotNull TooltipFlag pFlag) {
+        // 如果是成品阶段，那么显示成品信息
+        CompoundTag data = BlockItem.getBlockEntityData(pStack);
+        if (data == null) {
+            return;
+        }
+
+        int status = data.getInt(TeapotBlockEntity.STATUS);
+        if (status == ITeapot.PUT_INGREDIENT) {
+            String fluidId = StringUtils.defaultIfBlank(data.getString(TeapotBlockEntity.TEA_FLUID_ID), EMPTY_TEA_FLUID.toString());
+            if (fluidId.equals(EMPTY_TEA_FLUID.toString())) {
+                return;
+            }
+            ResourceLocation key = new ResourceLocation(fluidId);
+            Fluid fluid = BuiltInRegistries.FLUID.get(key);
+            list.add(FluidVariantAttributes.getName(FluidVariant.of(fluid)).copy().withStyle(ChatFormatting.GRAY));
+        }
+
+        if (status == ITeapot.FINISHED) {
+            ItemStack result = ItemStack.of(data.getCompound(TeapotBlockEntity.RESULT));
+            if (result.isEmpty()) {
+                return;
+            }
+            Component resultComponent = ComponentUtils.formatList(Arrays.asList(
+                    result.getHoverName(),
+                    Component.literal("x%d".formatted(result.getCount()))
+            ), CommonComponents.space(), Function.identity()).withStyle(ChatFormatting.GRAY);
+            list.add(resultComponent);
+        }
     }
 }

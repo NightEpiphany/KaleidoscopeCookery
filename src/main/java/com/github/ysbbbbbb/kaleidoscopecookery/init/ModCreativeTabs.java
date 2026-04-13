@@ -2,6 +2,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.init;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.FoodBiteRegistry;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.TeacupRegistry;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -38,7 +39,6 @@ public class ModCreativeTabs {
                     output.accept(ModItems.MILLSTONE);
                     output.accept(ModItems.STEAMER);
                     output.accept(ModItems.TEAPOT);
-                    output.accept(ModItems.TEACUP);
                     output.accept(ModItems.KITCHENWARE_RACKS);
                     output.accept(ModItems.FRUIT_BASKET);
                     output.accept(ModItems.SCARECROW);
@@ -190,9 +190,12 @@ public class ModCreativeTabs {
                         var foodItem = BuiltInRegistries.ITEM.get(foodName);
                         output.accept(foodItem);
                     });
-                    // 茶
-                    output.accept(ModItems.TIEGUANYIN);
-                    output.accept(ModItems.FLOWER_TEA);
+                    // 茶水
+                    output.accept(ModItems.EMPTY_CUP);
+                    TeacupRegistry.TEACUP_DATA_MAP.keySet().forEach(teacupName -> {
+                        var teacupItem = BuiltInRegistries.ITEM.get(teacupName);
+                        output.accept(teacupItem);
+                    });
                 }).build());
     }
 }

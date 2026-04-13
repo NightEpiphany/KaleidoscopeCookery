@@ -96,7 +96,7 @@ public interface ModFoods {
     // 驴肉火烧
     FoodProperties DONKEY_BURGER = (new FoodProperties.Builder())
             .nutrition(12).saturationMod(0.8F)
-            .effect(new MobEffectInstance(SATIATED_SHIELD, 45 * 20), 1.0F)
+            .effect(new MobEffectInstance(SATIATED_SHIELD.get(), 45 * 20), 1.0F)
             .alwaysEat().build();
 
     // 包子
@@ -108,7 +108,7 @@ public interface ModFoods {
     // 饺子
     FoodProperties DUMPLING = (new FoodProperties.Builder())
             .nutrition(8).saturationMod(1)
-            .effect(new MobEffectInstance(WARMTH, 80 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 80 * 20), 1.0F)
             .alwaysEat().build();
 
     // 烤包子
@@ -125,25 +125,25 @@ public interface ModFoods {
     // 馅饼
     FoodProperties MEAT_PIE = (new FoodProperties.Builder())
             .nutrition(8).saturationMod(1)
-            .effect(new MobEffectInstance(WARMTH, 80 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 80 * 20), 1.0F)
             .alwaysEat().build();
 
     // 牛肉面
     FoodProperties BEEF_NOODLE = (new FoodProperties.Builder())
             .nutrition(14).saturationMod(0.643f)
-            .effect(new MobEffectInstance(WARMTH, 3 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 3 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 烩面
     FoodProperties HUI_NOODLE = (new FoodProperties.Builder())
             .nutrition(14).saturationMod(0.643f)
-            .effect(new MobEffectInstance(WARMTH, 3 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 3 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 乌冬面
     FoodProperties UDON_NOODLE = (new FoodProperties.Builder())
             .nutrition(14).saturationMod(0.643f)
-            .effect(new MobEffectInstance(WARMTH, 3 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 3 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 煎蛋
@@ -188,56 +188,56 @@ public interface ModFoods {
     // 粘液饭
     FoodProperties SLIME_BALL_MEAL_BLOCK = (new FoodProperties.Builder())
             .nutrition(3).saturationMod(0)
-            .effect(new MobEffectInstance(FLATULENCE, 35 * 20), 1)
+            .effect(new MobEffectInstance(FLATULENCE.get(), 35 * 20), 1)
             .alwaysEat().build();
 
     FoodProperties SLIME_BALL_MEAL_ITEM = (new FoodProperties.Builder())
             .nutrition(9).saturationMod(0)
-            .effect(new MobEffectInstance(FLATULENCE, 35 * 20), 1)
+            .effect(new MobEffectInstance(FLATULENCE.get(), 35 * 20), 1)
             .alwaysEat().build();
 
     // 翻糖派
     FoodProperties FONDANT_PIE_BLOCK = (new FoodProperties.Builder())
             .nutrition(5).saturationMod(0.55F)
-            .effect(new MobEffectInstance(SATIATED_SHIELD, 80 * 20), 1.0F)
+            .effect(new MobEffectInstance(SATIATED_SHIELD.get(), 80 * 20), 1.0F)
             .alwaysEat().build();
 
     FoodProperties FONDANT_PIE_ITEM = (new FoodProperties.Builder())
             .nutrition(20).saturationMod(0.55F)
-            .effect(new MobEffectInstance(SATIATED_SHIELD, 80 * 20), 1.0F)
+            .effect(new MobEffectInstance(SATIATED_SHIELD.get(), 80 * 20), 1.0F)
             .alwaysEat().build();
 
     // 东坡肉
     FoodProperties DONGPO_PORK_BLOCK = (new FoodProperties.Builder())
             .nutrition(7).saturationMod(0.521f)
-            .effect(new MobEffectInstance(SATIATED_SHIELD, 80 * 20), 1.0F)
+            .effect(new MobEffectInstance(SATIATED_SHIELD.get(), 80 * 20), 1.0F)
             .alwaysEat().build();
 
     FoodProperties DONGPO_PORK_ITEM = (new FoodProperties.Builder())
             .nutrition(20).saturationMod(0.55f)
-            .effect(new MobEffectInstance(SATIATED_SHIELD, 80 * 20), 1.0F)
+            .effect(new MobEffectInstance(SATIATED_SHIELD.get(), 80 * 20), 1.0F)
             .alwaysEat().build();
 
     // 翻糖蛛眼
     FoodProperties FONDANT_SPIDER_EYE_BLOCK = (new FoodProperties.Builder())
             .nutrition(2).saturationMod(0)
-            .effect(new MobEffectInstance(FLATULENCE, 35 * 20), 1.0F)
+            .effect(new MobEffectInstance(FLATULENCE.get(), 35 * 20), 1.0F)
             .alwaysEat().build();
 
     FoodProperties FONDANT_SPIDER_EYE_ITEM = (new FoodProperties.Builder())
             .nutrition(8).saturationMod(0)
-            .effect(new MobEffectInstance(FLATULENCE, 35 * 20), 1.0F)
+            .effect(new MobEffectInstance(FLATULENCE.get(), 35 * 20), 1.0F)
             .alwaysEat().build();
 
     // 荷包紫颂烧
     FoodProperties CHORUS_FRIED_EGG_BLOCK = (new FoodProperties.Builder())
             .nutrition(3).saturationMod(0)
-            .effect(new MobEffectInstance(FLATULENCE, 35 * 20), 1.0F)
+            .effect(new MobEffectInstance(FLATULENCE.get(), 35 * 20), 1.0F)
             .alwaysEat().build();
 
     FoodProperties CHORUS_FRIED_EGG_ITEM = (new FoodProperties.Builder())
             .nutrition(9).saturationMod(0)
-            .effect(new MobEffectInstance(FLATULENCE, 35 * 20), 1.0F)
+            .effect(new MobEffectInstance(FLATULENCE.get(), 35 * 20), 1.0F)
             .alwaysEat().build();
 
     // 红烧鱼
@@ -267,23 +267,23 @@ public interface ModFoods {
     // 辣子鸡
     FoodProperties SPICY_CHICKEN_BLOCK = (new FoodProperties.Builder())
             .nutrition(5).saturationMod(0.55F)
-            .effect(new MobEffectInstance(SATIATED_SHIELD, 80 * 20), 1.0F)
+            .effect(new MobEffectInstance(SATIATED_SHIELD.get(), 80 * 20), 1.0F)
             .alwaysEat().build();
 
     FoodProperties SPICY_CHICKEN_ITEM = (new FoodProperties.Builder())
             .nutrition(20).saturationMod(0.55F)
-            .effect(new MobEffectInstance(SATIATED_SHIELD, 80 * 20), 1.0F)
+            .effect(new MobEffectInstance(SATIATED_SHIELD.get(), 80 * 20), 1.0F)
             .alwaysEat().build();
 
     // 烧鸟串
     FoodProperties YAKITORI_BLOCK = (new FoodProperties.Builder())
             .nutrition(5).saturationMod(0.55F)
-            .effect(new MobEffectInstance(SATIATED_SHIELD, 80 * 20), 1.0F)
+            .effect(new MobEffectInstance(SATIATED_SHIELD.get(), 80 * 20), 1.0F)
             .alwaysEat().build();
 
     FoodProperties YAKITORI_ITEM = (new FoodProperties.Builder())
             .nutrition(20).saturationMod(0.55F)
-            .effect(new MobEffectInstance(SATIATED_SHIELD, 80 * 20), 1.0F)
+            .effect(new MobEffectInstance(SATIATED_SHIELD.get(), 80 * 20), 1.0F)
             .alwaysEat().build();
 
     // 水晶羊排
@@ -300,48 +300,48 @@ public interface ModFoods {
     // 下界风味刺身
     FoodProperties NETHER_STYLE_SASHIMI_BLOCK = (new FoodProperties.Builder())
             .nutrition(4).saturationMod(0.1875F)
-            .effect(new MobEffectInstance(MUSTARD, 5 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(MUSTARD.get(), 5 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     FoodProperties NETHER_STYLE_SASHIMI_ITEM = (new FoodProperties.Builder())
             .nutrition(16).saturationMod(0.1875F)
-            .effect(new MobEffectInstance(MUSTARD, 5 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(MUSTARD.get(), 5 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 香煎骑士牛排
     FoodProperties PAN_SEARED_KNIGHT_STEAK_BLOCK = (new FoodProperties.Builder())
             .nutrition(4).saturationMod(0.625F)
-            .effect(new MobEffectInstance(SATIATED_SHIELD, 1800), 1.0F)
-            .effect(new MobEffectInstance(WARMTH, 800), 1.0F)
+            .effect(new MobEffectInstance(SATIATED_SHIELD.get(), 1800), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 800), 1.0F)
             .alwaysEat().build();
 
     FoodProperties PAN_SEARED_KNIGHT_STEAK_ITEM = (new FoodProperties.Builder())
             .nutrition(13).saturationMod(0.615F)
-            .effect(new MobEffectInstance(SATIATED_SHIELD, 1800), 1.0F)
+            .effect(new MobEffectInstance(SATIATED_SHIELD.get(), 1800), 1.0F)
             .alwaysEat().build();
 
     // 仰望星空派
     FoodProperties STARGAZY_PIE_BLOCK = (new FoodProperties.Builder())
             .nutrition(3).saturationMod(0.667f)
-            .effect(new MobEffectInstance(FLATULENCE, 600), 1.0F)
+            .effect(new MobEffectInstance(FLATULENCE.get(), 600), 1.0F)
             .effect(new MobEffectInstance(UNLUCK, 3600), 1.0F)
             .alwaysEat().build();
 
     FoodProperties STARGAZY_PIE_ITEM = (new FoodProperties.Builder())
             .nutrition(13).saturationMod(0.615F)
-            .effect(new MobEffectInstance(FLATULENCE, 600), 1.0F)
+            .effect(new MobEffectInstance(FLATULENCE.get(), 600), 1.0F)
             .effect(new MobEffectInstance(UNLUCK, 3600), 1.0F)
             .alwaysEat().build();
 
     // 珍珠咕噜肉
     FoodProperties SWEET_AND_SOUR_ENDER_PEARLS_BLOCK = (new FoodProperties.Builder())
             .nutrition(3).saturationMod(0)
-            .effect(new MobEffectInstance(FLATULENCE, 35 * 20), 1.0F)
+            .effect(new MobEffectInstance(FLATULENCE.get(), 35 * 20), 1.0F)
             .alwaysEat().build();
 
     FoodProperties SWEET_AND_SOUR_ENDER_PEARLS_ITEM = (new FoodProperties.Builder())
             .nutrition(9).saturationMod(0)
-            .effect(new MobEffectInstance(FLATULENCE, 35 * 20), 1.0F)
+            .effect(new MobEffectInstance(FLATULENCE.get(), 35 * 20), 1.0F)
             .alwaysEat().build();
 
     // 烈焰羊排
@@ -358,109 +358,109 @@ public interface ModFoods {
     // 凛冬羊排
     FoodProperties FROST_LAMB_CHOP_BLOCK = (new FoodProperties.Builder())
             .nutrition(4).saturationMod(0.625f)
-            .effect(new MobEffectInstance(TUNDRA_STRIDER, 1600), 1.0F)
+            .effect(new MobEffectInstance(TUNDRA_STRIDER.get(), 1600), 1.0F)
             .alwaysEat().build();
 
     FoodProperties FROST_LAMB_CHOP_ITEM = (new FoodProperties.Builder())
             .nutrition(13).saturationMod(0.615F)
-            .effect(new MobEffectInstance(TUNDRA_STRIDER, 1600), 1.0F)
+            .effect(new MobEffectInstance(TUNDRA_STRIDER.get(), 1600), 1.0F)
             .alwaysEat().build();
 
     // 末地风味刺身
     FoodProperties END_STYLE_SASHIMI_BLOCK = (new FoodProperties.Builder())
             .nutrition(4).saturationMod(0.1875F)
-            .effect(new MobEffectInstance(MUSTARD, 5 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(MUSTARD.get(), 5 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     FoodProperties END_STYLE_SASHIMI_ITEM = (new FoodProperties.Builder())
             .nutrition(16).saturationMod(0.1875F)
-            .effect(new MobEffectInstance(MUSTARD, 5 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(MUSTARD.get(), 5 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 沙漠风味刺身
     FoodProperties DESERT_STYLE_SASHIMI_BLOCK = (new FoodProperties.Builder())
             .nutrition(4).saturationMod(0.1875F)
-            .effect(new MobEffectInstance(MUSTARD, 5 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(MUSTARD.get(), 5 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     FoodProperties DESERT_STYLE_SASHIMI_ITEM = (new FoodProperties.Builder())
             .nutrition(16).saturationMod(0.1875F)
-            .effect(new MobEffectInstance(MUSTARD, 5 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(MUSTARD.get(), 5 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 苔原风味刺身
     FoodProperties TUNDRA_STYLE_SASHIMI_BLOCK = (new FoodProperties.Builder())
             .nutrition(4).saturationMod(0.1875F)
-            .effect(new MobEffectInstance(MUSTARD, 5 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(MUSTARD.get(), 5 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     FoodProperties TUNDRA_STYLE_SASHIMI_ITEM = (new FoodProperties.Builder())
             .nutrition(16).saturationMod(0.1875F)
-            .effect(new MobEffectInstance(MUSTARD, 5 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(MUSTARD.get(), 5 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 寒带风味刺身
     FoodProperties COLD_STYLE_SASHIMI_BLOCK = (new FoodProperties.Builder())
             .nutrition(4).saturationMod(0.1875F)
-            .effect(new MobEffectInstance(MUSTARD, 5 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(MUSTARD.get(), 5 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     FoodProperties COLD_STYLE_SASHIMI_ITEM = (new FoodProperties.Builder())
             .nutrition(16).saturationMod(0.1875F)
-            .effect(new MobEffectInstance(MUSTARD, 5 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(MUSTARD.get(), 5 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 水煎包
     FoodProperties SHENGJIAN_MANTOU_ITEM = (new FoodProperties.Builder())
             .nutrition(8).saturationMod(1)
-            .effect(new MobEffectInstance(WARMTH, 80 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 80 * 20), 1.0F)
             .alwaysEat().build();
 
     FoodProperties SHENGJIAN_MANTOU_BLOCK = (new FoodProperties.Builder())
             .nutrition(2).saturationMod(1)
-            .effect(new MobEffectInstance(WARMTH, 6000), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 6000), 1.0F)
             .alwaysEat().build();
 
     // 番茄炒蛋
     FoodProperties SCRAMBLE_EGG_WITH_TOMATOES = (new FoodProperties.Builder())
             .nutrition(9).saturationMod(0.611f)
-            .effect(new MobEffectInstance(VIGOR, 90 * 20), 1.0F)
+            .effect(new MobEffectInstance(VIGOR.get(), 90 * 20), 1.0F)
             .alwaysEat().build();
 
     // 爆炒牛杂
     FoodProperties STIR_FRIED_BEEF_OFFAL = (new FoodProperties.Builder())
             .nutrition(9).saturationMod(0.611f)
-            .effect(new MobEffectInstance(VIGOR, 90 * 20), 1.0F)
+            .effect(new MobEffectInstance(VIGOR.get(), 90 * 20), 1.0F)
             .alwaysEat().build();
 
     // 红烧牛肉
     FoodProperties BRAISED_BEEF = (new FoodProperties.Builder())
             .nutrition(9).saturationMod(0.611f)
-            .effect(new MobEffectInstance(VIGOR, 90 * 20), 1.0F)
+            .effect(new MobEffectInstance(VIGOR.get(), 90 * 20), 1.0F)
             .alwaysEat().build();
 
     // 青椒炒肉
     FoodProperties STIR_FRIED_PORK_WITH_PEPPERS = (new FoodProperties.Builder())
             .nutrition(9).saturationMod(0.611f)
-            .effect(new MobEffectInstance(VIGOR, 90 * 20), 1.0F)
+            .effect(new MobEffectInstance(VIGOR.get(), 90 * 20), 1.0F)
             .alwaysEat().build();
 
     // 糖醋里脊
     FoodProperties SWEET_AND_SOUR_PORK = (new FoodProperties.Builder())
             .nutrition(9).saturationMod(0.611f)
-            .effect(new MobEffectInstance(VIGOR, 90 * 20), 1.0F)
+            .effect(new MobEffectInstance(VIGOR.get(), 90 * 20), 1.0F)
             .alwaysEat().build();
 
     // 鱼香肉丝
     FoodProperties FISH_FLAVORED_SHREDDED_PORK = (new FoodProperties.Builder())
             .nutrition(9).saturationMod(0.611f)
-            .effect(new MobEffectInstance(VIGOR, 90 * 20), 1.0F)
+            .effect(new MobEffectInstance(VIGOR.get(), 90 * 20), 1.0F)
             .alwaysEat().build();
 
     // 田园杂蔬
     FoodProperties COUNTRY_STYLE_MIXED_VEGETABLES = (new FoodProperties.Builder())
             .nutrition(9).saturationMod(0.611f)
-            .effect(new MobEffectInstance(PRESERVATION, 90 * 20), 1.0F)
+            .effect(new MobEffectInstance(PRESERVATION.get(), 90 * 20), 1.0F)
             .alwaysEat().build();
 
     // 米饭
@@ -476,7 +476,7 @@ public interface ModFoods {
     // 美味蛋炒饭
     FoodProperties DELICIOUS_EGG_FRIED_RICE = (new FoodProperties.Builder())
             .nutrition(12).saturationMod(0.667f)
-            .effect(new MobEffectInstance(WARMTH, 3 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 3 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 谜之炒菜盖饭
@@ -493,55 +493,55 @@ public interface ModFoods {
     // 番茄炒蛋盖饭
     FoodProperties SCRAMBLE_EGG_WITH_TOMATOES_RICE_BOWL = (new FoodProperties.Builder())
             .nutrition(14).saturationMod(0.643f)
-            .effect(new MobEffectInstance(SATIATED_SHIELD, 3 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(SATIATED_SHIELD.get(), 3 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 爆炒牛杂盖饭
     FoodProperties STIR_FRIED_BEEF_OFFAL_RICE_BOWL = (new FoodProperties.Builder())
             .nutrition(14).saturationMod(0.643f)
-            .effect(new MobEffectInstance(SATIATED_SHIELD, 3 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(SATIATED_SHIELD.get(), 3 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 红烧牛肉盖饭
     FoodProperties BRAISED_BEEF_RICE_BOWL = (new FoodProperties.Builder())
             .nutrition(14).saturationMod(0.643f)
-            .effect(new MobEffectInstance(SATIATED_SHIELD, 3 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(SATIATED_SHIELD.get(), 3 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 青椒炒肉盖饭
     FoodProperties STIR_FRIED_PORK_WITH_PEPPERS_RICE_BOWL = (new FoodProperties.Builder())
             .nutrition(14).saturationMod(0.643f)
-            .effect(new MobEffectInstance(SATIATED_SHIELD, 3 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(SATIATED_SHIELD.get(), 3 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 糖醋里脊盖饭
     FoodProperties SWEET_AND_SOUR_PORK_RICE_BOWL = (new FoodProperties.Builder())
             .nutrition(14).saturationMod(0.643f)
-            .effect(new MobEffectInstance(SATIATED_SHIELD, 3 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(SATIATED_SHIELD.get(), 3 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 鱼香肉丝盖饭
     FoodProperties FISH_FLAVORED_SHREDDED_PORK_RICE_BOWL = (new FoodProperties.Builder())
             .nutrition(14).saturationMod(0.643f)
-            .effect(new MobEffectInstance(SATIATED_SHIELD, 3 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(SATIATED_SHIELD.get(), 3 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 红烧鱼盖饭
     FoodProperties BRAISED_FISH_RICE_BOWL = (new FoodProperties.Builder())
             .nutrition(14).saturationMod(0.643f)
-            .effect(new MobEffectInstance(SATIATED_SHIELD, 3 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(SATIATED_SHIELD.get(), 3 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 辣子鸡盖饭
     FoodProperties SPICY_CHICKEN_RICE_BOWL = (new FoodProperties.Builder())
             .nutrition(14).saturationMod(0.643f)
-            .effect(new MobEffectInstance(SATIATED_SHIELD, 3 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(SATIATED_SHIELD.get(), 3 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 大骨汤
     FoodProperties PORK_BONE_SOUP = (new FoodProperties.Builder())
             .nutrition(6).saturationMod(0.667f)
-            .effect(new MobEffectInstance(VIGOR, 5 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(VIGOR.get(), 5 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 海鲜味噌汤
@@ -553,19 +553,19 @@ public interface ModFoods {
     // 恐惧浓汤
     FoodProperties FEARSOME_THICK_SOUP = (new FoodProperties.Builder())
             .nutrition(4).saturationMod(0)
-            .effect(new MobEffectInstance(SULFUR, 8 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(SULFUR.get(), 8 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 萝卜羊肉汤
     FoodProperties LAMB_AND_RADISH_SOUP = (new FoodProperties.Builder())
             .nutrition(6).saturationMod(0.667f)
-            .effect(new MobEffectInstance(TUNDRA_STRIDER, 5 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(TUNDRA_STRIDER.get(), 5 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 土豆炖牛肉
     FoodProperties BRAISED_BEEF_WITH_POTATOES = (new FoodProperties.Builder())
             .nutrition(6).saturationMod(0.667f)
-            .effect(new MobEffectInstance(WARMTH, 8 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 8 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 野菌兔肉汤
@@ -577,92 +577,92 @@ public interface ModFoods {
     // 番茄牛腩汤
     FoodProperties TOMATO_BEEF_BRISKET_SOUP = (new FoodProperties.Builder())
             .nutrition(6).saturationMod(0.667f)
-            .effect(new MobEffectInstance(WARMTH, 8 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 8 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 河豚汤
     FoodProperties PUFFERFISH_SOUP = (new FoodProperties.Builder())
             .nutrition(4).saturationMod(0)
-            .effect(new MobEffectInstance(MUSTARD, 10 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(MUSTARD.get(), 10 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 罗宋汤
     FoodProperties BORSCHT = (new FoodProperties.Builder())
             .nutrition(6).saturationMod(0.667f)
-            .effect(new MobEffectInstance(FLATULENCE, 3 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(FLATULENCE.get(), 3 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 牛丸汤
     FoodProperties BEEF_MEATBALL_SOUP = (new FoodProperties.Builder())
             .nutrition(6).saturationMod(0.667f)
-            .effect(new MobEffectInstance(WARMTH, 8 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 8 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 小鸡炖蘑菇
     FoodProperties CHICKEN_AND_MUSHROOM_STEW = (new FoodProperties.Builder())
             .nutrition(6).saturationMod(0.667f)
-            .effect(new MobEffectInstance(WARMTH, 8 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 8 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 驴肉汤
     FoodProperties DONKEY_SOUP = (new FoodProperties.Builder())
             .nutrition(6).saturationMod(0.667f)
-            .effect(new MobEffectInstance(WARMTH, 8 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 8 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 拔丝土豆
     FoodProperties CANDIED_POTATO_BLOCK = (new FoodProperties.Builder())
             .nutrition(5).saturationMod(0.55F)
-            .effect(new MobEffectInstance(WARMTH, 80 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 80 * 20), 1.0F)
             .alwaysEat().build();
 
     FoodProperties CANDIED_POTATO_ITEM = (new FoodProperties.Builder())
             .nutrition(20).saturationMod(0.55F)
-            .effect(new MobEffectInstance(WARMTH, 80 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 80 * 20), 1.0F)
             .alwaysEat().build();
 
     // 疙瘩汤
     FoodProperties DOUGH_DROP_SOUP_BLOCK = (new FoodProperties.Builder())
             .nutrition(2).saturationMod(1)
-            .effect(new MobEffectInstance(WARMTH, 80 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 80 * 20), 1.0F)
             .alwaysEat().build();
 
     FoodProperties DOUGH_DROP_SOUP_ITEM = (new FoodProperties.Builder())
             .nutrition(8).saturationMod(1)
-            .effect(new MobEffectInstance(WARMTH, 80 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 80 * 20), 1.0F)
             .alwaysEat().build();
 
     // 虎皮青椒酿肉
     FoodProperties STUFFED_TIGER_SKIN_PEPPER_BLOCK = (new FoodProperties.Builder())
             .nutrition(3).saturationMod(0.667F)
-            .effect(new MobEffectInstance(WARMTH, 80 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 80 * 20), 1.0F)
             .alwaysEat().build();
 
     FoodProperties STUFFED_TIGER_SKIN_PEPPER_ITEM = (new FoodProperties.Builder())
             .nutrition(13).saturationMod(0.615F)
-            .effect(new MobEffectInstance(WARMTH, 80 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 80 * 20), 1.0F)
             .alwaysEat().build();
 
     // 麻辣兔头
     FoodProperties SPICY_RABBIT_HEAD_BLOCK = (new FoodProperties.Builder())
             .nutrition(3).saturationMod(0.667F)
-            .effect(new MobEffectInstance(WARMTH, 80 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 80 * 20), 1.0F)
             .alwaysEat().build();
 
     FoodProperties SPICY_RABBIT_HEAD_ITEM = (new FoodProperties.Builder())
             .nutrition(13).saturationMod(0.615F)
-            .effect(new MobEffectInstance(WARMTH, 80 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 80 * 20), 1.0F)
             .alwaysEat().build();
 
     // 四喜丸子汤
     FoodProperties FOUR_JOY_MEATBALL_SOUP_BLOCK = (new FoodProperties.Builder())
             .nutrition(3).saturationMod(0.667F)
-            .effect(new MobEffectInstance(WARMTH, 80 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 80 * 20), 1.0F)
             .alwaysEat().build();
 
     FoodProperties FOUR_JOY_MEATBALL_SOUP_ITEM = (new FoodProperties.Builder())
             .nutrition(13).saturationMod(0.615F)
-            .effect(new MobEffectInstance(WARMTH, 80 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 80 * 20), 1.0F)
             .alwaysEat().build();
 
     // 椒麻鸡
@@ -679,23 +679,23 @@ public interface ModFoods {
     // 油炸猪儿虫
     FoodProperties FRIED_CATERPILLAR_BLOCK = (new FoodProperties.Builder())
             .nutrition(4).saturationMod(0.8F)
-            .effect(new MobEffectInstance(FLATULENCE, 10 * 20), 1.0F)
+            .effect(new MobEffectInstance(FLATULENCE.get(), 10 * 20), 1.0F)
             .alwaysEat().build();
 
     FoodProperties FRIED_CATERPILLAR_ITEM = (new FoodProperties.Builder())
             .nutrition(12).saturationMod(0.8F)
-            .effect(new MobEffectInstance(FLATULENCE, 10 * 20), 1.0F)
+            .effect(new MobEffectInstance(FLATULENCE.get(), 10 * 20), 1.0F)
             .alwaysEat().build();
 
     // 炸春卷
     FoodProperties FRIED_SPRING_ROLL_BLOCK = (new FoodProperties.Builder())
             .nutrition(3).saturationMod(0.667F)
-            .effect(new MobEffectInstance(WARMTH, 80 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 80 * 20), 1.0F)
             .alwaysEat().build();
 
     FoodProperties FRIED_SPRING_ROLL_ITEM = (new FoodProperties.Builder())
             .nutrition(13).saturationMod(0.615F)
-            .effect(new MobEffectInstance(WARMTH, 80 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 80 * 20), 1.0F)
             .alwaysEat().build();
 
     // 毛血旺
@@ -721,23 +721,23 @@ public interface ModFoods {
     // 棕色蘑菇瓦罐汤
     FoodProperties BROWN_MUSHROOM_POT_SOUP_BLOCK = (new FoodProperties.Builder())
             .nutrition(6).saturationMod(0.667F)
-            .effect(new MobEffectInstance(WARMTH, 5 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 5 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     FoodProperties BROWN_MUSHROOM_POT_SOUP_ITEM = (new FoodProperties.Builder())
             .nutrition(18).saturationMod(0.667F)
-            .effect(new MobEffectInstance(WARMTH, 5 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 5 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 红色蘑菇瓦罐汤
     FoodProperties RED_MUSHROOM_POT_SOUP_BLOCK = (new FoodProperties.Builder())
             .nutrition(6).saturationMod(0.667F)
-            .effect(new MobEffectInstance(WARMTH, 5 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 5 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     FoodProperties RED_MUSHROOM_POT_SOUP_ITEM = (new FoodProperties.Builder())
             .nutrition(18).saturationMod(0.667F)
-            .effect(new MobEffectInstance(WARMTH, 5 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 5 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 诡异菌瓦罐汤
@@ -765,23 +765,23 @@ public interface ModFoods {
     // 佛跳墙
     FoodProperties BUDDHA_JUMPS_OVER_THE_WALL_BLOCK = (new FoodProperties.Builder())
             .nutrition(7).saturationMod(0.521f)
-            .effect(new MobEffectInstance(SATIATED_SHIELD, 3 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(SATIATED_SHIELD.get(), 3 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     FoodProperties BUDDHA_JUMPS_OVER_THE_WALL_ITEM = (new FoodProperties.Builder())
             .nutrition(20).saturationMod(0.55F)
-            .effect(new MobEffectInstance(SATIATED_SHIELD, 3 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(SATIATED_SHIELD.get(), 3 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 红烧排骨
     FoodProperties BRAISED_PORK_RIBS_BLOCK = (new FoodProperties.Builder())
             .nutrition(4).saturationMod(0.8f)
-            .effect(new MobEffectInstance(WARMTH, 80 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 80 * 20), 1.0F)
             .alwaysEat().build();
 
     FoodProperties BRAISED_PORK_RIBS_ITEM = (new FoodProperties.Builder())
             .nutrition(16).saturationMod(0.8f)
-            .effect(new MobEffectInstance(WARMTH, 80 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 80 * 20), 1.0F)
             .alwaysEat().build();
 
     // 冷肉炙
@@ -796,12 +796,12 @@ public interface ModFoods {
     // 油泼鱼: oil_splashed_fish
     FoodProperties OIL_SPLASHED_FISH_BLOCK = (new FoodProperties.Builder())
             .nutrition(3).saturationMod(0.667F)
-            .effect(new MobEffectInstance(WARMTH, 80 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 80 * 20), 1.0F)
             .alwaysEat().build();
 
     FoodProperties OIL_SPLASHED_FISH_ITEM = (new FoodProperties.Builder())
             .nutrition(13).saturationMod(0.615F)
-            .effect(new MobEffectInstance(WARMTH, 80 * 20), 1.0F)
+            .effect(new MobEffectInstance(WARMTH.get(), 80 * 20), 1.0F)
             .alwaysEat().build();
 
     // 冷切火腿片，只有方块形态才能进食

@@ -33,21 +33,21 @@ public class ProjectileDodgeEvent {
         HitResult hit = event.getRayTraceResult();
         if (hit instanceof EntityHitResult hitResult
                 && hitResult.getEntity() instanceof LivingEntity living
-                && living.hasEffect(ModEffects.PROJECTILE_DODGE)
+                && living.hasEffect(ModEffects.PROJECTILE_DODGE.get())
         ) {
             // 取消弹射物碰撞并随机传送
             event.setImpactResult(ProjectileImpactEvent.ImpactResult.SKIP_ENTITY);
             randomTeleport(living.level(), living, 0.5, 2, 16);
 
             // 消耗持续时间
-            MobEffectInstance instance = living.getEffect(ModEffects.PROJECTILE_DODGE);
+            MobEffectInstance instance = living.getEffect(ModEffects.PROJECTILE_DODGE.get());
             if (instance != null) {
                 // 如果是无限时间，不扣除
                 if (instance.isInfiniteDuration()){
                     return;
                 }
                 if (instance.getDuration() <= DODGE_COST) {
-                    living.removeEffect(ModEffects.PROJECTILE_DODGE);
+                    living.removeEffect(ModEffects.PROJECTILE_DODGE.get());
                 } else {
                     instance.duration -= DODGE_COST;
                     living.forceAddEffect(instance, null);

@@ -146,7 +146,6 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
 
         // 如果实体带有库存，那么可以尝试往磨盘里放物品
         if (this.bindEntity.tickCount % 10 == 0 && this.output.isEmpty() && this.input.isEmpty() && this.progress <= 0) {
-            boolean[] entityHasInventory = new boolean[1];
             // Fabric暂时只能支持驴和骡使用物品栏
             if (bindEntity instanceof AbstractChestedHorse chestedHorse) {
                 ItemStackHandler handler = new ItemStackHandler(chestedHorse.inventory.items);

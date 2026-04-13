@@ -33,7 +33,7 @@ public class FlatulenceMessage implements FabricPacket, ServerPlayNetworking.Pla
 
     @Override
     public void receive(FlatulenceMessage packet, ServerPlayer player, PacketSender responseSender) {
-        if (player != null && player.hasEffect(ModEffects.FLATULENCE)) {
+        if (player != null && player.hasEffect(ModEffects.FLATULENCE.get())) {
             ServerLevel serverLevel = player.serverLevel();
             serverLevel.sendParticles(ParticleTypes.CLOUD,
                     player.getX(), player.getY() + 0.25, player.getZ(),

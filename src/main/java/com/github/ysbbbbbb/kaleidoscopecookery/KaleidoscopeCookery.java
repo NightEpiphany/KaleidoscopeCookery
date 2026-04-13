@@ -1,5 +1,6 @@
 package com.github.ysbbbbbb.kaleidoscopecookery;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.TeapotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.config.GeneralConfig;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.ExtraLootTableDrop;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.*;
@@ -23,6 +24,7 @@ public class KaleidoscopeCookery implements ModInitializer {
         ModTrigger.init();
         ModBlocks.registerBlocks();
         ModItems.registerItems();
+        TeapotBlockEntity.registerFluidStorage();
         ModEntities.registerEntities();
         ModEffects.registerEffects();
         ModPoi.registerPoiTypes();

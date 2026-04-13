@@ -21,7 +21,7 @@ public abstract class LivingEntityMixin extends Entity {
     @Inject(method = "getBlockSpeedFactor()F", at = @At("HEAD"), cancellable = true)
     private void onGetBlockSpeedFactor(CallbackInfoReturnable<Float> cir) {
         LivingEntity entity = (LivingEntity) (Object) this;
-        if (entity.hasEffect(ModEffects.TUNDRA_STRIDER)) {
+        if (entity.hasEffect(ModEffects.TUNDRA_STRIDER.get())) {
             BlockState blockState = this.level().getBlockState(this.getBlockPosBelowThatAffectsMyMovement());
             if (blockState.is(TagMod.TUNDRA_STRIDER_SPEED_BLOCKS)) {
                 float friction = blockState.getBlock().getFriction();

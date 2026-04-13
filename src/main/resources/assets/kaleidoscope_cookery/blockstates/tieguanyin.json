@@ -1,603 +1,303 @@
 {
   "variants": {
-    "count=1,facing=east,filled_count=0,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_0",
+    "cup_count=1,facing=east,tea_count=0": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count1_0",
       "y": 90
     },
-    "count=1,facing=east,filled_count=0,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_0",
+    "cup_count=1,facing=east,tea_count=1": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count1_1",
       "y": 90
     },
-    "count=1,facing=east,filled_count=1,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_1",
+    "cup_count=1,facing=east,tea_count=2": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count1_1",
       "y": 90
     },
-    "count=1,facing=east,filled_count=1,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_1",
+    "cup_count=1,facing=east,tea_count=3": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count1_1",
       "y": 90
     },
-    "count=1,facing=east,filled_count=2,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_2",
+    "cup_count=1,facing=east,tea_count=4": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count1_1",
       "y": 90
     },
-    "count=1,facing=east,filled_count=2,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_2",
-      "y": 90
+    "cup_count=1,facing=north,tea_count=0": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count1_0"
     },
-    "count=1,facing=east,filled_count=3,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_3",
-      "y": 90
+    "cup_count=1,facing=north,tea_count=1": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count1_1"
     },
-    "count=1,facing=east,filled_count=3,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_3",
-      "y": 90
+    "cup_count=1,facing=north,tea_count=2": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count1_1"
     },
-    "count=1,facing=east,filled_count=4,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_4",
-      "y": 90
+    "cup_count=1,facing=north,tea_count=3": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count1_1"
     },
-    "count=1,facing=east,filled_count=4,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_4",
-      "y": 90
+    "cup_count=1,facing=north,tea_count=4": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count1_1"
     },
-    "count=1,facing=north,filled_count=0,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_0"
-    },
-    "count=1,facing=north,filled_count=0,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_0"
-    },
-    "count=1,facing=north,filled_count=1,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_1"
-    },
-    "count=1,facing=north,filled_count=1,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_1"
-    },
-    "count=1,facing=north,filled_count=2,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_2"
-    },
-    "count=1,facing=north,filled_count=2,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_2"
-    },
-    "count=1,facing=north,filled_count=3,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_3"
-    },
-    "count=1,facing=north,filled_count=3,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_3"
-    },
-    "count=1,facing=north,filled_count=4,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_4"
-    },
-    "count=1,facing=north,filled_count=4,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_4"
-    },
-    "count=1,facing=south,filled_count=0,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_0",
+    "cup_count=1,facing=south,tea_count=0": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count1_0",
       "y": 180
     },
-    "count=1,facing=south,filled_count=0,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_0",
+    "cup_count=1,facing=south,tea_count=1": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count1_1",
       "y": 180
     },
-    "count=1,facing=south,filled_count=1,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_1",
+    "cup_count=1,facing=south,tea_count=2": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count1_1",
       "y": 180
     },
-    "count=1,facing=south,filled_count=1,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_1",
+    "cup_count=1,facing=south,tea_count=3": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count1_1",
       "y": 180
     },
-    "count=1,facing=south,filled_count=2,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_2",
+    "cup_count=1,facing=south,tea_count=4": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count1_1",
       "y": 180
     },
-    "count=1,facing=south,filled_count=2,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_2",
-      "y": 180
-    },
-    "count=1,facing=south,filled_count=3,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_3",
-      "y": 180
-    },
-    "count=1,facing=south,filled_count=3,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_3",
-      "y": 180
-    },
-    "count=1,facing=south,filled_count=4,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_4",
-      "y": 180
-    },
-    "count=1,facing=south,filled_count=4,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_4",
-      "y": 180
-    },
-    "count=1,facing=west,filled_count=0,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_0",
+    "cup_count=1,facing=west,tea_count=0": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count1_0",
       "y": 270
     },
-    "count=1,facing=west,filled_count=0,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_0",
+    "cup_count=1,facing=west,tea_count=1": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count1_1",
       "y": 270
     },
-    "count=1,facing=west,filled_count=1,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_1",
+    "cup_count=1,facing=west,tea_count=2": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count1_1",
       "y": 270
     },
-    "count=1,facing=west,filled_count=1,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_1",
+    "cup_count=1,facing=west,tea_count=3": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count1_1",
       "y": 270
     },
-    "count=1,facing=west,filled_count=2,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_2",
+    "cup_count=1,facing=west,tea_count=4": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count1_1",
       "y": 270
     },
-    "count=1,facing=west,filled_count=2,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_2",
-      "y": 270
-    },
-    "count=1,facing=west,filled_count=3,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_3",
-      "y": 270
-    },
-    "count=1,facing=west,filled_count=3,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_3",
-      "y": 270
-    },
-    "count=1,facing=west,filled_count=4,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_4",
-      "y": 270
-    },
-    "count=1,facing=west,filled_count=4,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count1_4",
-      "y": 270
-    },
-    "count=2,facing=east,filled_count=0,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_0",
+    "cup_count=2,facing=east,tea_count=0": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count2_0",
       "y": 90
     },
-    "count=2,facing=east,filled_count=0,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_0",
+    "cup_count=2,facing=east,tea_count=1": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count2_1",
       "y": 90
     },
-    "count=2,facing=east,filled_count=1,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_1",
+    "cup_count=2,facing=east,tea_count=2": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count2_2",
       "y": 90
     },
-    "count=2,facing=east,filled_count=1,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_1",
+    "cup_count=2,facing=east,tea_count=3": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count2_2",
       "y": 90
     },
-    "count=2,facing=east,filled_count=2,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_2",
+    "cup_count=2,facing=east,tea_count=4": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count2_2",
       "y": 90
     },
-    "count=2,facing=east,filled_count=2,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_2",
+    "cup_count=2,facing=north,tea_count=0": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count2_0"
+    },
+    "cup_count=2,facing=north,tea_count=1": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count2_1"
+    },
+    "cup_count=2,facing=north,tea_count=2": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count2_2"
+    },
+    "cup_count=2,facing=north,tea_count=3": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count2_2"
+    },
+    "cup_count=2,facing=north,tea_count=4": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count2_2"
+    },
+    "cup_count=2,facing=south,tea_count=0": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count2_0",
+      "y": 180
+    },
+    "cup_count=2,facing=south,tea_count=1": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count2_1",
+      "y": 180
+    },
+    "cup_count=2,facing=south,tea_count=2": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count2_2",
+      "y": 180
+    },
+    "cup_count=2,facing=south,tea_count=3": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count2_2",
+      "y": 180
+    },
+    "cup_count=2,facing=south,tea_count=4": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count2_2",
+      "y": 180
+    },
+    "cup_count=2,facing=west,tea_count=0": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count2_0",
+      "y": 270
+    },
+    "cup_count=2,facing=west,tea_count=1": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count2_1",
+      "y": 270
+    },
+    "cup_count=2,facing=west,tea_count=2": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count2_2",
+      "y": 270
+    },
+    "cup_count=2,facing=west,tea_count=3": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count2_2",
+      "y": 270
+    },
+    "cup_count=2,facing=west,tea_count=4": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count2_2",
+      "y": 270
+    },
+    "cup_count=3,facing=east,tea_count=0": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count3_0",
       "y": 90
     },
-    "count=2,facing=east,filled_count=3,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_3",
+    "cup_count=3,facing=east,tea_count=1": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count3_1",
       "y": 90
     },
-    "count=2,facing=east,filled_count=3,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_3",
+    "cup_count=3,facing=east,tea_count=2": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count3_2",
       "y": 90
     },
-    "count=2,facing=east,filled_count=4,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_4",
+    "cup_count=3,facing=east,tea_count=3": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count3_3",
       "y": 90
     },
-    "count=2,facing=east,filled_count=4,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_4",
+    "cup_count=3,facing=east,tea_count=4": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count3_3",
       "y": 90
     },
-    "count=2,facing=north,filled_count=0,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_0"
+    "cup_count=3,facing=north,tea_count=0": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count3_0"
     },
-    "count=2,facing=north,filled_count=0,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_0"
+    "cup_count=3,facing=north,tea_count=1": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count3_1"
     },
-    "count=2,facing=north,filled_count=1,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_1"
+    "cup_count=3,facing=north,tea_count=2": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count3_2"
     },
-    "count=2,facing=north,filled_count=1,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_1"
+    "cup_count=3,facing=north,tea_count=3": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count3_3"
     },
-    "count=2,facing=north,filled_count=2,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_2"
+    "cup_count=3,facing=north,tea_count=4": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count3_3"
     },
-    "count=2,facing=north,filled_count=2,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_2"
-    },
-    "count=2,facing=north,filled_count=3,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_3"
-    },
-    "count=2,facing=north,filled_count=3,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_3"
-    },
-    "count=2,facing=north,filled_count=4,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_4"
-    },
-    "count=2,facing=north,filled_count=4,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_4"
-    },
-    "count=2,facing=south,filled_count=0,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_0",
+    "cup_count=3,facing=south,tea_count=0": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count3_0",
       "y": 180
     },
-    "count=2,facing=south,filled_count=0,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_0",
+    "cup_count=3,facing=south,tea_count=1": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count3_1",
       "y": 180
     },
-    "count=2,facing=south,filled_count=1,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_1",
+    "cup_count=3,facing=south,tea_count=2": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count3_2",
       "y": 180
     },
-    "count=2,facing=south,filled_count=1,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_1",
+    "cup_count=3,facing=south,tea_count=3": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count3_3",
       "y": 180
     },
-    "count=2,facing=south,filled_count=2,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_2",
+    "cup_count=3,facing=south,tea_count=4": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count3_3",
       "y": 180
     },
-    "count=2,facing=south,filled_count=2,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_2",
-      "y": 180
-    },
-    "count=2,facing=south,filled_count=3,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_3",
-      "y": 180
-    },
-    "count=2,facing=south,filled_count=3,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_3",
-      "y": 180
-    },
-    "count=2,facing=south,filled_count=4,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_4",
-      "y": 180
-    },
-    "count=2,facing=south,filled_count=4,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_4",
-      "y": 180
-    },
-    "count=2,facing=west,filled_count=0,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_0",
+    "cup_count=3,facing=west,tea_count=0": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count3_0",
       "y": 270
     },
-    "count=2,facing=west,filled_count=0,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_0",
+    "cup_count=3,facing=west,tea_count=1": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count3_1",
       "y": 270
     },
-    "count=2,facing=west,filled_count=1,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_1",
+    "cup_count=3,facing=west,tea_count=2": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count3_2",
       "y": 270
     },
-    "count=2,facing=west,filled_count=1,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_1",
+    "cup_count=3,facing=west,tea_count=3": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count3_3",
       "y": 270
     },
-    "count=2,facing=west,filled_count=2,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_2",
+    "cup_count=3,facing=west,tea_count=4": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count3_3",
       "y": 270
     },
-    "count=2,facing=west,filled_count=2,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_2",
-      "y": 270
-    },
-    "count=2,facing=west,filled_count=3,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_3",
-      "y": 270
-    },
-    "count=2,facing=west,filled_count=3,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_3",
-      "y": 270
-    },
-    "count=2,facing=west,filled_count=4,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_4",
-      "y": 270
-    },
-    "count=2,facing=west,filled_count=4,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count2_4",
-      "y": 270
-    },
-    "count=3,facing=east,filled_count=0,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_0",
+    "cup_count=4,facing=east,tea_count=0": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count4_0",
       "y": 90
     },
-    "count=3,facing=east,filled_count=0,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_0",
+    "cup_count=4,facing=east,tea_count=1": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count4_1",
       "y": 90
     },
-    "count=3,facing=east,filled_count=1,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_1",
+    "cup_count=4,facing=east,tea_count=2": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count4_2",
       "y": 90
     },
-    "count=3,facing=east,filled_count=1,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_1",
+    "cup_count=4,facing=east,tea_count=3": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count4_3",
       "y": 90
     },
-    "count=3,facing=east,filled_count=2,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_2",
+    "cup_count=4,facing=east,tea_count=4": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count4_4",
       "y": 90
     },
-    "count=3,facing=east,filled_count=2,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_2",
-      "y": 90
+    "cup_count=4,facing=north,tea_count=0": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count4_0"
     },
-    "count=3,facing=east,filled_count=3,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_3",
-      "y": 90
+    "cup_count=4,facing=north,tea_count=1": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count4_1"
     },
-    "count=3,facing=east,filled_count=3,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_3",
-      "y": 90
+    "cup_count=4,facing=north,tea_count=2": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count4_2"
     },
-    "count=3,facing=east,filled_count=4,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_4",
-      "y": 90
+    "cup_count=4,facing=north,tea_count=3": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count4_3"
     },
-    "count=3,facing=east,filled_count=4,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_4",
-      "y": 90
+    "cup_count=4,facing=north,tea_count=4": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count4_4"
     },
-    "count=3,facing=north,filled_count=0,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_0"
-    },
-    "count=3,facing=north,filled_count=0,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_0"
-    },
-    "count=3,facing=north,filled_count=1,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_1"
-    },
-    "count=3,facing=north,filled_count=1,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_1"
-    },
-    "count=3,facing=north,filled_count=2,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_2"
-    },
-    "count=3,facing=north,filled_count=2,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_2"
-    },
-    "count=3,facing=north,filled_count=3,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_3"
-    },
-    "count=3,facing=north,filled_count=3,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_3"
-    },
-    "count=3,facing=north,filled_count=4,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_4"
-    },
-    "count=3,facing=north,filled_count=4,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_4"
-    },
-    "count=3,facing=south,filled_count=0,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_0",
+    "cup_count=4,facing=south,tea_count=0": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count4_0",
       "y": 180
     },
-    "count=3,facing=south,filled_count=0,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_0",
+    "cup_count=4,facing=south,tea_count=1": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count4_1",
       "y": 180
     },
-    "count=3,facing=south,filled_count=1,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_1",
+    "cup_count=4,facing=south,tea_count=2": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count4_2",
       "y": 180
     },
-    "count=3,facing=south,filled_count=1,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_1",
+    "cup_count=4,facing=south,tea_count=3": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count4_3",
       "y": 180
     },
-    "count=3,facing=south,filled_count=2,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_2",
+    "cup_count=4,facing=south,tea_count=4": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count4_4",
       "y": 180
     },
-    "count=3,facing=south,filled_count=2,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_2",
-      "y": 180
-    },
-    "count=3,facing=south,filled_count=3,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_3",
-      "y": 180
-    },
-    "count=3,facing=south,filled_count=3,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_3",
-      "y": 180
-    },
-    "count=3,facing=south,filled_count=4,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_4",
-      "y": 180
-    },
-    "count=3,facing=south,filled_count=4,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_4",
-      "y": 180
-    },
-    "count=3,facing=west,filled_count=0,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_0",
+    "cup_count=4,facing=west,tea_count=0": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count4_0",
       "y": 270
     },
-    "count=3,facing=west,filled_count=0,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_0",
+    "cup_count=4,facing=west,tea_count=1": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count4_1",
       "y": 270
     },
-    "count=3,facing=west,filled_count=1,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_1",
+    "cup_count=4,facing=west,tea_count=2": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count4_2",
       "y": 270
     },
-    "count=3,facing=west,filled_count=1,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_1",
+    "cup_count=4,facing=west,tea_count=3": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count4_3",
       "y": 270
     },
-    "count=3,facing=west,filled_count=2,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_2",
-      "y": 270
-    },
-    "count=3,facing=west,filled_count=2,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_2",
-      "y": 270
-    },
-    "count=3,facing=west,filled_count=3,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_3",
-      "y": 270
-    },
-    "count=3,facing=west,filled_count=3,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_3",
-      "y": 270
-    },
-    "count=3,facing=west,filled_count=4,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_4",
-      "y": 270
-    },
-    "count=3,facing=west,filled_count=4,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count3_4",
-      "y": 270
-    },
-    "count=4,facing=east,filled_count=0,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_0",
-      "y": 90
-    },
-    "count=4,facing=east,filled_count=0,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_0",
-      "y": 90
-    },
-    "count=4,facing=east,filled_count=1,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_1",
-      "y": 90
-    },
-    "count=4,facing=east,filled_count=1,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_1",
-      "y": 90
-    },
-    "count=4,facing=east,filled_count=2,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_2",
-      "y": 90
-    },
-    "count=4,facing=east,filled_count=2,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_2",
-      "y": 90
-    },
-    "count=4,facing=east,filled_count=3,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_3",
-      "y": 90
-    },
-    "count=4,facing=east,filled_count=3,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_3",
-      "y": 90
-    },
-    "count=4,facing=east,filled_count=4,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_4",
-      "y": 90
-    },
-    "count=4,facing=east,filled_count=4,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_4",
-      "y": 90
-    },
-    "count=4,facing=north,filled_count=0,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_0"
-    },
-    "count=4,facing=north,filled_count=0,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_0"
-    },
-    "count=4,facing=north,filled_count=1,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_1"
-    },
-    "count=4,facing=north,filled_count=1,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_1"
-    },
-    "count=4,facing=north,filled_count=2,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_2"
-    },
-    "count=4,facing=north,filled_count=2,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_2"
-    },
-    "count=4,facing=north,filled_count=3,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_3"
-    },
-    "count=4,facing=north,filled_count=3,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_3"
-    },
-    "count=4,facing=north,filled_count=4,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_4"
-    },
-    "count=4,facing=north,filled_count=4,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_4"
-    },
-    "count=4,facing=south,filled_count=0,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_0",
-      "y": 180
-    },
-    "count=4,facing=south,filled_count=0,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_0",
-      "y": 180
-    },
-    "count=4,facing=south,filled_count=1,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_1",
-      "y": 180
-    },
-    "count=4,facing=south,filled_count=1,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_1",
-      "y": 180
-    },
-    "count=4,facing=south,filled_count=2,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_2",
-      "y": 180
-    },
-    "count=4,facing=south,filled_count=2,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_2",
-      "y": 180
-    },
-    "count=4,facing=south,filled_count=3,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_3",
-      "y": 180
-    },
-    "count=4,facing=south,filled_count=3,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_3",
-      "y": 180
-    },
-    "count=4,facing=south,filled_count=4,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_4",
-      "y": 180
-    },
-    "count=4,facing=south,filled_count=4,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_4",
-      "y": 180
-    },
-    "count=4,facing=west,filled_count=0,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_0",
-      "y": 270
-    },
-    "count=4,facing=west,filled_count=0,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_0",
-      "y": 270
-    },
-    "count=4,facing=west,filled_count=1,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_1",
-      "y": 270
-    },
-    "count=4,facing=west,filled_count=1,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_1",
-      "y": 270
-    },
-    "count=4,facing=west,filled_count=2,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_2",
-      "y": 270
-    },
-    "count=4,facing=west,filled_count=2,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_2",
-      "y": 270
-    },
-    "count=4,facing=west,filled_count=3,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_3",
-      "y": 270
-    },
-    "count=4,facing=west,filled_count=3,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_3",
-      "y": 270
-    },
-    "count=4,facing=west,filled_count=4,waterlogged=false": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_4",
-      "y": 270
-    },
-    "count=4,facing=west,filled_count=4,waterlogged=true": {
-      "model": "kaleidoscope_cookery:block/tea/tieguanyin/count4_4",
+    "cup_count=4,facing=west,tea_count=4": {
+      "model": "kaleidoscope_cookery:block/teacup/tieguanyin/count4_4",
       "y": 270
     }
   }

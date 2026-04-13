@@ -3,6 +3,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.blockentity.ITeapot;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.TeapotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.fluids.FluidUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
@@ -13,11 +14,11 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -25,6 +26,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
@@ -36,23 +38,28 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+import static net.minecraft.world.InteractionResult.*;
+
 @SuppressWarnings({"deprecation", "unchecked"})
-public class TeapotBlock extends HorizontalDirectionalBlock implements EntityBlock, SimpleWaterloggedBlock {
+public class TeapotBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final IntegerProperty VARIANT = IntegerProperty.create("variant", 0, 2);
+
     public static final int COMMON = 0;
     public static final int BASED = 1;
     public static final int CHAINED = 2;
+
     public static final VoxelShape AABB = Shapes.or(
-            Shapes.box(0.4375, 0.5, 0.4375, 0.5625, 0.5625, 0.5625),
-            Shapes.box(0.3125, 0.375, 0.3125, 0.6875, 0.5, 0.6875),
-            Shapes.box(0.1875, 0, 0.1875, 0.8125, 0.375, 0.8125)
+            Block.box(3, 0, 3, 13, 6, 13),
+            Block.box(5, 6, 5, 11, 8, 11)
     );
 
-
     public TeapotBlock() {
-        super(Properties.of().noOcclusion().sound(SoundType.LANTERN));
-
+        super(BlockBehaviour.Properties.of()
+                .sound(SoundType.LANTERN)
+                .mapColor(MapColor.COLOR_ORANGE)
+                .noOcclusion()
+                .strength(1.25F, 2.0F));
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)
                 .setValue(WATERLOGGED, false)
@@ -63,11 +70,6 @@ public class TeapotBlock extends HorizontalDirectionalBlock implements EntityBlo
     protected static <A extends BlockEntity> BlockEntityTicker<A> createTickerHelper(
             BlockEntityType<A> serverType, BlockEntityTicker<TeapotBlockEntity> ticker) {
         return ModBlocks.TEAPOT_BE == serverType ? (BlockEntityTicker<A>) ticker : null;
-    }
-
-    @Override
-    public boolean canSurvive(@NotNull BlockState blockState, @NotNull LevelReader levelReader, @NotNull BlockPos blockPos) {
-        return levelReader.getBlockState(blockPos.below()).isFaceSturdy(levelReader, blockPos.below(), Direction.UP);
     }
 
     @Override
@@ -88,17 +90,22 @@ public class TeapotBlock extends HorizontalDirectionalBlock implements EntityBlo
             levelAccessor.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(levelAccessor));
         }
 
-        // 上方无法支撑，取消锁链
         // 下方无法支撑，添加基座
         int variant = state.getValue(VARIANT);
         if (direction == Direction.DOWN && variant != CHAINED) {
             if (!neighborState.isFaceSturdy(levelAccessor, neighborPos, Direction.UP)) {
                 return state.setValue(VARIANT, BASED);
+            } else {
+                return state.setValue(VARIANT, COMMON);
             }
         }
+
+        // 上方无法支撑，取消锁链
         if (direction == Direction.UP && variant != BASED) {
             if (canSupportCenter(levelAccessor, neighborPos, Direction.DOWN)) {
                 return state.setValue(VARIANT, CHAINED);
+            } else {
+                return state.setValue(VARIANT, COMMON);
             }
         }
 
@@ -108,30 +115,30 @@ public class TeapotBlock extends HorizontalDirectionalBlock implements EntityBlo
     @Override
     public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult) {
         if (hand != InteractionHand.MAIN_HAND) {
-            return InteractionResult.PASS;
+            return PASS;
         }
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (!(blockEntity instanceof ITeapot teapot)) {
-            return InteractionResult.PASS;
+            return PASS;
         }
         ItemStack mainHandItem = player.getMainHandItem();
         // 加入茶水
-        if (teapot.addTeaFluid(level, player, mainHandItem)) {
-            return InteractionResult.SUCCESS;
-        }
-        // 加入原料
-        if (!mainHandItem.isEmpty() && teapot.addIngredient(level, player, mainHandItem)) {
-            return InteractionResult.SUCCESS;
+        if (FluidUtils.isFluidContainer(mainHandItem)) {
+            return teapot.addTeaFluid(level, player, mainHandItem) ? SUCCESS : CONSUME;
         }
         // 取出原料
-        if (mainHandItem.isEmpty() && player.isSecondaryUseActive() && teapot.removeIngredient(level, player)) {
-            return InteractionResult.SUCCESS;
+        if (mainHandItem.isEmpty() && player.isSecondaryUseActive()) {
+            return teapot.removeIngredient(level, player) ? SUCCESS : CONSUME;
         }
         // 拿起茶壶
-        if (mainHandItem.isEmpty() && !player.isSecondaryUseActive() && teapot.takeTeapot(level, player)) {
-            return InteractionResult.SUCCESS;
+        if (mainHandItem.isEmpty() && !player.isSecondaryUseActive()) {
+            return teapot.takeTeapot(level, player) ? SUCCESS : CONSUME;
         }
-        return InteractionResult.PASS;
+        // 加入原料
+        if (!mainHandItem.isEmpty()) {
+            return teapot.addIngredient(level, player, mainHandItem) ? SUCCESS : CONSUME;
+        }
+        return PASS;
     }
 
     @Override
@@ -141,7 +148,7 @@ public class TeapotBlock extends HorizontalDirectionalBlock implements EntityBlo
         FluidState fluidState = level.getFluidState(context.getClickedPos());
         Direction clickFace = context.getClickedFace();
         BlockState blockState = this.defaultBlockState()
-                .setValue(FACING, context.getHorizontalDirection().getClockWise())
+                .setValue(FACING, context.getHorizontalDirection().getOpposite())
                 .setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER);
 
         // 如果点击的是上方，那么依据是否是可支持方块添加锁链

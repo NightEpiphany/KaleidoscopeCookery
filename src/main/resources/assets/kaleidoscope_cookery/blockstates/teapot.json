@@ -1,18 +1,7 @@
 {
   "variants": {
-    "facing=east": {
+    "": {
       "model": "kaleidoscope_cookery:block/teapot"
-    },
-    "facing=north": {
-      "model": "kaleidoscope_cookery:block/teapot_horizonal",
-      "y": 180
-    },
-    "facing=south": {
-      "model": "kaleidoscope_cookery:block/teapot_horizonal"
-    },
-    "facing=west": {
-      "model": "kaleidoscope_cookery:block/teapot",
-      "y": 180
     }
   }
 }

@@ -9,9 +9,8 @@ import com.github.ysbbbbbb.kaleidoscopecookery.block.decoration.ChairBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.decoration.CookStoolBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.decoration.FruitBasketBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.decoration.TableBlock;
+import com.github.ysbbbbbb.kaleidoscopecookery.block.drink.EmptyCupBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteThreeByThreeBlock;
-import com.github.ysbbbbbb.kaleidoscopecookery.block.food.TeaBlock;
-import com.github.ysbbbbbb.kaleidoscopecookery.block.food.TeacupBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.misc.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.*;
@@ -23,7 +22,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.phys.shapes.Shapes;
 
 @SuppressWarnings("all")
 public class ModBlocks {
@@ -40,7 +38,10 @@ public class ModBlocks {
     public static final Block STRUNG_MUSHROOMS = new StrungMushroomsBlock();
     public static final Block STRAW_BLOCK = new StrawBlocks();
     public static final Block SHAWARMA_SPIT = new ShawarmaSpitBlock();
+
+    // Tea
     public static final Block TEAPOT = new TeapotBlock();
+    public static final Block EMPTY_CUP = new EmptyCupBlock();
 
     // Crop blocks
     public static final Block TOMATO_CROP = new BaseCropBlock(() -> ModItems.TOMATO, () -> ModItems.TOMATO_SEED);
@@ -94,70 +95,6 @@ public class ModBlocks {
     public static final Block TABLE_MANGROVE = new TableBlock(SoundType.WOOD);
     public static final Block TABLE_WARPED = new TableBlock(SoundType.NETHER_WOOD);
 
-    // tea
-    public static Block TEACUP = new TeacupBlock(4, () -> ModItems.TEACUP,
-            Shapes.or(
-                    Block.box(1, 0, 1, 15, 1, 15),
-                    Block.box(5, 0, 5, 11, 4, 11)
-            ),
-            Shapes.or(
-                    Block.box(1, 0, 1, 15, 1, 15),
-                    Block.box(2, 0, 2, 9, 4, 9),
-                    Block.box(8, 0, 8, 13, 4, 13)
-            ),
-            Shapes.or(
-                    Block.box(1, 0, 1, 15, 1, 15),
-                    Block.box(2.5, 0, 8, 13.5, 4, 13.5),
-                    Block.box(6.5, 0, 2, 12, 4, 13.5)
-            ),
-            Shapes.or(
-                    Block.box(1, 0, 1, 15, 1, 15),
-                    Block.box(2.5, 0, 2.5, 13.5, 4, 13.5)
-            )
-    );
-
-    public static Block TIEGUANYIN = TeaBlock.create().maxCount(4).shapes(
-            Shapes.or(
-                    Block.box(1, 0, 1, 15, 1, 15),
-                    Block.box(5, 0, 5, 11, 4, 11)
-            ),
-            Shapes.or(
-                    Block.box(1, 0, 1, 15, 1, 15),
-                    Block.box(2, 0, 2, 9, 4, 9),
-                    Block.box(8, 0, 8, 13, 4, 13)
-            ),
-            Shapes.or(
-                    Block.box(1, 0, 1, 15, 1, 15),
-                    Block.box(2.5, 0, 8, 13.5, 4, 13.5),
-                    Block.box(6.5, 0, 2, 12, 4, 13.5)
-            ),
-            Shapes.or(
-                    Block.box(1, 0, 1, 15, 1, 15),
-                    Block.box(2.5, 0, 2.5, 13.5, 4, 13.5)
-            )
-    ).teaFluidId(ModTeaFluids.TIEGUANYIN).teacupItem(ModItems.TEACUP).build();
-
-    public static Block FLOWER_TEA = TeaBlock.create().maxCount(4).shapes(
-            Shapes.or(
-                    Block.box(1, 0, 1, 15, 1, 15),
-                    Block.box(5, 0, 5, 11, 4, 11)
-            ),
-            Shapes.or(
-                    Block.box(1, 0, 1, 15, 1, 15),
-                    Block.box(2, 0, 2, 9, 4, 9),
-                    Block.box(8, 0, 8, 13, 4, 13)
-            ),
-            Shapes.or(
-                    Block.box(1, 0, 1, 15, 1, 15),
-                    Block.box(2.5, 0, 8, 13.5, 4, 13.5),
-                    Block.box(6.5, 0, 2, 12, 4, 13.5)
-            ),
-            Shapes.or(
-                    Block.box(1, 0, 1, 15, 1, 15),
-                    Block.box(2.5, 0, 2.5, 13.5, 4, 13.5)
-            )
-    ).teaFluidId(ModTeaFluids.FLOWER_TEA).teacupItem(ModItems.TEACUP).build();
-
     // feast
     public static final Block COLD_CUT_HAM_SLICES = new FoodBiteThreeByThreeBlock(ModFoods.COLD_CUT_HAM_SLICES_BLOCK, 8, null);
 
@@ -204,16 +141,14 @@ public class ModBlocks {
         Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "strung_mushrooms"), STRUNG_MUSHROOMS);
         Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "straw_block"), STRAW_BLOCK);
         Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "shawarma_spit"), SHAWARMA_SPIT);
-        Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "teapot"), TEAPOT);
         Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "oil_pot"), OIL_POT);
         Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "recipe_block"), RECIPE_BLOCK);
         Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "millstone"), MILLSTONE);
         Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "steamer"), STEAMER);
 
-        // tea
-        Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "teacup"), TEACUP);
-        Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "tieguanyin"), TIEGUANYIN);
-        Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "flower_tea"), FLOWER_TEA);
+        // Tea
+        Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "teapot"), TEAPOT);
+        Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "empty_cup"), EMPTY_CUP);
 
 
         // Crop blocks

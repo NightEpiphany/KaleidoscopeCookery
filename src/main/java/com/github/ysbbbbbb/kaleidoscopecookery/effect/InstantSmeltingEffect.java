@@ -22,7 +22,7 @@ public class InstantSmeltingEffect {
             return;
         }
 
-        MobEffectInstance effect = living.getEffect(ModEffects.INSTANT_SMELTING);
+        MobEffectInstance effect = living.getEffect(ModEffects.INSTANT_SMELTING.get());
         if (effect == null) {
             return;
         }

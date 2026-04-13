@@ -10,6 +10,7 @@
     "kaleidoscope_cookery:millstone",
     "kaleidoscope_cookery:steamer",
     "kaleidoscope_cookery:teapot",
+    "kaleidoscope_cookery:empty_cup",
     "kaleidoscope_cookery:oil",
     "kaleidoscope_cookery:oil_pot",
     "kaleidoscope_cookery:oil_block",
@@ -135,9 +136,6 @@
     "kaleidoscope_cookery:cooked_cut_small_meats",
     "kaleidoscope_cookery:cooked_meatball",
     "kaleidoscope_cookery:cold_cut_ham_slices",
-    "kaleidoscope_cookery:teacup",
-    "kaleidoscope_cookery:tieguanyin",
-    "kaleidoscope_cookery:flower_tea",
     "kaleidoscope_cookery:dark_cuisine",
     "kaleidoscope_cookery:suspicious_stir_fry",
     "kaleidoscope_cookery:slime_ball_meal",
@@ -178,6 +176,12 @@
     "kaleidoscope_cookery:red_mushroom_pot_soup",
     "kaleidoscope_cookery:warped_fungus_pot_soup",
     "kaleidoscope_cookery:crimson_fungus_pot_soup",
-    "kaleidoscope_cookery:buddha_jumps_over_the_wall"
+    "kaleidoscope_cookery:buddha_jumps_over_the_wall",
+    "kaleidoscope_cookery:barley_tea",
+    "kaleidoscope_cookery:tieguanyin",
+    "kaleidoscope_cookery:biluochun",
+    "kaleidoscope_cookery:oolong",
+    "kaleidoscope_cookery:sakura_fubuki",
+    "kaleidoscope_cookery:flower_tea"
   ]
 }

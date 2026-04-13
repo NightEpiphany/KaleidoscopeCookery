@@ -1,11 +1,9 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.event;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.advancements.critereon.ModEventTriggerType;
-import com.github.ysbbbbbb.kaleidoscopecookery.api.recipe.teafluid.ITeaFluid;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.FruitBasketBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTrigger;
-import com.github.ysbbbbbb.kaleidoscopecookery.item.TeapotItem;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.minecraft.core.BlockPos;
@@ -18,7 +16,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
@@ -78,16 +75,6 @@ public class RightClickEvent {
             player.getMainHandItem().shrink(1);
             ModTrigger.EVENT.trigger(player, ModEventTriggerType.USE_CATERPILLAR_FEED_CHICKEN);
             return InteractionResult.SUCCESS;
-        } else if (hand == InteractionHand.MAIN_HAND && mainHandItem.getItem() instanceof TeapotItem && target instanceof LivingEntity living) {
-            ITeaFluid teaType = TeapotItem.getTeaFluid(mainHandItem);
-            if (TeapotItem.getFluidAmount(mainHandItem) > 0) {
-                int consumed = teaType.onPouredOnEntity(level, living, player, mainHandItem);
-                if (consumed != 0) {
-                    TeapotItem.shrinkFluidAmount(mainHandItem, consumed);
-                    player.swing(InteractionHand.MAIN_HAND);
-                    return InteractionResult.SUCCESS;
-                }
-            }
         }
         return InteractionResult.PASS;
     }

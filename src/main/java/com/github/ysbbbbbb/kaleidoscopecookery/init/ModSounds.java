@@ -11,6 +11,7 @@ public class ModSounds {
     public static final SoundEvent BLOCK_PADDY = SoundEvent.createFixedRangeEvent(new ResourceLocation(KaleidoscopeCookery.MOD_ID, "block.paddy"), 16.0F);
     public static final SoundEvent BLOCK_MILLSTONE = SoundEvent.createFixedRangeEvent(new ResourceLocation(KaleidoscopeCookery.MOD_ID, "block.millstone"), 16.0F);
     public static final SoundEvent BLOCK_RECIPE_BLOCK = SoundEvent.createFixedRangeEvent(new ResourceLocation(KaleidoscopeCookery.MOD_ID, "block.recipe_block"), 16.0F);
+    public static final SoundEvent BLOCK_TEAPOT_PROCESSING = SoundEvent.createFixedRangeEvent(new ResourceLocation(KaleidoscopeCookery.MOD_ID, "block.teapot.processing"), 16.0F);
     public static final SoundEvent ENTITY_FART = SoundEvent.createFixedRangeEvent(new ResourceLocation(KaleidoscopeCookery.MOD_ID, "entity.fart"), 16.0F);
     public static final SoundEvent ITEM_DOUGH_TRANSFORM = SoundEvent.createFixedRangeEvent(new ResourceLocation(KaleidoscopeCookery.MOD_ID, "item.dough_transform"), 16.0F);
 

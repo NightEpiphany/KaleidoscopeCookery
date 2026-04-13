@@ -11,19 +11,30 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
-public record TeapotRecipe(ResourceLocation id, Ingredient ingredient, int ingredientCount,
-                           ResourceLocation baseTeaFluid, ResourceLocation resultTeaFluid,
-                           int time) implements BaseRecipe<TeapotContainer> {
+public record TeapotRecipe(ResourceLocation id, ResourceLocation teaFluid,
+                           Ingredient ingredient, int ingredientCount,
+                           int time, ItemStack result
+) implements BaseRecipe<TeapotContainer> {
+    /**
+     * 配方强制输出 12 个
+     */
+    public static final int OUTPUT_COUNT = 12;
 
     @Override
     public boolean matches(TeapotContainer container, @NotNull Level level) {
-        ItemStack itemStack = container.getItemStack();
-        return ingredient.test(itemStack) && itemStack.getCount() >= ingredientCount && baseTeaFluid.equals(container.getTeaFluid());
+        ItemStack stack = container.getItemStack();
+        ResourceLocation fluid = container.getTeaFluid();
+        return teaFluid.equals(fluid) && ingredient.test(stack) && stack.getCount() >= ingredientCount;
     }
 
     @Override
     public @NotNull ItemStack getResultItem(@NotNull RegistryAccess registryAccess) {
-        return ItemStack.EMPTY;
+        return this.result;
+    }
+
+    @Override
+    public @NotNull ItemStack assemble(@NotNull TeapotContainer container, @NotNull RegistryAccess registryAccess) {
+        return getResultItem(registryAccess).copyWithCount(OUTPUT_COUNT);
     }
 
     @Override

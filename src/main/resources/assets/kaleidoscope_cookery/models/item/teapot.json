@@ -1,36 +1,4 @@
 {
-	"parent": "kaleidoscope_cookery:block/teapot",
-	"display": {
-		"thirdperson_righthand": {
-			"rotation": [-106.6, 85.12, 174.3],
-			"translation": [0.75, -4.25, -1.75],
-			"scale": [0.755, 0.755, 0.755]
-		},
-		"thirdperson_lefthand": {
-			"rotation": [80.86, -86.89, 13.43],
-			"translation": [0.75, -4.25, -1.75],
-			"scale": [0.755, 0.755, 0.755]
-		},
-		"firstperson_righthand": {
-			"rotation": [-180, 44.5, -180],
-			"translation": [0, 3.5, 0],
-			"scale": [0.75, 0.75, 0.75]
-		},
-		"firstperson_lefthand": {
-			"rotation": [0, -45, 0],
-			"translation": [0, 3.5, 0],
-			"scale": [0.75, 0.75, 0.75]
-		},
-		"ground": {
-			"translation": [0, 5.5, 0],
-			"scale": [0.75, 0.75, 0.75]
-		},
-		"head": {
-			"scale": [0.5, 0.5, 0.5]
-		},
-		"fixed": {
-			"translation": [0, 2.5, -1.5],
-			"scale": [1.15, 1.15, 1.15]
-		}
-	}
+	"parent": "kaleidoscope_cookery:item/teapot_3d",
+	"gui_light": "front"
 }

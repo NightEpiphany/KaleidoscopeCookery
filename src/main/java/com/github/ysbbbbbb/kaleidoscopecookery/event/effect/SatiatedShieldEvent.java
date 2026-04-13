@@ -31,7 +31,7 @@ public class SatiatedShieldEvent {
                 return false;
             }
 
-            if (player.getFoodData().getFoodLevel() > 0 && player.hasEffect(ModEffects.SATIATED_SHIELD)) {
+            if (player.getFoodData().getFoodLevel() > 0 && player.hasEffect(ModEffects.SATIATED_SHIELD.get())) {
                 // 部分特殊伤害，扣除的 Exhaustion 翻倍
                 if (source.is(TagMod.SATIATED_SHIELD_WEAKNESS)) {
                     amount *= 2;
