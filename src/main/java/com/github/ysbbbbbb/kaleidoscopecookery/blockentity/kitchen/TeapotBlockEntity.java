@@ -7,8 +7,8 @@ import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.TeapotRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.serializer.TeapotRecipeSerializer;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
-import com.github.ysbbbbbb.kaleidoscopecookery.util.fluids.FluidUtils;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.fluids.CustomFluidTank;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.fluids.FluidUtils;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
 import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
@@ -36,6 +36,8 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -179,6 +181,7 @@ public class TeapotBlockEntity extends BaseBlockEntity implements ITeapot {
             return false;
         }
 
+        // 手持物品必须拥有流体能力
         Storage<FluidVariant> itemStorage = FluidUtils.getItemStorage(itemStack);
         if (itemStorage == null) {
             return false;
@@ -190,14 +193,19 @@ public class TeapotBlockEntity extends BaseBlockEntity implements ITeapot {
             return false;
         }
 
+        // 茶壶有流体
+        // 检查流体是否相同
         FluidVariant fluidVariant = FluidUtils.findFirstResource(itemStorage);
         if (fluidVariant.isBlank()) {
             return false;
         }
+        // 固定扣 1000 mb
         if (FluidUtils.findFirstAmount(itemStorage) < FluidConstants.BUCKET) {
             this.sendActionBarMessage(user, "tooltip.kaleidoscope_cookery.teapot.add_tea_fluid.fluid_not_enough");
             return false;
         }
+
+        // 填满
         boolean transferred = FluidUtils.emptyItem(user, itemStack, this.teaTank, CustomFluidTank.MB_PER_BUCKET);
         if (transferred) {
             this.refreshTeaFluidId();
@@ -205,6 +213,34 @@ public class TeapotBlockEntity extends BaseBlockEntity implements ITeapot {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean removeTeaFluid(Level level, LivingEntity user, ItemStack itemStack) {
+        if (this.status != PUT_INGREDIENT || this.teaTank.isResourceBlank() || !this.input.isEmpty()) {
+            this.sendActionBarMessage(user, "tooltip.kaleidoscope_cookery.teapot.take_tea_fluid.blocked");
+            return false;
+        }
+
+        Storage<FluidVariant> itemStorage = FluidUtils.getItemStorage(itemStack);
+        if (itemStorage == null) {
+            return false;
+        }
+
+        FluidVariant resource = this.teaTank.getResource();
+        if (resource.isBlank()) {
+            return false;
+        }
+        if (FluidUtils.findFirstAmount(itemStorage) > 0) {
+            return false;
+        }
+        if (!FluidUtils.fillItem(user, itemStack, this.teaTank, CustomFluidTank.MB_PER_BUCKET)) {
+            return false;
+        }
+
+        this.currentTick = -1;
+        this.refresh();
+        return true;
     }
 
     @Override
@@ -262,7 +298,7 @@ public class TeapotBlockEntity extends BaseBlockEntity implements ITeapot {
 
     @Override
     public boolean takeTeapot(Level level, LivingEntity user) {
-        if (status != FINISHED) {
+        if (status == PROCESSING) {
             this.sendActionBarMessage(user, "tooltip.kaleidoscope_cookery.teapot.take_teapot.state_incorrect");
             return false;
         }

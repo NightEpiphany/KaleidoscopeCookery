@@ -59,6 +59,7 @@ public class TeapotBlock extends HorizontalDirectionalBlock implements SimpleWat
                 .sound(SoundType.LANTERN)
                 .mapColor(MapColor.COLOR_ORANGE)
                 .noOcclusion()
+                .instabreak()
                 .strength(1.25F, 2.0F));
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)
@@ -124,7 +125,15 @@ public class TeapotBlock extends HorizontalDirectionalBlock implements SimpleWat
         ItemStack mainHandItem = player.getMainHandItem();
         // 加入茶水
         if (FluidUtils.isFluidContainer(mainHandItem)) {
-            return teapot.addTeaFluid(level, player, mainHandItem) ? SUCCESS : CONSUME;
+            // 如果手持物有流体，那么灌入
+            if (FluidUtils.hasFluid(mainHandItem)) {
+                boolean result = teapot.addTeaFluid(level, player, mainHandItem);
+                return result ? SUCCESS : CONSUME;
+            }
+
+            // 否则取出
+            boolean result = teapot.removeTeaFluid(level, player, mainHandItem);
+            return result ? SUCCESS : CONSUME;
         }
         // 取出原料
         if (mainHandItem.isEmpty() && player.isSecondaryUseActive()) {

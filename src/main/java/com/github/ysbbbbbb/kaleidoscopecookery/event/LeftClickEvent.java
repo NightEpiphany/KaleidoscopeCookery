@@ -1,6 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.event;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
+import com.github.ysbbbbbb.kaleidoscopecookery.item.TeapotItem;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.TransmutationLunchBagItem;
 import com.github.ysbbbbbb.kaleidoscopecookery.network.message.ThrowBaoziMessage;
 import io.github.fabricators_of_create.porting_lib.entity.events.PlayerInteractionEvents;
@@ -13,11 +14,23 @@ import static io.github.fabricators_of_create.porting_lib.entity.events.PlayerIn
 
 public class LeftClickEvent {
     public static void register() {
-        LEFT_CLICK_EMPTY.register(LeftClickEvent::onHandle);
+        LEFT_CLICK_EMPTY.register(LeftClickEvent::onHandleBaoZi);
+        LEFT_CLICK_EMPTY.register(LeftClickEvent::onHandleTeaPot);
+    }
+
+    private static void onHandleTeaPot(PlayerInteractionEvents.LeftClickEmpty event) {
+        Player player = event.getEntity();
+        if (player.isSecondaryUseActive() && event.getHand() == InteractionHand.MAIN_HAND) {
+            ItemStack mainHandItem = player.getMainHandItem();
+            if (mainHandItem.is(ModItems.TEAPOT)) {
+                TeapotItem.clearAll(mainHandItem, event.getEntity());
+                event.setCanceled(true);
+            }
+        }
     }
 
     //肉包打狗，AUV，地道！
-    private static void onHandle(PlayerInteractionEvents.LeftClickEmpty event) {
+    private static void onHandleBaoZi(PlayerInteractionEvents.LeftClickEmpty event) {
         Player player = event.getPlayer();
         InteractionHand hand = event.getHand();
         if (player == null) return;

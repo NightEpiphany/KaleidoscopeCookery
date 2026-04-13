@@ -6,6 +6,8 @@ import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.TeapotRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.fluids.CustomFluidTank;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.fluids.FluidUtils;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -15,10 +17,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentUtils;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
@@ -39,6 +38,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -108,12 +108,26 @@ public class TeapotItem extends BlockItem {
 
     @Override
     public @NotNull InteractionResult interactLivingEntity(@NotNull ItemStack stack, @NotNull Player player, @NotNull LivingEntity target, @NotNull InteractionHand hand) {
-        ItemStack pourOut = getPourOut(stack);
-        if (pourOut.isEmpty()) {
+        CompoundTag data = BlockItem.getBlockEntityData(stack);
+        if (data == null) {
             return InteractionResult.PASS;
         }
 
-        pourOut(stack);
+        // 先判断状态
+        int status = data.getInt(TeapotBlockEntity.STATUS);
+        if (status == ITeapot.FINISHED) {
+            pourOut(stack);
+        } else if (status == ITeapot.PUT_INGREDIENT) {
+            String fluidId = StringUtils.defaultIfBlank(data.getString(TeapotBlockEntity.TEA_FLUID_ID), EMPTY_TEA_FLUID.toString());
+            if (!fluidId.contains("lava")) {
+                // 仅岩浆能烫伤生物
+                return InteractionResult.PASS;
+            }
+            // 概率消耗
+            if (player.getRandom().nextFloat() < 0.3F) {
+                clearAll(stack, player);
+            }
+        }
 
         Level level = player.level();
         RandomSource random = level.random;
@@ -136,6 +150,13 @@ public class TeapotItem extends BlockItem {
         return InteractionResult.SUCCESS;
     }
 
+    public static void clearAll(ItemStack stack, Player player) {
+        stack.removeTagKey(BlockItem.BLOCK_ENTITY_TAG);
+        player.playSound(SoundEvents.PLAYER_ATTACK_WEAK, 1.0F, 1.0F);
+
+
+    }
+
     public static boolean fillFluid(ItemStack stack, Fluid fluid, LivingEntity user) {
         CompoundTag data = BlockItem.getBlockEntityData(stack);
         if (data == null) {
@@ -153,9 +174,10 @@ public class TeapotItem extends BlockItem {
         }
         // 执行流体添加
         ResourceLocation key = BuiltInRegistries.FLUID.getKey(fluid);
+        data.putInt(TeapotBlockEntity.STATUS, ITeapot.PUT_INGREDIENT);
         data.putString(TeapotBlockEntity.TEA_FLUID_ID, key.toString());
         CompoundTag tankTag = new CompoundTag();
-        tankTag.putLong("amount", CustomFluidTank.MB_PER_BUCKET);
+        tankTag.putLong("amount", FluidConstants.BUCKET);
         tankTag.putString("fluid", key.toString());
         data.put(TeapotBlockEntity.TANK, tankTag);
         BlockItem.setBlockEntityData(stack, ModBlocks.TEAPOT_BE, data);
@@ -165,13 +187,6 @@ public class TeapotItem extends BlockItem {
             user.playSound(sound);
         }
         return true;
-    }
-
-    private static void sendActionBarMessage(LivingEntity user, String key, Object... args) {
-        if (user instanceof ServerPlayer serverPlayer) {
-            MutableComponent message = Component.translatable(key, args);
-            serverPlayer.connection.send(new ClientboundSetActionBarTextPacket(message));
-        }
     }
 
     @Override
@@ -193,7 +208,6 @@ public class TeapotItem extends BlockItem {
         if (data != null) {
             String fluidId = StringUtils.defaultIfBlank(data.getString(TeapotBlockEntity.TEA_FLUID_ID), EMPTY_TEA_FLUID.toString());
             if (!fluidId.equals(EMPTY_TEA_FLUID.toString())) {
-                sendActionBarMessage(player, "tooltip.kaleidoscope_cookery.teapot.add_tea_fluid.has_fluid");
                 return InteractionResultHolder.fail(itemInHand);
             }
         }
@@ -239,7 +253,6 @@ public class TeapotItem extends BlockItem {
         if (result) {
             return InteractionResultHolder.sidedSuccess(itemInHand, level.isClientSide());
         }
-        sendActionBarMessage(player, "tooltip.kaleidoscope_cookery.teapot.add_tea_fluid.has_fluid");
         return InteractionResultHolder.fail(itemInHand);
     }
 
@@ -268,25 +281,34 @@ public class TeapotItem extends BlockItem {
         return false;
     }
 
+    @Environment(EnvType.CLIENT)
     @Override
     public int getBarColor(@NotNull ItemStack stack) {
         CompoundTag data = BlockItem.getBlockEntityData(stack);
         if (data == null) {
             return 0x9df7ff;
         }
-        String fluidId = StringUtils.defaultIfBlank(data.getString(TeapotBlockEntity.TEA_FLUID_ID), EMPTY_TEA_FLUID.toString());
-        if (fluidId.contains("milk")) {
-            return 0xf4eee1;
+        int status = data.getInt(TeapotBlockEntity.STATUS);
+        if (status == ITeapot.PUT_INGREDIENT) {
+            String fluidId = StringUtils.defaultIfBlank(data.getString(TeapotBlockEntity.TEA_FLUID_ID), EMPTY_TEA_FLUID.toString());
+            if (fluidId.equals(EMPTY_TEA_FLUID.toString())) {
+                return 0x9df7ff;
+            }
+            if (fluidId.contains("milk")) {
+                return 0xf4eee1;
+            }
+            if (fluidId.contains("honey")) {
+                return 0xedce52;
+            }
+            if (fluidId.contains("lava")) {
+                return 0xe28120;
+            }
+            if (fluidId.contains("chocolate")) {
+                return 0x4c2807;
+            }
         }
-        if (fluidId.contains("honey")) {
-            return 0xedce52;
-        }
-        if (fluidId.contains("lava")) {
-            return 0xe28120;
-        }
-        if (fluidId.contains("chocolate")) {
-            return 0x4c2807;
-        }
+        if (status == ITeapot.FINISHED)
+            return 0x89ee24;
         return 0x9df7ff;
     }
 

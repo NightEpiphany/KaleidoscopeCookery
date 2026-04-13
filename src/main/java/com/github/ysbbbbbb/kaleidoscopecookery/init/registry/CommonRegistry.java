@@ -48,6 +48,7 @@ public class CommonRegistry {
     public static void registerDataListeners() {
         ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new MillstoneBindableDataReloadListener());
     }
+
     @SuppressWarnings("UnstableApiUsage")
     public static void registerFluidStorage() {
         FluidStorage.SIDED.registerForBlockEntity((blockEntity, direction) -> blockEntity.getTeaTank(), ModBlocks.TEAPOT_BE);

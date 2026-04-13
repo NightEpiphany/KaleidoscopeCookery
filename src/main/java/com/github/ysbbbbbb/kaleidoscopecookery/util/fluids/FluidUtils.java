@@ -1,6 +1,6 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.util.fluids;
 
-import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
+import net.minecraft.world.InteractionHand;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
@@ -9,7 +9,6 @@ import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
-import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -33,8 +32,10 @@ public class FluidUtils {
         if (bucket.isEmpty() || handler == null) {
             return false;
         }
-        ItemStack copy = bucket.copyWithCount(1);
-        ContainerItemContext context = ContainerItemContext.withConstant(copy);
+        ContainerItemContext context = getMutableContext(user, bucket);
+        if (context == null) {
+            return false;
+        }
         Storage<FluidVariant> itemStorage = context.find(FluidStorage.ITEM);
         if (itemStorage == null) {
             return false;
@@ -65,14 +66,6 @@ public class FluidUtils {
             transaction.commit();
         }
 
-        ItemVariant resultVariant = context.getItemVariant();
-        ItemStack result = resultVariant.toStack((int) Math.min(Integer.MAX_VALUE, context.getAmount()));
-        if (!(user instanceof Player player) || !player.isCreative()) {
-            bucket.shrink(1);
-            if (!result.isEmpty()) {
-                ItemUtils.getItemToLivingEntity(user, result);
-            }
-        }
         SoundEvent sound = FluidVariantAttributes.getEmptySound(resource);
         if (sound != null) {
             user.playSound(sound);
@@ -95,8 +88,10 @@ public class FluidUtils {
         if (bucket.isEmpty() || handler == null) {
             return false;
         }
-        ItemStack copy = bucket.copyWithCount(1);
-        ContainerItemContext context = ContainerItemContext.withConstant(copy);
+        ContainerItemContext context = getMutableContext(user, bucket);
+        if (context == null) {
+            return false;
+        }
         Storage<FluidVariant> itemStorage = context.find(FluidStorage.ITEM);
         if (itemStorage == null) {
             return false;
@@ -127,14 +122,6 @@ public class FluidUtils {
             transaction.commit();
         }
 
-        ItemVariant resultVariant = context.getItemVariant();
-        ItemStack result = resultVariant.toStack((int) Math.min(Integer.MAX_VALUE, context.getAmount()));
-        if (!(user instanceof Player player) || !player.isCreative()) {
-            bucket.shrink(1);
-            if (!result.isEmpty()) {
-                ItemUtils.getItemToLivingEntity(user, result);
-            }
-        }
         SoundEvent sound = FluidVariantAttributes.getFillSound(resource);
         if (sound != null) {
             user.playSound(sound);
@@ -178,5 +165,24 @@ public class FluidUtils {
             }
         }
         return 0;
+    }
+
+    public static boolean hasFluid(ItemStack stack) {
+        Storage<FluidVariant> itemStorage = FluidUtils.getItemStorage(stack);
+        return itemStorage != null && !findFirstResource(itemStorage).isBlank();
+    }
+
+    @Nullable
+    private static ContainerItemContext getMutableContext(LivingEntity user, ItemStack stack) {
+        if (!(user instanceof Player player)) {
+            return null;
+        }
+        if (player.getMainHandItem() == stack) {
+            return ContainerItemContext.ofPlayerHand(player, InteractionHand.MAIN_HAND);
+        }
+        if (player.getOffhandItem() == stack) {
+            return ContainerItemContext.ofPlayerHand(player, InteractionHand.OFF_HAND);
+        }
+        return null;
     }
 }
