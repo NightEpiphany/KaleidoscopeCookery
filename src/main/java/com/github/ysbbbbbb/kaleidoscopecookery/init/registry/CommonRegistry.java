@@ -6,15 +6,21 @@ import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteOneByTwoBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.farmersdelight.FarmersDelightCompat;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.trinkets.init.ModTrinketsCompat;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.trinkets.init.TrinketsCompatServer;
+import com.github.ysbbbbbb.kaleidoscopecookery.datagen.lootable.GiftLootTables;
+import com.github.ysbbbbbb.kaleidoscopecookery.datamap.resources.MillstoneBindableDataReloadListener;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.ModVillager;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.BowlFoodBlockItem;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.world.entity.ai.behavior.GiveGiftToHero;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
@@ -23,12 +29,22 @@ import org.jetbrains.annotations.NotNull;
 
 public class CommonRegistry {
     public static void init() {
+        registerDataListeners();
         modCompat();
         addComposter();
         registerFoodBiteBlocks();
         registerServerEvents();
+        addVillagerGift();
         addDispenserBehavior();
         fuelRegister();
+    }
+
+    public static void registerDataListeners() {
+        ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new MillstoneBindableDataReloadListener());
+    }
+
+    private static void addVillagerGift() {
+        GiveGiftToHero.GIFTS.put(ModVillager.CHEF, GiftLootTables.CHEF_GIFT_LOOT_KEY);
     }
 
     public static void registerServerEvents() {

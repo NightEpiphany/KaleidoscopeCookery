@@ -19,6 +19,8 @@ import static com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems.BRAISED_FISH
 public class GiftLootTables implements LootTableSubProvider {
     public static final ResourceLocation CHEF_GIFT = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "gameplay/hero_of_the_village/chef_gift");
 
+    public static final ResourceKey<LootTable> CHEF_GIFT_LOOT_KEY = ResourceKey.create(Registries.LOOT_TABLE, CHEF_GIFT);
+
     public GiftLootTables(HolderLookup.Provider registries) {
     }
 
