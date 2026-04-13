@@ -13,6 +13,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.datagen.lootable.GiftLootTables;
 import com.github.ysbbbbbb.kaleidoscopecookery.datamap.resources.MillstoneBindableDataReloadListener;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.*;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModVillager;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.BowlFoodBlockItem;
@@ -20,6 +21,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.item.TeacupItem;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.packs.PackType;
@@ -31,7 +33,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class CommonRegistry {
     public static void init() {
-        ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new MillstoneBindableDataReloadListener());
+        registerDataListeners();
+        registerFluidStorage();
         modCompat();
         addComposter();
         registerTeacupBlocks();
@@ -40,6 +43,14 @@ public class CommonRegistry {
         addVillagerGift();
         addDispenserBehavior();
         fuelRegister();
+    }
+
+    public static void registerDataListeners() {
+        ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new MillstoneBindableDataReloadListener());
+    }
+    @SuppressWarnings("UnstableApiUsage")
+    public static void registerFluidStorage() {
+        FluidStorage.SIDED.registerForBlockEntity((blockEntity, direction) -> blockEntity.getTeaTank(), ModBlocks.TEAPOT_BE);
     }
 
     public static void registerServerEvents() {

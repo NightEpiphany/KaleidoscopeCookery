@@ -14,6 +14,7 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import org.jetbrains.annotations.NotNull;
 
 @Environment(EnvType.CLIENT)
 public class TeapotModel extends HierarchicalModel<Entity> {
@@ -72,14 +73,14 @@ public class TeapotModel extends HierarchicalModel<Entity> {
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
         chain.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
         base.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
     }
 
     @Override
-    public ModelPart root() {
+    public @NotNull ModelPart root() {
         return this.root;
     }
 
@@ -97,6 +98,6 @@ public class TeapotModel extends HierarchicalModel<Entity> {
     }
 
     @Override
-    public void setupAnim(Entity entity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+    public void setupAnim(@NotNull Entity entity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
     }
 }

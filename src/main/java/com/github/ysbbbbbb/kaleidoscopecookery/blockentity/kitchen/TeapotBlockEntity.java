@@ -11,7 +11,6 @@ import com.github.ysbbbbbb.kaleidoscopecookery.util.fluids.FluidUtils;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.fluids.CustomFluidTank;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
 import com.google.common.collect.Lists;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -71,10 +70,6 @@ public class TeapotBlockEntity extends BaseBlockEntity implements ITeapot {
 
     public TeapotBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocks.TEAPOT_BE, pos, state);
-    }
-
-    public static void registerFluidStorage() {
-        FluidStorage.SIDED.registerForBlockEntity((blockEntity, direction) -> blockEntity.getTeaTank(), ModBlocks.TEAPOT_BE);
     }
 
     public void tick(Level level) {
