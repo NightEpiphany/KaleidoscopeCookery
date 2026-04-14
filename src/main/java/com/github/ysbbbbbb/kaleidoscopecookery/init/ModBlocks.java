@@ -16,6 +16,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.block.misc.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.food.FoodBiteThreeByThreeBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.*;
+import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.misc.TrashCanBlockEntity;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -62,11 +63,12 @@ public class ModBlocks {
     public static final Block COOK_STOOL_MANGROVE = new CookStoolBlock(SoundType.WOOD);
     public static final Block COOK_STOOL_WARPED = new CookStoolBlock(SoundType.NETHER_WOOD);
 
-
+    // Misc
     public static final Block MILLSTONE = new MillstoneBlock();
     public static final Block STEAMER = new SteamerBlock();
     public static final Block OIL_POT = new OilPotBlock();
     public static final Block RECIPE_BLOCK = new RecipeBlock();
+    public static final Block TRASH_CAN = new TrashCanBlock();
 
 
     // Chairs
@@ -126,6 +128,7 @@ public class ModBlocks {
     public static final BlockEntityType<RecipeBlockEntity> RECIPE_BLOCK_BE = BlockEntityType.Builder.of(RecipeBlockEntity::new, RECIPE_BLOCK).build(null);
     public static final BlockEntityType<SteamerBlockEntity> STEAMER_BE = BlockEntityType.Builder.of(SteamerBlockEntity::new, STEAMER).build(null);
     public static final BlockEntityType<OilPotBlockEntity> OIL_POT_BE = BlockEntityType.Builder.of(OilPotBlockEntity::new, OIL_POT).build(null);
+    public static final BlockEntityType<TrashCanBlockEntity> TRASH_CAN_BE = BlockEntityType.Builder.of(TrashCanBlockEntity::new, TRASH_CAN).build(null);
 
     public static void registerBlocks() {
         // Kitchen blocks
@@ -145,6 +148,7 @@ public class ModBlocks {
         Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "recipe_block"), RECIPE_BLOCK);
         Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "millstone"), MILLSTONE);
         Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "steamer"), STEAMER);
+        Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "trash_can"), TRASH_CAN);
 
         // Tea
         Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "teapot"), TEAPOT);
@@ -214,5 +218,6 @@ public class ModBlocks {
         Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "steamer"), STEAMER_BE);
         Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "oil_pot"), OIL_POT_BE);
         Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "food_bite_three_by_three"), FOOD_BITE_THREE_BY_THREE_BE);
+        Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "trash_can"), TRASH_CAN_BE);
     }
 }

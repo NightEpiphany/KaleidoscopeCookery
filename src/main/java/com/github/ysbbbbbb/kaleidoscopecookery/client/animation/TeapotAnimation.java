@@ -1,10 +1,13 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.animation;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.animation.AnimationChannel;
 import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.animation.Keyframe;
 import net.minecraft.client.animation.KeyframeAnimations;
 
+@Environment(EnvType.CLIENT)
 public class TeapotAnimation {
     public static final AnimationDefinition BOILING = AnimationDefinition.Builder.withLength(0.25F).looping()
             .addAnimation("top", new AnimationChannel(AnimationChannel.Targets.POSITION,

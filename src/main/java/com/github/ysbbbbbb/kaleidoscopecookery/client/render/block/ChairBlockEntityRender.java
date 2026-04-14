@@ -36,7 +36,7 @@ public class ChairBlockEntityRender implements BlockEntityRenderer<ChairBlockEnt
     }
 
     @Override
-    public void render(ChairBlockEntity chair, float pPartialTick, PoseStack poseStack,
+    public void render(ChairBlockEntity chair, float pPartialTick, @NotNull PoseStack poseStack,
                        @NotNull MultiBufferSource buffer, int packedLight, int packedOverlay) {
         if (chair.getBlockState().getValue(ChairBlock.HAS_CARPET)) {
             ItemRenderer itemRenderer = this.context.getItemRenderer();

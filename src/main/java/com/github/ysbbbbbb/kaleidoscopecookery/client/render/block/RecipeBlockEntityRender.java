@@ -17,6 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import org.jetbrains.annotations.NotNull;
 
 @Environment(EnvType.CLIENT)
 public class RecipeBlockEntityRender implements BlockEntityRenderer<RecipeBlockEntity> {
@@ -27,8 +28,8 @@ public class RecipeBlockEntityRender implements BlockEntityRenderer<RecipeBlockE
     }
 
     @Override
-    public void render(RecipeBlockEntity recipeBlock, float pPartialTick, PoseStack poseStack,
-                       MultiBufferSource buffer, int packedLight, int packedOverlay) {
+    public void render(RecipeBlockEntity recipeBlock, float pPartialTick, @NotNull PoseStack poseStack,
+                       @NotNull MultiBufferSource buffer, int packedLight, int packedOverlay) {
         ItemStack stack = recipeBlock.getItems().get(0);
         if (stack.isEmpty()) {
             return;

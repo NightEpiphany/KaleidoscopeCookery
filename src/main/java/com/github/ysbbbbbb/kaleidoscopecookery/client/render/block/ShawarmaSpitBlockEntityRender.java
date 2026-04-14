@@ -15,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import org.jetbrains.annotations.NotNull;
 
 @Environment(EnvType.CLIENT)
 public class ShawarmaSpitBlockEntityRender implements BlockEntityRenderer<ShawarmaSpitBlockEntity> {
@@ -25,8 +26,8 @@ public class ShawarmaSpitBlockEntityRender implements BlockEntityRenderer<Shawar
     }
 
     @Override
-    public void render(ShawarmaSpitBlockEntity shawarmaSpit, float partialTick, PoseStack poseStack,
-                       MultiBufferSource buffer, int packedLight, int packedOverlay) {
+    public void render(ShawarmaSpitBlockEntity shawarmaSpit, float partialTick, @NotNull PoseStack poseStack,
+                       @NotNull MultiBufferSource buffer, int packedLight, int packedOverlay) {
         ItemStack cookedItem = shawarmaSpit.cookedItem;
         if (cookedItem.isEmpty()) {
             return;

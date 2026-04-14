@@ -27,11 +27,14 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 @SuppressWarnings("deprecation")
 public class EmptyCupBlock extends HorizontalDirectionalBlock {
@@ -51,6 +54,15 @@ public class EmptyCupBlock extends HorizontalDirectionalBlock {
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(CUP_COUNT, 1)
                 .setValue(FACING, Direction.SOUTH));
+    }
+
+    @Override
+    public @NotNull List<ItemStack> getDrops(BlockState state, LootParams.@NotNull Builder params) {
+        int cupCount = state.getValue(CUP_COUNT);
+        if (cupCount > 0) {
+            return List.of(new ItemStack(ModItems.EMPTY_CUP, cupCount));
+        }
+        return super.getDrops(state, params);
     }
 
     @Override

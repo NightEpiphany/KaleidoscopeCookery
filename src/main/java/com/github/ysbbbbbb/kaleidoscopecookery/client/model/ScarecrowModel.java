@@ -17,7 +17,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
+@SuppressWarnings("unused")
 @Environment(EnvType.CLIENT)
 public class ScarecrowModel extends EntityModel<ScarecrowEntity> implements ArmedModel, HeadedModel {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(KaleidoscopeCookery.MOD_ID, "scarecrow"), "main");
@@ -70,12 +72,12 @@ public class ScarecrowModel extends EntityModel<ScarecrowEntity> implements Arme
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         group.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
     }
 
     @Override
-    public void translateToHand(HumanoidArm arm, PoseStack poseStack) {
+    public void translateToHand(@NotNull HumanoidArm arm, @NotNull PoseStack poseStack) {
         if (arm == HumanoidArm.LEFT) {
             this.leftArm.translateAndRotate(poseStack);
         } else {
@@ -84,7 +86,7 @@ public class ScarecrowModel extends EntityModel<ScarecrowEntity> implements Arme
     }
 
     @Override
-    public ModelPart getHead() {
+    public @NotNull ModelPart getHead() {
         return this.head;
     }
 }

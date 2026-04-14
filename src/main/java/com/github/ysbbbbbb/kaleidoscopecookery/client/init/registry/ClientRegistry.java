@@ -6,6 +6,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.client.event.TipOverlayEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.model.ColdCutHamSlicesModel;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.model.MillstoneModel;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.model.TeapotModel;
+import com.github.ysbbbbbb.kaleidoscopecookery.client.model.TrashCanModel;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.render.block.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.render.item.StrawHatArmorRenderer;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.resources.ItemRenderReplacerReloadListener;
@@ -65,10 +66,12 @@ public class ClientRegistry {
         BlockEntityRenderers.register(ModBlocks.MILLSTONE_BE, MillstoneBlockEntityRender::new);
         BlockEntityRenderers.register(ModBlocks.FOOD_BITE_THREE_BY_THREE_BE, FoodBiteThreeByThreeBlockEntityRender::new);
         BlockEntityRenderers.register(ModBlocks.TEAPOT_BE, TeapotBlockEntityRender::new);
+        BlockEntityRenderers.register(ModBlocks.TRASH_CAN_BE, TrashCanBlockEntityRender::new);
 
         EntityModelLayerRegistry.registerModelLayer(MillstoneModel.LAYER_LOCATION, MillstoneModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(ColdCutHamSlicesModel.LAYER_LOCATION, ColdCutHamSlicesModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(TeapotModel.LAYER_LOCATION, TeapotModel::createBodyLayer);
+        EntityModelLayerRegistry.registerModelLayer(TrashCanModel.LAYER_LOCATION, TrashCanModel::createBodyLayer);
     }
 
     public static void modCompatClient() {

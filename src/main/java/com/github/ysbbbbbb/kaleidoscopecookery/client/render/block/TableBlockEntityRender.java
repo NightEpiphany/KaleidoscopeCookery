@@ -75,8 +75,8 @@ public class TableBlockEntityRender implements BlockEntityRenderer<TableBlockEnt
 
         NonNullList<ItemStack> items = table.getItems();
         int count = 0;
-        for (int i = 0; i < items.size(); i++) {
-            if (items.get(i).isEmpty()) {
+        for (ItemStack item : items) {
+            if (item.isEmpty()) {
                 continue;
             }
             count++;

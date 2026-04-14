@@ -39,6 +39,7 @@ public class ModCreativeTabs {
                     output.accept(ModItems.MILLSTONE);
                     output.accept(ModItems.STEAMER);
                     output.accept(ModItems.TEAPOT);
+                    output.accept(ModItems.TRASH_CAN);
                     output.accept(ModItems.KITCHENWARE_RACKS);
                     output.accept(ModItems.FRUIT_BASKET);
                     output.accept(ModItems.SCARECROW);
