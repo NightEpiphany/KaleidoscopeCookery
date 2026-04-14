@@ -1,6 +1,8 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.event;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.api.client.ITipProvider;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -15,6 +17,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 
+@Environment(EnvType.CLIENT)
 public class TipOverlayEvent {
     public static void register() {
         HudRenderCallback.EVENT.register(TipOverlayEvent::render);

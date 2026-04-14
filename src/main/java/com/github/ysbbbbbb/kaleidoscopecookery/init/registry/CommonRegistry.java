@@ -1,5 +1,6 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.init.registry;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.api.event.LivingChangeTargetEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.event.RecipeItemEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.event.SickleHarvestEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.dispenser.OilPotDispenseBehavior;
@@ -68,6 +69,7 @@ public class CommonRegistry {
         ArmorEffectEvent.register();
         RecipeItemEvent.register();
         SickleHarvestEvent.register();
+        LivingChangeTargetEvent.register();
         AddVillageStructuresEvent.addVillageStructures();
     }
 

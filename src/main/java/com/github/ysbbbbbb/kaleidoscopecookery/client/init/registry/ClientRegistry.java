@@ -1,8 +1,11 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.init.registry;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.api.event.client.RenderPlayerEvent;
+import com.github.ysbbbbbb.kaleidoscopecookery.api.event.client.ViewportEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.event.FlatulenceEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.event.PotOverlayEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.event.TipOverlayEvent;
+import com.github.ysbbbbbb.kaleidoscopecookery.client.event.TrashcanOverlayEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.model.ColdCutHamSlicesModel;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.model.MillstoneModel;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.model.TeapotModel;
@@ -49,7 +52,10 @@ public class ClientRegistry {
     private static void registerClientEvents() {
         FlatulenceEvent.register();
         PotOverlayEvent.register();
+        TrashcanOverlayEvent.register();
         TipOverlayEvent.register();
+        RenderPlayerEvent.register();
+        ViewportEvent.register();
     }
 
     private static void registerBlockEntityRenderers() {

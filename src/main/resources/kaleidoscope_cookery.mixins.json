@@ -12,11 +12,13 @@
     "LayeredCauldronBlockMixin",
     "LivingEntityMixin",
     "MobBucketItemMixin",
+    "MobMixin",
     "PowderSnowBlockMixin",
     "VillagerMixin",
     "compact.RecipeParserMixin"
   ],
   "client": [
+    "GameRendererMixin",
     "ItemRendererMixin",
     "ModelBakeryMixin",
     "PlayerRendererMixin",

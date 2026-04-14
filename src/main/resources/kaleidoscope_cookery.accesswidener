@@ -14,3 +14,5 @@ mutable field net/minecraft/world/level/levelgen/structure/pools/StructureTempla
 accessible field net/minecraft/world/entity/ai/behavior/GiveGiftToHero GIFTS Ljava/util/Map;
 accessible field net/minecraft/world/entity/animal/horse/AbstractHorse inventory Lnet/minecraft/world/SimpleContainer;
 accessible field net/minecraft/world/effect/MobEffectInstance duration I
+accessible field net/minecraft/client/Camera yRot F
+accessible field net/minecraft/client/Camera xRot F

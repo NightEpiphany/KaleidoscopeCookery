@@ -1,11 +1,17 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.entity;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.misc.TrashCanBlockEntity;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.ModSounds;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -17,6 +23,17 @@ public class SitEntity extends Entity {
             .clientTrackingRange(10)
             .noSave().noSummon()
             .build("sit");
+
+    static final String SIT_TYPE = "SitType";
+
+    public static final int DEFAULT = 0;
+    public static final int TRASH_CAN = 1;
+    /**
+     * 座位类型，用来处理不同方块生成的实体，从而做出特殊的内容
+     */
+    private static final EntityDataAccessor<Integer> DATA_SIT_TYPE =
+            SynchedEntityData.defineId(SitEntity.class, EntityDataSerializers.INT);
+
     private int passengerTick = 0;
 
     public SitEntity(EntityType<?> entityTypeIn, Level worldIn) {
@@ -33,6 +50,16 @@ public class SitEntity extends Entity {
         this.setPos(pos.getX() + 0.5, pos.getY() + y, pos.getZ() + 0.5);
     }
 
+    public SitEntity(Level worldIn, BlockPos pos, double y, int sitType) {
+        this(worldIn, pos, y);
+        this.setSitType(sitType);
+    }
+
+    public SitEntity(Level worldIn, BlockPos pos, int sitType) {
+        this(worldIn, pos);
+        this.setSitType(sitType);
+    }
+
     @Override
     public double getPassengersRidingOffset() {
         return -0.25;
@@ -40,14 +67,17 @@ public class SitEntity extends Entity {
 
     @Override
     protected void defineSynchedData() {
+        this.entityData.define(DATA_SIT_TYPE, DEFAULT);
     }
 
     @Override
     protected void readAdditionalSaveData(@NotNull CompoundTag tag) {
+        this.setSitType(tag.getInt(SIT_TYPE));
     }
 
     @Override
     protected void addAdditionalSaveData(@NotNull CompoundTag tag) {
+        tag.putInt(SIT_TYPE, this.getSitType());
     }
 
     @Override
@@ -75,6 +105,30 @@ public class SitEntity extends Entity {
         if (passengerTick > 10) {
             this.discard();
         }
+    }
+
+    @Override
+    protected void addPassenger(@NotNull Entity passenger) {
+        if (this.getSitType() == SitEntity.TRASH_CAN && passenger instanceof Player player) {
+            player.playSound(ModSounds.TRASH_CAN);
+        }
+        super.addPassenger(passenger);
+    }
+
+    @Override
+    protected void removePassenger(@NotNull Entity passenger) {
+        // 玩家脱离骑乘垃圾桶实体，此时停止动画，并播放声音
+        if (this.getSitType() == SitEntity.TRASH_CAN && passenger instanceof Player player) {
+            // 获取垃圾桶
+            BlockPos blockPos = this.blockPosition();
+            if (level().getBlockEntity(blockPos) instanceof TrashCanBlockEntity trashCan) {
+                trashCan.player1State.stop();
+                trashCan.player2State.stop();
+                player.playSound(ModSounds.TRASH_CAN);
+            }
+        }
+
+        super.removePassenger(passenger);
     }
 
     @Override
@@ -115,5 +169,13 @@ public class SitEntity extends Entity {
     @Override
     public boolean canCollideWith(@NotNull Entity entity) {
         return false;
+    }
+
+    public int getSitType() {
+        return this.entityData.get(DATA_SIT_TYPE);
+    }
+
+    public void setSitType(int sitType) {
+        this.entityData.set(DATA_SIT_TYPE, sitType);
     }
 }

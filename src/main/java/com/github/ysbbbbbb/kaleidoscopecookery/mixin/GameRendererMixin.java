@@ -1,0 +1,36 @@
+package com.github.ysbbbbbb.kaleidoscopecookery.mixin;
+
+import com.github.ysbbbbbb.kaleidoscopecookery.api.event.client.ViewportEvent;
+import com.llamalad7.mixinextras.sugar.Local;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.Camera;
+import net.minecraft.client.renderer.GameRenderer;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+@Environment(EnvType.CLIENT)
+@Mixin(GameRenderer.class)
+public class GameRendererMixin {
+
+    @Inject(
+            method = "renderLevel",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/Camera;setup(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/world/entity/Entity;ZZF)V",
+                    shift = At.Shift.AFTER
+            )
+    )
+    private void renderLevel(float f, long l, PoseStack poseStack, CallbackInfo ci, @Local(name = "camera")Camera camera) {
+        var event = new ViewportEvent.ComputeCameraAngles(((GameRenderer) (Object) this), camera, f, camera.getYRot(), camera.getXRot(), 0);
+        event.post();
+        // setup() 会覆盖相机旋转，所以要在其执行后再应用事件修改。
+        camera.yRot = event.getYaw();
+        camera.xRot = event.getPitch();
+        poseStack.mulPose(Axis.ZP.rotationDegrees(event.getRoll()));
+    }
+}

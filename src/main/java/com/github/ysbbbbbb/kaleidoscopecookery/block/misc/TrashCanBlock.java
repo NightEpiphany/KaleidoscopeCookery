@@ -1,11 +1,14 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.block.misc;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.misc.TrashCanBlockEntity;
+import com.github.ysbbbbbb.kaleidoscopecookery.entity.SitEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -24,6 +27,9 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -31,10 +37,17 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
+
 import static net.minecraft.world.InteractionResult.PASS;
 
 @SuppressWarnings({"deprecation"})
 public class TrashCanBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock {
+    /**
+     * 吸取物品的范围
+     */
+    public static final VoxelShape SUCK_ZONE = Block.box(0, 15, 0, 16, 16, 16);
+
     public static final VoxelShape AABB = Shapes.or(
             Block.box(2, 0, 2, 14, 15, 14),
             Block.box(1, 12, 1, 15, 15, 15)
@@ -47,11 +60,62 @@ public class TrashCanBlock extends HorizontalDirectionalBlock implements SimpleW
         super(BlockBehaviour.Properties.of()
                 .sound(SoundType.METAL)
                 .mapColor(MapColor.COLOR_BLACK)
-                .noOcclusion());
+                .noOcclusion()
+                .strength(1.5F, 6.0F));
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)
                 .setValue(POWERED, false)
                 .setValue(WATERLOGGED, false));
+    }
+
+    @Override
+    public void destroy(LevelAccessor levelAccessor, @NotNull BlockPos pos, @NotNull BlockState state) {
+        levelAccessor.getEntitiesOfClass(SitEntity.class, new AABB(pos)).forEach(Entity::discard);
+    }
+
+    @Override
+    public void fallOn(@NotNull Level level, @NotNull BlockState state, @NotNull BlockPos pos, @NotNull Entity entity, float fallDistance) {
+        super.fallOn(level, state, pos, entity, fallDistance);
+        // 如果是玩家
+        if (entity instanceof Player player && player.getVehicle() == null && fallDistance > 1f) {
+            List<SitEntity> entities = level.getEntitiesOfClass(SitEntity.class, new AABB(pos));
+            if (!entities.isEmpty()) {
+                return;
+            }
+            if (!level.isClientSide) {
+                SitEntity entitySit = new SitEntity(level, pos, 0.875, SitEntity.TRASH_CAN);
+                entitySit.setYRot(state.getValue(FACING).toYRot());
+                level.addFreshEntity(entitySit);
+                player.startRiding(entitySit, true);
+            }
+            // 清除周围生物对玩家的敌意
+            level.getEntitiesOfClass(Mob.class, new AABB(pos).inflate(32)).forEach(e -> {
+                if (e.getTarget() == player) {
+                    e.setTarget(null);
+                }
+            });
+
+            // 播放进入动画
+            if (level.getBlockEntity(pos) instanceof TrashCanBlockEntity trashCan) {
+                trashCan.enterState.start((int) level.getGameTime());
+
+            }
+        }
+    }
+
+    @Override
+    public @NotNull List<ItemStack> getDrops(@NotNull BlockState state, LootParams.@NotNull Builder params) {
+        List<ItemStack> drops = super.getDrops(state, params);
+        BlockEntity parameter = params.getParameter(LootContextParams.BLOCK_ENTITY);
+        if (parameter instanceof TrashCanBlockEntity trashCanBlock) {
+            for (int i = 0; i < trashCanBlock.getStorage().getSlots(); i++) {
+                ItemStack stack = trashCanBlock.getStorage().getStackInSlot(i);
+                if (!stack.isEmpty()) {
+                    drops.add(stack);
+                }
+            }
+        }
+        return drops;
     }
 
     @Nullable
@@ -64,8 +128,11 @@ public class TrashCanBlock extends HorizontalDirectionalBlock implements SimpleW
     @Override
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState state, @NotNull BlockEntityType<T> blockEntityType) {
-        return createTickerHelper(blockEntityType, ModBlocks.TRASH_CAN_BE,
-                (lvl, blockPos, blockState, trashCan) -> trashCan.tick(lvl));
+        if (level.isClientSide) {
+            return createTickerHelper(blockEntityType, ModBlocks.TRASH_CAN_BE,
+                    (lvl, blockPos, blockState, trashCan) -> trashCan.clientTick(lvl));
+        }
+        return null;
     }
 
     @Override
@@ -101,6 +168,14 @@ public class TrashCanBlock extends HorizontalDirectionalBlock implements SimpleW
             }
         }
         return PASS;
+    }
+
+    @Override
+    public void entityInside(BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Entity entity) {
+        // 只有充能后才能吸取
+        if (state.getValue(POWERED) && level.getBlockEntity(pos) instanceof TrashCanBlockEntity trashCan) {
+            trashCan.entityInside(level, pos, entity);
+        }
     }
 
     @Override
