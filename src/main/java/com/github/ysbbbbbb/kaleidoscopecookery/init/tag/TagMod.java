@@ -31,6 +31,10 @@ public interface TagMod {
      */
     TagKey<Item> EXTINGUISH_STOVE = itemTag("extinguish_stove");
     /**
+     * 猪儿虫
+     */
+    TagKey<Item> CATERPILLARS = itemTag("caterpillars");
+    /**
      * 任意可以用作炒锅油的物品
      */
     TagKey<Item> OIL = itemTag("oil");

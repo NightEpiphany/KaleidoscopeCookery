@@ -2,8 +2,8 @@ package com.github.ysbbbbbb.kaleidoscopecookery.event;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.advancements.critereon.ModEventTriggerType;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.FruitBasketBlockEntity;
-import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTrigger;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.minecraft.core.BlockPos;
@@ -57,7 +57,7 @@ public class RightClickEvent {
 
     private static InteractionResult onUseEntity(Player player, Level level, InteractionHand hand, Entity target, EntityHitResult hitResult) {
         ItemStack mainHandItem = player.getMainHandItem();
-        if (target instanceof Chicken chicken && chicken.isBaby() && mainHandItem.is(ModItems.CATERPILLAR)) {
+        if (target instanceof Chicken chicken && chicken.isBaby() && mainHandItem.is(TagMod.CATERPILLARS)) {
             // 让鸡瞬间成年
             chicken.setAge(0);
             // 加一些特性和音效
