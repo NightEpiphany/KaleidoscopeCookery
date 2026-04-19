@@ -38,6 +38,10 @@ public abstract class ModelBakeryMixin {
     private static final ModelResourceLocation OIL_IN_MILLSTONE = ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "oil_in_millstone"));
     @Unique
     private static final ModelResourceLocation COLD_CUT_HAM_SLICES_GUI = ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "cold_cut_ham_slices_in_gui"));
+    @Unique
+    private static final ModelResourceLocation TEAPOT_GUI = ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "teapot_in_gui"));
+    @Unique
+    private static final ModelResourceLocation FRUIT_BASKET_GUI = ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "fruit_basket_in_gui"));
 
 
     @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/resources/model/ModelBakery;loadSpecialItemModelAndDependencies(Lnet/minecraft/client/resources/model/ModelResourceLocation;)V", shift = At.Shift.AFTER, ordinal = 1))
@@ -48,5 +52,7 @@ public abstract class ModelBakeryMixin {
         this.loadSpecialItemModelAndDependencies(OIL_IN_MILLSTONE);
         this.loadSpecialItemModelAndDependencies(COLD_CUT_HAM_SLICES_GUI);
         this.loadSpecialItemModelAndDependencies(TOMATO_SAUCE);
+        this.loadSpecialItemModelAndDependencies(TEAPOT_GUI);
+        this.loadSpecialItemModelAndDependencies(FRUIT_BASKET_GUI);
     }
 }

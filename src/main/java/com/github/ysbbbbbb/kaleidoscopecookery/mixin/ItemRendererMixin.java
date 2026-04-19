@@ -37,8 +37,16 @@ public abstract class ItemRendererMixin {
     ) {
 
         boolean bl = renderMode == ItemDisplayContext.GUI || renderMode == ItemDisplayContext.GROUND || renderMode == ItemDisplayContext.FIXED;
-        if (bl && stack.is(ModItems.COLD_CUT_HAM_SLICES)) {
-            return getItemModelShaper().getModelManager().getModel(ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath(MOD_ID, "cold_cut_ham_slices_in_gui")));
+        if (bl) {
+            if (stack.is(ModItems.COLD_CUT_HAM_SLICES)) {
+                return getItemModelShaper().getModelManager().getModel(ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath(MOD_ID, "cold_cut_ham_slices_in_gui")));
+            }
+            if (stack.is(ModItems.TEAPOT)) {
+                return getItemModelShaper().getModelManager().getModel(ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath(MOD_ID, "teapot_in_gui")));
+            }
+            if (stack.is(ModItems.FRUIT_BASKET)) {
+                return getItemModelShaper().getModelManager().getModel(ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath(MOD_ID, "fruit_basket_in_gui")));
+            }
         }
         return model;
     }

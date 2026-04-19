@@ -31,6 +31,7 @@ public class ModPlugin implements IWailaPlugin {
     public static final ResourceLocation OIL_POT = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "oil_pot");
     public static final ResourceLocation RECIPE_BLOCK = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "recipe_block");
     public static final ResourceLocation STEAMER = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "steamer");
+    public static final ResourceLocation TEAPOT = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "teapot");
 
     @Override
     public void register(IWailaCommonRegistration registration) {
@@ -56,6 +57,7 @@ public class ModPlugin implements IWailaPlugin {
         registration.registerItemStorageClient(StockpotComponentProvider.INSTANCE);
         registration.registerItemStorageClient(SteamerComponentProvider.INSTANCE);
 
+        registration.registerBlockComponent(TeapotComponentProvider.INSTANCE, TeapotBlock.class);
         registration.registerBlockComponent(MillstoneComponentProvider.INSTANCE, MillstoneBlock.class);
         registration.registerBlockComponent(RecipeBlockComponentProvider.INSTANCE, RecipeBlock.class);
     }

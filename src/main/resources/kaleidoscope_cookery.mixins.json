@@ -23,9 +23,11 @@
   ],
   "client": [
     "BlockEntityRendererMixin",
+    "CameraMixin",
     "ItemRendererMixin",
     "LeftClickMixin",
     "ModelBakeryMixin",
+    "PlayerRenderMixin",
     "PlayerRendererMixin",
     "realize.HumanoidModelImplementationMixin",
     "realize.HumanoidModelMixin"

@@ -1,25 +1,33 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.entity;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.misc.TrashCanBlockEntity;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.ModSounds;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.NotNull;
 
 public class SitEntity extends Entity {
     public static final EntityType<SitEntity> TYPE = EntityType.Builder.<SitEntity>of(SitEntity::new, MobCategory.MISC)
             .sized(0.5f, 0.1f)
             .clientTrackingRange(10)
-            .noSave().noSummon()
+            .noSummon()
             .build("sit");
-    private int passengerTick = 0;
 
+    public static final int DEFAULT = 0;
+    public static final int TRASH_CAN = 1;
+    private static final EntityDataAccessor<Integer> SIT_TYPE = SynchedEntityData.defineId(SitEntity.class, EntityDataSerializers.INT);
+
+    private int passengerTick = 0;
     public SitEntity(EntityType<?> entityTypeIn, Level worldIn) {
         super(entityTypeIn, worldIn);
     }
@@ -34,28 +42,38 @@ public class SitEntity extends Entity {
         this.setPos(pos.getX() + 0.5, pos.getY() + y, pos.getZ() + 0.5);
     }
 
-    @Override
-    public @NotNull Vec3 getPassengerRidingPosition(Entity entity) {
-        return super.getPassengerRidingPosition(entity).add(0, -0.0625, 0);
+    public SitEntity(Level worldIn, BlockPos pos, double y, int sitType) {
+        this(worldIn, pos, y);
+        this.setSitType(sitType);
+    }
+
+    public SitEntity(Level worldIn, BlockPos pos, int sitType) {
+        this(worldIn, pos);
+        this.setSitType(sitType);
     }
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        builder.define(SIT_TYPE, DEFAULT);
     }
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
+        this.setSitType(tag.getInt("SitType"));
     }
 
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
+        tag.putInt("SitType", this.getSitType());
     }
 
     @Override
     public void tick() {
+        super.tick();
         if (!this.level().isClientSide) {
             this.checkBelowWorld();
             this.checkPassengers();
+
             // 每秒检查一次所处位置是否有方块，没有就删除实体
             if (this.tickCount % 20 == 0) {
                 BlockState blockState = this.level().getBlockState(this.blockPosition());
@@ -64,6 +82,23 @@ public class SitEntity extends Entity {
                 }
             }
         }
+    }
+
+
+    @Override
+    protected void removePassenger(Entity passenger) {
+        // 玩家脱离骑乘垃圾桶实体，此时停止动画，并播放声音
+        if (this.getSitType() == SitEntity.TRASH_CAN && passenger instanceof Player player) {
+            // 获取垃圾桶
+            BlockPos blockPos = this.blockPosition();
+            if (level().getBlockEntity(blockPos) instanceof TrashCanBlockEntity trashCan) {
+                trashCan.player1State.stop();
+                trashCan.player2State.stop();
+                player.playSound(ModSounds.TRASH_CAN);
+            }
+        }
+
+        super.removePassenger(passenger);
     }
 
     private void checkPassengers() {
@@ -115,5 +150,13 @@ public class SitEntity extends Entity {
     @Override
     public boolean canCollideWith(Entity entity) {
         return false;
+    }
+
+    public int getSitType() {
+        return this.entityData.get(SIT_TYPE);
+    }
+
+    public void setSitType(int sitType) {
+        this.entityData.set(SIT_TYPE, sitType);
     }
 }

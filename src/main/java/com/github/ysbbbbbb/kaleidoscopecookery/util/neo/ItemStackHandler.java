@@ -130,10 +130,10 @@ public class ItemStackHandler implements IItemHandler {
         ListTag nbtTagList = new ListTag();
 
         for(int i = 0; i < this.stacks.size(); ++i) {
-            if (!((ItemStack)this.stacks.get(i)).isEmpty()) {
+            if (!this.stacks.get(i).isEmpty()) {
                 CompoundTag itemTag = new CompoundTag();
                 itemTag.putInt("Slot", i);
-                nbtTagList.add(((ItemStack)this.stacks.get(i)).save(provider, itemTag));
+                nbtTagList.add(this.stacks.get(i).save(provider, itemTag));
             }
         }
 

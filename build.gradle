@@ -94,12 +94,14 @@ dependencies {
 	modImplementation "curse.maven:ftb-ultimine-fabric-448231:7188393"
     modImplementation "curse.maven:ftb-library-fabric-438495:7260615"
     modImplementation("mezz.jei:jei-${project.minecraft_version}-fabric:${project.jei_version}")
-    modImplementation "curse.maven:jade-324717:6738760"
+    modImplementation "maven.modrinth:jade:${project.jade_version}"
     modCompileOnly "curse.maven:roughly-enough-items-310111:6199139"
     modImplementation "curse.maven:cloth-config-348521:5729125"
     modApi("me.shedaniel.cloth:basic-math:+")
     modImplementation "curse.maven:architectury-api-419699:5786326"
     modImplementation "dev.emi:trinkets:${trinkets_version}"
+    modCompileOnly "dev.emi:emi-fabric:${emi_version}:api"
+    modCompileOnly "dev.emi:emi-fabric:${emi_version}"
 
     // delight family compact
     modImplementation("vectorwing:FarmersDelight:${fdrf_version}") {

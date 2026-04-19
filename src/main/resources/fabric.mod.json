@@ -17,18 +17,11 @@
   "entrypoints": {
     "main": ["com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery"],
     "client": ["com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookeryClient"],
-    "fabric-datagen": [
-      "com.github.ysbbbbbb.kaleidoscopecookery.datagen.DataGenerators"
-    ],
-    "jei_mod_plugin": [
-      "com.github.ysbbbbbb.kaleidoscopecookery.compat.jei.ModJeiPlugin"
-    ],
-    "rei_client": [
-      "com.github.ysbbbbbb.kaleidoscopecookery.compat.rei.ModREIClientPlugin"
-    ],
-    "jade": [
-      "com.github.ysbbbbbb.kaleidoscopecookery.compat.jade.ModPlugin"
-    ]
+    "fabric-datagen": ["com.github.ysbbbbbb.kaleidoscopecookery.datagen.DataGenerators"],
+    "jei_mod_plugin": ["com.github.ysbbbbbb.kaleidoscopecookery.compat.jei.ModJeiPlugin"],
+    "rei_client": ["com.github.ysbbbbbb.kaleidoscopecookery.compat.rei.ModREIClientPlugin"],
+    "jade": ["com.github.ysbbbbbb.kaleidoscopecookery.compat.jade.ModPlugin"],
+    "emi": ["com.github.ysbbbbbb.kaleidoscopecookery.compat.emi.ModEmiPlugin"]
   },
   "mixins": ["kaleidoscope_cookery.mixins.json"],
   "accessWidener": "kaleidoscope_cookery.accesswidener",

@@ -22,7 +22,15 @@ public class ModBlockRenderLayerMap {
                 ModBlocks.CHILI_RISTRA,
                 ModBlocks.STEAMER,
                 ModBlocks.STOCKPOT,
-                ModBlocks.STRUNG_MUSHROOMS
+                ModBlocks.STRUNG_MUSHROOMS,
+                ModBlocks.BARLEY_TEA,
+                ModBlocks.FLOWER_TEA,
+                ModBlocks.TIEGUANYIN,
+                ModBlocks.BILUOCHUN,
+                ModBlocks.OOLONG,
+                ModBlocks.SAKURA_FUBUKI,
+                ModBlocks.EMPTY_CUP,
+                ModBlocks.TEAPOT
         );
 
         FoodBiteRegistry.FOOD_DATA_MAP.keySet().forEach(id -> {

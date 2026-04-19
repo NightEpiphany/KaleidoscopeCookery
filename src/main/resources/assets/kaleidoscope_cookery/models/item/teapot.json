@@ -1,0 +1,4 @@
+{
+	"parent": "kaleidoscope_cookery:item/teapot_3d",
+	"gui_light": "front"
+}

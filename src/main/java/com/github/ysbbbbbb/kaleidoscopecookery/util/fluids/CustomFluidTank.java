@@ -10,6 +10,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.world.level.material.Fluid;
 
+@SuppressWarnings("all")
 /**
  * 替代forge流体系统的流体槽，用于方块存储流体
  */

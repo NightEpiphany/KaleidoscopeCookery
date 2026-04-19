@@ -22,6 +22,7 @@ public class ModJeiPlugin implements IModPlugin {
         registration.addRecipeCategories(new StockpotRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
         registration.addRecipeCategories(new MillstoneRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
         registration.addRecipeCategories(new SteamerRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
+        registration.addRecipeCategories(new TeapotRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
     }
 
     @Override
@@ -31,6 +32,7 @@ public class ModJeiPlugin implements IModPlugin {
         registration.addRecipes(StockpotRecipeCategory.TYPE, StockpotRecipeCategory.getRecipes());
         registration.addRecipes(MillstoneRecipeCategory.TYPE, MillstoneRecipeCategory.getRecipes());
         registration.addRecipes(SteamerRecipeCategory.TYPE, SteamerRecipeCategory.getRecipes());
+        registration.addRecipes(TeapotRecipeCategory.TYPE, TeapotRecipeCategory.getRecipes());
     }
 
     @Override
@@ -40,6 +42,7 @@ public class ModJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(ModItems.STOCKPOT.getDefaultInstance(), StockpotRecipeCategory.TYPE);
         registration.addRecipeCatalyst(ModItems.MILLSTONE.getDefaultInstance(), MillstoneRecipeCategory.TYPE);
         registration.addRecipeCatalyst(ModItems.STEAMER.getDefaultInstance(), SteamerRecipeCategory.TYPE);
+        registration.addRecipeCatalyst(ModItems.TEAPOT.getDefaultInstance(), TeapotRecipeCategory.TYPE);
     }
 
     @Override

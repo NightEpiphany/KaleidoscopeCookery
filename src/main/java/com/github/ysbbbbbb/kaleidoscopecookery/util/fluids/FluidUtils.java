@@ -10,12 +10,14 @@ import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
+@SuppressWarnings("all")
 public class FluidUtils {
     /**
      * 类似于 forge 提供的 FluidUtil 里的方法，但不限于玩家实体
@@ -32,8 +34,8 @@ public class FluidUtils {
         if (bucket.isEmpty() || handler == null) {
             return false;
         }
-        ItemStack copy = bucket.copyWithCount(1);
-        ContainerItemContext context = ContainerItemContext.withConstant(copy);
+        boolean creativePlayer = isCreativePlayer(user);
+        ContainerItemContext context = getInteractionContext(user, bucket);
         Storage<FluidVariant> itemStorage = context.find(FluidStorage.ITEM);
         if (itemStorage == null) {
             return false;
@@ -65,8 +67,12 @@ public class FluidUtils {
         }
 
         ItemVariant resultVariant = context.getItemVariant();
-        ItemStack result = resultVariant.toStack((int) Math.min(Integer.MAX_VALUE, context.getAmount()));
-        if (!(user instanceof Player player) || !player.isCreative()) {
+        ItemStack result = ItemUtils.getContainerItem(resultVariant.toStack((int) Math.min(Integer.MAX_VALUE, context.getAmount()))).getDefaultInstance();
+        if (creativePlayer) {
+            if (!result.isEmpty() && user instanceof Player player) {
+                ItemUtils.giveItemToPlayer(player, result);
+            }
+        } else if (!isSurvivalPlayer(user)) {
             bucket.shrink(1);
             if (!result.isEmpty()) {
                 ItemUtils.getItemToLivingEntity(user, result);
@@ -94,8 +100,8 @@ public class FluidUtils {
         if (bucket.isEmpty() || handler == null) {
             return false;
         }
-        ItemStack copy = bucket.copyWithCount(1);
-        ContainerItemContext context = ContainerItemContext.withConstant(copy);
+        boolean creativePlayer = isCreativePlayer(user);
+        ContainerItemContext context = getInteractionContext(user, bucket);
         Storage<FluidVariant> itemStorage = context.find(FluidStorage.ITEM);
         if (itemStorage == null) {
             return false;
@@ -127,8 +133,12 @@ public class FluidUtils {
         }
 
         ItemVariant resultVariant = context.getItemVariant();
-        ItemStack result = resultVariant.toStack((int) Math.min(Integer.MAX_VALUE, context.getAmount()));
-        if (!(user instanceof Player player) || !player.isCreative()) {
+        ItemStack result = ItemUtils.getContainerItem(resultVariant.toStack((int) Math.min(Integer.MAX_VALUE, context.getAmount()))).getDefaultInstance();
+        if (creativePlayer) {
+            if (!result.isEmpty() && user instanceof Player player) {
+                ItemUtils.giveItemToPlayer(player, result);
+            }
+        } else if (!isSurvivalPlayer(user)) {
             bucket.shrink(1);
             if (!result.isEmpty()) {
                 ItemUtils.getItemToLivingEntity(user, result);
@@ -145,6 +155,11 @@ public class FluidUtils {
         return getItemStorage(stack) != null;
     }
 
+    public static boolean hasFluid(ItemStack stack) {
+        Storage<FluidVariant> storage = getItemStorage(stack);
+        return storage != null && findFirstAmount(storage) > 0;
+    }
+
     @Nullable
     public static Storage<FluidVariant> getItemStorage(ItemStack stack) {
         if (stack.isEmpty()) {
@@ -152,6 +167,21 @@ public class FluidUtils {
         }
         ContainerItemContext context = ContainerItemContext.withConstant(stack.copyWithCount(1));
         return context.find(FluidStorage.ITEM);
+    }
+
+    private static boolean isSurvivalPlayer(LivingEntity user) {
+        return user instanceof Player player && !player.isCreative();
+    }
+
+    private static boolean isCreativePlayer(LivingEntity user) {
+        return user instanceof Player player && player.isCreative();
+    }
+
+    private static ContainerItemContext getInteractionContext(LivingEntity user, ItemStack stack) {
+        if (isSurvivalPlayer(user) && user instanceof Player player) {
+            return ContainerItemContext.ofPlayerHand(player, InteractionHand.MAIN_HAND);
+        }
+        return ContainerItemContext.withConstant(stack.copyWithCount(1));
     }
 
     private static long toTransferAmount(int milliBuckets) {
