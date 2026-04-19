@@ -64,6 +64,13 @@ public class ModEvents {
                 }
             });
 
+    public static final Event<ActionEventCallback.EntityChangeTarget> ENTITY_CHANGE_TARGET =
+            EventFactory.createArrayBacked(ActionEventCallback.EntityChangeTarget.class, call -> (event) -> {
+                for (ActionEventCallback.EntityChangeTarget listener : call) {
+                    listener.onEntityChangeTarget(event);
+                }
+            });
+
     public static void init() {
         SpecialRecipeItemEvent.onCheckItemEvent();
         SpecialRecipeItemEvent.onDeductItemEvent();

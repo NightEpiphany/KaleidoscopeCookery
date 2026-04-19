@@ -15,6 +15,7 @@ import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.NonNull;
 
+@SuppressWarnings({"unused","FieldCanBeLocal"})
 public class ScarecrowModel extends EntityModel<ScarecrowEntityRenderState> implements ArmedModel<ScarecrowEntityRenderState>, HeadedModel {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "scarecrow"), "main");
 

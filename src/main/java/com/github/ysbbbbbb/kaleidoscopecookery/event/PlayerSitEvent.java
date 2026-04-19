@@ -37,6 +37,7 @@ public class PlayerSitEvent {
         if (b instanceof ISittable && isPlayerInRange(player, hitPos) && !SitUtil.isOccupied(level, hitPos) && player.getItemInHand(hand).isEmpty()) {
             SitEntity sit = ModEntities.SIT.create(level, EntitySpawnReason.SPAWN_ITEM_USE);
             if (sit == null) return InteractionResult.PASS;
+            sit.setSitType(SitEntity.DEFAULT);
             sit.absSnapTo(hitPos.getX() + 0.5D, hitPos.getY() + 0.5D, hitPos.getZ() + 0.5D);
 
             if (SitUtil.addSitEntity(level, hitPos, sit, player.position())) {

@@ -1,6 +1,23 @@
 {
   "model": {
-  "type": "minecraft:model",
-    "model": "kaleidoscope_cookery:item/fruit_basket"
+    "type": "minecraft:select",
+    "cases": [
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "kaleidoscope_cookery:item/fruit_basket_in_gui"
+        },
+        "when": [
+          "gui",
+          "ground",
+          "fixed"
+        ]
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "kaleidoscope_cookery:item/fruit_basket_3d"
+    },
+    "property": "minecraft:display_context"
   }
 }

@@ -80,6 +80,23 @@ public class PortHelper {
         return new ValueInputContextHelper(level.registryAccess(), NbtOps.INSTANCE).empty();
     }
 
+    public static CompoundTag encodeItem(ItemStack stack, Level level) {
+        return ItemStack.CODEC.encodeStart(level.registryAccess().createSerializationContext(NbtOps.INSTANCE), stack)
+                .result()
+                .filter(CompoundTag.class::isInstance)
+                .map(CompoundTag.class::cast)
+                .orElseGet(CompoundTag::new);
+    }
+
+    public static ItemStack decodeItem(CompoundTag tag, Level level) {
+        if (tag.isEmpty()) {
+            return ItemStack.EMPTY;
+        }
+        return ItemStack.CODEC.parse(level.registryAccess().createSerializationContext(NbtOps.INSTANCE), tag)
+                .result()
+                .orElse(ItemStack.EMPTY);
+    }
+
     public static ResourceKey<EntityType<?>> sign(String id) {
         return ResourceKey.create(Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, id));
     }

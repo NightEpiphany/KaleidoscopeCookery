@@ -1,0 +1,10 @@
+{
+  "type": "kaleidoscope_cookery:teapot",
+  "ingredient": "minecraft:nautilus_shell",
+  "result": {
+    "count": 1,
+    "id": "kaleidoscope_cookery:biluochun"
+  },
+  "tea_fluid": "minecraft:water",
+  "time": 240
+}

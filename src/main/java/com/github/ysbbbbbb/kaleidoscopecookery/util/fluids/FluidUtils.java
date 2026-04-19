@@ -11,10 +11,11 @@ import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("all")
 public class FluidUtils {
@@ -33,8 +34,8 @@ public class FluidUtils {
         if (bucket.isEmpty() || handler == null) {
             return false;
         }
-        ItemStack copy = bucket.copyWithCount(1);
-        ContainerItemContext context = ContainerItemContext.withConstant(copy);
+        boolean creativePlayer = isCreativePlayer(user);
+        ContainerItemContext context = getInteractionContext(user, bucket);
         Storage<FluidVariant> itemStorage = context.find(FluidStorage.ITEM);
         if (itemStorage == null) {
             return false;
@@ -43,13 +44,13 @@ public class FluidUtils {
         if (maxTransfer <= 0) {
             return false;
         }
-        FluidVariant resource = getFirstResource(itemStorage);
+        FluidVariant resource = findFirstResource(itemStorage);
         if (resource.isBlank()) {
             return false;
         }
 
         try (Transaction transaction = Transaction.openOuter()) {
-            long available = getFirstAmount(itemStorage);
+            long available = findFirstAmount(itemStorage);
             long moveAmount = Math.min(maxTransfer, available);
             if (moveAmount <= 0) {
                 return false;
@@ -66,29 +67,22 @@ public class FluidUtils {
         }
 
         ItemVariant resultVariant = context.getItemVariant();
-        ItemStack result = resultVariant.toStack((int) Math.min(Integer.MAX_VALUE, context.getAmount()));
-        if (!(user instanceof Player player) || !player.isCreative()) {
+        ItemStack result = ItemUtils.getContainerItem(resultVariant.toStack((int) Math.min(Integer.MAX_VALUE, context.getAmount()))).getDefaultInstance();
+        if (creativePlayer) {
+            if (!result.isEmpty() && user instanceof Player player) {
+                ItemUtils.giveItemToPlayer(player, result);
+            }
+        } else if (!isSurvivalPlayer(user)) {
             bucket.shrink(1);
+            if (!result.isEmpty()) {
+                ItemUtils.getItemToLivingEntity(user, result);
+            }
         }
-        ItemUtils.getItemToLivingEntity(user, onConsumed(result));
         SoundEvent sound = FluidVariantAttributes.getEmptySound(resource);
         if (sound != null) {
             user.playSound(sound);
         }
         return true;
-    }
-
-    /**
-     * 消耗流体后的 ItemStack
-     *
-     * @param stack 消耗前的 ItemStack
-     * @return 消耗后的 ItemStack
-     */
-    public static ItemStack onConsumed(ItemStack stack) {
-        if (isFluidContainer(stack) && !stack.is(Items.BUCKET)) {
-            return Items.BUCKET.getDefaultInstance();
-        }
-        return stack;
     }
 
     /**
@@ -106,8 +100,8 @@ public class FluidUtils {
         if (bucket.isEmpty() || handler == null) {
             return false;
         }
-        ItemStack copy = bucket.copyWithCount(1);
-        ContainerItemContext context = ContainerItemContext.withConstant(copy);
+        boolean creativePlayer = isCreativePlayer(user);
+        ContainerItemContext context = getInteractionContext(user, bucket);
         Storage<FluidVariant> itemStorage = context.find(FluidStorage.ITEM);
         if (itemStorage == null) {
             return false;
@@ -116,11 +110,11 @@ public class FluidUtils {
         if (maxTransfer <= 0) {
             return false;
         }
-        FluidVariant resource = getFirstResource(handler);
+        FluidVariant resource = findFirstResource(handler);
         if (resource.isBlank()) {
             return false;
         }
-        long available = getFirstAmount(handler);
+        long available = findFirstAmount(handler);
         long moveAmount = Math.min(maxTransfer, available);
         if (moveAmount <= 0) {
             return false;
@@ -138,10 +132,18 @@ public class FluidUtils {
             transaction.commit();
         }
 
-        if (!(user instanceof Player player) || !player.isCreative()) {
+        ItemVariant resultVariant = context.getItemVariant();
+        ItemStack result = ItemUtils.getContainerItem(resultVariant.toStack((int) Math.min(Integer.MAX_VALUE, context.getAmount()))).getDefaultInstance();
+        if (creativePlayer) {
+            if (!result.isEmpty() && user instanceof Player player) {
+                ItemUtils.giveItemToPlayer(player, result);
+            }
+        } else if (!isSurvivalPlayer(user)) {
             bucket.shrink(1);
+            if (!result.isEmpty()) {
+                ItemUtils.getItemToLivingEntity(user, result);
+            }
         }
-        ItemUtils.getItemToLivingEntity(user, resource.getFluid().getBucket().getDefaultInstance());
         SoundEvent sound = FluidVariantAttributes.getFillSound(resource);
         if (sound != null) {
             user.playSound(sound);
@@ -150,21 +152,46 @@ public class FluidUtils {
     }
 
     public static boolean isFluidContainer(ItemStack stack) {
+        return getItemStorage(stack) != null;
+    }
+
+    public static boolean hasFluid(ItemStack stack) {
+        Storage<FluidVariant> storage = getItemStorage(stack);
+        return storage != null && findFirstAmount(storage) > 0;
+    }
+
+    @Nullable
+    public static Storage<FluidVariant> getItemStorage(ItemStack stack) {
         if (stack.isEmpty()) {
-            return false;
+            return null;
         }
-        ContainerItemContext context = ContainerItemContext.withConstant(stack);
-        return context.find(FluidStorage.ITEM) != null;
+        ContainerItemContext context = ContainerItemContext.withConstant(stack.copyWithCount(1));
+        return context.find(FluidStorage.ITEM);
+    }
+
+    private static boolean isSurvivalPlayer(LivingEntity user) {
+        return user instanceof Player player && !player.isCreative();
+    }
+
+    private static boolean isCreativePlayer(LivingEntity user) {
+        return user instanceof Player player && player.isCreative();
+    }
+
+    private static ContainerItemContext getInteractionContext(LivingEntity user, ItemStack stack) {
+        if (isSurvivalPlayer(user) && user instanceof Player player) {
+            return ContainerItemContext.ofPlayerHand(player, InteractionHand.MAIN_HAND);
+        }
+        return ContainerItemContext.withConstant(stack.copyWithCount(1));
     }
 
     private static long toTransferAmount(int milliBuckets) {
         if (milliBuckets <= 0) {
             return 0;
         }
-        return (long) milliBuckets * FluidConstants.BUCKET / (long) CustomFluidTank.MB_PER_BUCKET;
+        return (long) milliBuckets * FluidConstants.BUCKET / 1000;
     }
 
-    private static FluidVariant getFirstResource(Storage<FluidVariant> storage) {
+    public static FluidVariant findFirstResource(Storage<FluidVariant> storage) {
         for (StorageView<FluidVariant> view : storage) {
             if (!view.isResourceBlank() && view.getAmount() > 0) {
                 return view.getResource();
@@ -173,7 +200,7 @@ public class FluidUtils {
         return FluidVariant.blank();
     }
 
-    private static long getFirstAmount(Storage<FluidVariant> storage) {
+    public static long findFirstAmount(Storage<FluidVariant> storage) {
         for (StorageView<FluidVariant> view : storage) {
             if (!view.isResourceBlank() && view.getAmount() > 0) {
                 return view.getAmount();

@@ -1,10 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.compat.jade;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
-import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.ChoppingBoardBlock;
-import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.EnamelBasinBlock;
-import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.MillstoneBlock;
-import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.ShawarmaSpitBlock;
+import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.misc.RecipeBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.FruitBasketBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.TableBlockEntity;
@@ -30,6 +27,7 @@ public class ModJadePlugin implements IWailaPlugin {
     public static final Identifier OIL_POT = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "oil_pot");
     public static final Identifier RECIPE_BLOCK = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "recipe_block");
     public static final Identifier STEAMER = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "steamer");
+    public static final Identifier TEAPOT = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "teapot");
 
     @Override
     public void register(IWailaCommonRegistration registration) {
@@ -55,6 +53,7 @@ public class ModJadePlugin implements IWailaPlugin {
         registration.registerItemStorageClient(StockpotComponentProvider.INSTANCE);
         registration.registerItemStorageClient(SteamerComponentProvider.INSTANCE);
 
+        registration.registerBlockComponent(TeapotComponentProvider.INSTANCE, TeapotBlock.class);
         registration.registerBlockComponent(MillstoneComponentProvider.INSTANCE, MillstoneBlock.class);
         registration.registerBlockComponent(RecipeBlockComponentProvider.INSTANCE, RecipeBlock.class);
     }
