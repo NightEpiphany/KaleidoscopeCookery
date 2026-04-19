@@ -67,6 +67,7 @@ public class CommonRegistry {
         ProjectileDodgeEvent.register();
         VitalityEvent.register();
         ArmorEffectHandler.register();
+        ChangeTargetEvent.register();
         AddVillageStructuresEvent.register();
         ScarecrowFarmlandTrampleEvent.register();
         EntityJoinWorldEvent.register();

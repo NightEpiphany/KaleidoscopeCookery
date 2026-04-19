@@ -68,7 +68,7 @@ public class EmptyCupBlock extends HorizontalDirectionalBlock {
             return InteractionResult.PASS;
         }
         ItemStack itemInHand = player.getItemInHand(hand);
-
+        player.swing(hand);
         // 如果是茶壶
         if (itemInHand.is(ModItems.TEAPOT)) {
             ItemStack pourOut = TeapotItem.getPourOut(itemInHand, level);

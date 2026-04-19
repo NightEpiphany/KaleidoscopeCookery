@@ -9,7 +9,7 @@ import org.jspecify.annotations.NonNull;
 
 public class EmptyCupItem extends BlockItem {
     public EmptyCupItem(Block block, Properties properties) {
-        super(block, properties);
+        super(block, properties.stacksTo(16));
     }
 
     @Override

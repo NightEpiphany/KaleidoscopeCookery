@@ -78,9 +78,6 @@ public class TeapotBlockEntity extends BaseBlockEntity implements ITeapot {
     }
 
     public void tick(Level level) {
-        if (!(this.level instanceof ServerLevel serverLevel)) {
-            return;
-        }
         // 如果现在处于 PUT_INGREDIENT 阶段
         if (status == ITeapot.PUT_INGREDIENT) {
             // 每 23 tick 检查一次
@@ -110,22 +107,24 @@ public class TeapotBlockEntity extends BaseBlockEntity implements ITeapot {
                 }
                 // 时间到，开始进入 PROCESSING 状态
                 TeapotInput container = new TeapotInput(this.input, this.teaFluidId);
-                Optional<RecipeHolder<TeapotRecipe>> recipeOpt = this.quickCheck.getRecipeFor(container, serverLevel);
-                if (recipeOpt.isPresent()) {
-                    TeapotRecipe teapotRecipe = recipeOpt.get().value();
-                    this.result = teapotRecipe.assemble(container, serverLevel.registryAccess());
-                    this.currentTick = teapotRecipe.time();
-                    this.status = PROCESSING;
+                if (level instanceof ServerLevel serverLevel) {
+                    Optional<RecipeHolder<TeapotRecipe>> recipeOpt = this.quickCheck.getRecipeFor(container, serverLevel);
+                    if (recipeOpt.isPresent()) {
+                        TeapotRecipe teapotRecipe = recipeOpt.get().value();
+                        this.result = teapotRecipe.assemble(container, serverLevel.registryAccess());
+                        this.currentTick = teapotRecipe.time();
+                        this.status = PROCESSING;
+                        this.refresh();
+                        return;
+                    }
+                    // 如果配方找不到，弹出
+                    Block.popResource(level, worldPosition, input);
+                    this.input = ItemStack.EMPTY;
+                    this.result = ItemStack.EMPTY;
+                    this.status = ITeapot.PUT_INGREDIENT;
+                    this.currentTick = -1;
                     this.refresh();
-                    return;
                 }
-                // 如果配方找不到，弹出
-                Block.popResource(level, worldPosition, input);
-                this.input = ItemStack.EMPTY;
-                this.result = ItemStack.EMPTY;
-                this.status = ITeapot.PUT_INGREDIENT;
-                this.currentTick = -1;
-                this.refresh();
             }
             return;
         }
