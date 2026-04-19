@@ -29,7 +29,6 @@
     "LeftClickMixin",
     "ModelBakeryMixin",
     "PlayerRendererMixin",
-    "PlayerRenderMixin",
     "realize.HumanoidModelImplementationMixin",
     "realize.HumanoidModelMixin"
   ],

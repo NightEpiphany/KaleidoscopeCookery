@@ -37,7 +37,6 @@ import org.joml.Vector3f;
 import java.util.Arrays;
 import java.util.function.Function;
 
-@SuppressWarnings("UnstableApiUsage")
 @Environment(EnvType.CLIENT)
 public class TeapotBlockEntityRender implements BlockEntityRenderer<TeapotBlockEntity> {
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "textures/block/teapot.png");

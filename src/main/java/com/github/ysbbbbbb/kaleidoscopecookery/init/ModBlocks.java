@@ -54,6 +54,9 @@ public class ModBlocks {
     public static final Block OOLONG = new TeacupBlock(TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.OOLONG).getMaxCount());
     public static final Block SAKURA_FUBUKI = new TeacupBlock(TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.SAKURA_FUBUKI).getMaxCount());
     public static final Block FLOWER_TEA = new TeacupBlock(TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.FLOWER_TEA).getMaxCount());
+
+
+
     public static final Block TRASH_CAN = new TrashCanBlock();
 
     // Crop blocks
@@ -157,6 +160,9 @@ public class ModBlocks {
         Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "oolong"), OOLONG);
         Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "sakura_fubuki"), SAKURA_FUBUKI);
         Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "flower_tea"), FLOWER_TEA);
+
+
+
         Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "trash_can"), TRASH_CAN);
 
         // Crop blocks

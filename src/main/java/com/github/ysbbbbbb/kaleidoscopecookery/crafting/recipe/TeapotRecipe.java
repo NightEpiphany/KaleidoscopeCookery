@@ -9,6 +9,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 public record TeapotRecipe(ResourceLocation teaFluid,
                            Ingredient ingredient, int ingredientCount,
@@ -27,22 +28,22 @@ public record TeapotRecipe(ResourceLocation teaFluid,
     }
 
     @Override
-    public ItemStack getResultItem(HolderLookup.Provider provider) {
+    public @NotNull ItemStack getResultItem(HolderLookup.Provider provider) {
         return this.result;
     }
 
     @Override
-    public ItemStack assemble(TeapotInput container, HolderLookup.Provider registryAccess) {
+    public @NotNull ItemStack assemble(TeapotInput container, HolderLookup.Provider registryAccess) {
         return getResultItem(registryAccess).copyWithCount(OUTPUT_COUNT);
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public @NotNull RecipeSerializer<?> getSerializer() {
         return ModRecipes.TEAPOT_SERIALIZER;
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public @NotNull RecipeType<?> getType() {
         return ModRecipes.TEAPOT_RECIPE;
     }
 }

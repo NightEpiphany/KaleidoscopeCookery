@@ -1,4 +1,4 @@
-package com.github.ysbbbbbb.kaleidoscopecookery.client.gui.overlay;
+package com.github.ysbbbbbb.kaleidoscopecookery.client.event.gui.overlay;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.misc.TrashCanBlockEntity;

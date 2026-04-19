@@ -34,11 +34,11 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-@SuppressWarnings("deprecation")
 public class TeacupBlock extends HorizontalDirectionalBlock {
     public static final MapCodec<TeacupBlock> CODEC = simpleCodec(p -> new TeacupBlock());
     public static final VoxelShape AABB = Block.box(1, 0, 1, 15, 2, 15);
@@ -82,7 +82,7 @@ public class TeacupBlock extends HorizontalDirectionalBlock {
     }
 
     @Override
-    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
+    protected @NotNull MapCodec<? extends HorizontalDirectionalBlock> codec() {
         return CODEC;
     }
 
@@ -99,7 +99,7 @@ public class TeacupBlock extends HorizontalDirectionalBlock {
     }
 
     @Override
-    public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    public @NotNull ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (hand != InteractionHand.MAIN_HAND) {
             return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
@@ -236,7 +236,7 @@ public class TeacupBlock extends HorizontalDirectionalBlock {
     }
 
     @Override
-    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+    public @NotNull VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         return this.aabb;
     }
 
@@ -247,7 +247,7 @@ public class TeacupBlock extends HorizontalDirectionalBlock {
     }
 
     @Override
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
+    public @NotNull List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
         List<ItemStack> drops = Lists.newArrayList();
         int teaCountNum = state.getValue(teaCount);
         int cupCountNum = state.getValue(cupCount);

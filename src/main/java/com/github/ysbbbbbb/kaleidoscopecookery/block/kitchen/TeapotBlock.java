@@ -40,7 +40,6 @@ import java.util.List;
 
 import static net.minecraft.world.ItemInteractionResult.*;
 
-@SuppressWarnings({"deprecation", "unchecked"})
 public class TeapotBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock {
     public static final MapCodec<TeapotBlock> CODEC = simpleCodec(p -> new TeapotBlock());
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;

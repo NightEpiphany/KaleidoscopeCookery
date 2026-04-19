@@ -1,8 +1,8 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.init.registry;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.client.event.FlatulenceEvent;
-import com.github.ysbbbbbb.kaleidoscopecookery.client.event.PotOverlayEvent;
-import com.github.ysbbbbbb.kaleidoscopecookery.client.gui.overlay.TrashCanOverlay;
+import com.github.ysbbbbbb.kaleidoscopecookery.client.event.gui.overlay.PotOverlayEvent;
+import com.github.ysbbbbbb.kaleidoscopecookery.client.event.gui.overlay.TrashCanOverlay;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.model.MillstoneModel;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.model.TeapotModel;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.model.TrashCanModel;

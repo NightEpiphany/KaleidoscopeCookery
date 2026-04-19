@@ -29,6 +29,8 @@ public final class ModItems {
     public static final Item OIL_POT = new OilPotItem();
     public static final Item TEAPOT = new TeapotItem();
     public static final Item EMPTY_CUP = new EmptyCupItem();
+
+
     public static final Item TRASH_CAN = new BlockItem(ModBlocks.TRASH_CAN, new Item.Properties());
 
     // Feast
@@ -109,12 +111,6 @@ public final class ModItems {
     public static final Item LETTUCE = new Item(new Item.Properties().food(ModFoods.LETTUCE));
     public static final Item RICE_PANICLE = new Item(new Item.Properties());
     public static final Item CATERPILLAR = new WithTooltipsItem(new Item.Properties().food(ModFoods.CATERPILLAR), "caterpillar");
-    public static final Item BARLEY_TEA = new TeacupItem(ModBlocks.BARLEY_TEA, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.BARLEY_TEA).getEffects());
-    public static final Item TIEGUANYIN = new TeacupItem(ModBlocks.TIEGUANYIN, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.TIEGUANYIN).getEffects());
-    public static final Item BILUOCHUN = new TeacupItem(ModBlocks.BILUOCHUN, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.BILUOCHUN).getEffects());
-    public static final Item OOLONG = new TeacupItem(ModBlocks.OOLONG, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.OOLONG).getEffects());
-    public static final Item SAKURA_FUBUKI = new TeacupItem(ModBlocks.SAKURA_FUBUKI, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.SAKURA_FUBUKI).getEffects());
-    public static final Item FLOWER_TEA = new TeacupItem(ModBlocks.FLOWER_TEA, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.FLOWER_TEA).getEffects());
     public static final Item FRIED_EGG = new Item(new Item.Properties().food(ModFoods.FRIED_EGG));
     public static final Item DONKEY_BURGER = new FoodWithEffectsItem(ModFoods.DONKEY_BURGER);
     public static final Item MANTOU = new FoodWithEffectsItem(ModFoods.MANTOU);
@@ -126,6 +122,15 @@ public final class ModItems {
     public static final Item FLOUR = new FlourItem();
     public static final Item RAW_NOODLES = new Item(new Item.Properties());
     public static final Item STUFFED_DOUGH_FOOD = new Item(new Item.Properties());
+
+    // Tea
+    public static final Item BARLEY_TEA = new TeacupItem(ModBlocks.BARLEY_TEA, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.BARLEY_TEA).getEffects());
+    public static final Item TIEGUANYIN = new TeacupItem(ModBlocks.TIEGUANYIN, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.TIEGUANYIN).getEffects());
+    public static final Item BILUOCHUN = new TeacupItem(ModBlocks.BILUOCHUN, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.BILUOCHUN).getEffects());
+    public static final Item OOLONG = new TeacupItem(ModBlocks.OOLONG, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.OOLONG).getEffects());
+    public static final Item SAKURA_FUBUKI = new TeacupItem(ModBlocks.SAKURA_FUBUKI, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.SAKURA_FUBUKI).getEffects());
+    public static final Item FLOWER_TEA = new TeacupItem(ModBlocks.FLOWER_TEA, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.FLOWER_TEA).getEffects());
+
 
     // Bowl foods
     public static final Item COOKED_RICE = new BowlFoodOnlyItem(ModFoods.COOKED_RICE);
