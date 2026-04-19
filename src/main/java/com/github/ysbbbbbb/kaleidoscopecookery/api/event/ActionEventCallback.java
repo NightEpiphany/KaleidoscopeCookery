@@ -45,4 +45,9 @@ public interface ActionEventCallback {
     interface ProjectileImpact {
         void onProjectileImpact(ProjectileImpactEvent event);
     }
+
+    @FunctionalInterface
+    interface EntityChangeTarget {
+        void onEntityChangeTarget(LivingChangeTargetEvent event);
+    }
 }

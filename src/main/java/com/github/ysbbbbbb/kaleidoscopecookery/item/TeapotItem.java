@@ -297,6 +297,8 @@ public class TeapotItem extends BlockItem {
                 return 0x4c2807;
             }
         }
+        if (status == ITeapot.FINISHED)
+            return 0x89ee24;
         return 0x9df7ff;
     }
 

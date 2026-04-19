@@ -15,6 +15,7 @@
     "LivingEntityMixin",
     "LlamaSpitMixin",
     "MobBucketItemMixin",
+    "MobMixin",
     "PowderSnowBlockMixin",
     "ShulkerBulletMixin",
     "ThrowableProjectileMixin",
@@ -27,8 +28,8 @@
     "ItemRendererMixin",
     "LeftClickMixin",
     "ModelBakeryMixin",
-    "PlayerRenderMixin",
     "PlayerRendererMixin",
+    "PlayerRenderMixin",
     "realize.HumanoidModelImplementationMixin",
     "realize.HumanoidModelMixin"
   ],
