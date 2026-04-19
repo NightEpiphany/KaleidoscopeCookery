@@ -58,26 +58,26 @@ public class GeneralConfig {
         STOVE_FIRING_ENABLED = builder.define("StoveFiringEnabled", false);
 
         builder.comment("If true, the Satiated Shield effect will not apply while the player has the Hunger effect.");
-        IS_SATIATED_SHIELD_DISABLE_WHEN_HUNGRY_EFFECT = builder.define("IS_SATIATED_SHIELD_DISABLE_WHEN_HUNGRY_EFFECT", true);
+        IS_SATIATED_SHIELD_DISABLE_WHEN_HUNGRY_EFFECT = builder.define("DisableSatiatedShieldWhenHunger", true);
 
         builder.comment("Minimum Hunger Value required for the Satiated Shield to apply (int).");
-        SATIATED_SHIELD_MIN_FOOD_LEVEL = builder.defineInRange("SATIATED_SHIELD_MIN_FOOD_LEVEL", 4, 1, 20);
+        SATIATED_SHIELD_MIN_FOOD_LEVEL = builder.defineInRange("SatiatedShieldMiniumFoodLevel", 4, 1, 20);
 
         // 由于在 1 游戏刻中玩家最多积累 40 点疲劳值，因此该配置项大于 40 就没有意义了。
         builder.comment("The exhaustion added each time the player takes damage.");
-        SATIATED_SHIELD_ADDITIONAL_EXHAUSTION_PER_DAMAGE = builder.defineInRange("SATIATED_SHIELD_ADDITIONAL_EXHAUSTION_PER_DAMAGE", 2.0, 0.0, 40.0);
+        SATIATED_SHIELD_ADDITIONAL_EXHAUSTION_PER_DAMAGE = builder.defineInRange("SatiatedShieldAdditionalExhaustionPerDamage", 2.0, 0.0, 40.0);
 
         builder.comment("The damage reduction percentage of the Satiated Shield effect.");
-        SATIATED_SHIELD_DAMAGE_REDUCTION_PERCENT = builder.defineInRange("SATIATED_SHIELD_DAMAGE_REDUCTION_PERCENT", 1.0, 0.0, 1.0);
+        SATIATED_SHIELD_DAMAGE_REDUCTION_PERCENT = builder.defineInRange("SatiatedShieldDamageReductionPercentage", 1.0, 0.0, 1.0);
 
         builder.comment("The maximum damage reduction amount of the Satiated Shield effect.");
-        SATIATED_SHIELD_MAX_DAMAGE_REDUCTION = builder.defineInRange("SATIATED_SHIELD_MAX_DAMAGE_REDUCTION", 64.0, 0.0, Integer.MAX_VALUE);
+        SATIATED_SHIELD_MAX_DAMAGE_REDUCTION = builder.defineInRange("SatiatedShieldMaximumDamageReduction", 64.0, 0.0, Integer.MAX_VALUE);
 
         builder.comment("The minimum damage that can be got in the Satiated Shield effect.");
-        SATIATED_SHIELD_MIN_DAMAGE = builder.defineInRange("SATIATED_SHIELD_MIN_DAMAGE", 0.0, 0.0, Integer.MAX_VALUE);
+        SATIATED_SHIELD_MIN_DAMAGE = builder.defineInRange("SatiatedShieldMiniumDamage", 0.0, 0.0, Integer.MAX_VALUE);
 
         builder.comment("The multiplier for the exhaustion added per point of Satiated Shield Weakness Damage.");
-        SATIATED_SHIELD_WEAKNESS_DAMAGE_MULTIPLIER = builder.defineInRange("SATIATED_SHIELD_WEAKNESS_DAMAGE_MULTIPLIER", 2.0, 1.0, Integer.MAX_VALUE);
+        SATIATED_SHIELD_WEAKNESS_DAMAGE_MULTIPLIER = builder.defineInRange("SatiatedShieldWeaknessDamageMultiplier", 2.0, 1.0, Integer.MAX_VALUE);
 
         builder.pop();
     }

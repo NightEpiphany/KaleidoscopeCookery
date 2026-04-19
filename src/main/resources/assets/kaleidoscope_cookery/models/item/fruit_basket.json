@@ -1,6 +1,4 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "kaleidoscope_cookery:item/fruit_basket"
-  }
+  "parent": "kaleidoscope_cookery:item/fruit_basket_3d",
+  "gui_light": "front"
 }
