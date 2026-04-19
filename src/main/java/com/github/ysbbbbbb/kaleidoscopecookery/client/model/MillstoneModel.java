@@ -13,7 +13,10 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import org.jspecify.annotations.NonNull;
 
+@SuppressWarnings({"unused","FieldCanBeLocal"})
+@Environment(EnvType.CLIENT)
 public class MillstoneModel extends Model<MillstoneModel.State> {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "millstone"), "main");
     private final ModelPart base;
@@ -64,7 +67,7 @@ public class MillstoneModel extends Model<MillstoneModel.State> {
     }
 
     @Override
-    public void setupAnim(State object) {
+    public void setupAnim(@NonNull State object) {
         super.setupAnim(object);
         if (object.hasEntity) {
             this.wheel.yRot = -object.rot * Mth.DEG_TO_RAD;

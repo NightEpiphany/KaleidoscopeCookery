@@ -3,6 +3,8 @@ package com.github.ysbbbbbb.kaleidoscopecookery.client.model;
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates.ScarecrowEntityRenderState;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HeadedModel;
@@ -15,6 +17,8 @@ import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.NonNull;
 
+@SuppressWarnings({"unused","FieldCanBeLocal"})
+@Environment(EnvType.CLIENT)
 public class ScarecrowModel extends EntityModel<ScarecrowEntityRenderState> implements ArmedModel<ScarecrowEntityRenderState>, HeadedModel {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "scarecrow"), "main");
 
@@ -61,7 +65,7 @@ public class ScarecrowModel extends EntityModel<ScarecrowEntityRenderState> impl
     }
 
     @Override
-    public void setupAnim(ScarecrowEntityRenderState object) {
+    public void setupAnim(@NonNull ScarecrowEntityRenderState object) {
         super.setupAnim(object);
         ItemStack stack = object.headItem;
         this.head.visible = stack.isEmpty();

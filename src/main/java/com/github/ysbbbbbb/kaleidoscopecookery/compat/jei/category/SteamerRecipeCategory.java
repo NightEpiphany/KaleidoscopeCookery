@@ -41,7 +41,7 @@ public class SteamerRecipeCategory implements IRecipeCategory<RecipeHolder<Steam
     }
 
     @Override
-    public void draw(RecipeHolder<SteamerRecipe> recipe, @NonNull IRecipeSlotsView recipeSlotsView, @NonNull GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void draw(@NonNull RecipeHolder<SteamerRecipe> recipe, @NonNull IRecipeSlotsView recipeSlotsView, @NonNull GuiGraphics guiGraphics, double mouseX, double mouseY) {
         this.bgDraw.draw(guiGraphics);
     }
 

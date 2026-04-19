@@ -1,5 +1,6 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.init;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.TeacupRegistry;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import net.minecraft.core.Registry;
@@ -57,6 +58,18 @@ public final class ModItems {
     public static final Item MILLSTONE = registerItemViaBlock(ModBlocks.MILLSTONE);
     public static final Item STEAMER = registerItemViaBlock(ModBlocks.STEAMER, SteamerItem::new);
     public static final Item OIL_POT = registerItemViaBlock(ModBlocks.OIL_POT, OilPotItem::new, new Item.Properties().stacksTo(16));
+
+    // Tea
+    public static final Item TEAPOT = registerItemViaBlock(ModBlocks.TEAPOT, TeapotItem::new, new Item.Properties().stacksTo(1));
+    public static final Item EMPTY_CUP = registerItemViaBlock(ModBlocks.EMPTY_CUP, EmptyCupItem::new);
+    public static final Item BARLEY_TEA = registerItemViaBlock(ModBlocks.BARLEY_TEA, (block, properties) -> new TeacupItem(block, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.BARLEY_TEA).getEffects(), properties));
+    public static final Item TIEGUANYIN = registerItemViaBlock(ModBlocks.TIEGUANYIN, (block, properties) -> new TeacupItem(block, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.TIEGUANYIN).getEffects(), properties));
+    public static final Item BILUOCHUN = registerItemViaBlock(ModBlocks.BILUOCHUN, (block, properties) -> new TeacupItem(block, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.BILUOCHUN).getEffects(), properties));
+    public static final Item OOLONG = registerItemViaBlock(ModBlocks.OOLONG, (block, properties) -> new TeacupItem(block, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.OOLONG).getEffects(), properties));
+    public static final Item SAKURA_FUBUKI = registerItemViaBlock(ModBlocks.SAKURA_FUBUKI, (block, properties) -> new TeacupItem(block, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.SAKURA_FUBUKI).getEffects(), properties));
+    public static final Item FLOWER_TEA = registerItemViaBlock(ModBlocks.FLOWER_TEA, (block, properties) -> new TeacupItem(block, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.FLOWER_TEA).getEffects(), properties));
+
+    public static final Item TRASH_CAN = registerItemViaBlock(ModBlocks.TRASH_CAN);
 
     // Feast
     public static final Item COLD_CUT_HAM_SLICES = registerItemViaBlock(ModBlocks.COLD_CUT_HAM_SLICES, (block, properties) -> new LiftBlockItem(block, properties, "cold_cut_ham_slices"), new Item.Properties());

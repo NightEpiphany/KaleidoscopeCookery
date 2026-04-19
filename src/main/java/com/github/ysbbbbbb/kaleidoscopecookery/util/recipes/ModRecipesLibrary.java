@@ -45,4 +45,8 @@ public class ModRecipesLibrary {
     public List<RecipeHolder<StockpotRecipe>> stockpotRecipes() {
         return List.copyOf(synchronizedRecipes.getAllOfType(ModRecipes.STOCKPOT_RECIPE));
     }
+
+    public List<RecipeHolder<TeapotRecipe>> teapotRecipes() {
+        return List.copyOf(synchronizedRecipes.getAllOfType(ModRecipes.TEAPOT_RECIPE));
+    }
 }

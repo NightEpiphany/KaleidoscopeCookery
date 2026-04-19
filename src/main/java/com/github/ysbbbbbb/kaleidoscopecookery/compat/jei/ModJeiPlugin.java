@@ -26,6 +26,7 @@ public class ModJeiPlugin implements IModPlugin {
         registration.addRecipeCategories(new StockpotRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
         registration.addRecipeCategories(new MillstoneRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
         registration.addRecipeCategories(new SteamerRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
+        registration.addRecipeCategories(new TeapotRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
     }
 
     @Override
@@ -35,6 +36,7 @@ public class ModJeiPlugin implements IModPlugin {
         registration.addRecipes(StockpotRecipeCategory.TYPE, ModRecipesLibrary.INSTANCE.stockpotRecipes());
         registration.addRecipes(MillstoneRecipeCategory.TYPE, ModRecipesLibrary.INSTANCE.millstoneRecipes());
         registration.addRecipes(SteamerRecipeCategory.TYPE, ModRecipesLibrary.INSTANCE.steamerRecipes());
+        registration.addRecipes(TeapotRecipeCategory.TYPE, ModRecipesLibrary.INSTANCE.teapotRecipes());
     }
 
     @Override
@@ -44,6 +46,7 @@ public class ModJeiPlugin implements IModPlugin {
         registration.addCraftingStation(StockpotRecipeCategory.TYPE, ModItems.STOCKPOT.getDefaultInstance());
         registration.addCraftingStation(MillstoneRecipeCategory.TYPE, ModItems.MILLSTONE.getDefaultInstance());
         registration.addCraftingStation(SteamerRecipeCategory.TYPE, ModItems.STEAMER.getDefaultInstance());
+        registration.addCraftingStation(TeapotRecipeCategory.TYPE, ModItems.TEAPOT.getDefaultInstance());
     }
 
     public static void syncRecipes() {
@@ -52,6 +55,7 @@ public class ModJeiPlugin implements IModPlugin {
         RecipeSynchronization.synchronizeRecipeSerializer(ModRecipes.STOCKPOT_SERIALIZER);
         RecipeSynchronization.synchronizeRecipeSerializer(ModRecipes.STEAMER_SERIALIZER);
         RecipeSynchronization.synchronizeRecipeSerializer(ModRecipes.MILLSTONE_SERIALIZER);
+        RecipeSynchronization.synchronizeRecipeSerializer(ModRecipes.TEAPOT_SERIALIZER);
     }
 
     @Override

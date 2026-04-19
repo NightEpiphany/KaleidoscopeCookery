@@ -3,8 +3,12 @@ package com.github.ysbbbbbb.kaleidoscopecookery.client.init.registry;
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.conditions.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.event.FlatulenceEvent;
-import com.github.ysbbbbbb.kaleidoscopecookery.client.event.PotOverlayEvent;
+import com.github.ysbbbbbb.kaleidoscopecookery.client.event.gui.overlay.PotOverlayEvent;
+import com.github.ysbbbbbb.kaleidoscopecookery.client.event.gui.overlay.TeapotOverlayEvent;
+import com.github.ysbbbbbb.kaleidoscopecookery.client.event.gui.overlay.TrashCanOverlay;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.model.MillstoneModel;
+import com.github.ysbbbbbb.kaleidoscopecookery.client.model.TeapotModel;
+import com.github.ysbbbbbb.kaleidoscopecookery.client.model.TrashCanModel;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.render.block.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.render.item.StrawHatArmorRenderer;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.create.ponder.init.PonderCompat;
@@ -43,6 +47,8 @@ public class ClientRegistry {
     private static void registerClientEvents() {
         FlatulenceEvent.register();
         PotOverlayEvent.register();
+        TeapotOverlayEvent.register();
+        TrashCanOverlay.register();
     }
 
     private static void registerBlockEntityRenderers() {
@@ -58,8 +64,12 @@ public class ClientRegistry {
         BlockEntityRenderers.register(ModBlocks.RECIPE_BLOCK_BE, RecipeBlockEntityRender::new);
         BlockEntityRenderers.register(ModBlocks.STEAMER_BE, SteamerBlockEntityRender::new);
         BlockEntityRenderers.register(ModBlocks.FOOD_BITE_THREE_BY_THREE_BE, FoodBiteThreeByThreeBlockEntityRender::new);
+        BlockEntityRenderers.register(ModBlocks.TRASH_CAN_BE, TrashCanBlockEntityRender::new);
+        BlockEntityRenderers.register(ModBlocks.TEAPOT_BE, TeapotBlockEntityRender::new);
 
         EntityModelLayerRegistry.registerModelLayer(MillstoneModel.LAYER_LOCATION, MillstoneModel::createBodyLayer);
+        EntityModelLayerRegistry.registerModelLayer(TrashCanModel.LAYER_LOCATION, TrashCanModel::createBodyLayer);
+        EntityModelLayerRegistry.registerModelLayer(TeapotModel.LAYER_LOCATION, TeapotModel::createBodyLayer);
     }
 
     private static void modCompatClient() {

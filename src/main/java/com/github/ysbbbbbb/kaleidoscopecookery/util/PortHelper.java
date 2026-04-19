@@ -14,6 +14,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
@@ -36,6 +37,21 @@ public class PortHelper {
         double e = (packed >> 8 & 0xFF) / 255.0;
         double f = (packed & 0xFF) / 255.0;
         return new Vec3(d, e, f);
+    }
+
+    public static ItemStack decodeItem(CompoundTag tag, ServerLevel serverLevel) {
+        return ItemStack.CODEC.parse(
+                serverLevel.registryAccess().createSerializationContext(NbtOps.INSTANCE),
+                tag
+        ).result().orElse(ItemStack.EMPTY);
+    }
+
+    public static CompoundTag encodeItem(ItemStack stack, ServerLevel serverLevel) {
+        return ItemStack.CODEC.encode(
+                stack,
+                serverLevel.registryAccess().createSerializationContext(NbtOps.INSTANCE),
+                new CompoundTag())
+                .mapOrElse(tag -> tag.asCompound().orElseGet(CompoundTag::new), tagError -> new CompoundTag());
     }
 
     public static ResourceKey<Block> createBlockId(String name) {
@@ -90,7 +106,7 @@ public class PortHelper {
             return ByteBufCodecs.TRUSTED_COMPOUND_TAG;
         }
 
-        public CompoundTag copy(CompoundTag compoundTag) {
+        public @NonNull CompoundTag copy(CompoundTag compoundTag) {
             return compoundTag.copy();
         }
     };

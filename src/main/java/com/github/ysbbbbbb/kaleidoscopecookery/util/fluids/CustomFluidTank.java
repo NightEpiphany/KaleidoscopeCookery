@@ -9,13 +9,10 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
-import org.jetbrains.annotations.Nullable;
-import org.jspecify.annotations.NonNull;
 
 import java.util.Optional;
 
+@SuppressWarnings("all")
 /**
  * 替代forge流体系统的流体槽，用于方块存储流体
  */
@@ -36,12 +33,12 @@ public class CustomFluidTank extends SingleVariantStorage<FluidVariant> {
     }
 
     @Override
-    protected @NonNull FluidVariant getBlankVariant() {
+    protected FluidVariant getBlankVariant() {
         return FluidVariant.blank();
     }
 
     @Override
-    protected long getCapacity(@NonNull FluidVariant variant) {
+    protected long getCapacity(FluidVariant variant) {
         return capacity;
     }
 
@@ -85,14 +82,6 @@ public class CustomFluidTank extends SingleVariantStorage<FluidVariant> {
         return writeToNBT(registries, tag);
     }
 
-    public void writeToNBT(ValueOutput output) {
-        FluidVariant variantToWrite = this.amount > 0 && !this.variant.isBlank() ? this.variant : FluidVariant.blank();
-        output.storeNullable(TAG_VARIANT, FluidVariant.CODEC, variantToWrite);
-        output.storeNullable(TAG_VARIANT_LEGACY, FluidVariant.CODEC, variantToWrite);
-        output.putLong(TAG_AMOUNT, Math.max(0L, this.amount));
-    }
-
-    @Deprecated
     public CompoundTag writeToNBT(HolderLookup.Provider registries, CompoundTag tag) {
         FluidVariant variantToWrite = this.amount > 0 && !this.variant.isBlank() ? this.variant : FluidVariant.blank();
         CompoundTag variantTag = encodeVariant(registries, variantToWrite);
@@ -100,27 +89,6 @@ public class CustomFluidTank extends SingleVariantStorage<FluidVariant> {
         tag.put(TAG_VARIANT_LEGACY, variantTag);
         tag.putLong(TAG_AMOUNT, Math.max(0L, this.amount));
         return tag;
-    }
-
-    public void readFromNBT(ValueInput input) {
-        if (input.contains(TAG_VARIANT)) {
-            extract(input, TAG_VARIANT);
-        }else {
-            extract(input, TAG_VARIANT_LEGACY);
-        }
-    }
-
-    private void extract(ValueInput input, String tg) {
-        input.read(tg, FluidVariant.CODEC).ifPresent(loadedVariant -> {
-            long loadedAmount = input.getLong(TAG_AMOUNT).orElse(0L);
-            if (loadedAmount <= 0 || loadedVariant.isBlank()) {
-                this.variant = FluidVariant.blank();
-                this.amount = 0;
-                return;
-            }
-            this.variant = loadedVariant;
-            this.amount = Math.min(loadedAmount, this.capacity);
-        });
     }
 
     @Deprecated
@@ -222,10 +190,7 @@ public class CustomFluidTank extends SingleVariantStorage<FluidVariant> {
         return new CompoundTag();
     }
 
-    private static FluidVariant decodeVariant(HolderLookup.Provider registries, @Nullable CompoundTag tag) {
-        if (tag == null) {
-            return FluidVariant.blank();
-        }
+    private static FluidVariant decodeVariant(HolderLookup.Provider registries, CompoundTag tag) {
         RegistryOps<Tag> ops = RegistryOps.create(NbtOps.INSTANCE, registries);
         return FluidVariant.CODEC.parse(ops, tag).result().orElse(FluidVariant.blank());
     }

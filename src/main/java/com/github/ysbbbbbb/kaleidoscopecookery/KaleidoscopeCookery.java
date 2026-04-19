@@ -5,6 +5,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.config.GeneralConfig;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.ExtraLootTableDrop;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.CommonRegistry;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.TeacupRegistry;
 import com.github.ysbbbbbb.kaleidoscopecookery.network.NetworkHandler;
 import com.mojang.logging.LogUtils;
 import fuzs.forgeconfigapiport.fabric.api.v5.ConfigRegistry;
@@ -24,6 +25,7 @@ public class KaleidoscopeCookery implements ModInitializer {
         ModEffects.registerEffects();
         ModArmorMaterials.registerArmorMaterials();
         ModTrigger.init();
+        TeacupRegistry.init();
         ModBlocks.registerBlocks();
         ModItems.registerItems();
         ModEntities.registerEntities();

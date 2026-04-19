@@ -15,6 +15,7 @@ public class ModREICommonPlugin implements REICommonPlugin {
     private static final Identifier STOCKPOT_ID = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "plugin/stockpot");
     private static final Identifier POT_ID = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "plugin/pot");
     private static final Identifier STEAMER_ID = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "plugin/steamer");
+    private static final Identifier TEAPOT_ID = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "plugin/teapot");
 
     @Override
     public void registerDisplaySerializer(DisplaySerializerRegistry registry) {
@@ -29,6 +30,7 @@ public class ModREICommonPlugin implements REICommonPlugin {
        registry.beginRecipeFiller(SteamerRecipe.class).filterType(ModRecipes.STEAMER_RECIPE).fill(ReiSteamerRecipeCategory.SteamerRecipeDisplay::new);
        registry.beginRecipeFiller(StockpotRecipe.class).filterType(ModRecipes.STOCKPOT_RECIPE).fill(ReiStockpotRecipeCategory.StockpotRecipeDisplay::new);
        registry.beginRecipeFiller(PotRecipe.class).filterType(ModRecipes.POT_RECIPE).fill(ReiPotRecipeCategory.PotRecipeDisplay::new);
+       registry.beginRecipeFiller(TeapotRecipe.class).filterType(ModRecipes.TEAPOT_RECIPE).fill(ReiTeapotRecipeCategory.TeapotRecipeDisplay::new);
     }
 
     private static void registerSerializerIfNeeded(DisplaySerializerRegistry registry) {
@@ -46,6 +48,10 @@ public class ModREICommonPlugin implements REICommonPlugin {
         }
         if (!registry.isRegistered(ReiPotRecipeCategory.PotRecipeDisplay.SERIALIZER)) {
             registry.register(POT_ID, ReiPotRecipeCategory.PotRecipeDisplay.SERIALIZER);
+        }
+
+        if (!registry.isRegistered(ReiTeapotRecipeCategory.TeapotRecipeDisplay.SERIALIZER)) {
+            registry.register(TEAPOT_ID, ReiTeapotRecipeCategory.TeapotRecipeDisplay.SERIALIZER);
         }
     }
 }

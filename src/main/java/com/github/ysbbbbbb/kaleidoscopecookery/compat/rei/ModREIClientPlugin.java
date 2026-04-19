@@ -13,5 +13,6 @@ public class ModREIClientPlugin implements REIClientPlugin {
         ReiPotRecipeCategory.registerCategories(registry);
         ReiStockpotRecipeCategory.registerCategories(registry);
         ReiSteamerRecipeCategory.registerCategories(registry);
+        ReiTeapotRecipeCategory.registerCategories(registry);
     }
 }

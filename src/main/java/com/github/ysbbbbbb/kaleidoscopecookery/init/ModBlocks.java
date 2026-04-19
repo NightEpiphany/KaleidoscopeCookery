@@ -9,6 +9,8 @@ import com.github.ysbbbbbb.kaleidoscopecookery.block.decoration.ChairBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.decoration.CookStoolBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.decoration.FruitBasketBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.decoration.TableBlock;
+import com.github.ysbbbbbb.kaleidoscopecookery.block.drink.EmptyCupBlock;
+import com.github.ysbbbbbb.kaleidoscopecookery.block.drink.TeacupBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteThreeByThreeBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.misc.*;
@@ -18,6 +20,8 @@ import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.RecipeBloc
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.TableBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.food.FoodBiteThreeByThreeBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.*;
+import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.misc.TrashCanBlockEntity;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.TeacupRegistry;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.core.Registry;
@@ -30,7 +34,6 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
-import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 
@@ -148,6 +151,26 @@ public class ModBlocks {
             .pushReaction(PushReaction.DESTROY)
             .sound(SoundType.LANTERN));
 
+    public static final Block TRASH_CAN = commonReg("trash_can", TrashCanBlock::new, BlockBehaviour.Properties.of()
+            .sound(SoundType.METAL)
+            .mapColor(MapColor.COLOR_BLACK)
+            .noOcclusion()
+            .strength(1.5F, 6.0F));
+
+    // Tea
+    public static final Block TEAPOT = commonReg("teapot", TeapotBlock::new, BlockBehaviour.Properties.of()
+            .sound(SoundType.LANTERN)
+            .mapColor(MapColor.COLOR_ORANGE)
+            .noOcclusion()
+            .instabreak());
+    public static final Block EMPTY_CUP = commonReg("empty_cup", EmptyCupBlock::new, BlockBehaviour.Properties.of());
+    public static final Block BARLEY_TEA = commonReg("barley_tea", properties ->  new TeacupBlock(properties, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.BARLEY_TEA).getMaxCount()), BlockBehaviour.Properties.of());
+    public static final Block TIEGUANYIN = commonReg("tieguanyin", properties -> new TeacupBlock(properties, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.TIEGUANYIN).getMaxCount()), BlockBehaviour.Properties.of());
+    public static final Block BILUOCHUN = commonReg("biluochun", properties -> new TeacupBlock(properties, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.BILUOCHUN).getMaxCount()), BlockBehaviour.Properties.of());
+    public static final Block OOLONG = commonReg("oolong", properties -> new TeacupBlock(properties, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.OOLONG).getMaxCount()), BlockBehaviour.Properties.of());
+    public static final Block SAKURA_FUBUKI = commonReg("sakura_fubuki", properties -> new TeacupBlock(properties, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.SAKURA_FUBUKI).getMaxCount()), BlockBehaviour.Properties.of());
+    public static final Block FLOWER_TEA = commonReg("flower_tea", properties -> new TeacupBlock(properties, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.FLOWER_TEA).getMaxCount()), BlockBehaviour.Properties.of());
+
     // Crop blocks
     public static final Block TOMATO_CROP = cropReg("tomato_crop",p -> new BaseCropBlock(p, () -> ModItems.TOMATO, () -> ModItems.TOMATO_SEED));
     public static final Block CHILI_CROP = cropReg("chili_crop", ChiliCropBlock::new);
@@ -217,7 +240,8 @@ public class ModBlocks {
     public static final BlockEntityType<RecipeBlockEntity> RECIPE_BLOCK_BE = FabricBlockEntityTypeBuilder.create(RecipeBlockEntity::new, RECIPE_BLOCK).build();
     public static final BlockEntityType<OilPotBlockEntity> OIL_POT_BE = FabricBlockEntityTypeBuilder.create(OilPotBlockEntity::new, OIL_POT).build();
     public static final BlockEntityType<FoodBiteThreeByThreeBlockEntity> FOOD_BITE_THREE_BY_THREE_BE = FabricBlockEntityTypeBuilder.create(FoodBiteThreeByThreeBlockEntity::new, COLD_CUT_HAM_SLICES).build();
-
+    public static final BlockEntityType<TrashCanBlockEntity> TRASH_CAN_BE = FabricBlockEntityTypeBuilder.create(TrashCanBlockEntity::new, TRASH_CAN).build();
+    public static final BlockEntityType<TeapotBlockEntity> TEAPOT_BE = FabricBlockEntityTypeBuilder.create(TeapotBlockEntity::new, TEAPOT).build();
     public static final BlockEntityType<ChairBlockEntity> CHAIR_BE = FabricBlockEntityTypeBuilder.create(ChairBlockEntity::new,
             CHAIR_OAK, CHAIR_SPRUCE, CHAIR_ACACIA, CHAIR_BAMBOO,
             CHAIR_BIRCH, CHAIR_CHERRY, CHAIR_CRIMSON, CHAIR_DARK_OAK,
@@ -246,6 +270,8 @@ public class ModBlocks {
         Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "recipe_book"), RECIPE_BLOCK_BE);
         Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "oil_pot"), OIL_POT_BE);
         Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "food_bite_three_by_three"), FOOD_BITE_THREE_BY_THREE_BE);
+        Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "trash_can"), TRASH_CAN_BE);
+        Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "teapot"), TEAPOT_BE);
     }
     public static Block register(ResourceKey<Block> resourceKey, Function<BlockBehaviour.Properties, Block> function, BlockBehaviour.Properties properties) {
         Block block = function.apply(properties.setId(resourceKey));
