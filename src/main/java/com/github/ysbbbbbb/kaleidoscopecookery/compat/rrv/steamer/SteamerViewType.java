@@ -9,8 +9,9 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.Nullable;
 
-public class SteamerViewType implements ReliableClientRecipeType {
+import java.util.List;
 
+public class SteamerViewType implements ReliableClientRecipeType {
     public static final SteamerViewType INSTANCE = new SteamerViewType();
 
     private SteamerViewType() {
@@ -49,11 +50,16 @@ public class SteamerViewType implements ReliableClientRecipeType {
 
     @Override
     public Identifier getId() {
-        return Identifier.withDefaultNamespace("kaleidoscope_steamer");
+        return Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "steamer");
     }
 
     @Override
     public ItemStack getIcon() {
         return ModItems.STEAMER.getDefaultInstance();
+    }
+
+    @Override
+    public List<ItemStack> getCraftReferences() {
+        return List.of(this.getIcon());
     }
 }

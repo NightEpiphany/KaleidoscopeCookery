@@ -9,8 +9,9 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.Nullable;
 
-public class PotViewType implements ReliableClientRecipeType {
+import java.util.List;
 
+public class PotViewType implements ReliableClientRecipeType {
     public static final PotViewType INSTANCE = new PotViewType();
 
     private PotViewType() {
@@ -44,20 +45,25 @@ public class PotViewType implements ReliableClientRecipeType {
     @Override
     public void placeSlots(RecipeViewMenu.SlotDefinition slotDefinition) {
         for (int i = 0; i < 9; i++) {
-            slotDefinition.addItemSlot(i, 4 + 18 * (i % 3), 8 + 18 * (i / 3)); // ingredients
+            slotDefinition.addItemSlot(i, 4 + 18 * (i % 3), 8 + 18 * (i / 3));
         }
-        slotDefinition.addItemSlot(9, 143, 8); // carrier
-        slotDefinition.addItemSlot(10, 127, 39); // result
-        slotDefinition.addItemSlot(11, 105, 3); // tool
+        slotDefinition.addItemSlot(9, 143, 8);
+        slotDefinition.addItemSlot(10, 127, 39);
+        slotDefinition.addItemSlot(11, 105, 3);
     }
 
     @Override
     public Identifier getId() {
-        return Identifier.withDefaultNamespace("kaleidoscope_pot");
+        return Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "pot");
     }
 
     @Override
     public ItemStack getIcon() {
         return ModItems.POT.getDefaultInstance();
+    }
+
+    @Override
+    public List<ItemStack> getCraftReferences() {
+        return List.of(this.getIcon());
     }
 }

@@ -9,8 +9,9 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.Nullable;
 
-public class MillstoneViewType implements ReliableClientRecipeType {
+import java.util.List;
 
+public class MillstoneViewType implements ReliableClientRecipeType {
     public static final MillstoneViewType INSTANCE = new MillstoneViewType();
 
     private MillstoneViewType() {
@@ -43,17 +44,22 @@ public class MillstoneViewType implements ReliableClientRecipeType {
 
     @Override
     public void placeSlots(RecipeViewMenu.SlotDefinition slotDefinition) {
-        slotDefinition.addItemSlot(0, 16, 21); // ingredient
-        slotDefinition.addItemSlot(1, 91, 30); // result
+        slotDefinition.addItemSlot(0, 16, 21);
+        slotDefinition.addItemSlot(1, 91, 30);
     }
 
     @Override
     public Identifier getId() {
-        return Identifier.withDefaultNamespace("kaleidoscope_millstone");
+        return Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "millstone");
     }
 
     @Override
     public ItemStack getIcon() {
         return ModItems.MILLSTONE.getDefaultInstance();
+    }
+
+    @Override
+    public List<ItemStack> getCraftReferences() {
+        return List.of(this.getIcon());
     }
 }

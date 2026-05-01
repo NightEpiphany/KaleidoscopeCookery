@@ -4,41 +4,49 @@ import cc.cassian.rrv.api.recipe.ReliableClientRecipe;
 import cc.cassian.rrv.api.recipe.ReliableClientRecipeType;
 import cc.cassian.rrv.common.recipe.inventory.RecipeViewMenu;
 import cc.cassian.rrv.common.recipe.inventory.SlotContent;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.List;
 
 public class TeapotViewRecipe implements ReliableClientRecipe {
-    private final Ingredient ingredient;
-    private final ItemStackTemplate result;
-    private final ItemStackTemplate teaFluid;
+    private final Identifier id;
+    private final SlotContent ingredient;
+    private final SlotContent result;
+    private final SlotContent teaFluid;
 
-    public TeapotViewRecipe(TeapotServerRecipe recipe) {
-        this.ingredient = recipe.getIngredient();
-        this.result = recipe.getResult();
-        this.teaFluid = recipe.getTeaFluid();
+    public TeapotViewRecipe(Identifier id, Ingredient ingredient, ItemStackTemplate teaFluid, ItemStackTemplate result) {
+        this.id = id;
+        this.ingredient = SlotContent.of(ingredient);
+        this.result = SlotContent.of(result);
+        this.teaFluid = SlotContent.of(teaFluid);
     }
 
     @Override
-    public ReliableClientRecipeType getViewType() {
+    public ReliableClientRecipeType getType() {
         return TeapotViewType.INSTANCE;
     }
 
     @Override
+    public Identifier getId() {
+        return this.id;
+    }
+
+    @Override
     public void bindSlots(RecipeViewMenu.SlotFillContext slotFillContext) {
-        slotFillContext.bindSlot(0, SlotContent.of(this.teaFluid));
-        slotFillContext.bindSlot(1, SlotContent.of(this.ingredient));
-        slotFillContext.bindSlot(2, SlotContent.of(this.result));
+        slotFillContext.bindSlot(0, this.teaFluid);
+        slotFillContext.bindSlot(1, this.ingredient);
+        slotFillContext.bindSlot(2, this.result);
     }
 
     @Override
     public List<SlotContent> getIngredients() {
-        return List.of(SlotContent.of(this.teaFluid), SlotContent.of(this.ingredient));
+        return List.of(this.teaFluid, this.ingredient);
     }
 
     @Override
     public List<SlotContent> getResults() {
-        return List.of(SlotContent.of(this.result));
+        return List.of(this.result);
     }
 }

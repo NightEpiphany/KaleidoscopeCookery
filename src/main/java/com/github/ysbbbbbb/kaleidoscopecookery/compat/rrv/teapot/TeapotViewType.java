@@ -9,6 +9,8 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.Nullable;
 
+import java.util.List;
+
 public class TeapotViewType implements ReliableClientRecipeType {
     public static final TeapotViewType INSTANCE = new TeapotViewType();
 
@@ -42,18 +44,23 @@ public class TeapotViewType implements ReliableClientRecipeType {
 
     @Override
     public void placeSlots(RecipeViewMenu.SlotDefinition slotDefinition) {
-        slotDefinition.addItemSlot(0, 7, 55); // fluid bucket
-        slotDefinition.addItemSlot(1, 62, 6); // ingredient
-        slotDefinition.addItemSlot(2, 81, 30); // result
+        slotDefinition.addItemSlot(0, 7, 55);
+        slotDefinition.addItemSlot(1, 62, 6);
+        slotDefinition.addItemSlot(2, 81, 30);
     }
 
     @Override
     public Identifier getId() {
-        return Identifier.withDefaultNamespace("kaleidoscope_teapot");
+        return Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "teapot");
     }
 
     @Override
     public ItemStack getIcon() {
         return ModItems.TEAPOT.getDefaultInstance();
+    }
+
+    @Override
+    public List<ItemStack> getCraftReferences() {
+        return List.of(this.getIcon());
     }
 }

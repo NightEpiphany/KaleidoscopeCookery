@@ -18,26 +18,7 @@ loom {
 
 repositories {
 	maven {
-		name = "Greenhouse Maven"
-		url = URI("https://repo.greenhouse.house/releases/")
-	}
-	maven {
-		name = "Greenhouse Maven"
-		url = URI("https://repo.greenhouse.house/snapshots/") // Porting Lib Hotfixes
-	}
-	maven { url = URI("https://mvn.devos.one/snapshots/") } // Porting Lib Betas
-	maven {
-		url = URI("https://jitpack.io/") // Fabric ASM
-		content {
-			excludeGroup ("io.github.fabricators_of_create")
-		}
-	}
-	maven {
 		url = URI("https://cursemaven.com")
-	}
-	maven {
-		name = "cassian's maven"
-		url = URI("https://maven.cassian.cc")
 	}
 	maven {
 		name = "Fuzs Mod Resources"
@@ -59,10 +40,10 @@ repositories {
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft("com.mojang:minecraft:${providers.gradleProperty("minecraft_version").get()}")
-	implementation("vectorwing:FarmersDelight:${providers.gradleProperty("fdrf_version").get()}") {
+	implementation("maven.modrinth:farmers-delight-refabricated:${providers.gradleProperty("fdrf_version").get()}") {
 		exclude(group = "net.fabricmc")
 	}
-	compileOnly("cc.cassian.rrv:reliable-recipe-viewer-fabric:${providers.gradleProperty("rrv_version").get()}") {
+	implementation("maven.modrinth:rrv:${providers.gradleProperty("rrv_version").get()}") {
 		exclude(group = "net.fabricmc.fabric-api")
 		exclude(group = "eu.pb4")
 	}
@@ -71,11 +52,12 @@ dependencies {
 	implementation("maven.modrinth:jade:${providers.gradleProperty("jade_version").get()}")
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	implementation("net.fabricmc.fabric-api:fabric-api:${providers.gradleProperty("fabric_api_version").get()}")
-	implementation ("fuzs.forgeconfigapiport:forgeconfigapiport-fabric:26.1.3")
-	compileOnly("mezz.jei:jei-26.1-fabric:29.2.0.20")
+	implementation ("fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${providers.gradleProperty("forge_config_api_version").get()}")
+	compileOnly("mezz.jei:jei-${providers.gradleProperty("jei_version").get()}")
 }
 
 tasks.processResources {
+	val version = version
 	inputs.property("version", version)
 
 	filesMatching("fabric.mod.json") {
@@ -98,10 +80,11 @@ java {
 }
 
 tasks.jar {
-	inputs.property("archivesName", base.archivesName)
+	val projectName = project.name
+	inputs.property("projectName", projectName)
 
 	from("LICENSE") {
-		rename { "${it}_${base.archivesName.get()}" }
+		rename { "${it}_$projectName" }
 	}
 }
 
@@ -109,7 +92,6 @@ tasks.jar {
 publishing {
 	publications {
 		register<MavenPublication>("mavenJava") {
-			artifactId = base.archivesName.get()
 			from(components["java"])
 		}
 	}

@@ -4,38 +4,46 @@ import cc.cassian.rrv.api.recipe.ReliableClientRecipe;
 import cc.cassian.rrv.api.recipe.ReliableClientRecipeType;
 import cc.cassian.rrv.common.recipe.inventory.RecipeViewMenu;
 import cc.cassian.rrv.common.recipe.inventory.SlotContent;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.List;
 
 public class SteamerViewRecipe implements ReliableClientRecipe {
-    private final Ingredient ingredient;
-    private final ItemStackTemplate result;
+    private final Identifier id;
+    private final SlotContent ingredient;
+    private final SlotContent result;
 
-    public SteamerViewRecipe(SteamerServerRecipe recipe) {
-        this.ingredient = recipe.getIngredient();
-        this.result = recipe.getResult();
+    public SteamerViewRecipe(Identifier id, Ingredient ingredient, ItemStackTemplate result) {
+        this.id = id;
+        this.ingredient = SlotContent.of(ingredient);
+        this.result = SlotContent.of(result);
     }
 
     @Override
-    public ReliableClientRecipeType getViewType() {
+    public ReliableClientRecipeType getType() {
         return SteamerViewType.INSTANCE;
     }
 
     @Override
+    public Identifier getId() {
+        return this.id;
+    }
+
+    @Override
     public void bindSlots(RecipeViewMenu.SlotFillContext slotFillContext) {
-        slotFillContext.bindSlot(0, SlotContent.of(this.ingredient));
-        slotFillContext.bindSlot(1, SlotContent.of(this.result));
+        slotFillContext.bindSlot(0, this.ingredient);
+        slotFillContext.bindSlot(1, this.result);
     }
 
     @Override
     public List<SlotContent> getIngredients() {
-        return List.of(SlotContent.of(this.ingredient));
+        return List.of(this.ingredient);
     }
 
     @Override
     public List<SlotContent> getResults() {
-        return List.of(SlotContent.of(this.result));
+        return List.of(this.result);
     }
 }

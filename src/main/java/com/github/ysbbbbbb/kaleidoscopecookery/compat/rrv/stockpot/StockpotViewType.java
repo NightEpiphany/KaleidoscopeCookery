@@ -9,8 +9,9 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.Nullable;
 
-public class StockpotViewType implements ReliableClientRecipeType {
+import java.util.List;
 
+public class StockpotViewType implements ReliableClientRecipeType {
     public static final StockpotViewType INSTANCE = new StockpotViewType();
 
     private StockpotViewType() {
@@ -44,20 +45,25 @@ public class StockpotViewType implements ReliableClientRecipeType {
     @Override
     public void placeSlots(RecipeViewMenu.SlotDefinition slotDefinition) {
         for (int i = 0; i < 9; i++) {
-            slotDefinition.addItemSlot(i, 4 + 18 * (i % 3), 8 + 18 * (i / 3)); // ingredients
+            slotDefinition.addItemSlot(i, 4 + 18 * (i % 3), 8 + 18 * (i / 3));
         }
-        slotDefinition.addItemSlot(9, 64, 51); // base
-        slotDefinition.addItemSlot(10, 143, 8); // carrier
-        slotDefinition.addItemSlot(11, 127, 39); // result
+        slotDefinition.addItemSlot(9, 64, 51);
+        slotDefinition.addItemSlot(10, 143, 8);
+        slotDefinition.addItemSlot(11, 127, 39);
     }
 
     @Override
     public Identifier getId() {
-        return Identifier.withDefaultNamespace("kaleidoscope_stockpot");
+        return Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "stockpot");
     }
 
     @Override
     public ItemStack getIcon() {
         return ModItems.STOCKPOT.getDefaultInstance();
+    }
+
+    @Override
+    public List<ItemStack> getCraftReferences() {
+        return List.of(this.getIcon());
     }
 }

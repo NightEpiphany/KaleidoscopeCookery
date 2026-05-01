@@ -4,23 +4,34 @@ import cc.cassian.rrv.api.recipe.ReliableClientRecipe;
 import cc.cassian.rrv.api.recipe.ReliableClientRecipeType;
 import cc.cassian.rrv.common.recipe.inventory.RecipeViewMenu;
 import cc.cassian.rrv.common.recipe.inventory.SlotContent;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.item.crafting.Ingredient;
 
-import java.util.Collections;
 import java.util.List;
 
 public class ChoppingBoardViewRecipe implements ReliableClientRecipe {
+    private final Identifier id;
     private final SlotContent ingredient;
     private final SlotContent result;
     private final SlotContent tool;
 
-    public ChoppingBoardViewRecipe(ChoppingBoardServerRecipe serverRecipe) {
-        this.ingredient = SlotContent.of(serverRecipe.getIngredient());
-        this.result = SlotContent.of(serverRecipe.getResult());
-        this.tool = SlotContent.of(serverRecipe.getTool());
+    public ChoppingBoardViewRecipe(Identifier id, Ingredient ingredient, ItemStackTemplate result) {
+        this.id = id;
+        this.ingredient = SlotContent.of(ingredient);
+        this.result = SlotContent.of(result);
+        this.tool = SlotContent.of(Ingredient.of(ModItems.IRON_KITCHEN_KNIFE));
     }
+
     @Override
-    public ReliableClientRecipeType getViewType() {
+    public ReliableClientRecipeType getType() {
         return ChoppingBoardViewType.INSTANCE;
+    }
+
+    @Override
+    public Identifier getId() {
+        return this.id;
     }
 
     @Override
@@ -32,11 +43,11 @@ public class ChoppingBoardViewRecipe implements ReliableClientRecipe {
 
     @Override
     public List<SlotContent> getIngredients() {
-        return Collections.singletonList(this.ingredient);
+        return List.of(this.ingredient);
     }
 
     @Override
     public List<SlotContent> getResults() {
-        return Collections.singletonList(this.result);
+        return List.of(this.result);
     }
 }

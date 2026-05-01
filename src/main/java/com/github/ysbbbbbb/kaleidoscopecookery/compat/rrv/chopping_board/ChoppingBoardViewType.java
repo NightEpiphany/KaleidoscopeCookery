@@ -9,6 +9,8 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.Nullable;
 
+import java.util.List;
+
 public class ChoppingBoardViewType implements ReliableClientRecipeType {
     public static final ChoppingBoardViewType INSTANCE = new ChoppingBoardViewType();
 
@@ -42,18 +44,23 @@ public class ChoppingBoardViewType implements ReliableClientRecipeType {
 
     @Override
     public void placeSlots(RecipeViewMenu.SlotDefinition slotDefinition) {
-        slotDefinition.addItemSlot(0, 16, 8); // ingredient
-        slotDefinition.addItemSlot(1, 48, 8); // tool
-        slotDefinition.addItemSlot(2, 75, 20); // result
+        slotDefinition.addItemSlot(0, 16, 8);
+        slotDefinition.addItemSlot(1, 48, 8);
+        slotDefinition.addItemSlot(2, 75, 20);
     }
 
     @Override
     public Identifier getId() {
-        return Identifier.withDefaultNamespace("kaleidoscope_chopping");
+        return Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "chopping_board");
     }
 
     @Override
     public ItemStack getIcon() {
         return ModItems.CHOPPING_BOARD.getDefaultInstance();
+    }
+
+    @Override
+    public List<ItemStack> getCraftReferences() {
+        return List.of(this.getIcon());
     }
 }

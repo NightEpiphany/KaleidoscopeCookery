@@ -12,3 +12,6 @@ pluginManagement {
 		id("net.fabricmc.fabric-loom") version providers.gradleProperty("loom_version")
 	}
 }
+
+// Should match your modid
+rootProject.name = "kaleidoscope_cookery"

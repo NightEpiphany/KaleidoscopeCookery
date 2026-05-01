@@ -19,7 +19,8 @@
     "client": ["com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookeryClient"],
     "jade": ["com.github.ysbbbbbb.kaleidoscopecookery.compat.jade.ModJadePlugin"],
     "jei_mod_plugin": ["com.github.ysbbbbbb.kaleidoscopecookery.compat.jei.ModJeiPlugin"],
-    "rrv": ["com.github.ysbbbbbb.kaleidoscopecookery.compat.rrv.ModRRVPlugin"]
+    "rrv": ["com.github.ysbbbbbb.kaleidoscopecookery.compat.rrv.ModRRVCommonPlugin"],
+    "rrv_client": ["com.github.ysbbbbbb.kaleidoscopecookery.compat.rrv.ModRRVPlugin"]
   },
   "mixins": ["kaleidoscope_cookery.mixins.json"],
   "accessWidener": "kaleidoscope_cookery.accesswidener",
@@ -29,5 +30,8 @@
     "minecraft": "~26.1",
     "java": ">=25",
     "forgeconfigapiport": "*"
+  },
+  "breaks": {
+    "rrv": "<8.0.0"
   }
 }
