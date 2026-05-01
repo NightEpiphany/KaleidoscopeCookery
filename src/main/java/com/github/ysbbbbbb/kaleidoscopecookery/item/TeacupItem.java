@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
@@ -21,6 +22,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.component.Consumables;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
@@ -36,7 +38,10 @@ public class TeacupItem extends BlockItem implements IHasContainer {
     private final List<MobEffectInstance> showEffects = Lists.newArrayList();
 
     public TeacupItem(Block block, List<Pair<Supplier<MobEffectInstance>, Float>> effects, Properties properties) {
-        super(block, properties.stacksTo(16));
+        super(block, properties
+                .stacksTo(16)
+                .component(DataComponents.CONSUMABLE, Consumables.DEFAULT_DRINK)
+        );
         this.effects = effects;
         this.effects.forEach(effect -> {
             if (effect.getSecond() >= 1F) {
