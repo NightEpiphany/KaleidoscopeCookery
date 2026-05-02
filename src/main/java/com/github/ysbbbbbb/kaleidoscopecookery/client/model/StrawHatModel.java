@@ -1,6 +1,8 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.model;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -8,7 +10,9 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.resources.Identifier;
+import org.jspecify.annotations.NonNull;
 
+@Environment(EnvType.CLIENT)
 public class StrawHatModel extends EntityModel<HumanoidRenderState> {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "straw_hat"), "main");
     private final ModelPart head;
@@ -32,7 +36,7 @@ public class StrawHatModel extends EntityModel<HumanoidRenderState> {
     }
 
     @Override
-    public void setupAnim(HumanoidRenderState object) {
+    public void setupAnim(@NonNull HumanoidRenderState object) {
         super.setupAnim(object);
     }
 

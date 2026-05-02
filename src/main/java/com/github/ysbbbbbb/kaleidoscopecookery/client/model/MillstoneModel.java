@@ -14,6 +14,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
+@Environment(EnvType.CLIENT)
 @SuppressWarnings({"unused","FieldCanBeLocal"})
 public class MillstoneModel extends Model<MillstoneModel.State> {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "millstone"), "main");

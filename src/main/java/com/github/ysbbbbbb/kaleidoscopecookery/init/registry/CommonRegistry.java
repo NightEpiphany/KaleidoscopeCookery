@@ -6,6 +6,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteOneByTwoBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.create.automation.init.AutomationCompat;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.farmersdelight.FarmersDelightCompat;
+import com.github.ysbbbbbb.kaleidoscopecookery.compat.trinkets.init.TrinketsCompatServer;
 import com.github.ysbbbbbb.kaleidoscopecookery.datamap.resources.MillstoneBindableDataReloadListener;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.*;
@@ -31,7 +32,7 @@ import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
-public class CommonRegistry {
+public final class CommonRegistry {
 
     public static void init() {
         registerDataListeners();
@@ -134,6 +135,7 @@ public class CommonRegistry {
     private static void modCompat() {
         FarmersDelightCompat.init();
         AutomationCompat.init();
+        TrinketsCompatServer.init();
     }
 
     private static void addDispenserBehavior() {

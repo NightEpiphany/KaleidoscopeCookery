@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 //获取全局模型注册键
-public class ModModelKeys {
+public final class ModModelKeys {
 
     private static final Map<Identifier, ExtraModelKey<BlockStateModel>> KEYS = new HashMap<>();
 

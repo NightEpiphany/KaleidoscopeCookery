@@ -9,7 +9,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.ClientTooltipComponentCallback;
 
 @Environment(EnvType.CLIENT)
-public class ModClientTooltip {
+public final class ModClientTooltip {
     public static void register() {
         ClientTooltipComponentCallback.EVENT.register(tooltipData -> {
             if (tooltipData instanceof ItemContainerTooltip itemContainerTooltip) {

@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.entity.NoopRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 
 @Environment(EnvType.CLIENT)
-public class ModEntitiesRender {
+public final class ModEntitiesRender {
     public static void register() {
         // 注册实体渲染器
         EntityRenderers.register(ModEntities.SIT, NoopRenderer::new);

@@ -1,12 +1,15 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.init;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.TeacupRegistry;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
@@ -20,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public final class ModItems {
     // Block items
@@ -87,12 +91,14 @@ public final class ModItems {
     public static final Item KITCHEN_SHOVEL = registerItem("kitchen_shovel", KitchenShovelItem::new);
     public static final Item FRUIT_BASKET = registerItemViaBlock(ModBlocks.FRUIT_BASKET, FruitBasketItem::new);
     public static final Item SCARECROW = registerItem("scarecrow", ScarecrowItem::new);
-    public static final Item STRAW_HAT = registerItem("straw_hat", p -> new StrawHatItem(false, p));
-    public static final Item STRAW_HAT_FLOWER = registerItem("straw_hat_flower", p -> new StrawHatItem(true, p));
     public static final Item FARMER_CHEST_PLATE = registerItem("farmer_chest_plate", Item::new, new Item.Properties().stacksTo(1).humanoidArmor(ModArmorMaterials.FARMER, ArmorType.CHESTPLATE));
     public static final Item FARMER_LEGGINGS = registerItem("farmer_leggings", Item::new, new Item.Properties().stacksTo(1).humanoidArmor(ModArmorMaterials.FARMER, ArmorType.LEGGINGS));
     public static final Item FARMER_BOOTS = registerItem("farmer_boots", Item::new, new Item.Properties().stacksTo(1).humanoidArmor(ModArmorMaterials.FARMER, ArmorType.BOOTS));
     public static final Item TRANSMUTATION_LUNCH_BAG = registerItem("transmutation_lunch_bag", TransmutationLunchBagItem::new);
+
+    // Hats (mutable)
+    public static Supplier<Item> STRAW_HAT = registerStrawHats("straw_hat", p -> new StrawHatItem(false, p));
+    public static Supplier<Item> STRAW_HAT_FLOWER = registerStrawHats("straw_hat_flower", p -> new StrawHatItem(true, p));
 
     // Seeds
     public static final Item TOMATO_SEED = registerItem("tomato_seed", createBlockItemWithCustomItemName(ModBlocks.TOMATO_CROP));
@@ -252,6 +258,24 @@ public final class ModItems {
 
     public static Item registerItem(String string, Function<Item.Properties, Item> function, Item.Properties properties) {
         return registerItem(PortHelper.createItemId(string), function, properties);
+    }
+
+    public static Supplier<Item> registerStrawHats(String string, Function<Item.Properties, Item> function) {
+        return () -> {
+            if (!FabricLoader.getInstance().isModLoaded("trinkets_updated")) {
+                if (BuiltInRegistries.ITEM.containsKey(Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, string)))
+                    return BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, string));
+                else {
+                    Item.Properties properties = new Item.Properties();
+                    ResourceKey<Item> itemId = PortHelper.createItemId(string);
+                    Item item = function.apply(properties.setId(itemId));
+                    return Registry.register(BuiltInRegistries.ITEM, itemId, item);
+                }
+            } else {
+                // 这里的注册占位是给饰品栏准备的
+                return function.apply(new Item.Properties());
+            }
+        };
     }
 
 

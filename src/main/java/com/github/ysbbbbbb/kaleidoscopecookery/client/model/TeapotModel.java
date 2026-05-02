@@ -16,8 +16,8 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.AnimationState;
 import org.jspecify.annotations.NonNull;
 
-@SuppressWarnings({"unused","FieldCanBeLocal"})
 @Environment(EnvType.CLIENT)
+@SuppressWarnings({"unused","FieldCanBeLocal"})
 public class TeapotModel extends Model<TeapotModel.State> {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "teapot"), "main");
     private final ModelPart root;

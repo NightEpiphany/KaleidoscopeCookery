@@ -3,7 +3,6 @@ package com.github.ysbbbbbb.kaleidoscopecookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.init.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.init.registry.ClientRegistry;
 import com.github.ysbbbbbb.kaleidoscopecookery.config.ClientConfig;
-import com.github.ysbbbbbb.kaleidoscopecookery.config.GeneralConfig;
 import fuzs.forgeconfigapiport.fabric.api.v5.ConfigRegistry;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -18,7 +17,7 @@ import net.neoforged.fml.config.ModConfig;
 import static com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery.MOD_ID;
 
 @Environment(EnvType.CLIENT)
-public class KaleidoscopeCookeryClient implements ClientModInitializer {
+public final class KaleidoscopeCookeryClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         ConfigRegistry.INSTANCE.register(MOD_ID, ModConfig.Type.CLIENT, ClientConfig.init());
@@ -26,7 +25,6 @@ public class KaleidoscopeCookeryClient implements ClientModInitializer {
         ModClientTooltip.register();
         ModEntitiesRender.register();
         ModParticleFactoryRegistry.register();
-        ModBlockRenderLayerMap.register();
 
         FabricLoader
                 .getInstance()

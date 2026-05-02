@@ -15,7 +15,7 @@ import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 
-public class ModParticles {
+public final class ModParticles {
     public static final SimpleParticleType COOKING = FabricParticleTypes.simple();
     public static final ModParticleType<StockpotParticleOptions> STOCKPOT = new ModParticleType<>(false, StockpotParticleOptions.CODEC, StockpotParticleOptions.STREAM_CODEC);
 

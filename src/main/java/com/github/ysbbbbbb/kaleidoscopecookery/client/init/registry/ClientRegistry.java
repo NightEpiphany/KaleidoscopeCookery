@@ -14,6 +14,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.client.model.TrashCanModel;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.render.block.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.render.item.StrawHatArmorRenderer;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.create.ponder.init.PonderCompat;
+import com.github.ysbbbbbb.kaleidoscopecookery.compat.trinkets.init.TrinketsCompactClient;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import net.fabricmc.api.EnvType;
@@ -26,10 +27,10 @@ import net.minecraft.client.renderer.item.properties.conditional.ConditionalItem
 import net.minecraft.resources.Identifier;
 
 @Environment(EnvType.CLIENT)
-public class ClientRegistry {
+public final class ClientRegistry {
     public static void init() {
         // 注册盔甲渲染器
-        ArmorRenderer.register(new StrawHatArmorRenderer(), ModItems.STRAW_HAT, ModItems.STRAW_HAT_FLOWER);
+        ArmorRenderer.register(new StrawHatArmorRenderer(), ModItems.STRAW_HAT.get(), ModItems.STRAW_HAT_FLOWER.get());
 
         registerItemProperties();
         registerClientEvents();
@@ -79,5 +80,6 @@ public class ClientRegistry {
 
     private static void modCompatClient() {
         PonderCompat.init();
+        TrinketsCompactClient.init();
     }
 }

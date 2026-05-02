@@ -23,7 +23,7 @@ import java.util.Map;
 
 import static com.github.ysbbbbbb.kaleidoscopecookery.init.ModFoods.*;
 
-public class FoodBiteRegistry {
+public final class FoodBiteRegistry {
     public static final Map<Identifier, FoodData> FOOD_DATA_MAP = Maps.newLinkedHashMap();
     public static final Map<Identifier, Item> FOOD_ITEM_MAP = Maps.newLinkedHashMap();
 

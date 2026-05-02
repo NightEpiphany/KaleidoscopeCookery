@@ -15,7 +15,7 @@ import net.minecraft.world.item.trading.TradeSet;
 import net.minecraft.world.level.storage.loot.LootTable;
 
 @SuppressWarnings("all")
-public class ModVillager {
+public final class ModVillager {
 
     public static final Identifier CHEF_GIFT = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "gameplay/hero_of_the_village/chef_gift");
 

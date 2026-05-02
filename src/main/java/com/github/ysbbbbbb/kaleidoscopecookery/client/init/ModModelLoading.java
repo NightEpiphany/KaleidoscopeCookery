@@ -9,7 +9,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 
 @Environment(EnvType.CLIENT)
-public class ModModelLoading {
+public final class ModModelLoading {
     private static final String MODELS = "models/item/";
     private static final String MODELS_CHOPPING_BOARD = MODELS + "chopping_board";
     private static final String MODELS_CARPET = MODELS + "carpet";

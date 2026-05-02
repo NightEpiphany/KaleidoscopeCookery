@@ -13,7 +13,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 
-public class ModCreativeTabs {
+public final class ModCreativeTabs {
     private static final Identifier MAIN_ICON_ID = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "iron_kitchen_knife");
     private static final Identifier FOOD_ICON_ID = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "red_chili");
 
@@ -65,8 +65,8 @@ public class ModCreativeTabs {
                     output.accept(ModItems.DIAMOND_KITCHEN_KNIFE);
                     output.accept(ModItems.NETHERITE_KITCHEN_KNIFE);
                     output.accept(ModItems.SICKLE);
-                    output.accept(ModItems.STRAW_HAT);
-                    output.accept(ModItems.STRAW_HAT_FLOWER);
+                    output.accept(ModItems.STRAW_HAT.get());
+                    output.accept(ModItems.STRAW_HAT_FLOWER.get());
                     output.accept(ModItems.FARMER_CHEST_PLATE);
                     output.accept(ModItems.FARMER_LEGGINGS);
                     output.accept(ModItems.FARMER_BOOTS);
