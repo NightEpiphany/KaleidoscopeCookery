@@ -4,7 +4,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.crafting.soupbase.SoupBaseManager
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Items;
 
-public class ModSoupBases {
+public final class ModSoupBases {
     public static final Identifier WATER = Identifier.fromNamespaceAndPath("minecraft", "water");
     public static final Identifier LAVA = Identifier.fromNamespaceAndPath("minecraft", "lava");
     public static final Identifier AXOLOTL_BUCKET = Identifier.fromNamespaceAndPath("minecraft", "axolotl_bucket");

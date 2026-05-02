@@ -6,7 +6,7 @@ import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.advancements.criterion.DistanceTrigger;
 import net.minecraft.resources.Identifier;
 
-public class ModTrigger {
+public final class ModTrigger {
     public static ModEventTrigger EVENT;
     public static DistanceTrigger FLATULENCE_FLY_HEIGHT;
 

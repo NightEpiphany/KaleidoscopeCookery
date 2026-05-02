@@ -17,7 +17,7 @@ import net.neoforged.fml.config.ModConfig;
 import static com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery.MOD_ID;
 
 @Environment(EnvType.CLIENT)
-public class KaleidoscopeCookeryClient implements ClientModInitializer {
+public final class KaleidoscopeCookeryClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         ConfigRegistry.INSTANCE.register(MOD_ID, ModConfig.Type.CLIENT, ClientConfig.init());

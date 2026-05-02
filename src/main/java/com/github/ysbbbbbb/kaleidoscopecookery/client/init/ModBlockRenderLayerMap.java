@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.world.level.block.Block;
 
 @Environment(EnvType.CLIENT)
-public class ModBlockRenderLayerMap {
+public final class ModBlockRenderLayerMap {
     public static void register() {
         BlockRenderLayerMap.putBlocks(ChunkSectionLayer.CUTOUT,
                 ModBlocks.POT,

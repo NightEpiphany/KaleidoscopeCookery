@@ -39,7 +39,7 @@ import net.minecraft.world.level.material.PushReaction;
 
 import java.util.function.Function;
 
-public class ModBlocks {
+public final class ModBlocks {
     // Kitchen blocks
     public static final Block STOVE = commonReg("stove", StoveBlock::new, BlockBehaviour.Properties.of()
             .mapColor(MapColor.STONE)

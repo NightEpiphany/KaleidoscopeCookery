@@ -31,7 +31,7 @@ import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
-public class CommonRegistry {
+public final class CommonRegistry {
 
     public static void init() {
         registerDataListeners();

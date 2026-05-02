@@ -14,7 +14,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.neoforged.fml.config.ModConfig;
 import org.slf4j.Logger;
 
-public class KaleidoscopeCookery implements ModInitializer {
+public final class KaleidoscopeCookery implements ModInitializer {
     public static final String MOD_ID = "kaleidoscope_cookery";
     public static final Logger LOGGER = LogUtils.getLogger();
 

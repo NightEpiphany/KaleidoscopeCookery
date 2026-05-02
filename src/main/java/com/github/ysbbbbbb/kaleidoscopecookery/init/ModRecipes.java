@@ -10,7 +10,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 
-public class ModRecipes {
+public final class ModRecipes {
     public static final RecipeSerializer<PotRecipe> POT_SERIALIZER = new PotRecipeSerializer();
     public static final RecipeSerializer<ChoppingBoardRecipe> CHOPPING_BOARD_SERIALIZER = new ChoppingBoardRecipeSerializer();
     public static final RecipeSerializer<StockpotRecipe> STOCKPOT_SERIALIZER = new StockpotRecipeSerializer();

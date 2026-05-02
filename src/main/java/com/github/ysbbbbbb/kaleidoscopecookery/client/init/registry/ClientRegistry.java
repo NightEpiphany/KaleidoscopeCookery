@@ -23,7 +23,7 @@ import net.minecraft.client.renderer.item.properties.conditional.ConditionalItem
 import net.minecraft.resources.Identifier;
 
 @Environment(EnvType.CLIENT)
-public class ClientRegistry {
+public final class ClientRegistry {
     public static void init() {
         // 注册盔甲渲染器
         ArmorRenderer.register(new StrawHatArmorRenderer(), ModItems.STRAW_HAT, ModItems.STRAW_HAT_FLOWER);

@@ -11,7 +11,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.Identifier;
 
-public class ModDataComponents {
+public final class ModDataComponents {
     public static final DataComponentType<FruitBasketItem.ItemContainer> FRUIT_BASKET_ITEMS = Registry.register(
             BuiltInRegistries.DATA_COMPONENT_TYPE,
             Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "fruit_basket_items"),

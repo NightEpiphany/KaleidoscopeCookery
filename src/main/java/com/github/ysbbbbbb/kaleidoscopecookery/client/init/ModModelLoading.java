@@ -2,7 +2,6 @@ package com.github.ysbbbbbb.kaleidoscopecookery.client.init;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.model.loading.v1.ExtraModelKey;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.model.loading.v1.SimpleUnbakedExtraModel;
 import net.minecraft.client.Minecraft;
@@ -10,7 +9,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 
 @Environment(EnvType.CLIENT)
-public class ModModelLoading {
+public final class ModModelLoading {
     private static final String MODELS = "models/";
     private static final String MODELS_CHOPPING_BOARD = MODELS + "chopping_board";
     private static final String MODELS_CARPET = MODELS + "block/carpet";

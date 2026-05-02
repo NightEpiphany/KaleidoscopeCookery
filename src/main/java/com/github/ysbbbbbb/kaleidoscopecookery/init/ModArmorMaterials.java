@@ -13,7 +13,7 @@ import net.minecraft.world.item.equipment.EquipmentAsset;
 
 import java.util.Map;
 
-public class ModArmorMaterials {
+public final class ModArmorMaterials {
 
     static final ResourceKey<? extends Registry<EquipmentAsset>> ROOT_ID = ResourceKey.createRegistryKey(Identifier.withDefaultNamespace("equipment_asset"));
 

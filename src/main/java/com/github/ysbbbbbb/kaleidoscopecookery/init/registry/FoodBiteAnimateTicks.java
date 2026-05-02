@@ -8,7 +8,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class FoodBiteAnimateTicks {
+public final class FoodBiteAnimateTicks {
     public static final AnimateTick DARK_CUISINE_ANIMATE_TICK = new AnimateTick() {
         @Override
         public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
