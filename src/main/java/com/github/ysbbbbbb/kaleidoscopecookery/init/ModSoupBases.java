@@ -4,7 +4,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.crafting.soupbase.SoupBaseManager
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 
-public class ModSoupBases {
+public final class ModSoupBases {
     public static final ResourceLocation WATER = ResourceLocation.fromNamespaceAndPath("minecraft", "water");
     public static final ResourceLocation LAVA = ResourceLocation.fromNamespaceAndPath("minecraft", "lava");
     public static final ResourceLocation AXOLOTL_BUCKET = ResourceLocation.fromNamespaceAndPath("minecraft", "axolotl_bucket");

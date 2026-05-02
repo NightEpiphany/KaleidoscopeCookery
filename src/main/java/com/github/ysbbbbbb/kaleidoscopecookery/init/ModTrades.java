@@ -12,7 +12,7 @@ import net.minecraft.world.item.trading.MerchantOffer;
 import static com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems.*;
 import static net.minecraft.world.item.Items.*;
 
-public class ModTrades {
+public final class ModTrades {
     public static void registerTrades() {
         // 注册厨师村民的交易
         TradeOfferHelper.registerVillagerOffers(ModVillager.CHEF, 1, ModTrades::addNoviceTrades);

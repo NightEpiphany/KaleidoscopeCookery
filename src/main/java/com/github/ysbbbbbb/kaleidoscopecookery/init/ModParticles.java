@@ -14,7 +14,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
-public class ModParticles {
+public final class ModParticles {
     public static final SimpleParticleType COOKING = FabricParticleTypes.simple();
     public static final ModParticleType<StockpotParticleOptions> STOCKPOT = new ModParticleType<>(false, StockpotParticleOptions.CODEC, StockpotParticleOptions.STREAM_CODEC);
 
@@ -23,7 +23,6 @@ public class ModParticles {
         Registry.register(BuiltInRegistries.PARTICLE_TYPE, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "stockpot_particle"), STOCKPOT);
     }
 
-    @SuppressWarnings("deprecation")
     public static class ModParticleType<T extends ParticleOptions> extends ParticleType<T> {
         private final MapCodec<T> codec;
         private final StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec;
@@ -40,7 +39,7 @@ public class ModParticles {
         }
 
         @Override
-        public StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec() {
+        public @NotNull StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec() {
             return this.streamCodec;
         }
     }

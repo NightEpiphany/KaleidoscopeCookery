@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.level.block.Block;
 
 @Environment(EnvType.CLIENT)
-public class ModBlockRenderLayerMap {
+public final class ModBlockRenderLayerMap {
     public static void register() {
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderType.cutout(),
                 ModBlocks.POT,

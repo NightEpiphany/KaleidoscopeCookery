@@ -16,7 +16,7 @@ import java.util.List;
 
 import static net.minecraft.world.item.ArmorItem.Type.*;
 
-public class ModArmorMaterials {
+public final class ModArmorMaterials {
     public static final Holder<ArmorMaterial> FARMER = Registry.registerForHolder(
             BuiltInRegistries.ARMOR_MATERIAL,
             ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "cookery_farmer"),

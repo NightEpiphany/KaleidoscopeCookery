@@ -8,7 +8,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 
-public class ModEffects {
+public final class ModEffects {
     public static Holder<MobEffect> FLATULENCE;
     public static Holder<MobEffect> TUNDRA_STRIDER;
     public static Holder<MobEffect> WARMTH;

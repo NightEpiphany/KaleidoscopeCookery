@@ -13,7 +13,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 
-public class ModCreativeTabs {
+public final class ModCreativeTabs {
     private static final ResourceLocation MAIN_ICON_ID = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "iron_kitchen_knife");
     private static final ResourceLocation FOOD_ICON_ID = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "red_chili");
 

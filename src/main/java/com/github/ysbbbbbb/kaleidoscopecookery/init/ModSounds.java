@@ -6,7 +6,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 
-public class ModSounds {
+public final class ModSounds {
     public static final SoundEvent BLOCK_RECIPE_BLOCK = SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "block.recipe_block"));
     public static final SoundEvent BLOCK_MILLSTONE = SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "block.millstone"));
     public static final SoundEvent BLOCK_STOCKPOT = SoundEvent.createFixedRangeEvent(ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "block.stockpot"), 16.0F);

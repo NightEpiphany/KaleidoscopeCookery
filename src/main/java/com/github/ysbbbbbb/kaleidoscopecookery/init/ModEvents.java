@@ -6,7 +6,7 @@ import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 
 // 所有的自定义事件
-public class ModEvents {
+public final class ModEvents {
 
     public static final Event<ActionEventCallback.CheckSpecialItem> CHECK_SPECIAL_ITEM =
             EventFactory.createArrayBacked(ActionEventCallback.CheckSpecialItem.class, call -> action -> {
