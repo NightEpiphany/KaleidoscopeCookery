@@ -25,7 +25,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
 @SuppressWarnings("all")
-public class ModBlocks {
+public final class ModBlocks {
     // Kitchen blocks
     public static final Block STOVE = new StoveBlock();
     public static final Block POT = new PotBlock();

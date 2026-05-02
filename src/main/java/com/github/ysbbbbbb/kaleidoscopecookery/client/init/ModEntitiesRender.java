@@ -14,7 +14,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 
 @Environment(EnvType.CLIENT)
-public class ModEntitiesRender {
+public final class ModEntitiesRender {
     public static void register() {
         // 注册实体渲染器
         EntityRendererRegistry.register(SitEntity.TYPE, SitRenderer::new);

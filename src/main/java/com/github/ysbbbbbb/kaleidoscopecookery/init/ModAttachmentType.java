@@ -7,7 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
 
 @SuppressWarnings("all")
-public class ModAttachmentType {
+public final class ModAttachmentType {
     public static final AttachmentType<Vec3> FLATULENCE_EFFECT_STARTING_POSITION = AttachmentRegistry.createDefaulted(
             new ResourceLocation(KaleidoscopeCookery.MOD_ID, "flatulence_effect_starting_position"),
             () -> Vec3.ZERO);

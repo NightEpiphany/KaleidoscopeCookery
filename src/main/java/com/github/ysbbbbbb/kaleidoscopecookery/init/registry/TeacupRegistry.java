@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public class TeacupRegistry {
+public final class TeacupRegistry {
     public static final Map<ResourceLocation, TeacupData> TEACUP_DATA_MAP = Maps.newLinkedHashMap();
 
     public static final TeacupRegistry INSTANCE = new TeacupRegistry();

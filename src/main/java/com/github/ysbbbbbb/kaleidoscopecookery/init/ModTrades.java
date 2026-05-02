@@ -13,7 +13,7 @@ import static net.minecraft.world.item.Items.*;
 import static net.minecraft.world.item.Items.BROWN_MUSHROOM;
 import static net.minecraft.world.item.Items.PORKCHOP;
 
-public class ModTrades {
+public final class ModTrades {
     public static void registerTrades() {
         // 注册厨师村民的交易
         TradeOfferHelper.registerVillagerOffers(ModVillager.CHEF, 1, ModTrades::addNoviceTrades);

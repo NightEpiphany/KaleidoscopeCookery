@@ -9,7 +9,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.npc.VillagerProfession;
 
 @SuppressWarnings("all")
-public class ModVillager {
+public final class ModVillager {
     public static final VillagerProfession CHEF = new VillagerProfession("chef",
             poi -> poi.value() == ModPoi.STOVE,
             poi -> poi.value() == ModPoi.STOVE,

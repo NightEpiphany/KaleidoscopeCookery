@@ -12,7 +12,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
-public class ModParticles {
+public final class ModParticles {
     public static final SimpleParticleType COOKING = FabricParticleTypes.simple();
     public static final ModParticleType<StockpotParticleOptions> STOCKPOT = new ModParticleType<>(false, StockpotParticleOptions.DESERIALIZER, StockpotParticleOptions.CODEC);
 
