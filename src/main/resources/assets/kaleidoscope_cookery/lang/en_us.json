@@ -519,5 +519,6 @@
   "kaleidoscope_cookery.ponder.recipe_item.text_1": "When there are ingredients inside a wok or stockpot, right click with a blank recipe to record its contents.",
   "kaleidoscope_cookery.ponder.recipe_item.text_2": "At a later time, right click the wok or stockpot with the recipe again. This will add all of the recorded ingredients on the recipe using items from your inventory.",
   "kaleidoscope_cookery.ponder.tag.kitchen_blocks": "Kitchen Basics",
-  "kaleidoscope_cookery.ponder.tag.kitchen_blocks.description": "Embark on the path of the culinary master!"
+  "kaleidoscope_cookery.ponder.tag.kitchen_blocks.description": "Embark on the path of the culinary master!",
+  "resourcePack.kaleidoscope_eating_animation": "Kaleidoscope Foods Eating Animation"
 }
