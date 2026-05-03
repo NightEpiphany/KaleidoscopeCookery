@@ -1,4 +1,4 @@
-package com.github.ysbbbbbb.kaleidoscopecookery.mixin;
+package com.github.ysbbbbbb.kaleidoscopecookery.mixin.client;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.client.event.CameraEvent;
 import net.fabricmc.api.EnvType;

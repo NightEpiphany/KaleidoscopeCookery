@@ -261,6 +261,10 @@
   "tooltip.kaleidoscope_cookery.transmutation_lunch_bag": "음식을 저장하고 신비한 변환을 수행합니다. 우클릭으로 먹을 수 있습니다.",
   "tooltip.kaleidoscope_cookery.cold_cut_ham_slices": "고소하고 풍부하며 쫄깃한 두툼한 햄 슬라이스입니다.",
   "tooltip.kaleidoscope_cookery.flower_tea.maxim": "은은한 꽃향기와 따뜻하고 마음을 진정시키는 한 모금.",
+  "jade.kaleidoscope_cookery.teapot.fluid": "Fluid: %s",
+  "jade.kaleidoscope_cookery.teapot.ingredient": "Ingredient: %s",
+  "jade.kaleidoscope_cookery.teapot.result": "Result: %s",
+  "config.jade.plugin_kaleidoscope_cookery.teapot": "Teapot",
   "tooltip.kaleidoscope_cookery.tieguanyin.maxim": "부드럽고 오래 지속되는 우아한 오키드 향입니다.",
   "tooltip.kaleidoscope_cookery.barley_tea.maxim": "구운 곡물 향이 부드럽고 편안함을 줍니다.",
   "tooltip.kaleidoscope_cookery.biluochun.maxim": "화사한 봄 마무리로 신선하고 오래 지속되는 향입니다.",
@@ -515,5 +519,6 @@
   "kaleidoscope_cookery.ponder.recipe_item.text_1": "웍이나 냄비에 재료가 있을 때 빈 레시피를 마우스 오른쪽 버튼으로 클릭하면 내용을 기록할 수 있습니다.",
   "kaleidoscope_cookery.ponder.recipe_item.text_2": "나중에 레시피가 담긴 냄비나 냄비를 다시 마우스 오른쪽 버튼으로 클릭하세요. 이렇게 하면 인벤토리의 항목을 사용하여 레시피에 기록된 모든 재료가 추가됩니다.",
   "kaleidoscope_cookery.ponder.tag.kitchen_blocks": "주방 기초",
-  "kaleidoscope_cookery.ponder.tag.kitchen_blocks.description": "요리 마스터의 길을 떠나세요!"
+  "kaleidoscope_cookery.ponder.tag.kitchen_blocks.description": "요리 마스터의 길을 떠나세요!",
+  "resourcePack.kaleidoscope_eating_animation": "만화경 : 식용 애니메이션 소재 팩"
 }

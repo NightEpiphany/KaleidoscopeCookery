@@ -24,7 +24,7 @@
     "rrv": ["com.github.ysbbbbbb.kaleidoscopecookery.compat.rrv.ModRRVPlugin"]
   },
   "mixins": ["kaleidoscope_cookery.mixins.json"],
-  "accessWidener": "kaleidoscope_cookery.accesswidener",
+  "accessWidener": "kaleidoscope_cookery.accessWidener",
   "depends": {
     "fabricloader": ">=0.18",
     "fabric": "*",

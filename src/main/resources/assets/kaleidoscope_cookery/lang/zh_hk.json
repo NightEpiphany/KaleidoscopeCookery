@@ -8,6 +8,7 @@
   "block.kaleidoscope_cookery.fruit_basket": "果籃",
   "block.kaleidoscope_cookery.chopping_board": "菜板",
   "block.kaleidoscope_cookery.cook_stool_oak": "橡木廚娘凳",
+  "block.kaleidoscope_cookery.cook_stool_pale_oak": "蒼白橡木廚娘凳",
   "block.kaleidoscope_cookery.cook_stool_spruce": "杉木廚娘凳",
   "block.kaleidoscope_cookery.cook_stool_acacia": "相思木廚娘凳",
   "block.kaleidoscope_cookery.cook_stool_bamboo": "竹製廚娘凳",
@@ -19,6 +20,7 @@
   "block.kaleidoscope_cookery.cook_stool_mangrove": "紅樹林木廚娘凳",
   "block.kaleidoscope_cookery.cook_stool_warped": "扭曲蕈柄廚娘凳",
   "block.kaleidoscope_cookery.chair_oak": "橡木椅子",
+  "block.kaleidoscope_cookery.chair_pale_oak": "蒼白橡木椅子",
   "block.kaleidoscope_cookery.chair_spruce": "杉木椅子",
   "block.kaleidoscope_cookery.chair_acacia": "相思木椅子",
   "block.kaleidoscope_cookery.chair_bamboo": "竹製椅子",
@@ -30,6 +32,7 @@
   "block.kaleidoscope_cookery.chair_mangrove": "紅樹林木椅子",
   "block.kaleidoscope_cookery.chair_warped": "扭曲蕈柄椅子",
   "block.kaleidoscope_cookery.table_oak": "橡木餐桌",
+  "block.kaleidoscope_cookery.table_pale_oak": "蒼白橡木餐桌",
   "block.kaleidoscope_cookery.table_spruce": "杉木餐桌",
   "block.kaleidoscope_cookery.table_acacia": "相思木餐桌",
   "block.kaleidoscope_cookery.table_bamboo": "竹製餐桌",
@@ -258,6 +261,10 @@
   "tooltip.kaleidoscope_cookery.transmutation_lunch_bag": "收納食物並進行奇妙的轉化，可右鍵進食",
   "tooltip.kaleidoscope_cookery.cold_cut_ham_slices": "鹹香醇厚有嚼勁的厚切火腿片",
   "tooltip.kaleidoscope_cookery.flower_tea.maxim": "精緻的花香和溫暖舒緩的口感。",
+  "jade.kaleidoscope_cookery.teapot.fluid": "液體: %s",
+  "jade.kaleidoscope_cookery.teapot.ingredient": "原材料: %s",
+  "jade.kaleidoscope_cookery.teapot.result": "成品: %s",
+  "config.jade.plugin_kaleidoscope_cookery.teapot": "茶壺",
   "tooltip.kaleidoscope_cookery.tieguanyin.maxim": "優雅的蘭花香氣，餘韻醇厚、綿長。",
   "tooltip.kaleidoscope_cookery.barley_tea.maxim": "烤穀物香氣，溫和舒適。",
   "tooltip.kaleidoscope_cookery.biluochun.maxim": "清新持久的香氣，帶有明亮的春天氣息。",
@@ -512,5 +519,6 @@
   "kaleidoscope_cookery.ponder.recipe_item.text_1": "手持空白的食譜右鍵已有物品放入的炒鍋或湯鍋，會將當前已加入的材料和烹飪結果記錄到食譜中",
   "kaleidoscope_cookery.ponder.recipe_item.text_2": "手持已記錄食物配方的食譜右鍵炒鍋或湯鍋，會將背包中攜帶有的記錄在食譜中的材料自動加入鍋中",
   "kaleidoscope_cookery.ponder.tag.kitchen_blocks": "廚房須知",
-  "kaleidoscope_cookery.ponder.tag.kitchen_blocks.description": "踏上前往廚藝大師之路吧！"
+  "kaleidoscope_cookery.ponder.tag.kitchen_blocks.description": "踏上前往廚藝大師之路吧！",
+  "resourcePack.kaleidoscope_eating_animation": "森羅物語食用動畫材質包"
 }
