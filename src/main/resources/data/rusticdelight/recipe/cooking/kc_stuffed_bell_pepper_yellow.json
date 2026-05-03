@@ -1,4 +1,12 @@
 {
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:any_mods_loaded",
+      "values": [
+        "rusticdelight"
+      ]
+    }
+  ],
   "type": "kaleidoscope_cookery:stockpot",
   "carrier": {
     "item": "rusticdelight:bell_pepper_yellow"

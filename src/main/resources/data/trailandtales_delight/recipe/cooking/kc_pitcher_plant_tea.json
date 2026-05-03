@@ -1,4 +1,12 @@
 {
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:any_mods_loaded",
+      "values": [
+        "trailandtales_delight"
+      ]
+    }
+  ],
   "type": "kaleidoscope_cookery:stockpot",
   "carrier": {
     "item": "minecraft:glass_bottle"

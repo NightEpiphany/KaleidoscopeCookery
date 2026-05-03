@@ -1,6 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
+  "plugin": "com.github.ysbbbbbb.kaleidoscopecookery.mixin.plugin.KaleidoscopeCookeryMixinPlugin",
   "package": "com.github.ysbbbbbb.kaleidoscopecookery.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
@@ -19,18 +20,17 @@
     "PowderSnowBlockMixin",
     "ShulkerBulletMixin",
     "ThrowableProjectileMixin",
-    "VillagerMixin",
-    "compact.RecipeParserMixin"
+    "VillagerMixin"
   ],
   "client": [
-    "BlockEntityRendererMixin",
-    "CameraMixin",
-    "ItemRendererMixin",
-    "LeftClickMixin",
-    "ModelBakeryMixin",
-    "PlayerRendererMixin",
-    "realize.HumanoidModelImplementationMixin",
-    "realize.HumanoidModelMixin"
+    "client.BlockEntityRendererMixin",
+    "client.CameraMixin",
+    "client.ItemRendererMixin",
+    "client.LeftClickMixin",
+    "client.ModelBakeryMixin",
+    "client.PlayerRendererMixin",
+    "client.HumanoidModelImplementationMixin",
+    "client.HumanoidModelMixin"
   ],
   "injectors": {
     "defaultRequire": 1
