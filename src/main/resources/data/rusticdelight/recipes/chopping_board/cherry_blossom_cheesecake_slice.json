@@ -1,4 +1,12 @@
 {
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:any_mod_loaded",
+      "values": [
+        "rusticdelight"
+      ]
+    }
+  ],
   "type": "kaleidoscope_cookery:chopping_board",
   "cut_count": 2,
   "ingredient": {

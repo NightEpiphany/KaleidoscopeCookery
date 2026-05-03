@@ -1,4 +1,12 @@
 {
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:any_mod_loaded",
+      "values": [
+        "trailandtales_delight"
+      ]
+    }
+  ],
   "type": "kaleidoscope_cookery:steamer",
   "cook_tick": 1200,
   "ingredient": {

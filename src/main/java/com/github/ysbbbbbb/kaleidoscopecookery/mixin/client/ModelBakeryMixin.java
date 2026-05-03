@@ -1,4 +1,4 @@
-package com.github.ysbbbbbb.kaleidoscopecookery.mixin;
+package com.github.ysbbbbbb.kaleidoscopecookery.mixin.client;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import net.fabricmc.api.EnvType;

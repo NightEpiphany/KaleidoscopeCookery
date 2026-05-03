@@ -1,4 +1,12 @@
 {
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:any_mod_loaded",
+      "values": [
+        "farmersdelight"
+      ]
+    }
+  ],
   "type": "kaleidoscope_cookery:pot",
   "carrier": {
     "tag": "c:cooked_rice"

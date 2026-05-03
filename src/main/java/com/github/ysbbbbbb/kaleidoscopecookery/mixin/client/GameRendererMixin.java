@@ -1,7 +1,6 @@
-package com.github.ysbbbbbb.kaleidoscopecookery.mixin;
+package com.github.ysbbbbbb.kaleidoscopecookery.mixin.client;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.api.event.client.ViewportEvent;
-import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.fabricmc.api.EnvType;

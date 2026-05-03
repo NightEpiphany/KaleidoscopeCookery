@@ -1,4 +1,12 @@
 {
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:any_mod_loaded",
+      "values": [
+        "brewinandchewin"
+      ]
+    }
+  ],
   "type": "kaleidoscope_cookery:stockpot",
   "carrier": {
     "item": "minecraft:bowl"

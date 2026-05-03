@@ -1,4 +1,4 @@
-package com.github.ysbbbbbb.kaleidoscopecookery.mixin;
+package com.github.ysbbbbbb.kaleidoscopecookery.mixin.client;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.api.event.client.RenderPlayerEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.LiftBlockItem;
