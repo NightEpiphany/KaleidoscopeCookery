@@ -8,6 +8,7 @@
   "block.kaleidoscope_cookery.fruit_basket": "Cesta de frutas",
   "block.kaleidoscope_cookery.chopping_board": "Tabla de cortar",
   "block.kaleidoscope_cookery.cook_stool_oak": "Taburete de cocinero de roble",
+  "block.kaleidoscope_cookery.cook_stool_pale_oak": "Pale Oak Cook's Stool",
   "block.kaleidoscope_cookery.cook_stool_spruce": "Taburete de cocinero de abeto",
   "block.kaleidoscope_cookery.cook_stool_acacia": "Taburete de cocinero de acacia",
   "block.kaleidoscope_cookery.cook_stool_bamboo": "Taburete de cocinero de bambú",
@@ -19,6 +20,7 @@
   "block.kaleidoscope_cookery.cook_stool_mangrove": "Taburete de cocinero de mangle",
   "block.kaleidoscope_cookery.cook_stool_warped": "Taburete de cocinero distorsionado",
   "block.kaleidoscope_cookery.chair_oak": "Silla de roble",
+  "block.kaleidoscope_cookery.chair_pale_oak": "Pale Oak Chair",
   "block.kaleidoscope_cookery.chair_spruce": "Silla de abeto",
   "block.kaleidoscope_cookery.chair_acacia": "Silla de acacia",
   "block.kaleidoscope_cookery.chair_bamboo": "Silla de bambú",
@@ -30,6 +32,7 @@
   "block.kaleidoscope_cookery.chair_mangrove": "Silla de mangle",
   "block.kaleidoscope_cookery.chair_warped": "Silla distorsionada",
   "block.kaleidoscope_cookery.table_oak": "Mesa de roble",
+  "block.kaleidoscope_cookery.table_pale_oak": "Pale Oak Table",
   "block.kaleidoscope_cookery.table_spruce": "Mesa de abeto",
   "block.kaleidoscope_cookery.table_acacia": "Mesa de acacia",
   "block.kaleidoscope_cookery.table_bamboo": "Mesa de bambú",
@@ -258,6 +261,10 @@
   "tooltip.kaleidoscope_cookery.transmutation_lunch_bag": "Guarda comida y realiza una transmutación mágica; clic derecho para comer",
   "tooltip.kaleidoscope_cookery.cold_cut_ham_slices": "Lonchas gruesas de jamón, saladas, intensas y con buen mordisco",
   "tooltip.kaleidoscope_cookery.flower_tea.maxim": "Delicado aroma floral y un sorbo cálido y relajante.",
+  "jade.kaleidoscope_cookery.teapot.fluid": "Fluid: %s",
+  "jade.kaleidoscope_cookery.teapot.ingredient": "Ingredient: %s",
+  "jade.kaleidoscope_cookery.teapot.result": "Result: %s",
+  "config.jade.plugin_kaleidoscope_cookery.teapot": "Teapot",
   "tooltip.kaleidoscope_cookery.tieguanyin.maxim": "Elegante fragancia de orquídeas con un final suave y persistente.",
   "tooltip.kaleidoscope_cookery.barley_tea.maxim": "Aroma a grano tostado, suave y reconfortante.",
   "tooltip.kaleidoscope_cookery.biluochun.maxim": "Fragancia fresca y persistente con un brillante final primaveral.",
@@ -512,5 +519,6 @@
   "kaleidoscope_cookery.ponder.recipe_item.text_1": "Cuando haya ingredientes dentro de un wok o una olla, haga clic derecho en una receta en blanco para registrar su contenido.",
   "kaleidoscope_cookery.ponder.recipe_item.text_2": "Más adelante, vuelva a hacer clic derecho en el wok o la olla con la receta. Esto agregará todos los ingredientes registrados en la receta usando elementos de su inventario.",
   "kaleidoscope_cookery.ponder.tag.kitchen_blocks": "Conceptos básicos de cocina",
-  "kaleidoscope_cookery.ponder.tag.kitchen_blocks.description": "¡Embárcate en el camino del maestro culinario!"
+  "kaleidoscope_cookery.ponder.tag.kitchen_blocks.description": "¡Embárcate en el camino del maestro culinario!",
+  "resourcePack.kaleidoscope_eating_animation": "Kaleidoscope: Paquete de materiales de animación comestible"
 }

@@ -8,6 +8,7 @@
   "block.kaleidoscope_cookery.fruit_basket": "Корзина для фруктов",
   "block.kaleidoscope_cookery.chopping_board": "Разделочная доска",
   "block.kaleidoscope_cookery.cook_stool_oak": "Дубовый табурет повара",
+  "block.kaleidoscope_cookery.cook_stool_pale_oak": "Pale Oak Cook's Stool",
   "block.kaleidoscope_cookery.cook_stool_spruce": "Еловый табурет повара",
   "block.kaleidoscope_cookery.cook_stool_acacia": "Акациевый табурет повара",
   "block.kaleidoscope_cookery.cook_stool_bamboo": "Бамбуковый табурет повара",
@@ -19,6 +20,7 @@
   "block.kaleidoscope_cookery.cook_stool_mangrove": "Мангровый табурет повара",
   "block.kaleidoscope_cookery.cook_stool_warped": "Искажённый табурет повара",
   "block.kaleidoscope_cookery.chair_oak": "Дубовый стул",
+  "block.kaleidoscope_cookery.chair_pale_oak": "Pale Oak Chair",
   "block.kaleidoscope_cookery.chair_spruce": "Еловый стул",
   "block.kaleidoscope_cookery.chair_acacia": "Акациевый стул",
   "block.kaleidoscope_cookery.chair_bamboo": "Бамбуковый стул",
@@ -30,6 +32,7 @@
   "block.kaleidoscope_cookery.chair_mangrove": "Мангровый стул",
   "block.kaleidoscope_cookery.chair_warped": "Искажённый стул",
   "block.kaleidoscope_cookery.table_oak": "Дубовый стол",
+  "block.kaleidoscope_cookery.table_pale_oak": "Pale Oak Table",
   "block.kaleidoscope_cookery.table_spruce": "Еловый стол",
   "block.kaleidoscope_cookery.table_acacia": "Акациевый стол",
   "block.kaleidoscope_cookery.table_bamboo": "Бамбуковый стол",
@@ -258,6 +261,10 @@
   "tooltip.kaleidoscope_cookery.transmutation_lunch_bag": "Хранит еду и выполняет магическую трансмутацию. ПКМ — съесть.",
   "tooltip.kaleidoscope_cookery.cold_cut_ham_slices": "Пикантные, насыщенные и упругие ломтики ветчины.",
   "tooltip.kaleidoscope_cookery.flower_tea.maxim": "Нежный цветочный аромат и теплый, успокаивающий глоток.",
+  "jade.kaleidoscope_cookery.teapot.fluid": "Fluid: %s",
+  "jade.kaleidoscope_cookery.teapot.ingredient": "Ingredient: %s",
+  "jade.kaleidoscope_cookery.teapot.result": "Result: %s",
+  "config.jade.plugin_kaleidoscope_cookery.teapot": "Teapot",
   "tooltip.kaleidoscope_cookery.tieguanyin.maxim": "Элегантный аромат орхидеи с мягким, стойким послевкусием.",
   "tooltip.kaleidoscope_cookery.barley_tea.maxim": "Аромат жареных зерен, нежный и успокаивающий.",
   "tooltip.kaleidoscope_cookery.biluochun.maxim": "Свежий, стойкий аромат с ярким весенним послевкусием.",
@@ -512,5 +519,6 @@
   "kaleidoscope_cookery.ponder.recipe_item.text_1": "Когда в воке или кастрюле есть ингредиенты, нажмите ПКМ с пустым рецептом, чтобы записать его содержимое.",
   "kaleidoscope_cookery.ponder.recipe_item.text_2": "Позже снова нажмите ПКМ с рецептом на вок или кастрюлю. Это добавит все записанные ингредиенты из вашего инвентаря.",
   "kaleidoscope_cookery.ponder.tag.kitchen_blocks": "Основы кухни",
-  "kaleidoscope_cookery.ponder.tag.kitchen_blocks.description": "Встаньте на путь кулинарного мастера!"
+  "kaleidoscope_cookery.ponder.tag.kitchen_blocks.description": "Встаньте на путь кулинарного мастера!",
+  "resourcePack.kaleidoscope_eating_animation": "Kaleidoscope: Пакет анимационных текстур для еды"
 }

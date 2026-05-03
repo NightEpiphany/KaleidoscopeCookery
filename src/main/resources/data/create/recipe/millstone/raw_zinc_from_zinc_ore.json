@@ -1,4 +1,12 @@
 {
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:any_mods_loaded",
+      "values": [
+        "create"
+      ]
+    }
+  ],
   "type": "kaleidoscope_cookery:millstone",
   "ingredient": "create:zinc_ore",
   "result": {

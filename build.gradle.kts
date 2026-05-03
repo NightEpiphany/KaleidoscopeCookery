@@ -13,7 +13,7 @@ base {
 }
 
 loom {
-	accessWidenerPath = file("src/main/resources/kaleidoscope_cookery.accesswidener")
+	accessWidenerPath = file("src/main/resources/kaleidoscope_cookery.accessWidener")
 }
 
 repositories {
