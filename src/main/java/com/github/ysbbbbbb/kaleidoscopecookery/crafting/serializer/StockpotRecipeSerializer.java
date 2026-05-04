@@ -16,7 +16,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -64,7 +63,7 @@ public class StockpotRecipeSerializer implements RecipeSerializer<StockpotRecipe
     }
 
     @Override
-    public @Nullable StockpotRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buf) {
+    public @NotNull StockpotRecipe fromNetwork(@NotNull ResourceLocation recipeId, FriendlyByteBuf buf) {
         int ingredientsSize = buf.readVarInt();
         List<Ingredient> inputs = Lists.newArrayList();
         for (int i = 0; i < ingredientsSize; i++) {
@@ -95,5 +94,10 @@ public class StockpotRecipeSerializer implements RecipeSerializer<StockpotRecipe
         buffer.writeResourceLocation(recipe.finishedTexture());
         buffer.writeVarInt(recipe.cookingBubbleColor());
         buffer.writeVarInt(recipe.finishedBubbleColor());
+    }
+
+    @Override
+    public String toString() {
+        return "stockpot";
     }
 }

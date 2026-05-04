@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ChoppingBoardRecipeSerializer implements RecipeSerializer<ChoppingBoardRecipe> {
     @Override
-    public ChoppingBoardRecipe fromJson(@NotNull ResourceLocation recipeId, @NotNull JsonObject json) {
+    public @NotNull ChoppingBoardRecipe fromJson(@NotNull ResourceLocation recipeId, @NotNull JsonObject json) {
         Ingredient ingredient;
         if (GsonHelper.isArrayNode(json, "ingredient")) {
             ingredient = Ingredient.fromJson(GsonHelper.getAsJsonArray(json, "ingredient"), false);
@@ -27,7 +27,7 @@ public class ChoppingBoardRecipeSerializer implements RecipeSerializer<ChoppingB
     }
 
     @Override
-    public ChoppingBoardRecipe fromNetwork(@NotNull ResourceLocation recipeId, @NotNull FriendlyByteBuf buffer) {
+    public @NotNull ChoppingBoardRecipe fromNetwork(@NotNull ResourceLocation recipeId, @NotNull FriendlyByteBuf buffer) {
         Ingredient ingredient = Ingredient.fromNetwork(buffer);
         ItemStack result = buffer.readItem();
         int cutCount = buffer.readVarInt();
@@ -41,5 +41,10 @@ public class ChoppingBoardRecipeSerializer implements RecipeSerializer<ChoppingB
         buffer.writeItem(recipe.getResult());
         buffer.writeVarInt(recipe.getCutCount());
         buffer.writeResourceLocation(recipe.getModelId());
+    }
+
+    @Override
+    public String toString() {
+        return "chopping_board";
     }
 }

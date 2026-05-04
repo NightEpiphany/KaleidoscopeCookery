@@ -12,13 +12,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public class PotRecipeSerializer implements RecipeSerializer<PotRecipe> {
     @Override
-    public PotRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
+    public @NotNull PotRecipe fromJson(@NotNull ResourceLocation recipeId, @NotNull JsonObject json) {
         int time = GsonHelper.getAsInt(json, "time", 200);
         int stirFryCount = GsonHelper.getAsInt(json, "stir_fry_count", 3);
 
@@ -39,8 +39,7 @@ public class PotRecipeSerializer implements RecipeSerializer<PotRecipe> {
     }
 
     @Override
-    @Nullable
-    public PotRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buf) {
+    public @NotNull PotRecipe fromNetwork(@NotNull ResourceLocation recipeId, FriendlyByteBuf buf) {
         int time = buf.readVarInt();
         int stirFryCount = buf.readVarInt();
         Ingredient carrier = Ingredient.fromNetwork(buf);
@@ -61,5 +60,10 @@ public class PotRecipeSerializer implements RecipeSerializer<PotRecipe> {
         buf.writeVarInt(recipe.getIngredients().size());
         recipe.getIngredients().forEach(i -> i.toNetwork(buf));
         buf.writeItem(recipe.result());
+    }
+
+    @Override
+    public String toString() {
+        return "pot";
     }
 }

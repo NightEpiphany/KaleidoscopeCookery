@@ -51,4 +51,9 @@ public class TeapotRecipeSerializer implements RecipeSerializer<TeapotRecipe> {
         buf.writeVarInt(recipe.time());
         buf.writeItem(recipe.result());
     }
+
+    @Override
+    public String toString() {
+        return "teapot";
+    }
 }

@@ -9,10 +9,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
+import org.jetbrains.annotations.NotNull;
 
 public class MillstoneRecipeSerializer implements RecipeSerializer<MillstoneRecipe> {
     @Override
-    public MillstoneRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
+    public @NotNull MillstoneRecipe fromJson(@NotNull ResourceLocation recipeId, @NotNull JsonObject json) {
         Ingredient ingredient;
         if (GsonHelper.isArrayNode(json, "ingredient")) {
             ingredient = Ingredient.fromJson(GsonHelper.getAsJsonArray(json, "ingredient"), false);
@@ -32,7 +33,7 @@ public class MillstoneRecipeSerializer implements RecipeSerializer<MillstoneReci
     }
 
     @Override
-    public MillstoneRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+    public @NotNull MillstoneRecipe fromNetwork(@NotNull ResourceLocation recipeId, @NotNull FriendlyByteBuf buffer) {
         Ingredient ingredient = Ingredient.fromNetwork(buffer);
         ItemStack result = buffer.readItem();
         Ingredient carrier = Ingredient.fromNetwork(buffer);
@@ -40,9 +41,14 @@ public class MillstoneRecipeSerializer implements RecipeSerializer<MillstoneReci
     }
 
     @Override
-    public void toNetwork(FriendlyByteBuf buffer, MillstoneRecipe recipe) {
+    public void toNetwork(@NotNull FriendlyByteBuf buffer, MillstoneRecipe recipe) {
         recipe.getIngredient().toNetwork(buffer);
         buffer.writeItem(recipe.getResult());
         recipe.getCarrier().toNetwork(buffer);
+    }
+
+    @Override
+    public String toString() {
+        return "millstone";
     }
 }
