@@ -24,6 +24,7 @@ import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+@SuppressWarnings({"unused", "deprecation"})
 public final class ModItems {
     // Block items
     public static final Item STOVE = registerItemViaBlock(ModBlocks.STOVE);
@@ -75,6 +76,7 @@ public final class ModItems {
     public static final Item COLD_CUT_HAM_SLICES = registerItemViaBlock(ModBlocks.COLD_CUT_HAM_SLICES, (block, properties) -> new LiftBlockItem(block, properties, "cold_cut_ham_slices"), new Item.Properties());
 
     // Tools
+    public static final Item COPPER_KITCHEN_KNIFE = registerItem("copper_kitchen_knife", p -> new KitchenKnifeItem(p, ToolMaterial.COPPER, 2.5F, -2.4F), new Item.Properties());
     public static final Item IRON_KITCHEN_KNIFE = registerItem("iron_kitchen_knife", p -> new KitchenKnifeItem(p, ToolMaterial.IRON, 3.0F, -2.4F), new Item.Properties());
     public static final Item GOLD_KITCHEN_KNIFE = registerItem("gold_kitchen_knife", p -> new KitchenKnifeItem(p, ToolMaterial.GOLD, 3.0F, -2.4F), new Item.Properties());
     public static final Item DIAMOND_KITCHEN_KNIFE = registerItem("diamond_kitchen_knife", p -> new KitchenKnifeItem(p, ToolMaterial.DIAMOND, 3.0F, -2.4F), new Item.Properties());
@@ -145,8 +147,8 @@ public final class ModItems {
 
     // Food items
     public static final Item TOMATO = registerItem("tomato", p -> new Item(p.food(ModFoods.TOMATO)));
-    public static final Item RED_CHILI = registerItem("red_chili", p -> new ChiliItem(p, 2));
-    public static final Item GREEN_CHILI = registerItem("green_chili", p -> new ChiliItem(p, 1));
+    public static final Item RED_CHILI = registerItem("red_chili", ChiliItem.RedChiliItem::new);
+    public static final Item GREEN_CHILI = registerItem("green_chili", ChiliItem.GreenChiliItem::new);
     public static final Item LETTUCE = registerItem("lettuce", p -> new Item(p.food(ModFoods.LETTUCE)));
     public static final Item RICE_PANICLE = registerItem("rice_panicle");
     public static final Item CATERPILLAR = registerItem("caterpillar", p -> new WithTooltipsItem(p.food(ModFoods.CATERPILLAR), "caterpillar"));

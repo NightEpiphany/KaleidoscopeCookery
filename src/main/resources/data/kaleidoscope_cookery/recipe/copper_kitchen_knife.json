@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": "minecraft:copper_ingot",
+    "S": "minecraft:stick"
+  },
+  "pattern": [
+    "##",
+    "#S"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kaleidoscope_cookery:copper_kitchen_knife"
+  }
+}

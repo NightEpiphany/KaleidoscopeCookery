@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_diamond": {
+    "has_copper_ingot": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:iron_ingot"
+            "items": "minecraft:copper_ingot"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kaleidoscope_cookery:diamond_kitchen_knife"
+        "recipe": "kaleidoscope_cookery:copper_kitchen_knife"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_diamond"
+      "has_copper_ingot"
     ]
   ],
   "rewards": {
     "recipes": [
-      "kaleidoscope_cookery:diamond_kitchen_knife"
+      "kaleidoscope_cookery:copper_kitchen_knife"
     ]
   }
 }

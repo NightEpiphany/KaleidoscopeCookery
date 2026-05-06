@@ -60,8 +60,9 @@ public final class ModCreativeTabs {
                     output.accept(ModItems.CHILI_SEED);
                     output.accept(ModItems.LETTUCE_SEED);
                     output.accept(ModItems.KITCHEN_SHOVEL);
-                    output.accept(ModItems.GOLD_KITCHEN_KNIFE);
+                    output.accept(ModItems.COPPER_KITCHEN_KNIFE);
                     output.accept(ModItems.IRON_KITCHEN_KNIFE);
+                    output.accept(ModItems.GOLD_KITCHEN_KNIFE);
                     output.accept(ModItems.DIAMOND_KITCHEN_KNIFE);
                     output.accept(ModItems.NETHERITE_KITCHEN_KNIFE);
                     output.accept(ModItems.SICKLE);
