@@ -421,6 +421,7 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
         return false;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public boolean removeIngredient(Level level, LivingEntity user) {
         if (hasLid()) {
@@ -468,6 +469,7 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
         return false;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public boolean takeOutProduct(Level level, LivingEntity user, ItemStack stack) {
         if (level.isClientSide()) return false;

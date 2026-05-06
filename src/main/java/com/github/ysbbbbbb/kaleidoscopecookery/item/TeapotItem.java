@@ -141,6 +141,7 @@ public class TeapotItem extends BlockItem {
         return InteractionResult.PASS;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public @NonNull InteractionResult interactLivingEntity(ItemStack stack, @NonNull Player player, @NonNull LivingEntity target, @NonNull InteractionHand hand) {
         if (!stack.has(DataComponents.BLOCK_ENTITY_DATA)) {

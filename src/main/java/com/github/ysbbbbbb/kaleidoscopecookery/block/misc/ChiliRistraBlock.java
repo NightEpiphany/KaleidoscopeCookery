@@ -86,6 +86,7 @@ public class ChiliRistraBlock extends Block {
     }
 
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void entityInside(@NonNull BlockState blockState, Level level, @NonNull BlockPos blockPos, @NonNull Entity entity, @NonNull InsideBlockEffectApplier insideBlockEffectApplier, boolean bl) {
         if (!level.isClientSide() && entity instanceof Mob mob && mob.getType().builtInRegistryHolder().is(EntityTypeTags.UNDEAD)) {
@@ -94,7 +95,7 @@ public class ChiliRistraBlock extends Block {
     }
 
     @Override
-    public @NotNull BlockState updateShape(
+    public  @NotNull BlockState updateShape(
             @NonNull BlockState state,
             @NonNull LevelReader levelReader,
             @NonNull ScheduledTickAccess scheduledTickAccess,

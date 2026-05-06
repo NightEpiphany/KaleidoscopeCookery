@@ -54,9 +54,7 @@ public final class CommonRegistry {
     }
 
     public static void fuelRegister() {
-        FuelValueEvents.BUILD.register((registry, i) -> {
-            registry.add(ModItems.OIL, i.baseSmeltTime() * 8);
-        });
+        FuelValueEvents.BUILD.register((registry, i) -> registry.add(ModItems.OIL, i.baseSmeltTime() * 8));
     }
 
     public static void registerServerEvents() {
@@ -133,9 +131,9 @@ public final class CommonRegistry {
     }
 
     private static void modCompat() {
+        TrinketsCompatServer.init();
         FarmersDelightCompat.init();
         AutomationCompat.init();
-        TrinketsCompatServer.init();
     }
 
     private static void addDispenserBehavior() {

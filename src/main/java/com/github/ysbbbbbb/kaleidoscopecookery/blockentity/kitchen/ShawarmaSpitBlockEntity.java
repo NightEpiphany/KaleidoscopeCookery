@@ -98,6 +98,7 @@ public class ShawarmaSpitBlockEntity extends BaseBlockEntity implements IShawarm
         return false;
     }
 
+    @SuppressWarnings("deprecation")
     public void takeItem(Level level, LivingEntity entity) {
         if (this.cookTime <= 0 && !this.cookedItem.isEmpty()) {
             BlockDrop.popResource(level, this.getBlockPos(), 0.75, this.cookedItem.copy());
@@ -123,6 +124,7 @@ public class ShawarmaSpitBlockEntity extends BaseBlockEntity implements IShawarm
         this.refresh();
     }
 
+    @SuppressWarnings("deprecation")
     private void giveItem(Level level, LivingEntity entity, ItemStack mainHandItem, ItemStack copy) {
         this.cookingItem = ItemStack.EMPTY;
         this.cookedItem = ItemStack.EMPTY;

@@ -341,6 +341,7 @@ public class PotBlockEntity extends BaseBlockEntity implements IPot {
         }
     }
 
+    @SuppressWarnings("deprecation")
     private boolean takeOutWithoutCarrier(Level level, LivingEntity user, ItemStack stack, ItemStack finallyResult) {
         if (stack.is(ModItems.KITCHEN_SHOVEL)) {
             // 如果是玩家，则需要判断是否潜行才能取出
@@ -415,6 +416,7 @@ public class PotBlockEntity extends BaseBlockEntity implements IPot {
         return false;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public boolean removeIngredient(Level level, LivingEntity user) {
         if (this.status != PUT_INGREDIENT) {

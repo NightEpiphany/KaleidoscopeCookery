@@ -100,6 +100,7 @@ public class StoveBlock extends HorizontalDirectionalBlock {
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void stepOn(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Entity entity) {
         if (GeneralConfig.STOVE_FIRING_ENABLED.get()

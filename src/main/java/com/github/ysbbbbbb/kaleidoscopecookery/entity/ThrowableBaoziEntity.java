@@ -19,6 +19,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import org.jspecify.annotations.NonNull;
 
+@SuppressWarnings("unused")
 public class ThrowableBaoziEntity extends ThrowableItemProjectile {
 
     public ThrowableBaoziEntity(EntityType<? extends ThrowableItemProjectile> entityType, Level level) {
@@ -69,6 +70,7 @@ public class ThrowableBaoziEntity extends ThrowableItemProjectile {
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void onHitEntity(@NonNull EntityHitResult entityHitResult) {
         super.onHitEntity(entityHitResult);

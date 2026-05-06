@@ -25,6 +25,7 @@ import org.jspecify.annotations.Nullable;
 @Environment(EnvType.CLIENT)
 public class ChoppingBoardBlockEntityRender implements BlockEntityRenderer<ChoppingBoardBlockEntity, ChoppingBoardBlockEntityRenderState>, ICustomModel {
     private final ItemModelResolver itemModelResolver;
+    public static final Identifier DEFAULT_MODEL = Identifier.withDefaultNamespace("air");
     public ChoppingBoardBlockEntityRender(BlockEntityRendererProvider.Context context) {
         this.itemModelResolver = context.itemModelResolver();
     }
@@ -44,7 +45,7 @@ public class ChoppingBoardBlockEntityRender implements BlockEntityRenderer<Chopp
         blockEntityRenderState.currentCutCount = blockEntity.getCurrentCutCount();
         blockEntityRenderState.rotation = blockEntity.getBlockState().getValue(ChoppingBoardBlock.FACING).getOpposite().get2DDataValue();
 
-        if (blockEntityRenderState.modelId != null && !blockEntityRenderState.modelId.equals(Identifier.parse("minecraft:air"))) {
+        if (blockEntityRenderState.modelId != null && !blockEntityRenderState.modelId.equals(DEFAULT_MODEL)) {
             Identifier modelId = blockEntityRenderState.modelId;
             if (!modelId.equals(blockEntityRenderState.previousModel)) {
                 blockEntityRenderState.previousModel = modelId;
