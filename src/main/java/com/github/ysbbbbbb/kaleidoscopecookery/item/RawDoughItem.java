@@ -35,6 +35,7 @@ public class RawDoughItem extends Item {
         super(new Properties());
     }
 
+    @SuppressWarnings("unused")
     @Environment(EnvType.CLIENT)
     public static float getTexture(ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity entity, int seed) {
         if (entity == null) {

@@ -55,12 +55,12 @@ public class TransmutationLunchBagItem extends Item {
     public static final int HAS_ITEMS = 1;
 
     private static final int MAX_SIZE = 16;
-    private static final String TAG_ITEMS = "Items";
 
     public TransmutationLunchBagItem() {
         super((new Item.Properties()).stacksTo(1));
     }
 
+    @SuppressWarnings("unused")
     @Environment(EnvType.CLIENT)
     public static float getTexture(ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity entity, int seed) {
         if (!hasItems(stack)) {

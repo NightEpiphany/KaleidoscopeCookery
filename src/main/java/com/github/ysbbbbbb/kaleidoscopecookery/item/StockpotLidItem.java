@@ -1,6 +1,8 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.item;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -21,6 +23,8 @@ public class StockpotLidItem extends ShieldItem {
         super(new Properties().durability(120));
     }
 
+    @SuppressWarnings("unused")
+    @Environment(EnvType.CLIENT)
     public static float getTexture(ItemStack stack, Level level, LivingEntity entity, int seed) {
         if (entity != null && entity.isUsingItem() && entity.getUseItem() == stack) {
             return USING;

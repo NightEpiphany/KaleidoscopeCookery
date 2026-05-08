@@ -18,11 +18,7 @@ import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -330,13 +326,6 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
         this.liftAngle = data.liftAngle();
         this.offset = data.offset();
         this.refresh();
-    }
-
-    public void sendActionBarMessage(LivingEntity user, String key, Object... args) {
-        if (user instanceof ServerPlayer serverPlayer) {
-            MutableComponent message = Component.translatable(key, args);
-            serverPlayer.connection.send(new ClientboundSetActionBarTextPacket(message));
-        }
     }
 
     @Override
