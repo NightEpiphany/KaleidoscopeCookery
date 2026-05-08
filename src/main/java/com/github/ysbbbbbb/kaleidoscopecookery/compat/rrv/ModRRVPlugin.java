@@ -98,6 +98,7 @@ public class ModRRVPlugin implements ReliableRecipeViewerClientPlugin {
             recipeList.add(new TeapotViewRecipe(
                     holder.id().identifier(),
                     recipe.ingredient(),
+                    recipe.ingredientCount(),
                     ItemStackTemplate.fromNonEmptyStack(teaFluid),
                     recipe.result()
             ));

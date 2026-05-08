@@ -24,9 +24,14 @@ import static com.github.ysbbbbbb.kaleidoscopecookery.crafting.serializer.Stockp
 import static com.github.ysbbbbbb.kaleidoscopecookery.crafting.serializer.StockpotRecipeSerializer.DEFAULT_FINISHED_BUBBLE_COLOR;
 
 public record StockpotRecipe(NonNullList<Ingredient> ingredients,
-                             Identifier soupBase, ItemStackTemplate result, int time,
-                             Ingredient carrier, Identifier cookingTexture, Identifier finishedTexture,
-                             int cookingBubbleColor, int finishedBubbleColor) implements BaseRecipe<StockpotInput> {
+                             Identifier soupBase,
+                             ItemStackTemplate result,
+                             int time,
+                             Ingredient carrier,
+                             Identifier cookingTexture,
+                             Identifier finishedTexture,
+                             int cookingBubbleColor,
+                             int finishedBubbleColor) implements BaseRecipe<StockpotInput> {
 
     public StockpotRecipe(List<Ingredient> ingredients, Identifier soupBase, ItemStackTemplate result,
                           int time, Ingredient carrier, Identifier cookingTexture, Identifier finishedTexture,

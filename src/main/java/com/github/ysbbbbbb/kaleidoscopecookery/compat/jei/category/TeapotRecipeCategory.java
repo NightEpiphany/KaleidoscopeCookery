@@ -61,6 +61,7 @@ public class TeapotRecipeCategory implements IRecipeCategory<RecipeHolder<Teapot
         guiGraphics.text(font, sequence, 88 - font.width(sequence) / 2, 70, 0x555555, false);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, RecipeHolder<TeapotRecipe> holder, @NonNull IFocusGroup focuses) {
         TeapotRecipe recipe = holder.value();

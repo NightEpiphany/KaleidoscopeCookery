@@ -95,6 +95,7 @@ public final class InitAutomationEvents {
         return InteractionResult.SUCCESS;
     }
 
+    @SuppressWarnings("deprecation")
     private static InteractionResult handleRecipeAddress(Player player, Level level, ItemStack itemStack, BlockEntity blockEntity) {
         if (blockEntity instanceof StockTickerBlockEntity ticker) {
             if (!RecipeItem.hasRecipe(itemStack)) {

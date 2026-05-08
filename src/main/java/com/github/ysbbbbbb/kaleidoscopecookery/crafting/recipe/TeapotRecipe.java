@@ -19,8 +19,10 @@ import net.minecraft.world.level.Level;
 import org.jspecify.annotations.NonNull;
 
 public record TeapotRecipe(Identifier teaFluid,
-                           Ingredient ingredient, int ingredientCount,
-                           int time, ItemStackTemplate result) implements BaseRecipe<TeapotInput> {
+                           Ingredient ingredient,
+                           int ingredientCount,
+                           int time,
+                           ItemStackTemplate result) implements BaseRecipe<TeapotInput> {
     public static final int OUTPUT_COUNT = 12;
 
     @Override
@@ -48,11 +50,6 @@ public record TeapotRecipe(Identifier teaFluid,
     @Override
     public @NonNull RecipeType<? extends Recipe<TeapotInput>> getType() {
         return ModRecipes.TEAPOT_RECIPE;
-    }
-
-    @Override
-    public boolean isSpecial() {
-        return true;
     }
 
     @Override

@@ -46,6 +46,7 @@ public class RecipeRandomlyFunction extends LootItemConditionalFunction {
         return CODEC;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     protected @NotNull ItemStack run(@NonNull ItemStack stack, LootContext context) {
         RandomSource randomsource = context.getRandom();
