@@ -60,6 +60,7 @@ public class TransmutationLunchBagItem extends Item {
         super((new Item.Properties()).stacksTo(1));
     }
 
+    @SuppressWarnings("unused")
     @Environment(EnvType.CLIENT)
     public static float getTexture(ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity entity, int seed) {
         if (!hasItems(stack)) {

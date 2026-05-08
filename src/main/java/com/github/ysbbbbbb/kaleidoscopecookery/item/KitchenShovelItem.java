@@ -2,6 +2,8 @@ package com.github.ysbbbbbb.kaleidoscopecookery.item;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.PotBlockEntity;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -39,6 +41,8 @@ public class KitchenShovelItem extends ShovelItem {
         return tag != null && tag.getBoolean("hasOil");
     }
 
+    @SuppressWarnings("unused")
+    @Environment(EnvType.CLIENT)
     public static float getTexture(ItemStack stack, @Nullable Level level, @Nullable LivingEntity entity, int seed) {
         if (hasOil(stack)) {
             return HAS_OIL;

@@ -60,6 +60,7 @@ public class OilPotBlockEntity extends BaseBlockEntity {
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void setBlockState(@NotNull BlockState blockState) {
         super.setBlockState(blockState);

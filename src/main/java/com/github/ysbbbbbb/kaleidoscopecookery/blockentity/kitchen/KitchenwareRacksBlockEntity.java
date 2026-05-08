@@ -10,7 +10,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.NotNull;
 
 public class KitchenwareRacksBlockEntity extends BaseBlockEntity implements IKitchenwareRacks {
     private static final String LEFT_ITEM = "LeftItem";
@@ -53,14 +53,14 @@ public class KitchenwareRacksBlockEntity extends BaseBlockEntity implements IKit
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
+    protected void saveAdditional(@NotNull CompoundTag tag) {
         super.saveAdditional(tag);
         tag.put(LEFT_ITEM, itemLeft.save(new CompoundTag()));
         tag.put(RIGHT_ITEM, itemRight.save(new CompoundTag()));
     }
 
     @Override
-    public void load(CompoundTag tag) {
+    public void load(@NotNull CompoundTag tag) {
         super.load(tag);
         this.itemLeft = ItemStack.of(tag.getCompound(LEFT_ITEM));
         this.itemRight = ItemStack.of(tag.getCompound(RIGHT_ITEM));

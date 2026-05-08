@@ -101,6 +101,7 @@ public class RecipeItem extends BlockItem {
         return tag != null && tag.contains(RECIPE_TAG);
     }
 
+    @SuppressWarnings("unused")
     @Environment(EnvType.CLIENT)
     public static float getTexture(ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity entity, int seed) {
         if (hasRecipe(stack)) {

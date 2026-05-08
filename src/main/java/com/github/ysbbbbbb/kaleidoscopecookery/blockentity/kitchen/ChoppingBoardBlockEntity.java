@@ -21,6 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
@@ -143,7 +144,7 @@ public class ChoppingBoardBlockEntity extends BaseBlockEntity implements IChoppi
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
+    protected void saveAdditional(@NotNull CompoundTag tag) {
         super.saveAdditional(tag);
         if (this.modelId != null) {
             tag.putString(MODEL_ID, this.modelId.toString());
@@ -155,7 +156,7 @@ public class ChoppingBoardBlockEntity extends BaseBlockEntity implements IChoppi
     }
 
     @Override
-    public void load(CompoundTag tag) {
+    public void load(@NotNull CompoundTag tag) {
         super.load(tag);
         if (tag.contains(MODEL_ID)) {
             this.modelId = new ResourceLocation(tag.getString(MODEL_ID));

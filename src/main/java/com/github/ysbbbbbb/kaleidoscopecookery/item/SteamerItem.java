@@ -68,6 +68,7 @@ public class SteamerItem extends BlockItem {
         super.kjs$setMaxStackSize(i);
     }
 
+    @SuppressWarnings("unused")
     @Environment(EnvType.CLIENT)
     public static float getTexture(ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity entity, int seed) {
         CompoundTag data = BlockItem.getBlockEntityData(stack);

@@ -37,6 +37,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -484,7 +485,7 @@ public class PotBlockEntity extends BaseBlockEntity implements IPot {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
+    protected void saveAdditional(@NotNull CompoundTag tag) {
         super.saveAdditional(tag);
         tag.put(INPUTS, ContainerHelper.saveAllItems(new CompoundTag(), this.inputs));
         tag.putString(CARRIER, this.carrier.toJson().toString());

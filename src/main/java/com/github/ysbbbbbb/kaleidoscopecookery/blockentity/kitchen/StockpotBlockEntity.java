@@ -252,9 +252,7 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
             this.applyRecipe(levelIn, container, preEvent.getOutput());
         }
 
-        this.quickCheck.getRecipeFor(container, levelIn).ifPresentOrElse(recipe -> {
-            this.applyRecipe(levelIn, container, recipe);
-        }, () -> {
+        this.quickCheck.getRecipeFor(container, levelIn).ifPresentOrElse(recipe -> this.applyRecipe(levelIn, container, recipe), () -> {
             this.recipeId = StockpotRecipeSerializer.EMPTY_ID;
             this.recipe = StockpotRecipeSerializer.getEmptyRecipe();
             this.result = Items.SUSPICIOUS_STEW.getDefaultInstance();
