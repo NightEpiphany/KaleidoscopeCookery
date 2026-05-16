@@ -14,13 +14,9 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NonNull;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public record PotRecipe(int time, int stirFryCount, Ingredient carrier,
                         NonNullList<Ingredient> ingredients, ItemStack result) implements BaseRecipe<SimpleInput> {
@@ -59,6 +55,7 @@ public record PotRecipe(int time, int stirFryCount, Ingredient carrier,
         return RecipeMatcher.findMatches(nonEmptyInputs, ingredients) != null;
     }
 
+    @SuppressWarnings("deprecation")
     private static boolean isKnownPlaceholder(Ingredient ingredient) {
         // 只检查是否是明确的屏障方块，避免触发标签绑定
         // 使用更安全的方式检查

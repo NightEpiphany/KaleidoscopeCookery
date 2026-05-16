@@ -362,6 +362,11 @@ public class PotBlockEntity extends BaseBlockEntity implements IPot {
 
     @SuppressWarnings("deprecation")
     private boolean takeOutWithCarrier(Level level, LivingEntity user, ItemStack mainHandItem, ItemStack finallyResult) {
+        if (mainHandItem.is(ModItems.KITCHEN_SHOVEL)) {
+            ItemUtils.getItemToLivingEntity(user, finallyResult.copy());
+            this.reset();
+            return true;
+        }
         if (this.carrier != null && this.carrier.test(mainHandItem)) {
             if (mainHandItem.getCount() < finallyResult.getCount()) {
                 this.sendActionBarMessage(user, "carrier_count_not_enough", finallyResult.getCount());
