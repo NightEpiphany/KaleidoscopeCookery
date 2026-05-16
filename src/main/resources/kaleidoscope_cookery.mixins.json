@@ -25,9 +25,9 @@
   "client": [
     "client.BlockEntityRendererMixin",
     "client.CameraMixin",
+    "client.HumanoidModelMixin",
     "client.LeftClickMixin",
-    "client.PlayerRendererMixin",
-    "client.HumanoidModelMixin"
+    "client.PlayerRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

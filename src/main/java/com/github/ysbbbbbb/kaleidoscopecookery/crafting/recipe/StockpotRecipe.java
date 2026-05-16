@@ -81,7 +81,7 @@ public record StockpotRecipe(NonNullList<Ingredient> ingredients,
 
     @Override
     public @NonNull ItemStack assemble(@NonNull StockpotInput input) {
-        return this.result.item().value().getDefaultInstance().copy();
+        return this.result.create();
     }
 
     @Override
@@ -94,6 +94,7 @@ public record StockpotRecipe(NonNullList<Ingredient> ingredients,
         return "stockpot";
     }
 
+    @SuppressWarnings("deprecation")
     private static boolean isKnownPlaceholder(Ingredient ingredient) {
         // 只检查是否是明确的屏障方块，避免触发标签绑定
         try {
@@ -115,7 +116,7 @@ public record StockpotRecipe(NonNullList<Ingredient> ingredients,
 
     @Override
     public @NotNull ItemStack getResultItem(HolderLookup.Provider registryAccess) {
-        return this.result.item().value().getDefaultInstance();
+        return this.result.create();
     }
 
     @Override

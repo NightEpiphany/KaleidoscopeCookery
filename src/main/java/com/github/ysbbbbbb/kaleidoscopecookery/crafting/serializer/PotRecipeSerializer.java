@@ -1,6 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.crafting.serializer;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.PotRecipe;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -8,7 +9,6 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStackTemplate;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.jspecify.annotations.NonNull;
 
@@ -17,7 +17,7 @@ public class PotRecipeSerializer {
             instance.group(
                     Codec.INT.optionalFieldOf("time", 200).forGetter(PotRecipe::time),
                     Codec.INT.optionalFieldOf("stir_fry_count", 3).forGetter(PotRecipe::stirFryCount),
-                    Ingredient.CODEC.optionalFieldOf("carrier", Ingredient.of(Items.BOWL)).forGetter(PotRecipe::carrier),
+                    Ingredient.CODEC.optionalFieldOf("carrier", Ingredient.of(ModItems.KITCHEN_SHOVEL)).forGetter(PotRecipe::carrier),
                     Ingredient.CODEC.listOf().fieldOf("ingredients").xmap(
                             list -> list,
                             list -> list.stream().filter(i -> !i.isEmpty()).toList()

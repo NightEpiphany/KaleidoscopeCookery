@@ -57,8 +57,8 @@ public record PotRecipe(int time, int stirFryCount, Ingredient carrier,
     }
 
     @Override
-    public @NonNull ItemStack assemble(SimpleInput input) {
-        return this.result.item().value().getDefaultInstance().copy();
+    public @NonNull ItemStack assemble(@NonNull SimpleInput input) {
+        return this.result.create();
     }
 
     @Override
@@ -71,6 +71,7 @@ public record PotRecipe(int time, int stirFryCount, Ingredient carrier,
         return "pot";
     }
 
+    @SuppressWarnings("deprecation")
     private static boolean isKnownPlaceholder(Ingredient ingredient) {
         // 只检查是否是明确的屏障方块，避免触发标签绑定
         // 使用更安全的方式检查
@@ -116,7 +117,7 @@ public record PotRecipe(int time, int stirFryCount, Ingredient carrier,
 
     @Override
     public ItemStack getResultItem(HolderLookup.Provider registryAccess) {
-        return this.result.item().value().getDefaultInstance();
+        return this.result.create();
     }
 
 }

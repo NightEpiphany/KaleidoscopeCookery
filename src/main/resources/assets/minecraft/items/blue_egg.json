@@ -1,0 +1,14 @@
+{
+  "model": {
+    "type": "minecraft:condition",
+    "property": "kaleidoscope_cookery:ingredient/special_render",
+    "on_true": {
+      "type": "minecraft:model",
+      "model": "kaleidoscope_cookery:item/egg"
+    },
+    "on_false": {
+      "type": "minecraft:model",
+      "model": "minecraft:item/blue_egg"
+    }
+  }
+}
