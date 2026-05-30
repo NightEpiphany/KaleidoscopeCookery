@@ -524,5 +524,6 @@
   "kaleidoscope_cookery.ponder.recipe_item.text_2": "手持已记录食物配方的菜谱右键炒锅或汤锅，会将背包中携带有的记录在菜谱中的材料自动加入锅中",
   "kaleidoscope_cookery.ponder.tag.kitchen_blocks": "厨房须知",
   "kaleidoscope_cookery.ponder.tag.kitchen_blocks.description": "踏上前往厨艺大师之路吧！",
-  "resourcePack.kaleidoscope_eating_animation": "森罗物语食用动画材质包"
+  "resourcePack.kaleidoscope_eating_animation": "森罗物语食用动画材质包",
+  "resourcePack.kaleidoscope_classic_texture": "森罗物语经典材质"
 }

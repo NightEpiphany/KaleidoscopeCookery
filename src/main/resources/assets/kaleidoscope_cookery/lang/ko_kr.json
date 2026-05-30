@@ -524,5 +524,6 @@
   "kaleidoscope_cookery.ponder.recipe_item.text_2": "나중에 레시피가 담긴 냄비나 냄비를 다시 마우스 오른쪽 버튼으로 클릭하세요. 이렇게 하면 인벤토리의 항목을 사용하여 레시피에 기록된 모든 재료가 추가됩니다.",
   "kaleidoscope_cookery.ponder.tag.kitchen_blocks": "주방 기초",
   "kaleidoscope_cookery.ponder.tag.kitchen_blocks.description": "요리 마스터의 길을 떠나세요!",
-  "resourcePack.kaleidoscope_eating_animation": "만화경 : 식용 애니메이션 소재 팩"
+  "resourcePack.kaleidoscope_eating_animation": "만화경 : 식용 애니메이션 소재 팩",
+  "resourcePack.kaleidoscope_classic_texture": "만화경 : 클래식 질감"
 }

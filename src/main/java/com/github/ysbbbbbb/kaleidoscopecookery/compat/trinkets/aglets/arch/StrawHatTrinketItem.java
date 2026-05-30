@@ -37,27 +37,24 @@ public final class StrawHatTrinketItem extends StrawHatItem implements Trinket {
         return equipItem((LivingEntity) user, stack);
     }
 
-    @SuppressWarnings("deprecation")
     public static boolean equipItem(LivingEntity user, ItemStack stack) {
         Optional<TrinketAttachment> optional = Optional.ofNullable(TrinketsApi.getAttachment(user));
         if (optional.isPresent()) {
             TrinketAttachment comp = optional.get();
-            for (Map<String, TrinketInventory> group : comp.getInventory().values()) {
-                for (TrinketInventory inv : group.values()) {
-                    for (int i = 0; i < inv.getContainerSize(); i++) {
-                        if (inv.getItem(i).isEmpty()) {
-                            TrinketSlotAccess ref = new TrinketSlotAccess(inv, i);
-                            if (TrinketSlot.canInsert(stack, ref, user)) {
-                                ItemStack newStack = stack.copy();
-                                inv.setItem(i, newStack);
-                                Holder<SoundEvent> soundEvent = Trinket.getEquipSound(stack);
-                                if (!stack.isEmpty() && soundEvent != null) {
-                                    user.gameEvent(GameEvent.EQUIP);
-                                    user.playSound(soundEvent.value(), 1.0F, 1.0F);
-                                }
-                                stack.setCount(0);
-                                return true;
+            for (TrinketInventory inv : comp.getInventories().values()) {
+                for (int i = 0; i < inv.getContainerSize(); i++) {
+                    if (inv.getItem(i).isEmpty()) {
+                        TrinketSlotAccess ref = new TrinketSlotAccess(inv, i);
+                        if (TrinketSlot.canInsert(stack, ref, user)) {
+                            ItemStack newStack = stack.copy();
+                            inv.setItem(i, newStack);
+                            Holder<SoundEvent> soundEvent = Trinket.getEquipSound(stack);
+                            if (!stack.isEmpty() && soundEvent != null) {
+                                user.gameEvent(GameEvent.EQUIP);
+                                user.playSound(soundEvent.value(), 1.0F, 1.0F);
                             }
+                            stack.setCount(0);
+                            return true;
                         }
                     }
                 }

@@ -14,6 +14,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 public record FlatulenceMessage() implements CustomPacketPayload, ServerPlayNetworking.PlayPayloadHandler<FlatulenceMessage> {
     public static final Identifier ID = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "flatulence");
@@ -22,7 +23,7 @@ public record FlatulenceMessage() implements CustomPacketPayload, ServerPlayNetw
     public static final StreamCodec<RegistryFriendlyByteBuf, FlatulenceMessage> STREAM_CODEC = StreamCodec.unit(INSTANCE);
 
     @Override
-    public void receive(FlatulenceMessage payload, ServerPlayNetworking.Context context) {
+    public void receive(@NonNull FlatulenceMessage payload, ServerPlayNetworking.Context context) {
         Player player = context.player();
         if (player instanceof ServerPlayer serverPlayer && player.hasEffect(ModEffects.FLATULENCE)) {
             ServerLevel serverLevel = serverPlayer.level();

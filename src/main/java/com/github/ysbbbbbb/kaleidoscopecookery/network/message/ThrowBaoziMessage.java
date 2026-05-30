@@ -14,6 +14,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 public record ThrowBaoziMessage() implements CustomPacketPayload, ServerPlayNetworking.PlayPayloadHandler<ThrowBaoziMessage> {
     public static final Identifier ID = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "throwing_baozi");
@@ -22,7 +23,7 @@ public record ThrowBaoziMessage() implements CustomPacketPayload, ServerPlayNetw
     public static final StreamCodec<RegistryFriendlyByteBuf, ThrowBaoziMessage> STREAM_CODEC = StreamCodec.unit(INSTANCE);
 
     @Override
-    public void receive(ThrowBaoziMessage payload, ServerPlayNetworking.Context context) {
+    public void receive(@NonNull ThrowBaoziMessage payload, ServerPlayNetworking.Context context) {
         ServerPlayer player = context.player();
         if (!player.getMainHandItem().is(ModItems.BAOZI) || !player.isSecondaryUseActive()) {
             return;

@@ -29,12 +29,20 @@ public final class KaleidoscopeCookeryClient implements ClientModInitializer {
         FabricLoader
                 .getInstance()
                 .getModContainer(MOD_ID)
-                .ifPresent(container ->
-                        ResourceLoader.registerBuiltinPack(
-                                Identifier.withDefaultNamespace("kaleidoscope_eating_animation"),
-                                container,
-                                Component.translatable("resourcePack.kaleidoscope_eating_animation"),
-                                PackActivationType.NORMAL
-                        ));
+                .ifPresent(container -> {
+                            ResourceLoader.registerBuiltinPack(
+                                    Identifier.withDefaultNamespace("kaleidoscope_eating_animation"),
+                                    container,
+                                    Component.translatable("resourcePack.kaleidoscope_eating_animation"),
+                                    PackActivationType.NORMAL
+                            );
+                            ResourceLoader.registerBuiltinPack(
+                                    Identifier.withDefaultNamespace("kaleidoscope_classic_texture"),
+                                    container,
+                                    Component.translatable("resourcePack.kaleidoscope_classic_texture"),
+                                    PackActivationType.NORMAL
+                            );
+                        }
+                );
     }
 }
