@@ -24,10 +24,7 @@ import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class RecipeRandomlyFunction extends LootItemConditionalFunction {
     private final List<RecipeItem.RecipeRecord> possibleRecipes;
@@ -92,6 +89,23 @@ public class RecipeRandomlyFunction extends LootItemConditionalFunction {
             return stack;
         }
 
+        // 茶壶配方
+        var teaPotRecipes = context.getLevel().getRecipeManager().getAllRecipesFor(ModRecipes.TEAPOT_RECIPE);
+        for (var recipe : teaPotRecipes) {
+            ItemStack resultItem = recipe.getResultItem(registryAccess);
+            if (!resultItem.is(result)) {
+                continue;
+            }
+            List<ItemStack> inputs = new ArrayList<>(List.of());
+            if (!recipe.ingredient().isEmpty()) {
+                // 茶壶配方需要 ingredientCount 个原料，记录真实数量以保证后续放入/扣除一致
+                inputs.add(recipe.ingredient().getItems()[0]);
+            }
+            record = new RecipeItem.RecipeRecord(inputs, resultItem, RecipeItem.TEAPOT);
+            RecipeItem.setRecipe(stack, record);
+            return stack;
+        }
+
         return stack;
     }
 
@@ -103,7 +117,7 @@ public class RecipeRandomlyFunction extends LootItemConditionalFunction {
         private final List<RecipeItem.RecipeRecord> recipes = Lists.newArrayList();
 
         @Override
-        protected RecipeRandomlyFunction.Builder getThis() {
+        protected RecipeRandomlyFunction.@NotNull Builder getThis() {
             return this;
         }
 
@@ -124,15 +138,21 @@ public class RecipeRandomlyFunction extends LootItemConditionalFunction {
             return withRecord(record);
         }
 
+        public Builder teapot(ItemLike output, ItemLike... input) {
+            List<ItemStack> list = Arrays.stream(input).map(ItemStack::new).toList();
+            RecipeItem.RecipeRecord record = new RecipeItem.RecipeRecord(list, new ItemStack(output), RecipeItem.TEAPOT);
+            return withRecord(record);
+        }
+
         @Override
-        public LootItemFunction build() {
+        public @NotNull LootItemFunction build() {
             return new RecipeRandomlyFunction(this.getConditions(), this.recipes);
         }
     }
 
     public static class Serializer extends LootItemConditionalFunction.Serializer<RecipeRandomlyFunction> {
         @Override
-        public void serialize(JsonObject json, RecipeRandomlyFunction function, JsonSerializationContext context) {
+        public void serialize(@NotNull JsonObject json, @NotNull RecipeRandomlyFunction function, @NotNull JsonSerializationContext context) {
             super.serialize(json, function, context);
             if (function.possibleRecipes.isEmpty()) {
                 return;
@@ -161,7 +181,7 @@ public class RecipeRandomlyFunction extends LootItemConditionalFunction {
         }
 
         @Override
-        public RecipeRandomlyFunction deserialize(JsonObject object, JsonDeserializationContext context, LootItemCondition[] conditions) {
+        public @NotNull RecipeRandomlyFunction deserialize(JsonObject object, @NotNull JsonDeserializationContext context, LootItemCondition @NotNull [] conditions) {
             if (!object.has("records")) {
                 return new RecipeRandomlyFunction(conditions, Collections.emptyList());
             }
@@ -179,9 +199,6 @@ public class RecipeRandomlyFunction extends LootItemConditionalFunction {
                 JsonObject outputJson = record.getAsJsonObject("output");
                 Item item = BuiltInRegistries.ITEM.get(new ResourceLocation(GsonHelper.getAsString(outputJson, "item")));
                 int count = GsonHelper.getAsInt(outputJson, "count", 1);
-                if (item == null) {
-                    throw new JsonSyntaxException("No such item " + GsonHelper.getAsString(outputJson, "item"));
-                }
                 if (count <= 0) {
                     throw new JsonSyntaxException("Item count must be positive");
                 }
@@ -192,9 +209,6 @@ public class RecipeRandomlyFunction extends LootItemConditionalFunction {
                 for (int j = 0; j < inputsJson.size(); j++) {
                     JsonObject inputJson = inputsJson.get(j).getAsJsonObject();
                     Item inputItem = BuiltInRegistries.ITEM.get(new ResourceLocation(GsonHelper.getAsString(inputJson, "item")));
-                    if (inputItem == null) {
-                        throw new JsonSyntaxException("No such item " + GsonHelper.getAsString(inputJson, "item"));
-                    }
                     inputs.add(new ItemStack(inputItem));
                 }
                 recipeRecords.add(new RecipeItem.RecipeRecord(inputs, output, type));

@@ -26,7 +26,9 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -173,6 +175,10 @@ public class TeapotBlockEntity extends BaseBlockEntity implements ITeapot {
 
     @Override
     public boolean addTeaFluid(Level level, LivingEntity user, ItemStack itemStack) {
+        if (itemStack.is(ModItems.RECIPE_ITEM)) {
+            return false;
+        }
+
         // 当前状态正确
         if (this.status != PUT_INGREDIENT) {
             this.sendActionBarMessage(user, "tooltip.kaleidoscope_cookery.teapot.add_tea_fluid.state_incorrect", this.getStatusText());
@@ -243,6 +249,10 @@ public class TeapotBlockEntity extends BaseBlockEntity implements ITeapot {
 
     @Override
     public boolean addIngredient(Level level, LivingEntity user, ItemStack itemStack) {
+        if (itemStack.is(TagMod.INGREDIENT_BLOCKLIST)) {
+            return false;
+        }
+
         if (this.status != PUT_INGREDIENT) {
             this.sendActionBarMessage(user, "tooltip.kaleidoscope_cookery.teapot.add_ingredient.state_incorrect", this.getStatusText());
             return false;
@@ -277,6 +287,34 @@ public class TeapotBlockEntity extends BaseBlockEntity implements ITeapot {
 
         this.sendActionBarMessage(user, "tooltip.kaleidoscope_cookery.teapot.add_ingredient.recipe_incorrect");
         return false;
+    }
+
+    public void addAllIngredients(List<ItemStack> ingredients, LivingEntity user) {
+        if (this.level == null) {
+            return;
+        }
+        if (ingredients == null) {
+            return;
+        }
+        if (this.status != PUT_INGREDIENT) {
+            return;
+        }
+        if (ingredients.size() > 1) return;
+        ItemStack stack = ingredients.get(0);
+        if (stack.isEmpty()) {
+            return;
+        }
+        // 如果带有容器，此时返还容器
+        Item containerItem = ItemUtils.getContainerItem(stack);
+        if (containerItem != Items.AIR) {
+            ItemUtils.getItemToLivingEntity(user, containerItem.getDefaultInstance());
+        }
+        // 茶壶配方需要 ingredientCount 个原料，保留记录中的实际数量以便匹配配方
+        this.input = stack.copy();
+        level.playSound(null, this.worldPosition,
+                SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.2F,
+                ((level.getRandom().nextFloat() - level.getRandom().nextFloat()) * 0.7F + 1.0F) * 2.0F);
+        this.refresh();
     }
 
     @Override
