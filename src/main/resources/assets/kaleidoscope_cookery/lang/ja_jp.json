@@ -524,5 +524,6 @@
   "kaleidoscope_cookery.ponder.recipe_item.text_2": "料理のレシピが記録されたレシピを持って中華鍋や鍋を右クリックすると、インベントリにある記録済みの材料が自動的に鍋に追加されます",
   "kaleidoscope_cookery.ponder.tag.kitchen_blocks": "キッチンの心得",
   "kaleidoscope_cookery.ponder.tag.kitchen_blocks.description": "料理の達人への道を歩み始めよう！",
-  "resourcePack.kaleidoscope_eating_animation": "森羅物語用アニメ素材パック"
+  "resourcePack.kaleidoscope_eating_animation": "森羅物語用アニメ素材パック",
+  "resourcePack.kaleidoscope_classic_texture": "森羅物語用クラシックテクスチャ"
 }

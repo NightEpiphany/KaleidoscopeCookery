@@ -524,5 +524,6 @@
   "kaleidoscope_cookery.ponder.recipe_item.text_2": "Mais tarde, clique novamente com o botão direito na wok ou panela com a receita. Isso adicionará todos os ingredientes registrados na receita usando itens do seu inventário.",
   "kaleidoscope_cookery.ponder.tag.kitchen_blocks": "Noções básicas de cozinha",
   "kaleidoscope_cookery.ponder.tag.kitchen_blocks.description": "Embarque no caminho do mestre da culinária!",
-  "resourcePack.kaleidoscope_eating_animation": "Kaleidoscope: Pacote de texturas animadas comestíveis"
+  "resourcePack.kaleidoscope_eating_animation": "Kaleidoscope: Pacote de texturas animadas comestíveis",
+  "resourcePack.kaleidoscope_classic_texture": "Kaleidoscope Cookery Textura Clássica"
 }

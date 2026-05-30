@@ -524,5 +524,6 @@
   "kaleidoscope_cookery.ponder.recipe_item.text_2": "Позже снова нажмите ПКМ с рецептом на вок или кастрюлю. Это добавит все записанные ингредиенты из вашего инвентаря.",
   "kaleidoscope_cookery.ponder.tag.kitchen_blocks": "Основы кухни",
   "kaleidoscope_cookery.ponder.tag.kitchen_blocks.description": "Встаньте на путь кулинарного мастера!",
-  "resourcePack.kaleidoscope_eating_animation": "Kaleidoscope: Пакет анимационных текстур для еды"
+  "resourcePack.kaleidoscope_eating_animation": "Kaleidoscope: Пакет анимационных текстур для еды",
+  "resourcePack.kaleidoscope_classic_texture": "Kaleidoscope Cookery Классическая текстура"
 }

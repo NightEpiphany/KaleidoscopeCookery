@@ -4,7 +4,6 @@ import com.github.ysbbbbbb.kaleidoscopecookery.inventory.tooltip.ItemContainerTo
 import com.github.ysbbbbbb.kaleidoscopecookery.util.neo.IItemHandler;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
@@ -52,7 +51,7 @@ public class ClientItemContainerTooltip implements ClientTooltipComponent {
     @Override
     public void renderImage(@NonNull Font font, int pX, int pY, int a, int b, @NonNull GuiGraphics guiGraphics) {
         if (emptyTip != null) {
-            guiGraphics.drawString(font, emptyTip, pX, pY, ChatFormatting.GRAY.getColor());
+            guiGraphics.drawString(font, emptyTip, pX, pY, -8355712);
         } else {
             int i = 0;
             for (ItemStack stack : this.items) {

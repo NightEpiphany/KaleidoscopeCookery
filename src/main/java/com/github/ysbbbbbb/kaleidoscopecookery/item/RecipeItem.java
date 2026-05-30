@@ -3,10 +3,13 @@ package com.github.ysbbbbbb.kaleidoscopecookery.item;
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.blockentity.IPot;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.blockentity.IStockpot;
+import com.github.ysbbbbbb.kaleidoscopecookery.api.blockentity.ITeapot;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.event.RecipeItemEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.PotBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.PotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.StockpotBlockEntity;
+import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.TeapotBlockEntity;
+import com.github.ysbbbbbb.kaleidoscopecookery.crafting.container.TeapotInput;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModDataComponents;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModEvents;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
@@ -51,13 +54,18 @@ import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NonNull;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
 public class RecipeItem extends BlockItem {
+
     public static final Identifier POT = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "pot");
+
     public static final Identifier STOCKPOT = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "stockpot");
+
+    public static final Identifier TEAPOT = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "teapot");
 
     private static final int NO_RECIPE = 0;
     private static final int HAS_RECIPE = 1;
@@ -97,18 +105,25 @@ public class RecipeItem extends BlockItem {
             RecipeRecord recipe = getRecipe(pStack);
             if (recipe != null) {
                 Component result = recipe.output().getHoverName();
-                Component type;
-                if (recipe.type().equals(POT)) {
-                    type = Component.translatable("block.kaleidoscope_cookery.pot");
-                } else if (recipe.type().equals(STOCKPOT)) {
-                    type = Component.translatable("block.kaleidoscope_cookery.stockpot");
-                } else {
-                    type = Component.empty();
-                }
+                Component type = parseType(recipe);
                 return Component.translatable("block.kaleidoscope_cookery.recipe_block.has_record", result, type);
             }
         }
         return super.getName(pStack);
+    }
+
+    private static @NonNull Component parseType(RecipeRecord recipe) {
+        Component type;
+        if (recipe.type().equals(POT)) {
+            type = Component.translatable("block.kaleidoscope_cookery.pot");
+        } else if (recipe.type().equals(STOCKPOT)) {
+            type = Component.translatable("block.kaleidoscope_cookery.stockpot");
+        } else if (recipe.type().equals(TEAPOT)) {
+            type = Component.translatable("block.kaleidoscope_cookery.teapot");
+        } else {
+            type = Component.empty();
+        }
+        return type;
     }
 
     @Override
@@ -158,6 +173,14 @@ public class RecipeItem extends BlockItem {
             return handlePutRecipe(player, record, () -> stockpot.addAllIngredients(record.input(), player));
         }
 
+        if (blockEntity instanceof TeapotBlockEntity teapot && teapot.getStatus() == ITeapot.PUT_INGREDIENT && record.type().equals(TEAPOT)) {
+            // 与炒锅/煮锅一致：茶壶内已有原料时不再自动放入
+            if (!teapot.getInput().isEmpty()) {
+                return InteractionResult.PASS;
+            }
+            return handlePutRecipe(player, record, () -> teapot.addAllIngredients(record.input(), player));
+        }
+
         return InteractionResult.CONSUME;
     }
 
@@ -170,7 +193,8 @@ public class RecipeItem extends BlockItem {
                 continue;
             }
             Item item = s.getItem();
-            need.put(item, need.getInt(item) + 1);
+            // 按实际堆叠数量统计，兼容茶壶这类单格多数量的配方
+            need.put(item, need.getInt(item) + s.getCount());
         }
 
         // 开始检查身上的物品
@@ -319,6 +343,40 @@ public class RecipeItem extends BlockItem {
             return InteractionResult.SUCCESS;
         }
 
+        if (blockEntity instanceof TeapotBlockEntity teapot && teapot.getStatus() == ITeapot.PUT_INGREDIENT) {
+            ItemStack input = teapot.getInput();
+            if (input.isEmpty()) {
+                return InteractionResult.PASS;
+            }
+            // 如果数量大于 1，那么复制一个，其他的返回背包
+            ItemStack recordStack = itemInHand.copyWithCount(1);
+            int count = itemInHand.getCount();
+            if (count > 1) {
+                ItemEntity itemEntity = new ItemEntity(
+                        level,
+                        player.getX(),
+                        player.getY(),
+                        player.getZ(),
+                        new ItemStack(ModItems.RECIPE_ITEM, count - 1));
+                itemEntity.setPickUpDelay(0);
+                itemEntity.setDeltaMovement(itemEntity.getDeltaMovement().multiply(0.0F, 1.0F, 0.0F));
+                level.addFreshEntity(
+                        itemEntity
+                );
+            }
+            TeapotInput container = new TeapotInput(teapot.getInput(), teapot.getTeaFluidId());
+            recipeManager.getRecipeFor(ModRecipes.TEAPOT_RECIPE, container, level).ifPresentOrElse(recipe -> {
+                ItemStack resultItem = recipe.value().getResultItem(level.registryAccess());
+                setRecipe(recordStack, new RecipeRecord(Collections.singletonList(input), resultItem, TEAPOT));
+            }, () -> {
+                ItemStack instance = Items.SUSPICIOUS_STEW.getDefaultInstance();
+                setRecipe(recordStack, new RecipeRecord(Collections.singletonList(input), instance, TEAPOT));
+            });
+            // 与炒锅/煮锅一致：写回记录好的配方物品并返回成功
+            player.setItemInHand(hand, recordStack);
+            return InteractionResult.SUCCESS;
+        }
+
         return InteractionResult.PASS;
     }
 
@@ -339,9 +397,6 @@ public class RecipeItem extends BlockItem {
     public void appendHoverText(@NonNull ItemStack stack, @NonNull TooltipContext tooltip, @NonNull TooltipDisplay tooltipDisplay, @NonNull Consumer<Component> consumer, @NonNull TooltipFlag tooltipFlag) {
         consumer.accept(Component.translatable("tooltip.kaleidoscope_cookery.recipe_item").withStyle(ChatFormatting.GRAY));
         String address = stack.get(ModDataComponents.RECIPE_ADDRESS);
-        if (address != null && !address.isBlank()) {
-            consumer.accept(Component.translatable("tooltip.kaleidoscope_cookery.recipe_item.address", address).withStyle(ChatFormatting.GRAY));
-        }
     }
 
     public record RecipeRecord(List<ItemStack> input, ItemStack output, Identifier type) {
@@ -395,6 +450,16 @@ public class RecipeItem extends BlockItem {
         public static RecipeRecord stockpot(Item output, Item[] input) {
             List<ItemStack> inputList = Arrays.stream(input).map(ItemStack::new).toList();
             return new RecipeRecord(inputList, new ItemStack(output), STOCKPOT);
+        }
+
+        public static RecipeRecord teapot(ItemLike output, ItemLike... input) {
+            List<ItemStack> inputList = Arrays.stream(input).map(ItemStack::new).toList();
+            return new RecipeRecord(inputList, new ItemStack(output), TEAPOT);
+        }
+
+        public static RecipeRecord teapot(Item output, Item[] input) {
+            List<ItemStack> inputList = Arrays.stream(input).map(ItemStack::new).toList();
+            return new RecipeRecord(inputList, new ItemStack(output), TEAPOT);
         }
     }
 }

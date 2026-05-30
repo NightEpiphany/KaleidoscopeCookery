@@ -4,7 +4,6 @@ import com.github.ysbbbbbb.kaleidoscopecookery.inventory.tooltip.RecipeItemToolt
 import com.github.ysbbbbbb.kaleidoscopecookery.item.RecipeItem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
@@ -42,7 +41,7 @@ public class ClientRecipeItemTooltip implements ClientTooltipComponent {
         int ingredientsWidth = font.width(ingredientsText);
         int outputWidth = font.width(outputText);
 
-        guiGraphics.drawString(font, ingredientsText, pX, pY + 4, ChatFormatting.GRAY.getColor());
+        guiGraphics.drawString(font, ingredientsText, pX, pY + 4, -8355712);
         int i = 0;
         for (ItemStack stack : recipeRecord.input()) {
             int xOffset = pX + ingredientsWidth + i * 12;
@@ -52,7 +51,7 @@ public class ClientRecipeItemTooltip implements ClientTooltipComponent {
 
         int xOffset = pX + outputWidth;
         int yOffset = pY + 12;
-        guiGraphics.drawString(font, outputText, pX, yOffset + 4, ChatFormatting.GRAY.getColor());
+        guiGraphics.drawString(font, outputText, pX, yOffset + 4, -8355712);
         ItemStack stack = recipeRecord.output();
         guiGraphics.renderFakeItem(stack, xOffset, yOffset);
         guiGraphics.renderItemDecorations(font, stack, xOffset, yOffset);

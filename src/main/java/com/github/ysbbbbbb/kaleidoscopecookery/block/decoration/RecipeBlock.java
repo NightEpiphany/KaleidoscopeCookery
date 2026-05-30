@@ -1,4 +1,4 @@
-package com.github.ysbbbbbb.kaleidoscopecookery.block.misc;
+package com.github.ysbbbbbb.kaleidoscopecookery.block.decoration;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.RecipeBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModSoundType;
