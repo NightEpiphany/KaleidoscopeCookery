@@ -1,4 +1,4 @@
-package com.github.ysbbbbbb.kaleidoscopecookery.block.misc;
+package com.github.ysbbbbbb.kaleidoscopecookery.block.decoration;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.RecipeBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModSoundType;
@@ -28,7 +28,6 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
