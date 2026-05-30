@@ -52,7 +52,7 @@ public class ClientItemContainerTooltip implements ClientTooltipComponent {
     @Override
     public void extractImage(@NonNull Font font, int pX, int pY, int a, int b, @NonNull GuiGraphicsExtractor guiGraphics) {
         if (emptyTip != null) {
-            guiGraphics.text(font, emptyTip, pX, pY, ChatFormatting.GRAY.getColor());
+            guiGraphics.text(font, emptyTip, pX, pY, -8355712);
         } else {
             int i = 0;
             for (ItemStack stack : this.items) {

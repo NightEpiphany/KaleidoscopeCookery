@@ -106,20 +106,25 @@ public class RecipeItem extends BlockItem {
             RecipeRecord recipe = getRecipe(pStack);
             if (recipe != null) {
                 Component result = recipe.output().getHoverName();
-                Component type;
-                if (recipe.type().equals(POT)) {
-                    type = Component.translatable("block.kaleidoscope_cookery.pot");
-                } else if (recipe.type().equals(STOCKPOT)) {
-                    type = Component.translatable("block.kaleidoscope_cookery.stockpot");
-                }else if (recipe.type().equals(TEAPOT)) {
-                    type = Component.translatable("block.kaleidoscope_cookery.teapot");
-                } else {
-                    type = Component.empty();
-                }
+                Component type = parseType(recipe);
                 return Component.translatable("block.kaleidoscope_cookery.recipe_block.has_record", result, type);
             }
         }
         return super.getName(pStack);
+    }
+
+    private static @NonNull Component parseType(RecipeRecord recipe) {
+        Component type;
+        if (recipe.type().equals(POT)) {
+            type = Component.translatable("block.kaleidoscope_cookery.pot");
+        } else if (recipe.type().equals(STOCKPOT)) {
+            type = Component.translatable("block.kaleidoscope_cookery.stockpot");
+        } else if (recipe.type().equals(TEAPOT)) {
+            type = Component.translatable("block.kaleidoscope_cookery.teapot");
+        } else {
+            type = Component.empty();
+        }
+        return type;
     }
 
     @Override
