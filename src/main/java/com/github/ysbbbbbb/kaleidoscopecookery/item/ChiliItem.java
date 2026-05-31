@@ -1,5 +1,6 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.item;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.init.ModConsumables;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModFoods;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import net.minecraft.world.entity.LivingEntity;
@@ -12,7 +13,7 @@ public abstract class ChiliItem extends Item {
     private final int damage;
 
     public ChiliItem(Properties p, int damage) {
-        super(p.food(ModFoods.CHILI));
+        super(p.food(ModFoods.CHILI, ModConsumables.CHILI));
         this.damage = damage;
     }
 

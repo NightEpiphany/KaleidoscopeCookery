@@ -152,13 +152,13 @@ public final class ModItems {
     public static final Item TABLE_WARPED = registerItemViaBlock(ModBlocks.TABLE_WARPED);
 
     // Food items
-    public static final Item TOMATO = registerItem("tomato", p -> new Item(p.food(ModFoods.TOMATO)));
+    public static final Item TOMATO = registerItem("tomato", p -> new Item(p.food(ModFoods.TOMATO, ModConsumables.TOMATO)));
     public static final Item RED_CHILI = registerItem("red_chili", ChiliItem.RedChiliItem::new);
     public static final Item GREEN_CHILI = registerItem("green_chili", ChiliItem.GreenChiliItem::new);
-    public static final Item LETTUCE = registerItem("lettuce", p -> new Item(p.food(ModFoods.LETTUCE)));
+    public static final Item LETTUCE = registerItem("lettuce", p -> new Item(p.food(ModFoods.LETTUCE, ModConsumables.LETTUCE)));
     public static final Item RICE_PANICLE = registerItem("rice_panicle");
-    public static final Item CATERPILLAR = registerItem("caterpillar", p -> new WithTooltipsItem(p.food(ModFoods.CATERPILLAR), "caterpillar"));
-    public static final Item FRIED_EGG = registerItem("fried_egg", p -> new Item(p.food(ModFoods.FRIED_EGG)));
+    public static final Item CATERPILLAR = registerItem("caterpillar", p -> new WithTooltipsItem(p.food(ModFoods.CATERPILLAR, ModConsumables.CATERPILLAR), "caterpillar"));
+    public static final Item FRIED_EGG = registerItem("fried_egg", p -> new Item(p.food(ModFoods.FRIED_EGG, ModConsumables.FRIED_EGG)));
     public static final Item DONKEY_BURGER = registerItem("donkey_burger", p -> new FoodWithEffectsItem(p, ModFoods.DONKEY_BURGER, ModConsumables.DONKEY_BURGER));
     public static final Item MANTOU = registerItem("mantou", p -> new FoodWithEffectsItem(p, ModFoods.MANTOU, ModConsumables.MANTOU));
     public static final Item BAOZI = registerItem("baozi", p -> new FoodWithEffectsItem(p, ModFoods.BAOZI, ModConsumables.BAOZI));
@@ -207,19 +207,19 @@ public final class ModItems {
     public static final Item UDON_NOODLE = registerItem("udon_noodle", p -> new BowlFoodOnlyItem(p, ModFoods.UDON_NOODLE, ModConsumables.UDON_NOODLE));
 
     // Raw and cooked foods
-    public static final Item SASHIMI = registerItem("sashimi", p -> new Item(p.food(ModFoods.SASHIMI)));
-    public static final Item RAW_LAMB_CHOPS = registerItem("raw_lamb_chops", p -> new Item(p.food(ModFoods.RAW_LAMB_CHOPS)));
-    public static final Item RAW_COW_OFFAL = registerItem("raw_cow_offal", p -> new Item(p.food(ModFoods.RAW_COW_OFFAL)));
-    public static final Item RAW_PORK_BELLY = registerItem("raw_pork_belly", p -> new Item(p.food(ModFoods.RAW_PORK_BELLY)));
-    public static final Item RAW_DONKEY_MEAT = registerItem("raw_donkey_meat", p -> new Item(p.food(ModFoods.RAW_DONKEY_MEAT)));
-    public static final Item RAW_CUT_SMALL_MEATS = registerItem("raw_cut_small_meats", p -> new Item(p.food(ModFoods.RAW_CUT_SMALL_MEATS)));
-    public static final Item RAW_MEATBALL  = registerItem("raw_meatball", p -> new Item(p.food(ModFoods.RAW_MEATBALL)));
-    public static final Item COOKED_LAMB_CHOPS = registerItem("cooked_lamb_chops", p -> new Item(p.food(ModFoods.COOKED_LAMB_CHOPS)));
-    public static final Item COOKED_COW_OFFAL = registerItem("cooked_cow_offal", p -> new Item(p.food(ModFoods.COOKED_COW_OFFAL)));
-    public static final Item COOKED_PORK_BELLY = registerItem("cooked_pork_belly", p -> new Item(p.food(ModFoods.COOKED_PORK_BELLY)));
-    public static final Item COOKED_DONKEY_MEAT = registerItem("cooked_donkey_meat", p -> new Item(p.food(ModFoods.COOKED_DONKEY_MEAT)));
-    public static final Item COOKED_CUT_SMALL_MEATS = registerItem("cooked_cut_small_meats", p -> new Item(p.food(ModFoods.COOKED_CUT_SMALL_MEATS)));
-    public static final Item COOKED_MEATBALL  = registerItem("cooked_meatball", p -> new Item(p.food(ModFoods.COOKED_MEATBALL)));
+    public static final Item SASHIMI = registerItem("sashimi", p -> new Item(p.food(ModFoods.SASHIMI, ModConsumables.SASHIMI)));
+    public static final Item RAW_LAMB_CHOPS = registerItem("raw_lamb_chops", p -> new Item(p.food(ModFoods.RAW_LAMB_CHOPS, ModConsumables.RAW_LAMB_CHOPS)));
+    public static final Item RAW_COW_OFFAL = registerItem("raw_cow_offal", p -> new Item(p.food(ModFoods.RAW_COW_OFFAL, ModConsumables.RAW_COW_OFFAL)));
+    public static final Item RAW_PORK_BELLY = registerItem("raw_pork_belly", p -> new Item(p.food(ModFoods.RAW_PORK_BELLY, ModConsumables.RAW_PORK_BELLY)));
+    public static final Item RAW_DONKEY_MEAT = registerItem("raw_donkey_meat", p -> new Item(p.food(ModFoods.RAW_DONKEY_MEAT, ModConsumables.RAW_DONKEY_MEAT)));
+    public static final Item RAW_CUT_SMALL_MEATS = registerItem("raw_cut_small_meats", p -> new Item(p.food(ModFoods.RAW_CUT_SMALL_MEATS, ModConsumables.RAW_CUT_SMALL_MEATS)));
+    public static final Item RAW_MEATBALL  = registerItem("raw_meatball", p -> new Item(p.food(ModFoods.RAW_MEATBALL, ModConsumables.RAW_MEATBALL)));
+    public static final Item COOKED_LAMB_CHOPS = registerItem("cooked_lamb_chops", p -> new Item(p.food(ModFoods.COOKED_LAMB_CHOPS, ModConsumables.COOKED_LAMB_CHOPS)));
+    public static final Item COOKED_COW_OFFAL = registerItem("cooked_cow_offal", p -> new Item(p.food(ModFoods.COOKED_COW_OFFAL, ModConsumables.COOKED_COW_OFFAL)));
+    public static final Item COOKED_PORK_BELLY = registerItem("cooked_pork_belly", p -> new Item(p.food(ModFoods.COOKED_PORK_BELLY, ModConsumables.COOKED_PORK_BELLY)));
+    public static final Item COOKED_DONKEY_MEAT = registerItem("cooked_donkey_meat", p -> new Item(p.food(ModFoods.COOKED_DONKEY_MEAT, ModConsumables.COOKED_DONKEY_MEAT)));
+    public static final Item COOKED_CUT_SMALL_MEATS = registerItem("cooked_cut_small_meats", p -> new Item(p.food(ModFoods.COOKED_CUT_SMALL_MEATS, ModConsumables.COOKED_CUT_SMALL_MEATS)));
+    public static final Item COOKED_MEATBALL  = registerItem("cooked_meatball", p -> new Item(p.food(ModFoods.COOKED_MEATBALL, ModConsumables.COOKED_MEATBALL)));
 
     // Special
     public static final Item MODEL_DISPLAY = registerItem("model_display", p -> new ModelDisplayItem(p.stacksTo(1).rarity(Rarity.EPIC).component(ModDataComponents.MODEL_DISPLAY_MODEL, "")));

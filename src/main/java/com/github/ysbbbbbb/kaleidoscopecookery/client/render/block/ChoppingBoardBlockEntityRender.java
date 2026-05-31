@@ -71,11 +71,10 @@ public class ChoppingBoardBlockEntityRender implements BlockEntityRenderer<Chopp
         poseStack.translate(0, 0.625, 0);
         if (blockEntityRenderState.rotation == 0 || blockEntityRenderState.rotation == 3) {
             int i = blockEntityRenderState.rotation == 3 ? -1 : 1;
-            poseStack.translate(0.45d, 0, i * 0.5d);
+            poseStack.translate(0.44d + blockEntityRenderState.currentCutCount * 0.014f, 0, i * 0.5d);
         } else {
-            if (blockEntityRenderState.rotation == 1)
-                poseStack.translate(-0.6d, 0, 0.5d);
-            else poseStack.translate(-0.6d, 0, -0.5d);
+            int i = blockEntityRenderState.rotation == 1 ? 1 : -1;
+            poseStack.translate(-0.5685d + blockEntityRenderState.currentCutCount * 0.0185f, 0, i * 0.5d);
         }
         blockEntityRenderState.contentModel.submit(
                 poseStack,
