@@ -103,7 +103,6 @@ public final class ModBlocks {
             .item(() -> ModItems.BAMBOO_TUBE_RICE)
             .shapes(
                     Block.box(4, 0, 4, 12, 10, 12),
-                    Block.box(0, 0, 4, 16, 10, 12),
                     Shapes.or(
                             Block.box(7, 0, 1, 15, 10, 9),
                             Block.box(1, 0, 7, 9, 10, 15)
