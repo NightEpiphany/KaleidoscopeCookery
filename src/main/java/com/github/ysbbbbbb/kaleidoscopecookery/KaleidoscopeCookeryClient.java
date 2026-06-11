@@ -31,7 +31,7 @@ public final class KaleidoscopeCookeryClient implements ClientModInitializer {
                 .getInstance()
                 .getModContainer(MOD_ID)
                 .ifPresent(container -> ResourceManagerHelper.registerBuiltinResourcePack(
-                        new ResourceLocation("kaleidoscope_classic_texture"),
+                        new ResourceLocation("kc", "kaleidoscope_classic_texture"),
                         container,
                         ResourcePackActivationType.NORMAL
                 ));

@@ -31,6 +31,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
+@SuppressWarnings("deprecation")
 public class StrungMushroomsBlock extends Block {
     public static final BooleanProperty IS_HEAD = BooleanProperty.create("is_head");
     public static final BooleanProperty SHEARED = BooleanProperty.create("sheared");
@@ -51,7 +52,7 @@ public class StrungMushroomsBlock extends Block {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+    public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult) {
         if (hand != InteractionHand.MAIN_HAND) {
             return InteractionResult.PASS;
         }
@@ -86,7 +87,7 @@ public class StrungMushroomsBlock extends Block {
     }
 
     @Override
-    public @NotNull BlockState updateShape(@NotNull BlockState state, @NotNull Direction direction, BlockState neighborState, LevelAccessor levelAccessor, BlockPos currentPos, BlockPos neighborPos) {
+    public @NotNull BlockState updateShape(@NotNull BlockState state, @NotNull Direction direction, @NotNull BlockState neighborState, @NotNull LevelAccessor levelAccessor, @NotNull BlockPos currentPos, @NotNull BlockPos neighborPos) {
         if (direction == Direction.DOWN.getOpposite() && !state.canSurvive(levelAccessor, currentPos)) {
             levelAccessor.scheduleTick(currentPos, this, 1);
         }
@@ -97,14 +98,14 @@ public class StrungMushroomsBlock extends Block {
     }
 
     @Override
-    public boolean canSurvive(BlockState state, LevelReader levelReader, BlockPos pos) {
+    public boolean canSurvive(@NotNull BlockState state, LevelReader levelReader, BlockPos pos) {
         BlockPos belowPos = pos.relative(Direction.DOWN.getOpposite());
         BlockState belowState = levelReader.getBlockState(belowPos);
         return belowState.is(this) || belowState.isFaceSturdy(levelReader, belowPos, Direction.DOWN);
     }
 
     @Override
-    public void tick(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource random) {
+    public void tick(BlockState state, @NotNull ServerLevel serverLevel, @NotNull BlockPos pos, @NotNull RandomSource random) {
         if (!state.canSurvive(serverLevel, pos)) {
             serverLevel.destroyBlock(pos, true);
         }
@@ -116,7 +117,7 @@ public class StrungMushroomsBlock extends Block {
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
+    public @NotNull VoxelShape getShape(BlockState state, @NotNull BlockGetter blockGetter, @NotNull BlockPos pos, @NotNull CollisionContext collisionContext) {
         return state.getValue(IS_HEAD) ? AABB_HEAD : AABB_BODY;
     }
 }

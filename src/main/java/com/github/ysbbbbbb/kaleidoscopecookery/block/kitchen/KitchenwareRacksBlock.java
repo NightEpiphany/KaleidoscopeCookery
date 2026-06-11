@@ -28,10 +28,12 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+@SuppressWarnings("deprecation")
 public class KitchenwareRacksBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
@@ -53,7 +55,7 @@ public class KitchenwareRacksBlock extends HorizontalDirectionalBlock implements
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor levelAccessor, BlockPos pos, BlockPos neighborPos) {
+    public @NotNull BlockState updateShape(BlockState state, @NotNull Direction direction, @NotNull BlockState neighborState, @NotNull LevelAccessor levelAccessor, @NotNull BlockPos pos, @NotNull BlockPos neighborPos) {
         if (state.getValue(WATERLOGGED)) {
             levelAccessor.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(levelAccessor));
         }
@@ -61,7 +63,7 @@ public class KitchenwareRacksBlock extends HorizontalDirectionalBlock implements
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+    public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult) {
         if (hand != InteractionHand.MAIN_HAND) {
             return InteractionResult.PASS;
         }
@@ -93,12 +95,12 @@ public class KitchenwareRacksBlock extends HorizontalDirectionalBlock implements
     }
 
     @Override
-    public FluidState getFluidState(BlockState state) {
+    public @NotNull FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
+    public @NotNull VoxelShape getShape(BlockState state, @NotNull BlockGetter blockGetter, @NotNull BlockPos pos, @NotNull CollisionContext collisionContext) {
         return switch (state.getValue(FACING)) {
             case SOUTH -> SOUTH;
             case EAST -> EAST;
@@ -109,12 +111,12 @@ public class KitchenwareRacksBlock extends HorizontalDirectionalBlock implements
 
     @Override
     @Nullable
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+    public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
         return new KitchenwareRacksBlockEntity(pos, state);
     }
 
     @Override
-    public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+    public void playerWillDestroy(Level level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Player player) {
         if (!level.isClientSide && player.isCreative() && level.getBlockEntity(pos) instanceof KitchenwareRacksBlockEntity racks) {
             if (!racks.getItemLeft().isEmpty()) {
                 popResource(level, pos, racks.getItemLeft());
@@ -129,7 +131,7 @@ public class KitchenwareRacksBlock extends HorizontalDirectionalBlock implements
     }
 
     @Override
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder lootParamsBuilder) {
+    public @NotNull List<ItemStack> getDrops(@NotNull BlockState state, LootParams.@NotNull Builder lootParamsBuilder) {
         List<ItemStack> drops = super.getDrops(state, lootParamsBuilder);
         BlockEntity parameter = lootParamsBuilder.getParameter(LootContextParams.BLOCK_ENTITY);
         if (parameter instanceof KitchenwareRacksBlockEntity racks) {

@@ -50,7 +50,6 @@ public final class FoodBiteRegistry {
     public static ResourceLocation DESERT_STYLE_SASHIMI;
     public static ResourceLocation TUNDRA_STYLE_SASHIMI;
     public static ResourceLocation COLD_STYLE_SASHIMI;
-    public static ResourceLocation SHENGJIAN_MANTOU;
     public static ResourceLocation CANDIED_POTATO;
     public static ResourceLocation DOUGH_DROP_SOUP;
     public static ResourceLocation STUFFED_TIGER_SKIN_PEPPER;
@@ -102,9 +101,6 @@ public final class FoodBiteRegistry {
                 .create(4, BRAISED_FISH_BLOCK, BRAISED_FISH_ITEM)
                 .addLootItems(Items.BONE, Items.BONE_MEAL));
 
-        GOLDEN_SALAD = INSTANCE.registerFoodData("golden_salad", FoodData
-                .create(6, GOLDEN_SALAD_BLOCK, GOLDEN_SALAD_ITEM));
-
         SPICY_CHICKEN = INSTANCE.registerFoodData("spicy_chicken", FoodData
                 .create(4, SPICY_CHICKEN_BLOCK, SPICY_CHICKEN_ITEM));
 
@@ -152,15 +148,8 @@ public final class FoodBiteRegistry {
                 .create(4, COLD_STYLE_SASHIMI_BLOCK, COLD_STYLE_SASHIMI_ITEM)
                 .addLootItems(Items.SNOWBALL, Items.SNOWBALL));
 
-        SHENGJIAN_MANTOU = INSTANCE.registerFoodData("shengjian_mantou", FoodData
-                .create(4, SHENGJIAN_MANTOU_BLOCK, SHENGJIAN_MANTOU_ITEM));
-
         CANDIED_POTATO = INSTANCE.registerFoodData("candied_potato", FoodData
                 .create(3, CANDIED_POTATO_BLOCK, CANDIED_POTATO_ITEM));
-
-        DOUGH_DROP_SOUP = INSTANCE.registerFoodData("dough_drop_soup", FoodData
-                .create(3, DOUGH_DROP_SOUP_BLOCK, DOUGH_DROP_SOUP_ITEM)
-                .bowlAABB());
 
         STUFFED_TIGER_SKIN_PEPPER = INSTANCE.registerFoodData("stuffed_tiger_skin_pepper", FoodData
                 .create(5, STUFFED_TIGER_SKIN_PEPPER_BLOCK, STUFFED_TIGER_SKIN_PEPPER_ITEM));
@@ -168,24 +157,12 @@ public final class FoodBiteRegistry {
         SPICY_RABBIT_HEAD = INSTANCE.registerFoodData("spicy_rabbit_head", FoodData
                 .create(3, SPICY_RABBIT_HEAD_BLOCK, SPICY_RABBIT_HEAD_ITEM));
 
-        FOUR_JOY_MEATBALL_SOUP = INSTANCE.registerFoodData("four_joy_meatball_soup", FoodData
-                .create(4, FOUR_JOY_MEATBALL_SOUP_BLOCK, FOUR_JOY_MEATBALL_SOUP_ITEM)
-                .bowlAABB());
-
-        NUMBING_SPICY_CHICKEN = INSTANCE.registerFoodData("numbing_spicy_chicken", FoodData
-                .create(3, NUMBING_SPICY_CHICKEN_BLOCK, NUMBING_SPICY_CHICKEN_ITEM)
-                .bowlAABB());
-
         FRIED_CATERPILLAR = INSTANCE.registerFoodData("fried_caterpillar", FoodData
                 .create(3, FRIED_CATERPILLAR_BLOCK, FRIED_CATERPILLAR_ITEM)
                 .setAABB(Block.box(1, 0, 3, 15, 4, 13)));
 
         FRIED_SPRING_ROLL = INSTANCE.registerFoodData("fried_spring_roll", FoodData
                 .create(3, FRIED_SPRING_ROLL_BLOCK, FRIED_SPRING_ROLL_ITEM));
-
-        SPICY_BLOOD_STEW = INSTANCE.registerFoodData("spicy_blood_stew", FoodData
-                .create(3, SPICY_BLOOD_STEW_BLOCK, SPICY_BLOOD_STEW_ITEM)
-                .bowlAABB());
 
         FRUIT_PLATTER = INSTANCE.registerFoodData("fruit_platter", FoodData
                 .create(4, FRUIT_PLATTER_BLOCK, FRUIT_PLATTER_ITEM));
@@ -202,6 +179,24 @@ public final class FoodBiteRegistry {
         OIL_SPLASHED_FISH = INSTANCE.registerFoodData("oil_splashed_fish", FoodData
                 .createOneByTwo(5, OIL_SPLASHED_FISH_BLOCK, OIL_SPLASHED_FISH_ITEM)
                 .addLootItems(Items.BONE_MEAL));
+
+        // ========================== 汤食类 ==========================
+
+        DOUGH_DROP_SOUP = INSTANCE.registerFoodData("dough_drop_soup", FoodData
+                .create(3, DOUGH_DROP_SOUP_BLOCK, DOUGH_DROP_SOUP_ITEM)
+                .bowlAABB());
+
+        FOUR_JOY_MEATBALL_SOUP = INSTANCE.registerFoodData("four_joy_meatball_soup", FoodData
+                .create(4, FOUR_JOY_MEATBALL_SOUP_BLOCK, FOUR_JOY_MEATBALL_SOUP_ITEM)
+                .bowlAABB());
+
+        NUMBING_SPICY_CHICKEN = INSTANCE.registerFoodData("numbing_spicy_chicken", FoodData
+                .create(3, NUMBING_SPICY_CHICKEN_BLOCK, NUMBING_SPICY_CHICKEN_ITEM)
+                .bowlAABB());
+
+        SPICY_BLOOD_STEW = INSTANCE.registerFoodData("spicy_blood_stew", FoodData
+                .create(3, SPICY_BLOOD_STEW_BLOCK, SPICY_BLOOD_STEW_ITEM)
+                .bowlAABB());
 
         // ========================== 瓦罐汤 ==========================
 
@@ -234,6 +229,10 @@ public final class FoodBiteRegistry {
                 .setLootItem(Items.FLOWER_POT)
                 .soupPotAABB()
                 .potSoupAnimateTick());
+
+        //  ========================== 其他 ==========================
+        GOLDEN_SALAD = INSTANCE.registerFoodData("golden_salad", FoodData
+                .create(6, GOLDEN_SALAD_BLOCK, GOLDEN_SALAD_ITEM));
     }
 
     public ResourceLocation registerFoodData(ResourceLocation foodName, FoodData data) {

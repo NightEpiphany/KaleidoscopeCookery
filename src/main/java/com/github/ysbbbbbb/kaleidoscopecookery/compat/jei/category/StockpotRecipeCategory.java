@@ -17,14 +17,16 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.NonNullList;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -34,19 +36,20 @@ import java.util.List;
 public class StockpotRecipeCategory implements IRecipeCategory<StockpotRecipe> {
     public static final RecipeType<StockpotRecipe> TYPE = RecipeType.create(KaleidoscopeCookery.MOD_ID, "stockpot", StockpotRecipe.class);
     private static final ResourceLocation BG = new ResourceLocation(KaleidoscopeCookery.MOD_ID, "textures/gui/jei/stockpot.png");
-    private static final MutableComponent TITLE = Component.translatable("block.kaleidoscope_cookery.stockpot");
+    private static final Component TITLE = ComponentUtils.formatList(List.of(
+            Component.translatable("jei.kaleidoscope_cookery.strict_recipe"),
+            Component.translatable("block.kaleidoscope_cookery.stockpot")
+    ), CommonComponents.SPACE);
     public static final int WIDTH = 176;
     public static final int HEIGHT = 102;
     private final IDrawable bgDraw;
     private final IDrawable iconDraw;
     private final IDrawable slotDraw;
-    private final IGuiHelper guiHelper;
 
     public StockpotRecipeCategory(IGuiHelper guiHelper) {
         this.bgDraw = guiHelper.createDrawable(BG, 0, 0, WIDTH, HEIGHT);
         this.iconDraw = guiHelper.createDrawableItemLike(ModItems.STOCKPOT);
         this.slotDraw = guiHelper.getSlotDrawable();
-        this.guiHelper = guiHelper;
     }
 
     public static List<StockpotRecipe> getRecipes() {
@@ -62,12 +65,21 @@ public class StockpotRecipeCategory implements IRecipeCategory<StockpotRecipe> {
     }
 
     @Override
-    public void draw(StockpotRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void draw(@NotNull StockpotRecipe recipe, @NotNull IRecipeSlotsView recipeSlotsView, @NotNull GuiGraphics guiGraphics, double mouseX, double mouseY) {
         this.bgDraw.draw(guiGraphics);
+
+        Component type = Component.translatable("jei.kaleidoscope_cookery.strict_recipe");
+        drawCenteredString(guiGraphics, type, WIDTH / 2, 90);
+    }
+
+    private void drawCenteredString(GuiGraphics guiGraphics, Component text, int centerX, int y) {
+        Font font = Minecraft.getInstance().font;
+        FormattedCharSequence sequence = text.getVisualOrderText();
+        guiGraphics.drawString(font, sequence, centerX - font.width(sequence) / 2, y, 0x555555, false);
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, StockpotRecipe recipe, IFocusGroup focuses) {
+    public void setRecipe(@NotNull IRecipeLayoutBuilder builder, StockpotRecipe recipe, @NotNull IFocusGroup focuses) {
         NonNullList<Ingredient> inputs = recipe.getIngredients();
         ItemStack output = recipe.result();
         for (int i = 0; i < inputs.size(); i++) {

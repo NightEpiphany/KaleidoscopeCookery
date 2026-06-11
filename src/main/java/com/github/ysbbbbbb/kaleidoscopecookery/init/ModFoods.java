@@ -128,22 +128,64 @@ public interface ModFoods {
             .effect(new MobEffectInstance(WARMTH.get(), 80 * 20), 1.0F)
             .alwaysEat().build();
 
+    // 青团
+    FoodProperties QINGTUAN = (new FoodProperties.Builder())
+            .nutrition(5).saturationMod(0.6F)
+            .alwaysEat().build();
+
+    // 牛皮糖
+    FoodProperties STICKY_CANDY = (new FoodProperties.Builder())
+            .nutrition(6).saturationMod(1)
+            .alwaysEat().build();
+
+    // 糍粑
+    FoodProperties STICKY_RICE_CAKE = (new FoodProperties.Builder())
+            .nutrition(8).saturationMod(0.875F)
+            .alwaysEat().build();
+
+    // 粽子
+    FoodProperties ZONGZI = (new FoodProperties.Builder())
+            .nutrition(8).saturationMod(0.625F)
+            .effect(new MobEffectInstance(REGENERATION, 20 * 20), 1.0F)
+            .alwaysEat().build();
+
+    // 竹筒饭
+    FoodProperties RAW_BAMBOO_TUBE_RICE = (new FoodProperties.Builder())
+            .nutrition(10).saturationMod(0.5F)
+            .alwaysEat().build();
+
+    FoodProperties BAMBOO_TUBE_RICE = (new FoodProperties.Builder())
+            .nutrition(10).saturationMod(0.5F)
+            .alwaysEat().build();
+
     // 牛肉面
     FoodProperties BEEF_NOODLE = (new FoodProperties.Builder())
             .nutrition(14).saturationMod(0.643f)
-            .effect(new MobEffectInstance(WARMTH.get(), 3 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(VITALITY.get(), 3 * 60 * 20), 1.0F)
+            .alwaysEat().build();
+
+    // 热干面
+    FoodProperties HOT_DRY_NOODLES = (new FoodProperties.Builder())
+            .nutrition(14).saturationMod(0.643f)
+            .effect(new MobEffectInstance(VITALITY.get(), 8 * 60 * 20), 1.0F)
+            .alwaysEat().build();
+
+    // 腊八粥
+    FoodProperties LABA_CONGEE = (new FoodProperties.Builder())
+            .nutrition(12).saturationMod(0.5F)
+            .effect(new MobEffectInstance(WARMTH.get(), 5 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 烩面
     FoodProperties HUI_NOODLE = (new FoodProperties.Builder())
             .nutrition(14).saturationMod(0.643f)
-            .effect(new MobEffectInstance(WARMTH.get(), 3 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(VITALITY.get(), 3 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 乌冬面
     FoodProperties UDON_NOODLE = (new FoodProperties.Builder())
             .nutrition(14).saturationMod(0.643f)
-            .effect(new MobEffectInstance(WARMTH.get(), 3 * 60 * 20), 1.0F)
+            .effect(new MobEffectInstance(VITALITY.get(), 3 * 60 * 20), 1.0F)
             .alwaysEat().build();
 
     // 煎蛋

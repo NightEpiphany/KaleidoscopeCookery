@@ -2,7 +2,7 @@
   "type": "kaleidoscope_cookery:pot",
   "ingredients": [
     {
-      "tag": "c:eggs"
+      "tag": "forge:eggs"
     }
   ],
   "result": {

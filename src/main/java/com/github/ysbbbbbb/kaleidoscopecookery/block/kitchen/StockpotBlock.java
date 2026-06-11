@@ -189,7 +189,7 @@ public class StockpotBlock extends HorizontalDirectionalBlock implements EntityB
     }
 
     @Override
-    public FluidState getFluidState(BlockState state) {
+    public @NotNull FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
@@ -199,7 +199,7 @@ public class StockpotBlock extends HorizontalDirectionalBlock implements EntityB
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
+    public @NotNull VoxelShape getShape(BlockState state, @NotNull BlockGetter blockGetter, @NotNull BlockPos pos, @NotNull CollisionContext collisionContext) {
         if (state.getValue(HAS_LID)) {
             return AABB_WITH_LID;
         }
@@ -207,7 +207,7 @@ public class StockpotBlock extends HorizontalDirectionalBlock implements EntityB
     }
 
     @Override
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder lootParamsBuilder) {
+    public @NotNull List<ItemStack> getDrops(@NotNull BlockState state, LootParams.@NotNull Builder lootParamsBuilder) {
         List<ItemStack> drops = super.getDrops(state, lootParamsBuilder);
         if (state.getValue(HAS_LID)) {
             BlockEntity parameter = lootParamsBuilder.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
@@ -229,7 +229,7 @@ public class StockpotBlock extends HorizontalDirectionalBlock implements EntityB
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(@NotNull ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, @NotNull TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.kaleidoscope_cookery.stockpot").withStyle(ChatFormatting.GRAY));
         tooltip.add(Component.translatable("tooltip.kaleidoscope_cookery.stockpot.fail").withStyle(ChatFormatting.GRAY));
     }

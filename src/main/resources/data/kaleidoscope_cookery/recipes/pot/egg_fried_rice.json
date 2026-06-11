@@ -5,13 +5,13 @@
   },
   "ingredients": [
     {
-      "tag": "c:eggs"
+      "tag": "forge:eggs"
     },
     {
-      "tag": "c:eggs"
+      "tag": "forge:eggs"
     },
     {
-      "tag": "c:cooked_rice"
+      "tag": "forge:cooked_rice"
     }
   ],
   "result": {

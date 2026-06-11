@@ -189,17 +189,5 @@ public class StockpotRecipeProvider extends ModRecipeProvider {
             }
         }
 
-        StockpotRecipeBuilder.builder()
-                .addInput(STUFFED_DOUGH_FOOD, STUFFED_DOUGH_FOOD, STUFFED_DOUGH_FOOD, STUFFED_DOUGH_FOOD)
-                .setSoupBase(ModSoupBases.LAVA)
-                .setResult(FoodBiteRegistry.getItem(FoodBiteRegistry.SHENGJIAN_MANTOU), 1)
-                .save(consumer, "shengjian_mantou_count_1");
-
-        StockpotRecipeBuilder.builder()
-                .addInput(STUFFED_DOUGH_FOOD, STUFFED_DOUGH_FOOD, STUFFED_DOUGH_FOOD, STUFFED_DOUGH_FOOD,
-                        STUFFED_DOUGH_FOOD, STUFFED_DOUGH_FOOD, STUFFED_DOUGH_FOOD, STUFFED_DOUGH_FOOD)
-                .setSoupBase(ModSoupBases.LAVA)
-                .setResult(FoodBiteRegistry.getItem(FoodBiteRegistry.SHENGJIAN_MANTOU), 2)
-                .save(consumer, "shengjian_mantou_count_2");
     }
 }

@@ -5,6 +5,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public interface BaseRecipe<C extends Container> extends Recipe<C> {
     }
 
     @Override
-    default ItemStack assemble(C container, RegistryAccess registryAccess) {
+    default @NotNull ItemStack assemble(@NotNull C container, @NotNull RegistryAccess registryAccess) {
         return getResultItem(registryAccess).copy();
     }
 

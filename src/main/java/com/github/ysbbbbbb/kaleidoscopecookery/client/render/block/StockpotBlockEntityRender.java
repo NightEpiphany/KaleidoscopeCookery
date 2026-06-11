@@ -6,6 +6,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.StockpotBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.StockpotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.resources.ItemRenderReplacer;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.resources.ItemRenderReplacerReloadListener;
+import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.StockpotVisuals;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.soupbase.SoupBaseManager;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
@@ -26,6 +27,7 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
 import java.util.function.Function;
 
 @Environment(EnvType.CLIENT)
@@ -59,13 +61,25 @@ public class StockpotBlockEntityRender implements BlockEntityRenderer<StockpotBl
             soupBase.renderWhenPutIngredient(stockpot, partialTick, poseStack, buffer, packedLight, packedOverlay, 0.38f);
             renderItems(stockpot, poseStack, buffer, packedLight, packedOverlay, false);
         } else if (status == StockpotBlockEntity.COOKING) {
-            soupBase.renderWhenCooking(stockpot, partialTick, poseStack, buffer, packedLight, packedOverlay, stockpot.recipe.cookingTexture(), 0.38f);
+            StockpotVisuals visuals = Objects.requireNonNullElse(stockpot.visuals, StockpotVisuals.DEFAULT);
+            soupBase.renderWhenCooking(
+                    stockpot, partialTick,
+                    poseStack, buffer,
+                    packedLight, packedOverlay,
+                    visuals.cookingTexture(), 0.38f
+            );
             renderItems(stockpot, poseStack, buffer, packedLight, packedOverlay, true);
         } else if (status == StockpotBlockEntity.FINISHED) {
+            StockpotVisuals visuals = Objects.requireNonNullElse(stockpot.visuals, StockpotVisuals.DEFAULT);
             int takeoutCount = stockpot.getTakeoutCount();
             int maxCount = Math.min(stockpot.getResult().getCount(), StockpotBlockEntity.MAX_TAKEOUT_COUNT);
             float soupHeight = 0.065f + 0.315f / maxCount * takeoutCount;
-            soupBase.renderWhenFinished(stockpot, partialTick, poseStack, buffer, packedLight, packedOverlay, stockpot.recipe.finishedTexture(), soupHeight);
+            soupBase.renderWhenFinished(
+                    stockpot, partialTick,
+                    poseStack, buffer,
+                    packedLight, packedOverlay,
+                    visuals.finishedTexture(), soupHeight
+            );
         }
     }
 

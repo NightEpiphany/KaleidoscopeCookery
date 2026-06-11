@@ -35,10 +35,12 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+@SuppressWarnings("deprecation")
 public class ShawarmaSpitBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
@@ -69,7 +71,7 @@ public class ShawarmaSpitBlock extends HorizontalDirectionalBlock implements Sim
     }
 
     @Override
-    public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+    public void playerWillDestroy(Level level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Player player) {
         if (!level.isClientSide && player.isCreative()) {
             if (state.getValue(HALF) == DoubleBlockHalf.UPPER) {
                 BlockPos below = pos.below();
@@ -107,7 +109,7 @@ public class ShawarmaSpitBlock extends HorizontalDirectionalBlock implements Sim
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+    public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult) {
         if (player.isShiftKeyDown()) {
             return InteractionResult.PASS;
         }
@@ -125,7 +127,7 @@ public class ShawarmaSpitBlock extends HorizontalDirectionalBlock implements Sim
 
     @Override
     @Nullable
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState state, @NotNull BlockEntityType<T> blockEntityType) {
         return createTickerHelper(blockEntityType, ModBlocks.SHAWARMA_SPIT_BE, (levelIn, blockPos, blockState, spit) -> {
             if (blockState.getValue(POWERED)) {
                 spit.tick();
@@ -134,12 +136,12 @@ public class ShawarmaSpitBlock extends HorizontalDirectionalBlock implements Sim
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
+    public @NotNull VoxelShape getShape(BlockState state, @NotNull BlockGetter blockGetter, @NotNull BlockPos pos, @NotNull CollisionContext collisionContext) {
         return state.getValue(HALF) == DoubleBlockHalf.LOWER ? LOWER_AABB : UPPER_AABB;
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor levelAccessor, BlockPos currentPos, BlockPos neighborPos) {
+    public @NotNull BlockState updateShape(BlockState state, @NotNull Direction direction, @NotNull BlockState neighborState, @NotNull LevelAccessor levelAccessor, @NotNull BlockPos currentPos, @NotNull BlockPos neighborPos) {
         if (state.getValue(WATERLOGGED)) {
             levelAccessor.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(levelAccessor));
         }
@@ -157,7 +159,7 @@ public class ShawarmaSpitBlock extends HorizontalDirectionalBlock implements Sim
     }
 
     @Override
-    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
+    public void neighborChanged(BlockState state, Level level, @NotNull BlockPos pos, @NotNull Block block, @NotNull BlockPos fromPos, boolean isMoving) {
         Direction direction = state.getValue(HALF) == DoubleBlockHalf.LOWER ? Direction.UP : Direction.DOWN;
         boolean powered = level.hasNeighborSignal(pos) || level.hasNeighborSignal(pos.relative(direction));
         if (!state.is(block) && powered != state.getValue(POWERED)) {
@@ -183,7 +185,7 @@ public class ShawarmaSpitBlock extends HorizontalDirectionalBlock implements Sim
     }
 
     @Override
-    public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+    public void setPlacedBy(Level level, @NotNull BlockPos pos, BlockState state, LivingEntity placer, @NotNull ItemStack stack) {
         FluidState fluidState = level.getFluidState(pos);
         BlockState blockState = state.setValue(HALF, DoubleBlockHalf.UPPER)
                 .setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER);
@@ -191,7 +193,7 @@ public class ShawarmaSpitBlock extends HorizontalDirectionalBlock implements Sim
     }
 
     @Override
-    public FluidState getFluidState(BlockState state) {
+    public @NotNull FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
@@ -202,12 +204,12 @@ public class ShawarmaSpitBlock extends HorizontalDirectionalBlock implements Sim
 
     @Override
     @Nullable
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+    public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
         return new ShawarmaSpitBlockEntity(pos, state);
     }
 
     @Override
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder lootParamsBuilder) {
+    public @NotNull List<ItemStack> getDrops(BlockState state, LootParams.@NotNull Builder lootParamsBuilder) {
         List<ItemStack> drops;
         if (state.getValue(HALF) == DoubleBlockHalf.LOWER) {
             drops = super.getDrops(state, lootParamsBuilder);
@@ -226,7 +228,7 @@ public class ShawarmaSpitBlock extends HorizontalDirectionalBlock implements Sim
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @org.jetbrains.annotations.Nullable BlockGetter level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(@NotNull ItemStack stack, @org.jetbrains.annotations.Nullable BlockGetter level, List<Component> tooltip, @NotNull TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.kaleidoscope_cookery.shawarma_spit").withStyle(ChatFormatting.GRAY));
     }
 }

@@ -5,6 +5,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.crafting.container.StockpotContai
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.StockpotRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.event.IEvent;
 import net.fabricmc.fabric.api.event.Event;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
@@ -63,9 +64,9 @@ public abstract class StockpotMatchRecipeEvent implements IEvent {
      * 在汤锅检索自己配方之后触发
      */
     public static class Post extends StockpotMatchRecipeEvent {
-        private final StockpotRecipe rawOutput;
+        private final ResourceLocation rawOutput;
 
-        public Post(Level level, StockpotBlockEntity stockpot, StockpotContainer container, StockpotRecipe rawOutput) {
+        public Post(Level level, StockpotBlockEntity stockpot, StockpotContainer container, ResourceLocation rawOutput) {
             super(level, stockpot, container);
             this.rawOutput = rawOutput;
         }
@@ -73,9 +74,9 @@ public abstract class StockpotMatchRecipeEvent implements IEvent {
         /**
          * 原来匹配的配方输出
          * <p>
-         * 如果原来没有匹配到配方，那么输出的配方 ID 为 StockpotRecipeSerializer.EMPTY_ID
+         * 如果原来没有匹配到配方，那么该值为 StockpotRecipeSerializer.EMPTY_ID
          */
-        public StockpotRecipe getRawOutput() {
+        public ResourceLocation getRawOutput() {
             return rawOutput;
         }
 

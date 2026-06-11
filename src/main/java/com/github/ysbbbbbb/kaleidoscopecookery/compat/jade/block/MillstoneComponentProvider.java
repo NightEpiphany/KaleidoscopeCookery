@@ -27,13 +27,13 @@ public enum MillstoneComponentProvider implements IBlockComponentProvider {
         if (!(te instanceof MillstoneBlockEntity millstone)) {
             return;
         }
-        if (millstone.getInput().isEmpty() && millstone.getOutput().isEmpty()) {
+        if (millstone.getInput().isEmpty() && millstone.getOutputs().getStackInSlot(0).isEmpty()) {
             return;
         }
         IElementHelper helper = IElementHelper.get();
         tooltip.add(helper.item(millstone.getInput()));
         tooltip.append(new ProgressArrowElement(millstone.getProgressPercent()));
-        tooltip.append(helper.item(millstone.getOutput()));
+        tooltip.append(helper.item(millstone.getOutputs().getStackInSlot(0)));
     }
 
     @Override

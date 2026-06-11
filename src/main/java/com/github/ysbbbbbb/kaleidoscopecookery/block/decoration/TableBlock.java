@@ -45,6 +45,7 @@ import java.util.List;
 import static com.github.ysbbbbbb.kaleidoscopecookery.util.CarpetColor.getCarpetByColor;
 import static com.github.ysbbbbbb.kaleidoscopecookery.util.CarpetColor.getColorByCarpet;
 
+@SuppressWarnings("deprecation")
 public class TableBlock extends Block implements SimpleWaterloggedBlock, EntityBlock {
     public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.HORIZONTAL_AXIS;
     public static final IntegerProperty POSITION = IntegerProperty.create("position", 0, 3);

@@ -6,25 +6,25 @@
   "cooking_bubble_color": 16772291,
   "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
   "finished_bubble_color": 16034443,
-  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_flesh",
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished",
   "ingredients": [
     {
-      "tag": "c:crops/tomato"
+      "tag": "forge:crops/lettuce"
     },
     {
-      "tag": "c:crops/tomato"
+      "tag": "forge:crops/lettuce"
     },
     {
-      "tag": "c:flour"
+      "tag": "forge:crops/lettuce"
     },
     {
-      "tag": "c:flour"
+      "tag": "forge:crops/lettuce"
     },
     {
-      "tag": "c:crops/lettuce"
+      "tag": "forge:flour"
     },
     {
-      "tag": "c:crops/lettuce"
+      "tag": "forge:flour"
     }
   ],
   "result": {

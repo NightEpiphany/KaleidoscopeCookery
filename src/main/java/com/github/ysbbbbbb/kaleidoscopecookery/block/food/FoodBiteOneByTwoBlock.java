@@ -24,6 +24,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 
+@SuppressWarnings("deprecation")
 public class FoodBiteOneByTwoBlock extends FoodBiteBlock {
     public static final IntegerProperty POSITION = IntegerProperty.create("position", 0, 1);
     public static final int LEFT = 0;
@@ -32,11 +33,16 @@ public class FoodBiteOneByTwoBlock extends FoodBiteBlock {
     public FoodBiteOneByTwoBlock(FoodProperties foodProperties, int maxBites,
                                  @Nullable FoodBiteAnimateTicks.AnimateTick animateTick) {
         super(foodProperties, maxBites, animateTick);
-        this.registerDefaultState(this.stateDefinition.any().setValue(bites, 0).setValue(FACING, Direction.SOUTH).setValue(POSITION, RIGHT));
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(bites, 0)
+                .setValue(FACING, Direction.SOUTH)
+                .setValue(POSITION, RIGHT)
+                .setValue(QUALITY, DEFAULT_QUALITY)
+        );
     }
 
     @Override
-    public @NotNull BlockState updateShape(BlockState state, @NotNull Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+    public @NotNull BlockState updateShape(BlockState state, @NotNull Direction direction, @NotNull BlockState neighborState, @NotNull LevelAccessor level, @NotNull BlockPos pos, @NotNull BlockPos neighborPos) {
         int position = state.getValue(POSITION);
         Direction facing = state.getValue(FACING);
 
@@ -87,7 +93,7 @@ public class FoodBiteOneByTwoBlock extends FoodBiteBlock {
     }
 
     @Override
-    public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, LivingEntity pPlacer, ItemStack pStack) {
+    public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, LivingEntity pPlacer, @NotNull ItemStack pStack) {
         Direction facing = pState.getValue(FACING);
         BlockPos leftPos = pPos.relative(facing.getClockWise());
         BlockState leftState = pState.setValue(POSITION, LEFT);
@@ -96,16 +102,16 @@ public class FoodBiteOneByTwoBlock extends FoodBiteBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, POSITION);
+        builder.add(FACING, QUALITY, POSITION);
     }
 
     @Override
     protected void createBitesBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(bites, FACING, POSITION);
+        builder.add(bites, FACING, QUALITY, POSITION);
     }
 
     @Override
-    public List<ItemStack> getDrops(BlockState state, LootParams.Builder pParams) {
+    public @NotNull List<ItemStack> getDrops(@NotNull BlockState state, LootParams.@NotNull Builder pParams) {
         // 左侧不掉落
         if (state.getValue(POSITION) == LEFT) {
             return Collections.emptyList();

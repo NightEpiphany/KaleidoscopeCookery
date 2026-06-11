@@ -5,22 +5,22 @@
   },
   "ingredients": [
     {
-      "tag": "c:mushrooms"
+      "tag": "forge:mushrooms"
     },
     {
-      "tag": "c:mushrooms"
+      "tag": "forge:mushrooms"
     },
     {
-      "tag": "c:raw_pork"
+      "tag": "forge:raw_pork"
     },
     {
-      "tag": "c:raw_pork"
+      "tag": "forge:raw_pork"
     },
     {
-      "tag": "c:raw_pork"
+      "tag": "forge:crops/chilipepper"
     },
     {
-      "tag": "c:crops/chilipepper"
+      "tag": "forge:crops/chilipepper"
     }
   ],
   "result": {

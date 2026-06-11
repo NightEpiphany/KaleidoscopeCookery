@@ -5,28 +5,28 @@
   },
   "ingredients": [
     {
-      "tag": "c:raw_fishes"
+      "tag": "forge:raw_fishes"
     },
     {
-      "tag": "c:raw_fishes"
+      "tag": "forge:raw_fishes"
     },
     {
-      "tag": "c:raw_fishes"
+      "tag": "forge:raw_fishes"
     },
     {
-      "tag": "c:raw_fishes"
+      "tag": "forge:raw_fishes"
     },
     {
-      "tag": "c:raw_fishes"
+      "tag": "forge:raw_fishes"
     },
     {
-      "tag": "c:raw_fishes"
+      "tag": "forge:raw_fishes"
     },
     {
-      "tag": "c:crops/chilipepper"
+      "tag": "forge:crops/chilipepper"
     },
     {
-      "tag": "c:crops/chilipepper"
+      "tag": "forge:crops/chilipepper"
     }
   ],
   "result": {

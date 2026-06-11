@@ -22,9 +22,13 @@ import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +37,10 @@ import java.util.Optional;
 public class ReiStockpotRecipeCategory implements DisplayCategory<ReiStockpotRecipeCategory.StockpotRecipeDisplay> {
     public static final CategoryIdentifier<StockpotRecipeDisplay> ID = CategoryIdentifier.of(KaleidoscopeCookery.MOD_ID, "plugin/stockpot");
     private static final ResourceLocation BG = new ResourceLocation(KaleidoscopeCookery.MOD_ID, "textures/gui/jei/stockpot.png");
-    private static final MutableComponent TITLE = Component.translatable("block.kaleidoscope_cookery.stockpot");
+    private static final Component TITLE = ComponentUtils.formatList(List.of(
+            Component.translatable("jei.kaleidoscope_cookery.strict_recipe"),
+            Component.translatable("block.kaleidoscope_cookery.stockpot")
+    ), CommonComponents.SPACE);
     public static final int WIDTH = 176;
     public static final int HEIGHT = 102;
 
@@ -50,6 +57,9 @@ public class ReiStockpotRecipeCategory implements DisplayCategory<ReiStockpotRec
 
         widgets.add(Widgets.createRecipeBase(bounds));
         widgets.add(Widgets.createTexturedWidget(BG, startX, startY, 0, 0, WIDTH, HEIGHT));
+        widgets.add(Widgets.withTranslate(Widgets.createDrawableWidget((guiGraphics, mouseX, mouseY, v) -> {
+            drawCenteredString(guiGraphics, Component.translatable("jei.kaleidoscope_cookery.strict_recipe"), WIDTH / 2, 90);
+        }), startX, startY, 0));
 
         if (!display.soupBase.isEmpty()) {
             widgets.add(Widgets.createSlot(new Point(startX + 72, startY + 61))
@@ -78,6 +88,12 @@ public class ReiStockpotRecipeCategory implements DisplayCategory<ReiStockpotRec
                 .markOutput());
 
         return widgets;
+    }
+
+    private void drawCenteredString(GuiGraphics guiGraphics, Component text, int centerX, int y) {
+        Font font = Minecraft.getInstance().font;
+        FormattedCharSequence sequence = text.getVisualOrderText();
+        guiGraphics.drawString(font, sequence, centerX - font.width(sequence) / 2, y, 0x555555, false);
     }
 
     @Override

@@ -45,6 +45,7 @@ import java.util.List;
 import static com.github.ysbbbbbb.kaleidoscopecookery.item.KitchenShovelItem.hasOil;
 import static com.github.ysbbbbbb.kaleidoscopecookery.item.KitchenShovelItem.setHasOil;
 
+@SuppressWarnings("deprecation")
 public class StoveBlock extends HorizontalDirectionalBlock {
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
 
@@ -105,7 +106,7 @@ public class StoveBlock extends HorizontalDirectionalBlock {
     }
 
     @Override
-    public BlockState updateShape(BlockState state, @NotNull Direction direction, @NotNull BlockState neighborState, @NotNull LevelAccessor levelAccessor, @NotNull BlockPos pos, @NotNull BlockPos neighborPos) {
+    public @NotNull BlockState updateShape(BlockState state, @NotNull Direction direction, @NotNull BlockState neighborState, @NotNull LevelAccessor levelAccessor, @NotNull BlockPos pos, @NotNull BlockPos neighborPos) {
         if (state.getValue(LIT) && levelAccessor.isWaterAt(pos.above()) && levelAccessor instanceof ServerLevel serverLevel) {
             serverLevel.setBlockAndUpdate(pos, state.setValue(LIT, false));
             serverLevel.playSound(null, pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -114,7 +115,7 @@ public class StoveBlock extends HorizontalDirectionalBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState state, @NotNull Level level, @NotNull BlockPos pos, Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult) {
+    public @NotNull InteractionResult use(BlockState state, @NotNull Level level, @NotNull BlockPos pos, Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult) {
         ItemStack itemInHand = player.getItemInHand(hand);
         // 点燃炉灶
         if (!state.getValue(LIT) && itemInHand.is(TagMod.LIT_STOVE)) {

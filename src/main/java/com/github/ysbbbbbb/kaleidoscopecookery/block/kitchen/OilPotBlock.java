@@ -40,6 +40,7 @@ import java.util.List;
 
 import static com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.OilPotBlockEntity.MAX_OIL_COUNT;
 
+@SuppressWarnings("deprecation")
 public class OilPotBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock, WorldlyContainerHolder {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final BooleanProperty HAS_OIL = BooleanProperty.create("has_oil");

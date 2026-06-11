@@ -10,7 +10,9 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 
+@SuppressWarnings("deprecation")
 public class FoodBlock extends Block {
     public static final VoxelShape AABB = Block.box(1, 0, 1, 15, 2, 15);
 
@@ -25,7 +27,7 @@ public class FoodBlock extends Block {
     }
 
     @Override
-    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+    public @NotNull VoxelShape getShape(@NotNull BlockState pState, @NotNull BlockGetter pLevel, @NotNull BlockPos pPos, @NotNull CollisionContext pContext) {
         return AABB;
     }
 }

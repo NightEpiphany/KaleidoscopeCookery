@@ -1,0 +1,19 @@
+{
+  "type": "kaleidoscope_cookery:flex_pot",
+  "carrier": {
+    "item": "minecraft:bowl"
+  },
+  "ingredients": [
+    {
+      "tag": "forge:eggs"
+    },
+    {
+      "tag": "forge:cooked_rice"
+    }
+  ],
+  "result": {
+    "item": "kaleidoscope_cookery:egg_fried_rice"
+  },
+  "stir_fry_count": 3,
+  "time": 200
+}

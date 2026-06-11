@@ -39,6 +39,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+@SuppressWarnings("deprecation")
 public class ChoppingBoardBlock extends HorizontalDirectionalBlock implements EntityBlock, SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final VoxelShape NORTH_SOUTH = Block.box(1, 0, 2, 15, 2, 14);
@@ -56,7 +57,7 @@ public class ChoppingBoardBlock extends HorizontalDirectionalBlock implements En
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor levelAccessor, BlockPos pos, BlockPos neighborPos) {
+    public @NotNull BlockState updateShape(BlockState state, @NotNull Direction direction, @NotNull BlockState neighborState, @NotNull LevelAccessor levelAccessor, @NotNull BlockPos pos, @NotNull BlockPos neighborPos) {
         if (state.getValue(WATERLOGGED)) {
             levelAccessor.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(levelAccessor));
         }
@@ -77,7 +78,7 @@ public class ChoppingBoardBlock extends HorizontalDirectionalBlock implements En
     }
 
     @Override
-    public InteractionResult use(BlockState blockState, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    public @NotNull InteractionResult use(@NotNull BlockState blockState, Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
         if (level.getBlockEntity(pos) instanceof IChoppingBoard choppingBoard) {
             ItemStack itemInHand = player.getItemInHand(hand);
             if (choppingBoard.onPutItem(level, player, itemInHand)) {
@@ -108,7 +109,7 @@ public class ChoppingBoardBlock extends HorizontalDirectionalBlock implements En
 
     @Override
     @Nullable
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+    public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
         return new ChoppingBoardBlockEntity(pos, state);
     }
 
@@ -127,12 +128,12 @@ public class ChoppingBoardBlock extends HorizontalDirectionalBlock implements En
     }
 
     @Override
-    public FluidState getFluidState(BlockState state) {
+    public @NotNull FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext collisionContext) {
+    public @NotNull VoxelShape getShape(BlockState state, @NotNull BlockGetter blockGetter, @NotNull BlockPos pos, @NotNull CollisionContext collisionContext) {
         if (state.getValue(FACING).getAxis() == Direction.Axis.Z) {
             return NORTH_SOUTH;
         }
@@ -140,7 +141,7 @@ public class ChoppingBoardBlock extends HorizontalDirectionalBlock implements En
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(@NotNull ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, @NotNull TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.kaleidoscope_cookery.chopping_board").withStyle(ChatFormatting.GRAY));
     }
 }

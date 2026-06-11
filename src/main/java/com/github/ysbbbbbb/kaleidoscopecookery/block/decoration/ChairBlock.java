@@ -44,6 +44,7 @@ import java.util.List;
 import static com.github.ysbbbbbb.kaleidoscopecookery.util.CarpetColor.getCarpetByColor;
 import static com.github.ysbbbbbb.kaleidoscopecookery.util.CarpetColor.getColorByCarpet;
 
+@SuppressWarnings("deprecation")
 public class ChairBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock {
     public static final BooleanProperty HAS_CARPET = BooleanProperty.create("has_carpet");
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;

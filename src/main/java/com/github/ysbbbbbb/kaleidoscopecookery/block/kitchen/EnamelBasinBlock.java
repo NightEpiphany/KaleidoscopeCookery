@@ -43,6 +43,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+@SuppressWarnings("deprecation")
 public class EnamelBasinBlock extends Block implements SimpleWaterloggedBlock {
     public static final int MAX_OIL_COUNT = 32;
 

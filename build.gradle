@@ -184,8 +184,8 @@ dependencies {
     modImplementation "maven.modrinth:jade:11.13.1+fabric"
 
     // KubeJS
-    modImplementation "dev.latvian.mods:kubejs-fabric:2001.6.5-build.26"
-    modImplementation "dev.latvian.mods:rhino-fabric:2001.2.3-build.10"
+    modCompileOnly "dev.latvian.mods:kubejs-fabric:2001.6.5-build.26"
+    modCompileOnly "dev.latvian.mods:rhino-fabric:2001.2.3-build.10"
     modRuntimeOnly "dev.architectury:architectury-fabric:9.2.14"
     modRuntimeOnly "maven.modrinth:probejs:6.0.0"
 

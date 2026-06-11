@@ -6,31 +6,31 @@
   "cooking_bubble_color": 16772291,
   "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
   "finished_bubble_color": 16034443,
-  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_spicy",
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished",
   "ingredients": [
     {
-      "tag": "c:raw_pork"
+      "tag": "forge:raw_pork"
     },
     {
-      "tag": "c:raw_pork"
+      "tag": "forge:raw_pork"
     },
     {
-      "tag": "c:raw_pork"
+      "tag": "forge:raw_pork"
     },
     {
-      "tag": "c:raw_pork"
+      "tag": "forge:raw_pork"
     },
     {
-      "tag": "c:crops/chilipepper"
+      "tag": "forge:crops/chilipepper"
     },
     {
-      "tag": "c:crops/chilipepper"
+      "tag": "forge:crops/chilipepper"
     },
     {
-      "tag": "c:crops/chilipepper"
+      "tag": "forge:crops/chilipepper"
     },
     {
-      "tag": "c:crops/chilipepper"
+      "tag": "forge:crops/chilipepper"
     },
     {
       "item": "minecraft:blaze_powder"

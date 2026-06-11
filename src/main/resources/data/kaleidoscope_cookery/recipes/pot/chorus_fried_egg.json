@@ -14,17 +14,16 @@
       "item": "minecraft:chorus_fruit"
     },
     {
-      "tag": "c:cooked_eggs"
+      "tag": "forge:eggs"
     },
     {
-      "tag": "c:cooked_eggs"
+      "tag": "forge:eggs"
     },
     {
-      "tag": "c:cooked_eggs"
+      "tag": "forge:eggs"
     }
   ],
   "result": {
-    "count": 3,
     "item": "kaleidoscope_cookery:chorus_fried_egg"
   },
   "stir_fry_count": 3,

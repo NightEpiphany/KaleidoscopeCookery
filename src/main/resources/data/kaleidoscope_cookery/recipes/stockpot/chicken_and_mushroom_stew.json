@@ -5,33 +5,26 @@
   },
   "cooking_bubble_color": 16772291,
   "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
-  "finished_bubble_color": 16776960,
-  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_yellow",
+  "finished_bubble_color": 16034443,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished",
   "ingredients": [
     {
-      "tag": "c:raw_chicken"
+      "tag": "forge:raw_chicken"
     },
     {
-      "tag": "c:raw_chicken"
+      "tag": "forge:raw_chicken"
     },
     {
-      "tag": "c:raw_chicken"
+      "tag": "forge:mushrooms"
     },
     {
-      "tag": "c:mushrooms"
+      "tag": "forge:mushrooms"
     },
     {
-      "tag": "c:mushrooms"
-    },
-    {
-      "tag": "c:mushrooms"
-    },
-    {
-      "tag": "c:mushrooms"
+      "tag": "forge:mushrooms"
     }
   ],
   "result": {
-    "count": 3,
     "item": "kaleidoscope_cookery:chicken_and_mushroom_stew"
   },
   "soup_base": "minecraft:water",

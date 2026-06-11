@@ -5,22 +5,22 @@
   },
   "ingredients": [
     {
-      "tag": "c:raw_mutton"
+      "item": "minecraft:blaze_powder"
     },
     {
-      "tag": "c:raw_mutton"
+      "item": "minecraft:blaze_powder"
     },
     {
-      "tag": "c:raw_mutton"
+      "item": "minecraft:blaze_powder"
     },
     {
-      "item": "minecraft:blaze_rod"
+      "tag": "forge:raw_mutton"
     },
     {
-      "item": "minecraft:blaze_rod"
+      "tag": "forge:raw_mutton"
     },
     {
-      "item": "minecraft:blaze_rod"
+      "tag": "forge:raw_mutton"
     }
   ],
   "result": {

@@ -95,7 +95,7 @@ public class RecipeItemScenes {
                         new ItemStack(Items.POTATO), new ItemStack(Items.BEEF),
                         new ItemStack(Items.BEEF)),
                 new ItemStack(ModItems.BRAISED_BEEF_WITH_POTATOES),
-                RecipeItem.STOCKPOT));
+                RecipeItem.STOCKPOT, false));
         scene.overlay().showControls(vector.blockSurface(potPos, Direction.UP), Pointing.DOWN, 35)
                 .withItem(recipe);
         scene.idle(50);

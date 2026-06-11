@@ -1,6 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.datagen.builder;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
+import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.StockpotVisuals;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.serializer.StockpotRecipeSerializer;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModRecipes;
 import com.google.common.collect.Lists;
@@ -30,10 +31,10 @@ public class StockpotRecipeBuilder implements RecipeBuilder {
     private int time = StockpotRecipeSerializer.DEFAULT_TIME;
     private Ingredient carrier = StockpotRecipeSerializer.DEFAULT_CARRIER;
     private ResourceLocation soupBase = StockpotRecipeSerializer.DEFAULT_SOUP_BASE;
-    private ResourceLocation cookingTexture = StockpotRecipeSerializer.DEFAULT_COOKING_TEXTURE;
-    private ResourceLocation finishedTexture = StockpotRecipeSerializer.DEFAULT_FINISHED_TEXTURE;
-    private int cookingBubbleColor = StockpotRecipeSerializer.DEFAULT_COOKING_BUBBLE_COLOR;
-    private int finishedBubbleColor = StockpotRecipeSerializer.DEFAULT_FINISHED_BUBBLE_COLOR;
+    private ResourceLocation cookingTexture = StockpotVisuals.DEFAULT_COOKING_TEXTURE;
+    private ResourceLocation finishedTexture = StockpotVisuals.DEFAULT_FINISHED_TEXTURE;
+    private int cookingBubbleColor = StockpotVisuals.DEFAULT_COOKING_BUBBLE_COLOR;
+    private int finishedBubbleColor = StockpotVisuals.DEFAULT_FINISHED_BUBBLE_COLOR;
 
     public static StockpotRecipeBuilder builder() {
         return new StockpotRecipeBuilder();

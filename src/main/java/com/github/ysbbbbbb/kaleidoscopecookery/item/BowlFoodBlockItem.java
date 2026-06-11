@@ -3,9 +3,11 @@ package com.github.ysbbbbbb.kaleidoscopecookery.item;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.item.IHasContainer;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.config.ClientConfig;
+import com.github.ysbbbbbb.kaleidoscopecookery.item.quality.Quality;
+import com.github.ysbbbbbb.kaleidoscopecookery.item.quality.QualityUtils;
 import com.google.common.collect.Lists;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
@@ -29,9 +31,18 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 public class BowlFoodBlockItem extends BlockItem implements IHasContainer {
     private final List<MobEffectInstance> effectInstances = Lists.newArrayList();
+
+    private final Function<Quality, List<MobEffectInstance>> effectCache = Util.memoize(
+            quality -> QualityUtils.modifyEffects(this.effectInstances, quality)
+    );
+    private final BiFunction<Quality, FoodProperties, FoodProperties> foodPropertiesCache = Util.memoize(
+            (quality, raw) -> QualityUtils.modifyFoodProperties(raw, quality)
+    );
 
     public BowlFoodBlockItem(Block pBlock, FoodProperties properties) {
         super(pBlock, new Item.Properties().stacksTo(16).food(properties));
@@ -41,6 +52,18 @@ public class BowlFoodBlockItem extends BlockItem implements IHasContainer {
             }
         });
     }
+
+    @Override
+    public @Nullable FoodProperties getFoodProperties() {
+        FoodProperties raw = super.getFoodProperties();
+        if (!QualityUtils.hasQuality(this.getDefaultInstance()) || raw == null) {
+            return raw;
+        }
+        // 如果有品质，那么依据品质
+        Quality quality = QualityUtils.getQuality(this.getDefaultInstance());
+        return this.foodPropertiesCache.apply(quality, raw);
+    }
+
 
     @Override
     public @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity entity) {
@@ -69,6 +92,7 @@ public class BowlFoodBlockItem extends BlockItem implements IHasContainer {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
+        // 描述
         ResourceLocation id = BuiltInRegistries.ITEM.getKey(stack.getItem());
         String key = "tooltip.%s.%s.maxim".formatted(id.getNamespace(), id.getPath());
         MutableComponent full = Component.translatable(key).withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC);
@@ -81,7 +105,19 @@ public class BowlFoodBlockItem extends BlockItem implements IHasContainer {
                 tooltip.add(CommonComponents.EMPTY);
             }
         }
-        if (!this.effectInstances.isEmpty() && !FabricLoader.getInstance().isModLoaded("foodeffecttooltips") && ClientConfig.SHOW_FOOD_EFFECT_TOOLTIPS.get()) {
+
+        boolean showEffect = !this.effectInstances.isEmpty()
+                && ClientConfig.SHOW_FOOD_EFFECT_TOOLTIPS.get();
+
+        // 品质
+        if (QualityUtils.hasQuality(stack)) {
+            Quality quality = QualityUtils.getQuality(stack);
+            tooltip.add(quality.getTooltip());
+            if (showEffect) {
+                tooltip.add(CommonComponents.space());
+                PotionUtils.addPotionTooltip(this.effectCache.apply(quality), tooltip, 1.0F);
+            }
+        } else {
             tooltip.add(CommonComponents.space());
             PotionUtils.addPotionTooltip(this.effectInstances, tooltip, 1.0F);
         }

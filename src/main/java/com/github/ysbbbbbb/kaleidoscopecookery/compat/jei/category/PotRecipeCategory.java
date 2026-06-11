@@ -18,12 +18,14 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.NonNullList;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -31,7 +33,10 @@ import java.util.List;
 public class PotRecipeCategory implements IRecipeCategory<PotRecipe> {
     public static final RecipeType<PotRecipe> TYPE = RecipeType.create(KaleidoscopeCookery.MOD_ID, "pot", PotRecipe.class);
     private static final ResourceLocation BG = new ResourceLocation(KaleidoscopeCookery.MOD_ID, "textures/gui/jei/pot.png");
-    private static final MutableComponent TITLE = Component.translatable("block.kaleidoscope_cookery.pot");
+    private static final Component TITLE = ComponentUtils.formatList(List.of(
+            Component.translatable("jei.kaleidoscope_cookery.strict_recipe"),
+            Component.translatable("block.kaleidoscope_cookery.pot")
+    ), CommonComponents.SPACE);
     public static final int WIDTH = 176;
     public static final int HEIGHT = 102;
     private final IDrawable bgDraw;
@@ -55,8 +60,12 @@ public class PotRecipeCategory implements IRecipeCategory<PotRecipe> {
     }
 
     @Override
-    public void draw(PotRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void draw(PotRecipe recipe, @NotNull IRecipeSlotsView recipeSlotsView, @NotNull GuiGraphics guiGraphics, double mouseX, double mouseY) {
         this.bgDraw.draw(guiGraphics);
+
+        Component type = Component.translatable("jei.kaleidoscope_cookery.strict_recipe");
+        drawCenteredString(guiGraphics, type, WIDTH / 2, 5);
+
         Component stirFryCount = Component.translatable("jei.kaleidoscope_cookery.pot.stir_fry_count", recipe.stirFryCount());
         drawCenteredString(guiGraphics, stirFryCount, WIDTH / 2, 85);
     }
@@ -68,7 +77,7 @@ public class PotRecipeCategory implements IRecipeCategory<PotRecipe> {
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, PotRecipe recipe, IFocusGroup focuses) {
+    public void setRecipe(@NotNull IRecipeLayoutBuilder builder, PotRecipe recipe, @NotNull IFocusGroup focuses) {
         NonNullList<Ingredient> inputs = recipe.getIngredients();
         ItemStack output = recipe.result();
         for (int i = 0; i < inputs.size(); i++) {
@@ -83,12 +92,12 @@ public class PotRecipeCategory implements IRecipeCategory<PotRecipe> {
     }
 
     @Override
-    public RecipeType<PotRecipe> getRecipeType() {
+    public @NotNull RecipeType<PotRecipe> getRecipeType() {
         return TYPE;
     }
 
     @Override
-    public Component getTitle() {
+    public @NotNull Component getTitle() {
         return TITLE;
     }
 

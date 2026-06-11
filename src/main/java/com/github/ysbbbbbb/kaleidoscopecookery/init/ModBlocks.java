@@ -20,6 +20,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.phys.shapes.Shapes;
 
 @SuppressWarnings("all")
 public final class ModBlocks {
@@ -94,8 +95,25 @@ public final class ModBlocks {
     public static final Block TABLE_MANGROVE = new TableBlock(SoundType.WOOD);
     public static final Block TABLE_WARPED = new TableBlock(SoundType.NETHER_WOOD);
 
-    // feast
+    // Feast
     public static final Block COLD_CUT_HAM_SLICES = new FoodBiteThreeByThreeBlock(ModFoods.COLD_CUT_HAM_SLICES_BLOCK, 8, null);
+
+    public static Block BAMBOO_TUBE_RICE = StackableFoodBlock.create()
+            .maxCount(4)
+            .item(() -> ModItems.BAMBOO_TUBE_RICE)
+            .shapes(
+                    Block.box(4, 0, 4, 12, 10, 12),
+                    Block.box(0, 0, 4, 16, 10, 12),
+                    Shapes.or(
+                            Block.box(7, 0, 1, 15, 10, 9),
+                            Block.box(1, 0, 7, 9, 10, 15)
+                    ),
+                    Shapes.or(
+                            Block.box(0, 0, 6, 16, 10, 15),
+                            Block.box(4, 0, 0, 12, 10, 15)
+                    ),
+                    Block.box(0, 0, 0, 16, 10, 16)
+            ).build();
 
     // Block entities
     public static final BlockEntityType<PotBlockEntity> POT_BE = BlockEntityType.Builder.of(PotBlockEntity::new, POT).build(null);
@@ -197,8 +215,9 @@ public final class ModBlocks {
         Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "table_mangrove"), TABLE_MANGROVE);
         Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "table_warped"), TABLE_WARPED);
 
-        // feast
+        // Feast
         Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "cold_cut_ham_slices"), COLD_CUT_HAM_SLICES);
+        Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "bamboo_tube_rice"), BAMBOO_TUBE_RICE);
 
         // Block entities
         Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "pot"), POT_BE);

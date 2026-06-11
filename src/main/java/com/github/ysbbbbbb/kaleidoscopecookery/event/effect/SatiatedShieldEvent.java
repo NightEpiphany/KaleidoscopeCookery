@@ -37,9 +37,10 @@ public class SatiatedShieldEvent {
             float finalDamage = calculateFinalDamage(player, source, originalDamage);
             // 应用最终伤害
             event.setAmount(finalDamage);
+            if (finalDamage == 0) return false;
+            event.sendEvent();
         }
-        event.sendEvent();
-        return event.getAmount() > 0;
+       return true;
     }
 
     // 计算最终伤害并增加疲劳值

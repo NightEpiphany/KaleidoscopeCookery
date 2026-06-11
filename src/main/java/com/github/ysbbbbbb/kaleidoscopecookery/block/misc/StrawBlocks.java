@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
+import org.jetbrains.annotations.NotNull;
 
 public class StrawBlocks extends RotatedPillarBlock {
     public StrawBlocks() {
@@ -29,7 +30,7 @@ public class StrawBlocks extends RotatedPillarBlock {
     }
 
     @Override
-    public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
+    public void fallOn(Level level, @NotNull BlockState state, @NotNull BlockPos pos, @NotNull Entity entity, float fallDistance) {
         if (level.isClientSide()) {
             return;
         }

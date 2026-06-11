@@ -5,8 +5,8 @@
   },
   "cooking_bubble_color": 16772291,
   "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
-  "finished_bubble_color": 16777215,
-  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_white",
+  "finished_bubble_color": 16034443,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished",
   "ingredients": [
     {
       "item": "minecraft:carrot"
@@ -18,20 +18,13 @@
       "item": "minecraft:carrot"
     },
     {
-      "item": "minecraft:carrot"
+      "tag": "forge:raw_mutton"
     },
     {
-      "tag": "c:raw_mutton"
-    },
-    {
-      "tag": "c:raw_mutton"
-    },
-    {
-      "tag": "c:raw_mutton"
+      "tag": "forge:raw_mutton"
     }
   ],
   "result": {
-    "count": 3,
     "item": "kaleidoscope_cookery:lamb_and_radish_soup"
   },
   "soup_base": "minecraft:water",

@@ -63,11 +63,6 @@ public class SteamerItem extends BlockItem {
         return super.placeBlock(context, state);
     }
 
-    @Override
-    public void kjs$setMaxStackSize(int i) {
-        super.kjs$setMaxStackSize(i);
-    }
-
     @SuppressWarnings("unused")
     @Environment(EnvType.CLIENT)
     public static float getTexture(ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity entity, int seed) {
