@@ -24,6 +24,10 @@
   "tooltip.kaleidoscope_cookery.tomato_beef_brisket_soup.maxim": "Tangy tomato flavor, dominant beef brisket taste, an appetitzing soup.",
   "tooltip.kaleidoscope_cookery.country_style_mixed_vegetables.maxim": "Simple, plain, yet nutritious and wholesome.",
   "tooltip.kaleidoscope_cookery.yakitori.maxim": "Charcoal aroma lingering, juicy chicken, soul of the izakaya.",
+  "jade.kaleidoscope_cookery.teapot.fluid": "Fluid: %s",
+  "jade.kaleidoscope_cookery.teapot.ingredient": "Ingredient: %s",
+  "jade.kaleidoscope_cookery.teapot.result": "Result: %s",
+  "config.jade.plugin_kaleidoscope_cookery.teapot": "Teapot",
 
 
 

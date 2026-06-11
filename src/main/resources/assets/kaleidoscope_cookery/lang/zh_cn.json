@@ -24,6 +24,10 @@
   "tooltip.kaleidoscope_cookery.tomato_beef_brisket_soup.maxim": "番茄酸甜开胃，牛腩醇厚香浓，一碗暖心靓汤。",
   "tooltip.kaleidoscope_cookery.country_style_mixed_vegetables.maxim": "做法朴实简单，营养健康又家常。",
   "tooltip.kaleidoscope_cookery.yakitori.maxim": "炭火香气萦绕，鸡肉多汁鲜嫩，居酒屋的灵魂美味。",
+  "jade.kaleidoscope_cookery.teapot.fluid": "液体: %s",
+  "jade.kaleidoscope_cookery.teapot.ingredient": "原料: %s",
+  "jade.kaleidoscope_cookery.teapot.result": "输出: %s",
+  "config.jade.plugin_kaleidoscope_cookery.teapot": "茶壶",
 
 
 
