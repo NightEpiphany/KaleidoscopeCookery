@@ -1,0 +1,28 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "carrier": {
+    "tag": "c:cooked_rice"
+  },
+  "ingredients": [
+    {
+      "tag": "c:raw_fishes/salmon"
+    },
+    {
+      "tag": "c:raw_fishes/salmon"
+    },
+    {
+      "tag": "c:raw_fishes/salmon"
+    },
+    {
+      "tag": "c:raw_fishes/salmon"
+    },
+    {
+      "tag": "c:raw_fishes/salmon"
+    }
+  ],
+  "result": {
+    "id": "kaleidoscope_cookery:braised_fish_rice_bowl"
+  },
+  "stir_fry_count": 3,
+  "time": 200
+}

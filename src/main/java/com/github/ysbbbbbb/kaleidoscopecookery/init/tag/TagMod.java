@@ -11,6 +11,10 @@ import net.minecraft.world.level.block.Block;
 
 public interface TagMod {
     /**
+     * 本模组使用特殊渲染的物品
+     */
+    TagKey<Item> SPECIAL = itemTag("special");
+    /**
      * 本模组的物品标签，用于成就
      */
     TagKey<Item> COOKERY_MOD_ITEMS = itemTag("cookery_mod_items");
@@ -18,10 +22,6 @@ public interface TagMod {
      * 本模组的作物种子，用于成就
      */
     TagKey<Item> COOKERY_MOD_SEEDS = itemTag("cookery_mod_seeds");
-    /**
-     * 不允许加入汤锅、炒锅的物品
-     */
-    TagKey<Item> INGREDIENT_BLOCKLIST = itemTag("ingredient_blocklist");
     /**
      * 任意可以点燃本模组炉灶的物品
      */
@@ -59,9 +59,9 @@ public interface TagMod {
      */
     TagKey<Item> FARMER_ARMOR = itemTag("farmer_armor");
     /**
-     * 可以加入汤锅炒锅的原料
+     * 不允许加入汤锅、炒锅的物品
      */
-    TagKey<Item> POT_INGREDIENT = itemTag("pot_ingredient");
+    TagKey<Item> INGREDIENT_BLOCKLIST = itemTag("ingredient_blocklist");
     /**
      * 取出原料所识别的容器
      */
@@ -89,10 +89,6 @@ public interface TagMod {
      */
     TagKey<Item> FEASTS = itemTag("feasts");
     /**
-     * 本模组使用特殊渲染的物品
-     */
-    TagKey<Item> SPECIAL = itemTag("special");
-    /**
      * 寒带疾行效果可以提速的方块
      */
     TagKey<Block> TUNDRA_STRIDER_SPEED_BLOCKS = blockTag("tundra_strider_speed_blocks");
@@ -104,10 +100,6 @@ public interface TagMod {
      * 吸引猫躺下的方块
      */
     TagKey<Block> CAT_LIE_ON_BLOCKS = blockTag("cat_lie_on_blocks");
-    /**
-     * 镰刀收割黑名单
-     */
-    TagKey<Block> SICKLE_HARVEST_BLACKLIST = blockTag("sickle_harvest_blacklist");
     /**
      * 可以当做本模组热源的方块
      * <p>
@@ -127,13 +119,17 @@ public interface TagMod {
      */
     TagKey<Block> TABLE = blockTag("table");
     /**
+     * 可以坐在上面的方块
+     */
+    TagKey<Block> SITTABLE = blockTag("sittable");
+    /**
      * 可以种植水稻的方块
      */
     TagKey<Block> RICE_PLANTABLE = blockTag("rice_plantable");
     /**
-     * 可以坐在上面的方块
+     * 镰刀收割黑名单
      */
-    TagKey<Block> SITTABLE = blockTag("sittable");
+    TagKey<Block> SICKLE_HARVEST_BLACKLIST = blockTag("sickle_harvest_blacklist");
     /**
      * 被本模组当做猪油来源的实体
      */

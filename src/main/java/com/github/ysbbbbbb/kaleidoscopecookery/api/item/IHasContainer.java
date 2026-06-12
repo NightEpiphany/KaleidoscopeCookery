@@ -2,6 +2,8 @@ package com.github.ysbbbbbb.kaleidoscopecookery.api.item;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -33,7 +35,12 @@ public interface IHasContainer {
         if (stack.isEmpty()) {
             return carried;
         }
-        ItemUtils.getItemToLivingEntity(entity, carried);
+        if (entity instanceof Player player) {
+            ItemUtils.giveItemToPlayer(player, carried);
+        } else {
+            ItemEntity itemEntity = new ItemEntity(level, entity.getX(), entity.getY(), entity.getZ(), carried);
+            level.addFreshEntity(itemEntity);
+        }
         return stack;
     }
 }

@@ -38,10 +38,9 @@ public class CookingPotCompat {
 
     static void afterStockpotRecipeMatch() {
         ModEvents.STOCKPOT_RECIPE_POST.register(event -> {
-            RecipeHolder<StockpotRecipe> rawOutput = event.getRawOutput();
             RecipeManager recipeManager = event.getLevel().getRecipeManager();
 
-            if (rawOutput.id() != StockpotRecipeSerializer.EMPTY_ID) {
+            if (!event.getRawOutput().equals(StockpotRecipeSerializer.EMPTY_ID)) {
                 return;
             }
 

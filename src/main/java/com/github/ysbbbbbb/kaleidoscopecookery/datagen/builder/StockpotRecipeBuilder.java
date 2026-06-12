@@ -2,6 +2,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.datagen.builder;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.StockpotRecipe;
+import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.StockpotVisuals;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.serializer.StockpotRecipeSerializer;
 import com.google.common.collect.Lists;
 import net.minecraft.advancements.Criterion;
@@ -21,15 +22,16 @@ import java.util.Objects;
 
 public class StockpotRecipeBuilder implements RecipeBuilder {
     private static final String NAME = "stockpot";
-    private List<Ingredient> ingredients = Lists.newArrayList();
+    private final List<Ingredient> ingredients = Lists.newArrayList();
     private ItemStack result = ItemStack.EMPTY;
     private int time = StockpotRecipeSerializer.DEFAULT_TIME;
     private Ingredient carrier = StockpotRecipeSerializer.DEFAULT_CARRIER;
     private ResourceLocation soupBase = StockpotRecipeSerializer.DEFAULT_SOUP_BASE;
-    private ResourceLocation cookingTexture = StockpotRecipeSerializer.DEFAULT_COOKING_TEXTURE;
-    private ResourceLocation finishedTexture = StockpotRecipeSerializer.DEFAULT_FINISHED_TEXTURE;
-    private int cookingBubbleColor = StockpotRecipeSerializer.DEFAULT_COOKING_BUBBLE_COLOR;
-    private int finishedBubbleColor = StockpotRecipeSerializer.DEFAULT_FINISHED_BUBBLE_COLOR;
+    private ResourceLocation cookingTexture = StockpotVisuals.DEFAULT_COOKING_TEXTURE;
+    private ResourceLocation finishedTexture = StockpotVisuals.DEFAULT_FINISHED_TEXTURE;
+    private int cookingBubbleColor = StockpotVisuals.DEFAULT_COOKING_BUBBLE_COLOR;
+    private int finishedBubbleColor = StockpotVisuals.DEFAULT_FINISHED_BUBBLE_COLOR;
+    private StockpotVisuals visuals = StockpotVisuals.DEFAULT;
 
     public static StockpotRecipeBuilder builder() {
         return new StockpotRecipeBuilder();
@@ -141,7 +143,10 @@ public class StockpotRecipeBuilder implements RecipeBuilder {
 
     @Override
     public void save(RecipeOutput recipeOutput, ResourceLocation id) {
-        recipeOutput.accept(id, new StockpotRecipe(this.ingredients, this.soupBase, this.result, this.time, this.carrier,
-                this.cookingTexture, this.finishedTexture, this.cookingBubbleColor, this.finishedBubbleColor), null);
+        StockpotRecipe recipe = new StockpotRecipe(
+                this.ingredients, this.soupBase, this.result,
+                this.time, this.carrier, this.visuals
+        );
+        recipeOutput.accept(id, recipe, null);
     }
 }

@@ -8,6 +8,20 @@ import net.fabricmc.fabric.api.event.EventFactory;
 // 所有的自定义事件
 public final class ModEvents {
 
+    public static final Event<ActionEventCallback.MillstoneMatchRecipePre> MILLSTONE_RECIPE_PRE =
+            EventFactory.createArrayBacked(ActionEventCallback.MillstoneMatchRecipePre.class, call -> (event) -> {
+                for (ActionEventCallback.MillstoneMatchRecipePre listener : call) {
+                    listener.onMillstoneMatchRecipePre(event);
+                }
+            });
+
+    public static final Event<ActionEventCallback.MillstoneMatchRecipePost> MILLSTONE_RECIPE_POST =
+            EventFactory.createArrayBacked(ActionEventCallback.MillstoneMatchRecipePost.class, call -> (event) -> {
+                for (ActionEventCallback.MillstoneMatchRecipePost listener : call) {
+                    listener.onMillstoneMatchRecipePost(event);
+                }
+            });
+
     public static final Event<ActionEventCallback.CheckSpecialItem> CHECK_SPECIAL_ITEM =
             EventFactory.createArrayBacked(ActionEventCallback.CheckSpecialItem.class, call -> action -> {
                 for (ActionEventCallback.CheckSpecialItem listener : call) {

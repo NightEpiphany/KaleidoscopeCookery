@@ -1,7 +1,5 @@
 {
-	"format_version": "1.9.0",
 	"credit": "Made with Blockbench",
-	"ambientocclusion": false,
 	"render_type": "minecraft:cutout",
 	"texture_size": [32, 32],
 	"textures": {
@@ -102,5 +100,6 @@
 			"color": 0,
 			"children": [0, 1, 2, 3]
 		}
-	]
+	],
+	"format_version": "1.9.0"
 }

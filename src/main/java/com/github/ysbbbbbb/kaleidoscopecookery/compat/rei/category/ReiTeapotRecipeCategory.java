@@ -53,7 +53,7 @@ public class ReiTeapotRecipeCategory implements DisplayCategory<ReiTeapotRecipeC
 
         widgets.add(Widgets.createRecipeBase(bounds));
         widgets.add(Widgets.createTexturedWidget(BG, startX, startY, 0, 0, WIDTH, HEIGHT));
-        widgets.add(Widgets.withTranslate(Widgets.createDrawableWidget((guiGraphics, mouseX, mouseY, v) -> drawCenteredString(guiGraphics, brewTime)), startX, startY, 0));
+        widgets.add(Widgets.withTranslate(Widgets.createDrawableWidget((guiGraphics, mouseX, mouseY, v) -> drawCenteredString(guiGraphics, brewTime, WIDTH / 2, 70)), startX, startY, 0));
         widgets.add(Widgets.createSlot(new Point(startX + 65, startY + 3))
                 .entries(display.getInputEntries().get(0))
                 .markInput());
@@ -68,9 +68,9 @@ public class ReiTeapotRecipeCategory implements DisplayCategory<ReiTeapotRecipeC
         return widgets;
     }
 
-    private void drawCenteredString(GuiGraphics guiGraphics, Component text) {
+    private void drawCenteredString(GuiGraphics guiGraphics, Component text, int centerX, int y) {
         Font font = Minecraft.getInstance().font;
-        guiGraphics.drawString(font, text, 88 - font.width(text) / 2, 70, 0x555555, false);
+        guiGraphics.drawString(font, text, centerX - font.width(text) / 2, y, 0x555555, false);
     }
 
     @Override

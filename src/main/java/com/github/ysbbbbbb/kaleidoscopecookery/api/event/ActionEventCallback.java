@@ -7,6 +7,16 @@ import org.jetbrains.annotations.Nullable;
 public interface ActionEventCallback {
 
     @FunctionalInterface
+    interface MillstoneMatchRecipePre {
+        void onMillstoneMatchRecipePre(MillstoneMatchRecipeEvent.Pre event);
+    }
+
+    @FunctionalInterface
+    interface MillstoneMatchRecipePost {
+        void onMillstoneMatchRecipePost(MillstoneMatchRecipeEvent.Post event);
+    }
+
+    @FunctionalInterface
     interface CheckSpecialItem{
         void onCheckItemEvent(RecipeItemEvent.CheckItem event);
     }

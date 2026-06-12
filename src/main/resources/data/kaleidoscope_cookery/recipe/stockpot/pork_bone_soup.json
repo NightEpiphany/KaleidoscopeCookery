@@ -1,12 +1,5 @@
 {
   "type": "kaleidoscope_cookery:stockpot",
-  "carrier": {
-    "item": "minecraft:bowl"
-  },
-  "cooking_bubble_color": 16772291,
-  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
-  "finished_bubble_color": 16777215,
-  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_white",
   "ingredients": [
     {
       "item": "minecraft:bone"
@@ -31,9 +24,7 @@
     }
   ],
   "result": {
-    "count": 3,
+    "count": 1,
     "id": "kaleidoscope_cookery:pork_bone_soup"
-  },
-  "soup_base": "minecraft:water",
-  "time": 300
+  }
 }

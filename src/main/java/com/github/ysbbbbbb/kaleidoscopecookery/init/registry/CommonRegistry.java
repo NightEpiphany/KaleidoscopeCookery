@@ -1,10 +1,11 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.init.registry;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.block.decoration.PlateBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.dispenser.OilPotDispenseBehavior;
+import com.github.ysbbbbbb.kaleidoscopecookery.block.drink.TeacupBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteOneByTwoBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.farmersdelight.FarmersDelightCompat;
-import com.github.ysbbbbbb.kaleidoscopecookery.compat.trinkets.init.ModTrinketsCompat;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.trinkets.init.TrinketsCompatServer;
 import com.github.ysbbbbbb.kaleidoscopecookery.datagen.lootable.GiftLootTables;
 import com.github.ysbbbbbb.kaleidoscopecookery.datamap.resources.MillstoneBindableDataReloadListener;
@@ -13,10 +14,11 @@ import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModVillager;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.BowlFoodBlockItem;
+import com.github.ysbbbbbb.kaleidoscopecookery.item.PlateBlockItem;
+import com.github.ysbbbbbb.kaleidoscopecookery.item.TeacupItem;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.packs.PackType;
@@ -32,6 +34,8 @@ public final class CommonRegistry {
         registerDataListeners();
         modCompat();
         addComposter();
+        registerPlateBlocks();
+        registerTeacupBlocks();
         registerFoodBiteBlocks();
         registerServerEvents();
         addVillagerGift();
@@ -68,6 +72,38 @@ public final class CommonRegistry {
 
     public static void fuelRegister() {
         FuelRegistry.INSTANCE.add(ModItems.OIL, 1600);
+    }
+
+    private static void registerPlateBlocks() {
+        PlateRegistry.init();
+
+        PlateRegistry.PLATE_DATA_MAP.forEach((resourceLocation, data) -> {
+            PlateBlock plateBlock = new PlateBlock(data.getMaxCount(), data.getServingItems());
+            VoxelShape aabb = data.getAABB();
+            if (aabb != null) {
+                plateBlock.setAABB(aabb);
+            }
+            Registry.register(BuiltInRegistries.BLOCK, resourceLocation, plateBlock);
+
+            Block block = BuiltInRegistries.BLOCK.get(resourceLocation);
+            Registry.register(BuiltInRegistries.ITEM, resourceLocation, new PlateBlockItem(block, resourceLocation.getPath()));
+        });
+    }
+
+    private static void registerTeacupBlocks() {
+        TeacupRegistry.init();
+
+        TeacupRegistry.TEACUP_DATA_MAP.forEach((resourceLocation, data) -> {
+            TeacupBlock teacupBlock = new TeacupBlock(data.getMaxCount());
+            VoxelShape aabb = data.getAABB();
+            if (aabb != null) {
+                teacupBlock.setAABB(aabb);
+            }
+            Registry.register(BuiltInRegistries.BLOCK, resourceLocation, teacupBlock);
+
+            Block block = BuiltInRegistries.BLOCK.get(resourceLocation);
+            Registry.register(BuiltInRegistries.ITEM, resourceLocation, new TeacupItem(block, data.getEffects()));
+        });
     }
 
     private static void registerFoodBiteBlocks() {

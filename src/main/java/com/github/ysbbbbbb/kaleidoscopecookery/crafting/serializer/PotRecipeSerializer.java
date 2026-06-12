@@ -10,6 +10,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import org.jetbrains.annotations.NotNull;
 
 public class PotRecipeSerializer implements RecipeSerializer<PotRecipe> {
     public static final MapCodec<PotRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
@@ -34,12 +35,12 @@ public class PotRecipeSerializer implements RecipeSerializer<PotRecipe> {
             PotRecipe::new);
 
     @Override
-    public MapCodec<PotRecipe> codec() {
+    public @NotNull MapCodec<PotRecipe> codec() {
         return CODEC;
     }
 
     @Override
-    public StreamCodec<RegistryFriendlyByteBuf, PotRecipe> streamCodec() {
+    public @NotNull StreamCodec<RegistryFriendlyByteBuf, PotRecipe> streamCodec() {
         return STREAM_CODEC;
     }
 }

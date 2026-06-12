@@ -22,6 +22,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -69,12 +70,12 @@ public class SteamerRecipeCategory implements IRecipeCategory<RecipeHolder<Steam
     }
 
     @Override
-    public RecipeType<RecipeHolder<SteamerRecipe>> getRecipeType() {
+    public @NotNull RecipeType<RecipeHolder<SteamerRecipe>> getRecipeType() {
         return TYPE;
     }
 
     @Override
-    public Component getTitle() {
+    public @NotNull Component getTitle() {
         return TITLE;
     }
 

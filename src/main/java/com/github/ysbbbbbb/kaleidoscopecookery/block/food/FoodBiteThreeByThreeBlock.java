@@ -53,10 +53,15 @@ public class FoodBiteThreeByThreeBlock extends FoodBiteBlock implements EntityBl
     public FoodBiteThreeByThreeBlock(FoodProperties foodProperties, int maxBites,
                                      @Nullable FoodBiteAnimateTicks.AnimateTick animateTick) {
         super(foodProperties, maxBites, animateTick);
-        this.registerDefaultState(this.stateDefinition.any().setValue(bites, 0).setValue(FACING, Direction.SOUTH).setValue(PART, NinePart.CENTER));
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(bites, 0)
+                .setValue(FACING, Direction.SOUTH)
+                .setValue(PART, NinePart.CENTER)
+                .setValue(QUALITY, DEFAULT_QUALITY)
+        );
     }
 
-    public static void handleRemove(Level world, BlockPos pos, BlockState state, @Nullable Player player) {
+    private static void handleRemove(Level world, BlockPos pos, BlockState state, @Nullable Player player) {
         if (world.isClientSide) {
             return;
         }
@@ -109,10 +114,9 @@ public class FoodBiteThreeByThreeBlock extends FoodBiteBlock implements EntityBl
     }
 
     @Override
-    public void wasExploded(Level level, BlockPos pos, Explosion explosion) {
-        handleRemove(level, pos, this.defaultBlockState(), null);
-        level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
-        super.wasExploded(level, pos, explosion);
+    public void wasExploded(Level level, BlockPos blockPos, Explosion explosion) {
+        handleRemove(level, blockPos, level.getBlockState(blockPos), null);
+        super.wasExploded(level, blockPos, explosion);
     }
 
     @Nullable
@@ -149,12 +153,12 @@ public class FoodBiteThreeByThreeBlock extends FoodBiteBlock implements EntityBl
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(FACING, PART);
+        pBuilder.add(FACING, QUALITY, PART);
     }
 
     @Override
     protected void createBitesBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(bites, FACING, PART);
+        builder.add(bites, FACING, QUALITY, PART);
     }
 
     @Nullable

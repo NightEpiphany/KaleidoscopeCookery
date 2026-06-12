@@ -22,6 +22,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.phys.shapes.Shapes;
 
 public final class ModBlocks {
     // Kitchen blocks
@@ -45,13 +46,6 @@ public final class ModBlocks {
     // Tea
     public static final Block TEAPOT = new TeapotBlock();
     public static final Block EMPTY_CUP = new EmptyCupBlock();
-    public static final Block BARLEY_TEA = new TeacupBlock(TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.BARLEY_TEA).getMaxCount());
-    public static final Block TIEGUANYIN = new TeacupBlock(TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.TIEGUANYIN).getMaxCount());
-    public static final Block BILUOCHUN = new TeacupBlock(TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.BILUOCHUN).getMaxCount());
-    public static final Block OOLONG = new TeacupBlock(TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.OOLONG).getMaxCount());
-    public static final Block SAKURA_FUBUKI = new TeacupBlock(TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.SAKURA_FUBUKI).getMaxCount());
-    public static final Block FLOWER_TEA = new TeacupBlock(TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.FLOWER_TEA).getMaxCount());
-
 
 
     public static final Block TRASH_CAN = new TrashCanBlock();
@@ -104,6 +98,22 @@ public final class ModBlocks {
     //Feast
     public static final Block COLD_CUT_HAM_SLICES = new FoodBiteThreeByThreeBlock(ModFoods.COLD_CUT_HAM_SLICES_BLOCK, 8, null);
 
+    public static final Block BAMBOO_TUBE_RICE = StackableFoodBlock.create()
+            .maxCount(4)
+            .item(() -> ModItems.BAMBOO_TUBE_RICE)
+            .shapes(
+                    Block.box(4, 0, 4, 12, 10, 12),
+                    Shapes.or(
+                            Block.box(7, 0, 1, 15, 10, 9),
+                            Block.box(1, 0, 7, 9, 10, 15)
+                    ),
+                    Shapes.or(
+                            Block.box(0, 0, 6, 16, 10, 15),
+                            Block.box(4, 0, 0, 12, 10, 15)
+                    ),
+                    Block.box(0, 0, 0, 16, 10, 16)
+            ).build();
+
     // Block entities
     public static final BlockEntityType<PotBlockEntity> POT_BE = BlockEntityType.Builder.of(PotBlockEntity::new, POT).build(null);
     public static final BlockEntityType<StockpotBlockEntity> STOCKPOT_BE = BlockEntityType.Builder.of(StockpotBlockEntity::new, STOCKPOT).build(null);
@@ -151,12 +161,6 @@ public final class ModBlocks {
         Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "oil_pot"), OIL_POT);
         Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "teapot"), TEAPOT);
         Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "empty_cup"), EMPTY_CUP);
-        Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "barley_tea"), BARLEY_TEA);
-        Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "tieguanyin"), TIEGUANYIN);
-        Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "biluochun"), BILUOCHUN);
-        Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "oolong"), OOLONG);
-        Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "sakura_fubuki"), SAKURA_FUBUKI);
-        Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "flower_tea"), FLOWER_TEA);
 
 
 
@@ -209,6 +213,7 @@ public final class ModBlocks {
 
         // Feast
         Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "cold_cut_ham_slices"), COLD_CUT_HAM_SLICES);
+        Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "bamboo_tube_rice"), BAMBOO_TUBE_RICE);
 
         // Block entities
         Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "pot"), POT_BE);

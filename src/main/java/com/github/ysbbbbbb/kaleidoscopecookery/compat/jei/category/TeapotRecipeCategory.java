@@ -63,13 +63,13 @@ public class TeapotRecipeCategory implements IRecipeCategory<RecipeHolder<Teapot
     public void draw(RecipeHolder<TeapotRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         this.bgDraw.draw(guiGraphics);
         Component brewTime = Component.translatable("jei.kaleidoscope_cookery.teapot.time", recipe.value().time() / 20);
-        drawCenteredString(guiGraphics, brewTime);
+        drawCenteredString(guiGraphics, brewTime, WIDTH / 2, 70);
     }
 
-    private void drawCenteredString(GuiGraphics guiGraphics, Component text) {
+    private void drawCenteredString(GuiGraphics guiGraphics, Component text, int centerX, int y) {
         Font font = Minecraft.getInstance().font;
         FormattedCharSequence sequence = text.getVisualOrderText();
-        guiGraphics.drawString(font, sequence, 88 - font.width(sequence) / 2, 70, 0x555555, false);
+        guiGraphics.drawString(font, sequence, centerX - font.width(sequence) / 2, y, 0x555555, false);
     }
 
     @Override

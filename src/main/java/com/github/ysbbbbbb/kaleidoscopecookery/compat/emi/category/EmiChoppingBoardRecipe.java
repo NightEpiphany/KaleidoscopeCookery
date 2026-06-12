@@ -50,9 +50,9 @@ public class EmiChoppingBoardRecipe extends BasicEmiRecipe {
     public void addWidgets(WidgetHolder widgets) {
         widgets.addTexture(BG, 1, 1, WIDTH, HEIGHT, 0, 0);
 
-        widgets.addSlot(inputs.get(0), 38, 27)
+        widgets.addSlot(inputs.getFirst(), 38, 27)
                 .drawBack(false);
-        widgets.addSlot(outputs.get(0), 124, 26)
+        widgets.addSlot(outputs.getFirst(), 124, 26)
                 .drawBack(false)
                 .recipeContext(this)
                 .large(true);

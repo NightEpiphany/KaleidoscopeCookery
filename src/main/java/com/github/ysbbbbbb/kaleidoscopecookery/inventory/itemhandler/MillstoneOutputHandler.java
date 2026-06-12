@@ -21,7 +21,7 @@ public class MillstoneOutputHandler implements IItemHandler {
     @Override
     @NotNull
     public ItemStack getStackInSlot(int slot) {
-        return millstone.getOutput();
+        return millstone.getOutputs().getStackInSlot(slot);
     }
 
     @Override
@@ -35,10 +35,10 @@ public class MillstoneOutputHandler implements IItemHandler {
         if (amount == 0) {
             return ItemStack.EMPTY;
         }
-        if (!millstone.getOutput().isEmpty()) {
+        if (!millstone.getOutputs().getStackInSlot(slot).isEmpty()) {
             return ItemStack.EMPTY;
         }
-        ItemStack output = millstone.getOutput();
+        ItemStack output = millstone.getOutputs().getStackInSlot(slot);
         if (output.isEmpty()) {
             return ItemStack.EMPTY;
         }

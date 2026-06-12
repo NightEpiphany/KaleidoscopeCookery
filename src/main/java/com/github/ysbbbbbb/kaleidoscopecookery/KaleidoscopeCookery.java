@@ -22,7 +22,6 @@ public final class KaleidoscopeCookery implements ModInitializer {
         // 药水效果优先注册
         ModEffects.registerEffects();
         CommonRegistry.init();
-        TeacupRegistry.init();
         NetworkHandler.init();
         ModArmorMaterials.registerArmorMaterials();
         ModTrigger.init();

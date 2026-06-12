@@ -12,13 +12,13 @@ import net.minecraft.world.level.block.Block;
  * 蔬菜类的有两种，本模组遵循农夫乐事规范，采用 crops/前缀
  */
 public interface TagCommon {
+    TagKey<Item> MUSHROOMS = itemTag("mushrooms");
     TagKey<Item> CROPS = itemTag("crops");
     TagKey<Item> CROPS_CHILI_PEPPER = itemTag("crops/chilipepper");
     TagKey<Item> CROPS_TOMATO = itemTag("crops/tomato");
     TagKey<Item> CROPS_LETTUCE = itemTag("crops/lettuce");
     TagKey<Item> CROPS_RICE = itemTag("crops/rice");
-
-    TagKey<Item> MUSHROOMS = itemTag("mushroom");
+    TagKey<Item> CROPS_CABBAGE = itemTag("crops/cabbage");
 
     TagKey<Item> VEGETABLES = itemTag("vegetables");
     TagKey<Item> VEGETABLES_CHILI_PEPPER = itemTag("vegetables/chilipepper");
@@ -46,8 +46,8 @@ public interface TagCommon {
     TagKey<Item> RAW_PORK = itemTag("foods/raw_pork");
     TagKey<Item> RAW_MUTTON = itemTag("foods/raw_mutton");
     TagKey<Item> EGGS = itemTag("eggs");
-    TagKey<Item> RAW_FISHES_COD = itemTag("foods/raw_cod");
     TagKey<Item> RAW_FISHES = itemTag("raw_fishes");
+    TagKey<Item> RAW_FISHES_COD = itemTag("foods/raw_cod");
     TagKey<Item> RAW_FISHES_SALMON = itemTag("foods/raw_salmon");
     TagKey<Item> RAW_FISHES_TROPICAL = itemTag("foods/tropical_fish");
 
@@ -81,12 +81,9 @@ public interface TagCommon {
     TagKey<Block> MOIST_HUMID = eclipticSeasonsTag("crops/moist_humid");
     TagKey<Block> HUMID_HUMID = eclipticSeasonsTag("crops/humid_humid");
 
-
-    TagKey<Block> ORES = blockTag("ores");
-
     // 农夫乐事
-    TagKey<Item> FD_KNIVES = TagKey.create(Registries.ITEM, ResourceLocation.parse("farmersdelight:tools/knives"));
     TagKey<Block> FD_HEAT_SOURCES = TagKey.create(Registries.BLOCK, ResourceLocation.parse("farmersdelight:heat_sources"));
+    TagKey<Item> FD_KNIVES = TagKey.create(Registries.ITEM, ResourceLocation.parse("farmersdelight:tools/knives"));
 
     // carry on
     TagKey<Block> CARRYON_BLOCK_BLACKLIST = TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("carryon", "block_blacklist"));
@@ -94,7 +91,7 @@ public interface TagCommon {
     // FTB 连锁
     TagKey<Block> FTB_SINGLE_CROP_HARVESTING_BLACKLIST = TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("ftbultimine", "single_crop_harvesting_blacklist"));
     TagKey<Block> FTB_EXCLUDED_BLOCKS = TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("ftbultimine", "excluded_blocks"));
-
+    TagKey<Block> ORES = blockTag("ores");
     static TagKey<Item> itemTag(String name) {
         return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", name));
     }

@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import org.jetbrains.annotations.NotNull;
 
 public class TeapotRecipeSerializer implements RecipeSerializer<TeapotRecipe> {
     public static final int DEFAULT_TIME = 2400;
@@ -36,12 +37,12 @@ public class TeapotRecipeSerializer implements RecipeSerializer<TeapotRecipe> {
     );
 
     @Override
-    public MapCodec<TeapotRecipe> codec() {
+    public @NotNull MapCodec<TeapotRecipe> codec() {
         return CODEC;
     }
 
     @Override
-    public StreamCodec<RegistryFriendlyByteBuf, TeapotRecipe> streamCodec() {
+    public @NotNull StreamCodec<RegistryFriendlyByteBuf, TeapotRecipe> streamCodec() {
         return STREAM_CODEC;
     }
 }

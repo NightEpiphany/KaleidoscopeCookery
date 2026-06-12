@@ -3,11 +3,10 @@
   "carrier": {
     "item": "minecraft:flower_pot"
   },
-  "cooking_bubble_color": 16772291,
-  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
-  "finished_bubble_color": 16034443,
-  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_wall",
   "ingredients": [
+    {
+      "tag": "c:eggs"
+    },
     {
       "tag": "c:eggs"
     },
@@ -18,13 +17,10 @@
       "item": "minecraft:phantom_membrane"
     },
     {
-      "item": "minecraft:kelp"
+      "tag": "c:crops/lettuce"
     },
     {
-      "item": "minecraft:kelp"
-    },
-    {
-      "item": "minecraft:kelp"
+      "tag": "c:crops/lettuce"
     },
     {
       "tag": "c:crops/lettuce"

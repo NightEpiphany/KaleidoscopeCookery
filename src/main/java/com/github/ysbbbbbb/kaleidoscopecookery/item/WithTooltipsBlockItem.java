@@ -21,6 +21,10 @@ public class WithTooltipsBlockItem extends BlockItem {
         this(block, new Properties(), name);
     }
 
+    public String getKey() {
+        return key;
+    }
+
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable(key).withStyle(ChatFormatting.GRAY));

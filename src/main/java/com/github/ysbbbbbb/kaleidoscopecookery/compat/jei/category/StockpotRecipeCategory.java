@@ -17,15 +17,16 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.NonNullList;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import org.jetbrains.annotations.NotNull;
@@ -34,21 +35,28 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class StockpotRecipeCategory implements IRecipeCategory<RecipeHolder<StockpotRecipe>> {
-    public static final RecipeType<RecipeHolder<StockpotRecipe>> TYPE = RecipeType.createRecipeHolderType(ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "stockpot"));
+    public static final RecipeType<RecipeHolder<StockpotRecipe>> TYPE = RecipeType.createRecipeHolderType(
+            ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "stockpot")
+    );
+
     private static final ResourceLocation BG = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "textures/gui/jei/stockpot.png");
-    private static final MutableComponent TITLE = Component.translatable("block.kaleidoscope_cookery.stockpot");
+
+    private static final Component TITLE = ComponentUtils.formatList(List.of(
+            Component.translatable("jei.kaleidoscope_cookery.strict_recipe"),
+            Component.translatable("block.kaleidoscope_cookery.stockpot")
+    ), CommonComponents.SPACE);
+
     public static final int WIDTH = 176;
     public static final int HEIGHT = 102;
+
     private final IDrawable bgDraw;
     private final IDrawable iconDraw;
     private final IDrawable slotDraw;
-    private final IGuiHelper guiHelper;
 
     public StockpotRecipeCategory(IGuiHelper guiHelper) {
         this.bgDraw = guiHelper.createDrawable(BG, 0, 0, WIDTH, HEIGHT);
         this.iconDraw = guiHelper.createDrawableItemStack(ModItems.STOCKPOT.getDefaultInstance());
         this.slotDraw = guiHelper.getSlotDrawable();
-        this.guiHelper = guiHelper;
     }
 
     public static List<RecipeHolder<StockpotRecipe>> getRecipes() {
@@ -66,10 +74,15 @@ public class StockpotRecipeCategory implements IRecipeCategory<RecipeHolder<Stoc
     @Override
     public void draw(RecipeHolder<StockpotRecipe> recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         this.bgDraw.draw(guiGraphics);
-        if (!recipe.value().carrier().getItems()[0].isEmpty()) {
-            ItemStack carrier = recipe.value().carrier().getItems()[0];
-            guiHelper.createDrawableItemStack(carrier).draw(guiGraphics, 133, 18);
-        }
+
+        Component type = Component.translatable("jei.kaleidoscope_cookery.strict_recipe");
+        drawCenteredString(guiGraphics, type, WIDTH / 2, 90);
+    }
+
+    private void drawCenteredString(GuiGraphics guiGraphics, Component text, int centerX, int y) {
+        Font font = Minecraft.getInstance().font;
+        FormattedCharSequence sequence = text.getVisualOrderText();
+        guiGraphics.drawString(font, sequence, centerX - font.width(sequence) / 2, y, 0x555555, false);
     }
 
     @Override
@@ -89,6 +102,9 @@ public class StockpotRecipeCategory implements IRecipeCategory<RecipeHolder<Stoc
         ItemStack displayStack = soupBase.getDisplayStack();
         if (!displayStack.isEmpty()) {
             builder.addSlot(RecipeIngredientRole.INPUT, 72, 61).addIngredients(Ingredient.of(displayStack));
+        }
+        if (!recipe.carrier().isEmpty()) {
+            builder.addSlot(RecipeIngredientRole.INPUT, 133, 18).addIngredients(recipe.carrier());
         }
         builder.addSlot(RecipeIngredientRole.OUTPUT, 143, 60).addItemStack(output);
     }

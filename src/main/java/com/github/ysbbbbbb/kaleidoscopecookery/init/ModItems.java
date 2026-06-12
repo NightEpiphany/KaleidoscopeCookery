@@ -1,7 +1,6 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.init;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
-import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.TeacupRegistry;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.*;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
@@ -115,21 +114,21 @@ public final class ModItems {
     public static final Item DONKEY_BURGER = new FoodWithEffectsItem(ModFoods.DONKEY_BURGER);
     public static final Item MANTOU = new FoodWithEffectsItem(ModFoods.MANTOU);
     public static final Item BAOZI = new FoodWithEffectsItem(ModFoods.BAOZI);
+    public static final Item SHENGJIAN_MANTOU = new FoodWithEffectsItem(ModFoods.SHENGJIAN_MANTOU_ITEM);
     public static final Item SAMSA = new FoodWithEffectsItem(ModFoods.SAMSA);
     public static final Item MEAT_PIE = new FoodWithEffectsItem(ModFoods.MEAT_PIE);
-    public static final Item DUMPLING = new BowlFoodOnlyItem(ModFoods.DUMPLING);
+    public static final Item QINGTUAN = new FoodWithEffectsItem(ModFoods.QINGTUAN);
+    public static final Item STICKY_CANDY = new FoodWithEffectsItem(ModFoods.STICKY_CANDY);
+    public static final Item STICKY_RICE_CAKE = new FoodWithEffectsItem(ModFoods.STICKY_RICE_CAKE);
+    public static final Item ZONGZI = new FoodWithEffectsItem(ModFoods.ZONGZI);
+    public static final Item BAMBOO_TUBE_RICE = new BambooTubeRiceBlockItem(ModBlocks.BAMBOO_TUBE_RICE, ModFoods.BAMBOO_TUBE_RICE);
+    public static final Item DUMPLING = new Item(new Item.Properties().food(ModFoods.DUMPLING));
     public static final Item RAW_DOUGH = new RawDoughItem();
     public static final Item FLOUR = new FlourItem();
     public static final Item RAW_NOODLES = new Item(new Item.Properties());
     public static final Item STUFFED_DOUGH_FOOD = new Item(new Item.Properties());
-
-    // Tea
-    public static final Item BARLEY_TEA = new TeacupItem(ModBlocks.BARLEY_TEA, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.BARLEY_TEA).getEffects());
-    public static final Item TIEGUANYIN = new TeacupItem(ModBlocks.TIEGUANYIN, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.TIEGUANYIN).getEffects());
-    public static final Item BILUOCHUN = new TeacupItem(ModBlocks.BILUOCHUN, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.BILUOCHUN).getEffects());
-    public static final Item OOLONG = new TeacupItem(ModBlocks.OOLONG, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.OOLONG).getEffects());
-    public static final Item SAKURA_FUBUKI = new TeacupItem(ModBlocks.SAKURA_FUBUKI, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.SAKURA_FUBUKI).getEffects());
-    public static final Item FLOWER_TEA = new TeacupItem(ModBlocks.FLOWER_TEA, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.FLOWER_TEA).getEffects());
+    public static final Item RAW_ZONGZI = new Item(new Item.Properties());
+    public static final Item RAW_BAMBOO_TUBE_RICE = new Item(new Item.Properties());
 
 
     // Bowl foods
@@ -163,10 +162,12 @@ public final class ModItems {
     public static final Item BORSCHT = new BowlFoodOnlyItem(ModFoods.BORSCHT);
     public static final Item BEEF_MEATBALL_SOUP = new BowlFoodOnlyItem(ModFoods.BEEF_MEATBALL_SOUP);
     public static final Item CHICKEN_AND_MUSHROOM_STEW = new BowlFoodOnlyItem(ModFoods.CHICKEN_AND_MUSHROOM_STEW);
+    public static final Item LABA_CONGEE = new BowlFoodOnlyItem(ModFoods.LABA_CONGEE);
     public static final Item DONKEY_SOUP = new BowlFoodOnlyItem(ModFoods.DONKEY_SOUP);
     public static final Item BEEF_NOODLE = new BowlFoodOnlyItem(ModFoods.BEEF_NOODLE);
     public static final Item HUI_NOODLE = new BowlFoodOnlyItem(ModFoods.HUI_NOODLE);
     public static final Item UDON_NOODLE = new BowlFoodOnlyItem(ModFoods.UDON_NOODLE);
+    public static final Item HOT_DRY_NOODLES = new BowlFoodOnlyItem(ModFoods.HOT_DRY_NOODLES);
 
     // Raw and cooked foods
     public static final Item SASHIMI = new Item(new Item.Properties().food(ModFoods.SASHIMI));
@@ -284,23 +285,25 @@ public final class ModItems {
         Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "lettuce"), LETTUCE);
         Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "rice_panicle"), RICE_PANICLE);
         Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "caterpillar"), CATERPILLAR);
-        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "barley_tea"), BARLEY_TEA);
-        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "tieguanyin"), TIEGUANYIN);
-        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "biluochun"), BILUOCHUN);
-        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "oolong"), OOLONG);
-        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "sakura_fubuki"), SAKURA_FUBUKI);
-        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "flower_tea"), FLOWER_TEA);
         Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "fried_egg"), FRIED_EGG);
         Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "donkey_burger"), DONKEY_BURGER);
         Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "baozi"), BAOZI);
+        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "shengjian_mantou"), SHENGJIAN_MANTOU);
         Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "mantou"), MANTOU);
         Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "samsa"), SAMSA);
+        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "qingtuan"), QINGTUAN);
+        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "sticky_candy"), STICKY_CANDY);
+        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "sticky_rice_cake"), STICKY_RICE_CAKE);
+        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "zongzi"), ZONGZI);
+        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "bamboo_tube_rice"), BAMBOO_TUBE_RICE);
         Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "dumpling"), DUMPLING);
         Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "meat_pie"), MEAT_PIE);
         Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "raw_dough"), RAW_DOUGH);
         Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "flour"), FLOUR);
         Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "raw_noodles"), RAW_NOODLES);
         Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "stuffed_dough_food"), STUFFED_DOUGH_FOOD);
+        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "raw_zongzi"), RAW_ZONGZI);
+        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "raw_bamboo_tube_rice"), RAW_BAMBOO_TUBE_RICE);
 
         // Bowl foods
         Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "cooked_rice"), COOKED_RICE);
@@ -333,10 +336,12 @@ public final class ModItems {
         Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "borscht"), BORSCHT);
         Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "beef_meatball_soup"), BEEF_MEATBALL_SOUP);
         Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "chicken_and_mushroom_stew"), CHICKEN_AND_MUSHROOM_STEW);
+        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "laba_congee"), LABA_CONGEE);
         Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "donkey_soup"), DONKEY_SOUP);
         Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "beef_noodle"), BEEF_NOODLE);
         Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "hui_noodle"), HUI_NOODLE);
         Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "udon_noodle"), UDON_NOODLE);
+        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "hot_dry_noodles"), HOT_DRY_NOODLES);
 
         // Raw and cooked foods
         Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "sashimi"), SASHIMI);
