@@ -29,6 +29,12 @@ public abstract class ModelBakeryMixin {
     private static final ModelResourceLocation TEAPOT_GUI = new ModelResourceLocation(new ResourceLocation(KaleidoscopeCookery.MOD_ID, "teapot_in_gui"), "inventory");
     @Unique
     private static final ModelResourceLocation FRUIT_BASKET_GUI = new ModelResourceLocation(new ResourceLocation(KaleidoscopeCookery.MOD_ID, "fruit_basket_in_gui"), "inventory");
+    @Unique
+    private static final ModelResourceLocation COLD_CUT_HAM_SLICES = new ModelResourceLocation(new ResourceLocation(KaleidoscopeCookery.MOD_ID, "cold_cut_ham_slices_block"), "inventory");
+    @Unique
+    private static final ModelResourceLocation TEAPOT = new ModelResourceLocation(new ResourceLocation(KaleidoscopeCookery.MOD_ID, "teapot_3d"), "inventory");
+    @Unique
+    private static final ModelResourceLocation FRUIT_BASKET = new ModelResourceLocation(new ResourceLocation(KaleidoscopeCookery.MOD_ID, "fruit_basket_full"), "inventory");
 
     @Shadow
     protected abstract void loadTopLevel(ModelResourceLocation modelLocation);
@@ -38,5 +44,8 @@ public abstract class ModelBakeryMixin {
         this.loadTopLevel(COLD_CUT_HAM_SLICES_GUI);
         this.loadTopLevel(TEAPOT_GUI);
         this.loadTopLevel(FRUIT_BASKET_GUI);
+        this.loadTopLevel(COLD_CUT_HAM_SLICES);
+        this.loadTopLevel(TEAPOT);
+        this.loadTopLevel(FRUIT_BASKET);
     }
 }
