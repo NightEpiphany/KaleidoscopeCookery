@@ -4,17 +4,17 @@ import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.FoodBiteRegistry;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.PlateRegistry;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.TeacupRegistry;
-import com.github.ysbbbbbb.kaleidoscopecookery.item.OilPotItem;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import com.github.ysbbbbbb.kaleidoscopecookery.item.OilPotItem;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 
-public class ModCreativeTabs {
+public final class ModCreativeTabs {
     private static final ResourceLocation MAIN_ICON_ID = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "iron_kitchen_knife");
     private static final ResourceLocation FOOD_ICON_ID = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "red_chili");
 
@@ -66,11 +66,11 @@ public class ModCreativeTabs {
                     output.accept(ModItems.LETTUCE_SEED);
                     // 工具
                     output.accept(ModItems.KITCHEN_SHOVEL);
-                    output.accept(ModItems.SICKLE);
                     output.accept(ModItems.GOLD_KITCHEN_KNIFE);
                     output.accept(ModItems.IRON_KITCHEN_KNIFE);
                     output.accept(ModItems.DIAMOND_KITCHEN_KNIFE);
                     output.accept(ModItems.NETHERITE_KITCHEN_KNIFE);
+                    output.accept(ModItems.SICKLE);
                     // 服装
                     output.accept(ModItems.STRAW_HAT);
                     output.accept(ModItems.STRAW_HAT_FLOWER);
@@ -134,6 +134,8 @@ public class ModCreativeTabs {
                     output.accept(ModItems.COOKED_COW_OFFAL);
                     output.accept(ModItems.RAW_PORK_BELLY);
                     output.accept(ModItems.COOKED_PORK_BELLY);
+                    output.accept(ModItems.RAW_DONKEY_MEAT);
+                    output.accept(ModItems.COOKED_DONKEY_MEAT);
                     output.accept(ModItems.RAW_CUT_SMALL_MEATS);
                     output.accept(ModItems.COOKED_CUT_SMALL_MEATS);
                     output.accept(ModItems.RAW_MEATBALL);
@@ -155,16 +157,23 @@ public class ModCreativeTabs {
                     // 小碗菜和盖饭
                     output.accept(ModItems.COOKED_RICE);
                     output.accept(ModItems.EGG_FRIED_RICE);
+                    output.accept(ModItems.DELICIOUS_EGG_FRIED_RICE);
                     output.accept(ModItems.SCRAMBLE_EGG_WITH_TOMATOES);
                     output.accept(ModItems.SCRAMBLE_EGG_WITH_TOMATOES_RICE_BOWL);
+                    output.accept(ModItems.STIR_FRIED_BEEF_OFFAL);
+                    output.accept(ModItems.STIR_FRIED_BEEF_OFFAL_RICE_BOWL);
                     output.accept(ModItems.BRAISED_BEEF);
                     output.accept(ModItems.BRAISED_BEEF_RICE_BOWL);
                     output.accept(ModItems.STIR_FRIED_PORK_WITH_PEPPERS);
                     output.accept(ModItems.STIR_FRIED_PORK_WITH_PEPPERS_RICE_BOWL);
                     output.accept(ModItems.SWEET_AND_SOUR_PORK);
                     output.accept(ModItems.SWEET_AND_SOUR_PORK_RICE_BOWL);
+                    output.accept(ModItems.COUNTRY_STYLE_MIXED_VEGETABLES);
                     output.accept(ModItems.FISH_FLAVORED_SHREDDED_PORK);
                     output.accept(ModItems.FISH_FLAVORED_SHREDDED_PORK_RICE_BOWL);
+                    output.accept(ModItems.BRAISED_FISH_RICE_BOWL);
+                    output.accept(ModItems.SPICY_CHICKEN_RICE_BOWL);
+                    output.accept(ModItems.SUSPICIOUS_STIR_FRY_RICE_BOWL);
                     // 汤类
                     output.accept(ModItems.PORK_BONE_SOUP);
                     output.accept(ModItems.SEAFOOD_MISO_SOUP);
@@ -172,10 +181,12 @@ public class ModCreativeTabs {
                     output.accept(ModItems.LAMB_AND_RADISH_SOUP);
                     output.accept(ModItems.BRAISED_BEEF_WITH_POTATOES);
                     output.accept(ModItems.WILD_MUSHROOM_RABBIT_SOUP);
+                    output.accept(ModItems.TOMATO_BEEF_BRISKET_SOUP);
                     output.accept(ModItems.PUFFERFISH_SOUP);
                     output.accept(ModItems.BORSCHT);
                     output.accept(ModItems.BEEF_MEATBALL_SOUP);
                     output.accept(ModItems.CHICKEN_AND_MUSHROOM_STEW);
+                    output.accept(ModItems.DONKEY_SOUP);
                     output.accept(ModItems.LABA_CONGEE);
                     // 面条
                     output.accept(ModItems.BEEF_NOODLE);

@@ -3,14 +3,14 @@ package com.github.ysbbbbbb.kaleidoscopecookery.item;
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.blockentity.IPot;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.blockentity.IStockpot;
+import com.github.ysbbbbbb.kaleidoscopecookery.api.blockentity.ITeapot;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.event.RecipeItemEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.PotBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.PotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.StockpotBlockEntity;
-import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
-import com.github.ysbbbbbb.kaleidoscopecookery.init.ModDataComponents;
-import com.github.ysbbbbbb.kaleidoscopecookery.init.ModEvents;
-import com.github.ysbbbbbb.kaleidoscopecookery.init.ModRecipes;
+import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.TeapotBlockEntity;
+import com.github.ysbbbbbb.kaleidoscopecookery.crafting.container.TeapotInput;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.FoodBiteRegistry;
 import com.github.ysbbbbbb.kaleidoscopecookery.inventory.tooltip.RecipeItemTooltip;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.quality.Quality;
@@ -38,6 +38,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.*;
@@ -51,6 +52,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,6 +60,7 @@ public class RecipeItem extends BlockItem {
     public static final ResourceLocation HAS_RECIPE_PROPERTY = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "has_recipe");
     public static final ResourceLocation POT = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "pot");
     public static final ResourceLocation STOCKPOT = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "stockpot");
+    public static final ResourceLocation TEAPOT = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "teapot");
 
     private static final int NO_RECIPE = 0;
     private static final int HAS_RECIPE = 1;
@@ -91,23 +94,30 @@ public class RecipeItem extends BlockItem {
     }
 
     @Override
-    public @NotNull Component getName(ItemStack pStack) {
+    public @NotNull Component getName(@NotNull ItemStack pStack) {
         if (hasRecipe(pStack)) {
             RecipeRecord recipe = getRecipe(pStack);
             if (recipe != null) {
                 Component result = recipe.output().getHoverName();
-                Component type;
-                if (recipe.type().equals(POT)) {
-                    type = Component.translatable("block.kaleidoscope_cookery.pot");
-                } else if (recipe.type().equals(STOCKPOT)) {
-                    type = Component.translatable("block.kaleidoscope_cookery.stockpot");
-                } else {
-                    type = Component.empty();
-                }
+                Component type = parseType(recipe);
                 return Component.translatable("block.kaleidoscope_cookery.recipe_block.has_record", result, type);
             }
         }
         return super.getName(pStack);
+    }
+
+    private static @NotNull Component parseType(RecipeRecord recipe) {
+        Component type;
+        if (recipe.type().equals(POT)) {
+            type = Component.translatable("block.kaleidoscope_cookery.pot");
+        } else if (recipe.type().equals(STOCKPOT)) {
+            type = Component.translatable("block.kaleidoscope_cookery.stockpot");
+        } else if (recipe.type().equals(TEAPOT)) {
+            type = Component.translatable("block.kaleidoscope_cookery.teapot");
+        } else {
+            type = Component.empty();
+        }
+        return type;
     }
 
     @Override
@@ -151,6 +161,14 @@ public class RecipeItem extends BlockItem {
                 return InteractionResult.PASS;
             }
             return handlePutRecipe(player, record, () -> stockpot.addAllIngredients(record.input(), player));
+        }
+
+        if (blockEntity instanceof TeapotBlockEntity teapot && teapot.getStatus() == ITeapot.PUT_INGREDIENT && record.type().equals(TEAPOT)) {
+            // 与炒锅/煮锅一致：茶壶内已有原料时不再自动放入
+            if (!teapot.getInput().isEmpty()) {
+                return InteractionResult.PASS;
+            }
+            return handlePutRecipe(player, record, () -> teapot.addAllIngredients(record.input(), player));
         }
 
         return InteractionResult.PASS;
@@ -270,6 +288,39 @@ public class RecipeItem extends BlockItem {
             RecipeResult recipeResult = getStockpotRecipeResult(level, recipeManager, stockpot, inputs, recordStack);
             setRecipe(recordStack, new RecipeRecord(inputs, recipeResult.output(), STOCKPOT, recipeResult.flexRecipe()));
             ItemUtils.getItemToLivingEntity(player, recordStack);
+            return InteractionResult.SUCCESS;
+        }
+        if (blockEntity instanceof TeapotBlockEntity teapot && teapot.getStatus() == ITeapot.PUT_INGREDIENT) {
+            ItemStack input = teapot.getInput();
+            if (input.isEmpty()) {
+                return InteractionResult.PASS;
+            }
+            // 如果数量大于 1，那么复制一个，其他的返回背包
+            ItemStack recordStack = itemInHand.copyWithCount(1);
+            int count = itemInHand.getCount();
+            if (count > 1) {
+                ItemEntity itemEntity = new ItemEntity(
+                        level,
+                        player.getX(),
+                        player.getY(),
+                        player.getZ(),
+                        new ItemStack(ModItems.RECIPE_ITEM, count - 1));
+                itemEntity.setPickUpDelay(0);
+                itemEntity.setDeltaMovement(itemEntity.getDeltaMovement().multiply(0.0F, 1.0F, 0.0F));
+                level.addFreshEntity(
+                        itemEntity
+                );
+            }
+            TeapotInput container = new TeapotInput(teapot.getInput(), teapot.getTeaFluidId());
+            recipeManager.getRecipeFor(ModRecipes.TEAPOT_RECIPE, container, level).ifPresentOrElse(recipe -> {
+                ItemStack resultItem = recipe.value().getResultItem(level.registryAccess());
+                setRecipe(recordStack, new RecipeRecord(Collections.singletonList(input), resultItem, TEAPOT, false));
+            }, () -> {
+                ItemStack instance = Items.SUSPICIOUS_STEW.getDefaultInstance();
+                setRecipe(recordStack, new RecipeRecord(Collections.singletonList(input), instance, TEAPOT, false));
+            });
+            // 与炒锅/煮锅一致：写回记录好的配方物品并返回成功
+            player.setItemInHand(player.swingingArm, recordStack);
             return InteractionResult.SUCCESS;
         }
 
@@ -403,6 +454,16 @@ public class RecipeItem extends BlockItem {
         public static RecipeRecord stockpot(Item output, Item[] input) {
             List<ItemStack> inputList = Arrays.stream(input).map(ItemStack::new).toList();
             return new RecipeRecord(inputList, new ItemStack(output), STOCKPOT, false);
+        }
+
+        public static RecipeRecord teapot(ItemLike output, ItemLike... input) {
+            List<ItemStack> inputList = Arrays.stream(input).map(ItemStack::new).toList();
+            return new RecipeRecord(inputList, new ItemStack(output), TEAPOT, false);
+        }
+
+        public static RecipeRecord teapot(Item output, Item[] input) {
+            List<ItemStack> inputList = Arrays.stream(input).map(ItemStack::new).toList();
+            return new RecipeRecord(inputList, new ItemStack(output), TEAPOT, false);
         }
     }
 }

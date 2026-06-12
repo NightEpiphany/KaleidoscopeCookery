@@ -3,8 +3,6 @@ package com.github.ysbbbbbb.kaleidoscopecookery.client.tooltip;
 import com.github.ysbbbbbb.kaleidoscopecookery.inventory.tooltip.RecipeItemTooltip;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.RecipeItem;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.quality.Quality;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -14,7 +12,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
 
-@Environment(EnvType.CLIENT)
 public class ClientRecipeItemTooltip implements ClientTooltipComponent {
     private final RecipeItem.RecipeRecord recipeRecord;
     private final MutableComponent recipeTypeText;
@@ -23,6 +20,7 @@ public class ClientRecipeItemTooltip implements ClientTooltipComponent {
 
     public ClientRecipeItemTooltip(RecipeItemTooltip containerTooltip) {
         this.recipeRecord = containerTooltip.record();
+
         this.recipeTypeText = Component.translatable(recipeRecord.flexRecipe()
                 ? "jei.kaleidoscope_cookery.flex_recipe"
                 : "jei.kaleidoscope_cookery.strict_recipe");
@@ -31,6 +29,7 @@ public class ClientRecipeItemTooltip implements ClientTooltipComponent {
         if (quality != null) {
             this.recipeTypeText.append(CommonComponents.SPACE).append(quality.getTooltip());
         }
+
         this.ingredientsText = Component.translatable("tooltip.kaleidoscope_cookery.recipe_item.ingredient");
         this.outputText = Component.translatable("tooltip.kaleidoscope_cookery.recipe_item.output");
     }
@@ -57,7 +56,6 @@ public class ClientRecipeItemTooltip implements ClientTooltipComponent {
         int ingredientsYOffset = pY + 12;
         guiGraphics.drawString(font, ingredientsText, pX, ingredientsYOffset + 4, ChatFormatting.GRAY.getColor());
 
-        guiGraphics.drawString(font, ingredientsText, pX, pY + 4, ChatFormatting.GRAY.getColor());
         int i = 0;
         for (ItemStack stack : recipeRecord.input()) {
             int xOffset = pX + ingredientsWidth + i * 12;

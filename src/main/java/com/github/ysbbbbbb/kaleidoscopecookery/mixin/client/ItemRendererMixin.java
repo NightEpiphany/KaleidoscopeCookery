@@ -47,6 +47,16 @@ public abstract class ItemRendererMixin {
             if (stack.is(ModItems.FRUIT_BASKET)) {
                 return getItemModelShaper().getModelManager().getModel(ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath(MOD_ID, "fruit_basket_in_gui")));
             }
+        } else {
+            if (stack.is(ModItems.COLD_CUT_HAM_SLICES)) {
+                return getItemModelShaper().getModelManager().getModel(ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath(MOD_ID, "cold_cut_ham_slices_block")));
+            }
+            if (stack.is(ModItems.TEAPOT)) {
+                return getItemModelShaper().getModelManager().getModel(ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath(MOD_ID, "teapot_3d")));
+            }
+            if (stack.is(ModItems.FRUIT_BASKET)) {
+                return getItemModelShaper().getModelManager().getModel(ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath(MOD_ID, "fruit_basket_full")));
+            }
         }
         return model;
     }

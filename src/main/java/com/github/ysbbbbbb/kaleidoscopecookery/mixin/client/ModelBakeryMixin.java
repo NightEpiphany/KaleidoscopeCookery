@@ -42,6 +42,12 @@ public abstract class ModelBakeryMixin {
     private static final ModelResourceLocation TEAPOT_GUI = ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "teapot_in_gui"));
     @Unique
     private static final ModelResourceLocation FRUIT_BASKET_GUI = ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "fruit_basket_in_gui"));
+    @Unique
+    private static final ModelResourceLocation COLD_CUT_HAM_SLICES = ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "cold_cut_ham_slices_block"));
+    @Unique
+    private static final ModelResourceLocation TEAPOT = ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "teapot_3d"));
+    @Unique
+    private static final ModelResourceLocation FRUIT_BASKET = ModelResourceLocation.inventory(ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "fruit_basket_full"));
 
 
     @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/resources/model/ModelBakery;loadSpecialItemModelAndDependencies(Lnet/minecraft/client/resources/model/ModelResourceLocation;)V", shift = At.Shift.AFTER, ordinal = 1))
@@ -54,5 +60,8 @@ public abstract class ModelBakeryMixin {
         this.loadSpecialItemModelAndDependencies(TOMATO_SAUCE);
         this.loadSpecialItemModelAndDependencies(TEAPOT_GUI);
         this.loadSpecialItemModelAndDependencies(FRUIT_BASKET_GUI);
+        this.loadSpecialItemModelAndDependencies(COLD_CUT_HAM_SLICES);
+        this.loadSpecialItemModelAndDependencies(TEAPOT);
+        this.loadSpecialItemModelAndDependencies(FRUIT_BASKET);
     }
 }
