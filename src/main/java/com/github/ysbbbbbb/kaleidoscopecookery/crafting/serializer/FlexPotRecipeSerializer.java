@@ -61,4 +61,9 @@ public class FlexPotRecipeSerializer implements RecipeSerializer<FlexPotRecipe> 
         recipe.getIngredients().forEach(i -> i.toNetwork(buf));
         buf.writeItem(recipe.result());
     }
+
+    @Override
+    public String toString() {
+        return "flex_pot";
+    }
 }

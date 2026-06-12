@@ -108,4 +108,9 @@ public class FlexStockpotRecipeSerializer implements RecipeSerializer<FlexStockp
         buffer.writeVarInt(visuals.cookingBubbleColor());
         buffer.writeVarInt(visuals.finishedBubbleColor());
     }
+
+    @Override
+    public String toString() {
+        return "flex_stockpot";
+    }
 }
