@@ -54,7 +54,7 @@ public class FoodWithEffectsItem extends Item implements ICustomEatEffect {
         FoodProperties foodProperties = itemStack.get(DataComponents.FOOD);
         if (foodProperties != null) {
             if (player.canEat(foodProperties.canAlwaysEat())) {
-                modifyFoodProperties(itemStack);
+                itemStack.set(DataComponents.FOOD, modifyFoodProperties(itemStack));
                 player.startUsingItem(interactionHand);
                 return InteractionResultHolder.consume(itemStack);
             } else {

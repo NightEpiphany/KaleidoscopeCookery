@@ -54,6 +54,7 @@ public class BowlFoodBlockItem extends BlockItem implements IHasContainer, ICust
     private final BiFunction<Quality, FoodProperties, FoodProperties> foodPropertiesCache = Util.memoize(
             (quality, raw) -> QualityUtils.modifyFoodProperties(raw, quality)
     );
+    @SuppressWarnings("all")
     private final Optional<ItemStack> usingConvertsTo;
 
     public BowlFoodBlockItem(Block block, FoodProperties properties, @Nullable ItemLike usingConvertsTo) {
@@ -80,7 +81,7 @@ public class BowlFoodBlockItem extends BlockItem implements IHasContainer, ICust
         FoodProperties foodProperties = itemStack.get(DataComponents.FOOD);
         if (foodProperties != null) {
             if (player.canEat(foodProperties.canAlwaysEat())) {
-                modifyFoodProperties(itemStack);
+                itemStack.set(DataComponents.FOOD, modifyFoodProperties(itemStack));
                 player.startUsingItem(interactionHand);
                 return InteractionResultHolder.consume(itemStack);
             } else {
