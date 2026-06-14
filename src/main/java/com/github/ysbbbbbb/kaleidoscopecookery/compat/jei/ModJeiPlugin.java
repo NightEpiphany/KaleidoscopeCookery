@@ -2,11 +2,13 @@ package com.github.ysbbbbbb.kaleidoscopecookery.compat.jei;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.jei.category.*;
+import com.github.ysbbbbbb.kaleidoscopecookery.crafting.RiceBowlRecipeMaker;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.recipes.ModRecipesLibrary;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModRecipes;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
@@ -41,6 +43,8 @@ public class ModJeiPlugin implements IModPlugin {
         registration.addRecipes(MillstoneRecipeCategory.TYPE, ModRecipesLibrary.INSTANCE.millstoneRecipes());
         registration.addRecipes(SteamerRecipeCategory.TYPE, ModRecipesLibrary.INSTANCE.steamerRecipes());
         registration.addRecipes(TeapotRecipeCategory.TYPE, ModRecipesLibrary.INSTANCE.teapotRecipes());
+
+        registration.addRecipes(RecipeTypes.CRAFTING, RiceBowlRecipeMaker.createRecipes());
     }
 
     @Override
@@ -64,6 +68,7 @@ public class ModJeiPlugin implements IModPlugin {
         RecipeSynchronization.synchronizeRecipeSerializer(ModRecipes.STEAMER_SERIALIZER);
         RecipeSynchronization.synchronizeRecipeSerializer(ModRecipes.MILLSTONE_SERIALIZER);
         RecipeSynchronization.synchronizeRecipeSerializer(ModRecipes.TEAPOT_SERIALIZER);
+        RecipeSynchronization.synchronizeRecipeSerializer(ModRecipes.RICE_BOWL_SERIALIZER);
     }
 
     @Override

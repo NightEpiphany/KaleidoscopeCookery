@@ -4,7 +4,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.init.ModRecipes;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagCommon;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.quality.Quality;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.quality.QualityUtils;
-import com.zurrtum.create.foundation.pack.EmptyJsonOps;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemJsonOpsUtil;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.NonNullList;
@@ -19,7 +19,7 @@ import java.util.List;
 
 public class RiceBowlRecipe extends CustomRecipe {
     @SuppressWarnings("deprecation")
-    public static final Ingredient COOKED_RICE = Ingredient.of(HolderSet.emptyNamed(EmptyJsonOps.INSTANCE, TagCommon.COOKED_RICE));
+    public static final Ingredient COOKED_RICE = Ingredient.of(HolderSet.emptyNamed(ItemJsonOpsUtil.INSTANCE, TagCommon.COOKED_RICE));
 
     private final Ingredient ingredient;
     private final ItemStackTemplate result;
