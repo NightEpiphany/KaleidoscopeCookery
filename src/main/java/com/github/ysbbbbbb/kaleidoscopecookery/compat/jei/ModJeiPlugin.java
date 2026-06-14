@@ -2,9 +2,11 @@ package com.github.ysbbbbbb.kaleidoscopecookery.compat.jei;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.jei.category.*;
+import com.github.ysbbbbbb.kaleidoscopecookery.crafting.RiceBowlRecipeMaker;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
@@ -37,6 +39,8 @@ public class ModJeiPlugin implements IModPlugin {
         registration.addRecipes(MillstoneRecipeCategory.TYPE, MillstoneRecipeCategory.getRecipes());
         registration.addRecipes(SteamerRecipeCategory.TYPE, SteamerRecipeCategory.getRecipes());
         registration.addRecipes(TeapotRecipeCategory.TYPE, TeapotRecipeCategory.getRecipes());
+
+        registration.addRecipes(RecipeTypes.CRAFTING, RiceBowlRecipeMaker.createRecipes());
     }
 
     @Override
