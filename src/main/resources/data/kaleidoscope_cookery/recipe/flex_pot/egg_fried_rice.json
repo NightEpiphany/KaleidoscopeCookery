@@ -1,0 +1,12 @@
+{
+  "type": "kaleidoscope_cookery:flex_pot",
+  "carrier": "minecraft:bowl",
+  "ingredients": [
+    "#c:eggs",
+    "#c:foods/cooked_rice"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kaleidoscope_cookery:egg_fried_rice"
+  }
+}

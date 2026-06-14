@@ -1,23 +1,13 @@
 {
   "type": "kaleidoscope_cookery:stockpot",
-  "carrier": 
-    "minecraft:bowl"
-  ,
-  "cooking_bubble_color": 16772291,
-  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
-  "finished_bubble_color": 65280,
-  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_pufferfish",
   "ingredients": [
-  
-      "minecraft:seagrass"
-    ,
-  
-      "minecraft:seagrass"
-
+    "#c:crops/lettuce",
+    "#c:crops/lettuce",
+    "#c:crops/lettuce"
   ],
   "result": {
+    "count": 1,
     "id": "kaleidoscope_cookery:pufferfish_soup"
   },
-  "soup_base": "minecraft:pufferfish_bucket",
-  "time": 300
+  "soup_base": "minecraft:pufferfish_bucket"
 }

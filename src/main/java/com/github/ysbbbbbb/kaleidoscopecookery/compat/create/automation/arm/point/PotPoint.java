@@ -6,6 +6,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.PotBlockEntit
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.create.automation.util.AutomationArmPlayer;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.create.automation.util.ItemHandlerUtils;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.create.automation.util.StackPredicate;
+import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.FlexPotRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.PotRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
@@ -17,6 +18,7 @@ import com.zurrtum.create.content.kinetics.mechanicalArm.ArmInteractionPointType
 import net.fabricmc.fabric.api.entity.FakePlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
@@ -51,15 +53,15 @@ public class PotPoint extends ArmInteractionPoint {
         if (blockEntity instanceof PotBlockEntity pot) {
             if (!pot.hasHeatSource(level)) return stack;
             RecipeHolder<PotRecipe> holder = pot.getAutomationRecipe(serverLevel);
+            RecipeHolder<FlexPotRecipe> flexHolder = holder == null ? pot.getAutomationFlexRecipe(serverLevel) : null;
             FakePlayer fakePlayer = AutomationArmPlayer.pot(serverLevel);
             switch (pot.getStatus()) {
                 case IPot.PUT_INGREDIENT:
-                    if (holder == null) {
+                    if (holder == null && flexHolder == null) {
                         return stack;
                     }
-                    PotRecipe recipe = holder.value();
                     if (pot.getBlockState().getValue(PotBlock.HAS_OIL)) {
-                        List<StackPredicate> required = recipe.ingredients().stream().filter(i->!i.isEmpty()).map(StackPredicate::new).toList();
+                        List<StackPredicate> required = getIngredients(holder, flexHolder).stream().filter(i -> !i.isEmpty()).map(StackPredicate::new).toList();
                         required = ItemHandlerUtils.getRequired(required, pot.getInputs());
                         if (!required.isEmpty()) {
                             if (required.stream().anyMatch(p -> p.test(stack))) {
@@ -104,13 +106,12 @@ public class PotPoint extends ArmInteractionPoint {
                     }
                     break;
                 case IPot.FINISHED, IPot.BURNT:
-                    if (holder == null) {
+                    if (holder == null && flexHolder == null) {
                         return stack;
                     }
-                    PotRecipe finishedRecipe = holder.value();
                     if (pot.hasCarrier()) {
                         int requiredCarrierCount = Math.max(1, pot.getResult().getCount());
-                        if (finishedRecipe.carrier().test(stack) && stack.getCount() >= requiredCarrierCount) {
+                        if (getCarrier(holder, flexHolder).test(stack) && stack.getCount() >= requiredCarrierCount) {
                             if (!simulate) {
                                 ItemStack carrierStack = stack.copyWithCount(requiredCarrierCount);
                                 if (!pot.takeOutProduct(level, fakePlayer, carrierStack)) {
@@ -140,7 +141,8 @@ public class PotPoint extends ArmInteractionPoint {
         if (blockEntity instanceof PotBlockEntity pot) {
             if(!pot.hasHeatSource(level)) return ItemStack.EMPTY;
             RecipeHolder<PotRecipe> holder = pot.getAutomationRecipe(serverLevel);
-            boolean needsCarrier = holder != null && pot.hasCarrier();
+            RecipeHolder<FlexPotRecipe> flexHolder = holder == null ? pot.getAutomationFlexRecipe(serverLevel) : null;
+            boolean needsCarrier = (holder != null || flexHolder != null) && pot.hasCarrier();
             if (!needsCarrier && (pot.getStatus() == IPot.FINISHED || pot.getStatus() == IPot.BURNT)) {
                 ItemStack result = pot.getResult();
                 if (!simulate) {
@@ -151,6 +153,20 @@ public class PotPoint extends ArmInteractionPoint {
         }
 
         return ItemStack.EMPTY;
+    }
+
+    private List<Ingredient> getIngredients(RecipeHolder<PotRecipe> holder, RecipeHolder<FlexPotRecipe> flexHolder) {
+        if (holder != null) {
+            return holder.value().ingredients();
+        }
+        return flexHolder.value().ingredients();
+    }
+
+    private Ingredient getCarrier(RecipeHolder<PotRecipe> holder, RecipeHolder<FlexPotRecipe> flexHolder) {
+        if (holder != null) {
+            return holder.value().carrier();
+        }
+        return flexHolder.value().carrier();
     }
 
     private ItemStack getPlaceOilReturn(ItemStack stack){

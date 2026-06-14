@@ -1,26 +1,11 @@
 {
   "type": "kaleidoscope_cookery:stockpot",
-  "carrier": "minecraft:bowl",
-  "cooking_bubble_color": 16772291,
-  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
-  "finished_bubble_color": 16034443,
-  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_flesh",
   "ingredients": [
-  
-      "#c:crops/chilipepper"
-    ,
-  
-      "#c:crops/chilipepper"
-    ,
-  
-      "#c:foods/raw_chicken"
-    ,
-  
-      "#c:foods/raw_chicken"
-    ,
-  
-      "#c:foods/raw_chicken"
-
+    "#c:crops/chilipepper",
+    "#c:crops/chilipepper",
+    "#c:foods/raw_chicken",
+    "#c:foods/raw_chicken",
+    "#c:foods/raw_chicken"
   ],
   "result": {
     "count": 1,

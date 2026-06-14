@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:golden_apple",
+    "minecraft:golden_apple",
+    "minecraft:golden_carrot",
+    "minecraft:golden_carrot",
+    "minecraft:glistering_melon_slice",
+    "minecraft:glistering_melon_slice",
+    "minecraft:bowl"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kaleidoscope_cookery:golden_salad"
+  }
+}

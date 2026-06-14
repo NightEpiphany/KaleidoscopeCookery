@@ -7,6 +7,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.compat.jade.ModJadePlugin;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jspecify.annotations.NonNull;
 import snownee.jade.api.BlockAccessor;
@@ -28,12 +29,17 @@ public enum MillstoneComponentProvider implements IBlockComponentProvider {
         if (!(te instanceof MillstoneBlockEntity millstone)) {
             return;
         }
-        if (millstone.getInput().isEmpty() && millstone.getOutput().isEmpty()) {
+        if (millstone.getInput().isEmpty() && millstone.isOutputEmpty()) {
             return;
         }
         tooltip.add(JadeUI.item(millstone.getInput()));
         tooltip.append(JadeUI.progress(ProgressView.read(new ProgressView.Data(millstone.getProgressPercent()))));
-        tooltip.append(JadeUI.item(millstone.getOutput()));
+        for (int i = 0; i < millstone.getOutputs().getSlots(); i++) {
+            ItemStack outputStack = millstone.getOutputs().getStackInSlot(i);
+            if (!outputStack.isEmpty()) {
+                tooltip.append(JadeUI.item(outputStack));
+            }
+        }
     }
 
     @Override

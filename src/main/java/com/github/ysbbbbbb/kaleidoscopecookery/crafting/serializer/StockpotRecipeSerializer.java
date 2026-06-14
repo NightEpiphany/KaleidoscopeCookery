@@ -34,7 +34,7 @@ public class StockpotRecipeSerializer {
 
     public static RecipeHolder<StockpotRecipe> getEmptyRecipe() {
         StockpotRecipe stockpotRecipe = new StockpotRecipe(Lists.newArrayList(), DEFAULT_SOUP_BASE,
-                ItemStackTemplate.fromNonEmptyStack(Items.BARRIER.getDefaultInstance()), DEFAULT_TIME, DEFAULT_CARRIER,
+                new ItemStackTemplate(Items.BARRIER), DEFAULT_TIME, DEFAULT_CARRIER,
                 DEFAULT_COOKING_TEXTURE, DEFAULT_FINISHED_TEXTURE,
                 DEFAULT_COOKING_BUBBLE_COLOR,
                 DEFAULT_FINISHED_BUBBLE_COLOR);

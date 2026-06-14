@@ -1,0 +1,11 @@
+{
+  "type": "kaleidoscope_cookery:flex_stockpot",
+  "ingredients": [
+    "minecraft:pufferfish",
+    "#c:crops/lettuce"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kaleidoscope_cookery:pufferfish_soup"
+  }
+}

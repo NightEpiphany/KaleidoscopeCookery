@@ -525,5 +525,10 @@
   "kaleidoscope_cookery.ponder.tag.kitchen_blocks": "주방 기초",
   "kaleidoscope_cookery.ponder.tag.kitchen_blocks.description": "요리 마스터의 길을 떠나세요!",
   "resourcePack.kaleidoscope_eating_animation": "만화경 : 식용 애니메이션 소재 팩",
-  "resourcePack.kaleidoscope_classic_texture": "만화경 : 클래식 질감"
+  "resourcePack.kaleidoscope_classic_texture": "만화경 : 클래식 질감",
+  "item.kaleidoscope_cookery.shengjian_mantou": "물만두",
+  "jei.kaleidoscope_cookery.flex_recipe": "유연한 레시피",
+  "jei.kaleidoscope_cookery.strict_recipe": "정확한 레시피",
+  "emi.category.kaleidoscope_cookery.flex_pot": "유연한 레시피 프라이팬",
+  "emi.category.kaleidoscope_cookery.flex_stockpot": "유연한 레시피 냄비"
 }

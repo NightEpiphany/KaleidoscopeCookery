@@ -356,7 +356,7 @@
   "tooltip.kaleidoscope_cookery.oil_splashed_fish.maxim": "O óleo quente é borrifado para deixar os aromas irromperem enquanto mantém o peixe fresco e macio. Embalado com um tempero entorpecente.",
   "tooltip.kaleidoscope_cookery.sickle": "Clique com o botão direito para colher colheitas e remover ervas daninhas.",
   "tooltip.kaleidoscope_cookery.model_display": "Em condições normais, você não deveria possuir este item",
-  "tip.kaleidoscope_cookery.kitchen.remove_ingredient.need_container": "É preciso %s para retirar o ingrediente!",
+  "tip.kaleidoscope_cookery.kitchen.remove_ingredient.need_container": "Need %s to take out ingredient!",
   "tip.kaleidoscope_cookery.pot.need_oil": "Falta a banha",
   "tip.kaleidoscope_cookery.pot.need_lit_stove": "Falta a fonte de calor necessária",
   "tip.kaleidoscope_cookery.pot.add_ingredient": "Adicione os ingredientes...",
@@ -389,7 +389,7 @@
   "subtitles.kaleidoscope_cookery.block.stockpot": "Sons de Panelão",
   "subtitles.kaleidoscope_cookery.block.teapot": "Som de bule",
   "subtitles.kaleidoscope_cookery.block.paddy": "Sons de Arrozal",
-  "subtitles.kaleidoscope_cookery.block.millstone": "Sons da Pedra de Moinho",
+  "subtitles.kaleidoscope_cookery.block.millstone": "Millstone Sounds",
   "subtitles.kaleidoscope_cookery.block.trash_can": "Lata do lixo chocalha",
   "subtitles.kaleidoscope_cookery.block.recipe_block": "Sons de blocos de receitas",
   "subtitles.kaleidoscope_cookery.entity.fart": "Sons de Peido",
@@ -525,5 +525,9 @@
   "kaleidoscope_cookery.ponder.tag.kitchen_blocks": "Noções básicas de cozinha",
   "kaleidoscope_cookery.ponder.tag.kitchen_blocks.description": "Embarque no caminho do mestre da culinária!",
   "resourcePack.kaleidoscope_eating_animation": "Kaleidoscope: Pacote de texturas animadas comestíveis",
-  "resourcePack.kaleidoscope_classic_texture": "Kaleidoscope Cookery Textura Clássica"
+  "resourcePack.kaleidoscope_classic_texture": "Kaleidoscope Cookery Textura Clássica",
+  "jei.kaleidoscope_cookery.flex_recipe": "Flex Recipe",
+  "jei.kaleidoscope_cookery.strict_recipe": "Strict Recipe",
+  "emi.category.kaleidoscope_cookery.flex_pot": "Flex Recipe Pot",
+  "emi.category.kaleidoscope_cookery.flex_stockpot": "Flex Recipe Stockpot"
 }

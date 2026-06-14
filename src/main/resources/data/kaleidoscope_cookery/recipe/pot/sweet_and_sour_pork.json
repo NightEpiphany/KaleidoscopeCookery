@@ -1,27 +1,13 @@
 {
   "type": "kaleidoscope_cookery:pot",
-  "carrier":
-    "minecraft:bowl",
-  
+  "carrier": "minecraft:bowl",
   "ingredients": [
-
-      "minecraft:sugar",
-    
-
-      "minecraft:sugar",
-    
-
-      "minecraft:sugar",
-    
-
-      "#c:raw_pork",
-    
-
-      "#c:raw_pork",
-    
-
-      "#c:raw_pork"
-
+    "minecraft:sugar",
+    "minecraft:sugar",
+    "minecraft:sugar",
+    "#c:foods/raw_pork",
+    "#c:foods/raw_pork",
+    "#c:foods/raw_pork"
   ],
   "result": {
     "count": 1,

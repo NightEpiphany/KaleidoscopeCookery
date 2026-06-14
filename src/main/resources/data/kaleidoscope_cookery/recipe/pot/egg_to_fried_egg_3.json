@@ -1,15 +1,9 @@
 {
   "type": "kaleidoscope_cookery:pot",
   "ingredients": [
-
-      "#c:eggs",
-    
-
-      "#c:eggs",
-    
-
-      "#c:eggs"
-
+    "#c:eggs",
+    "#c:eggs",
+    "#c:eggs"
   ],
   "result": {
     "count": 3,

@@ -1,0 +1,12 @@
+{
+  "type": "kaleidoscope_cookery:flex_pot",
+  "carrier": "minecraft:bowl",
+  "ingredients": [
+    "kaleidoscope_cookery:green_chili",
+    "kaleidoscope_cookery:raw_cut_small_meats"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kaleidoscope_cookery:stuffed_tiger_skin_pepper"
+  }
+}

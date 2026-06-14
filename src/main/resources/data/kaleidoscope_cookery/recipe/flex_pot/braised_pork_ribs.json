@@ -1,0 +1,12 @@
+{
+  "type": "kaleidoscope_cookery:flex_pot",
+  "carrier": "minecraft:bowl",
+  "ingredients": [
+    "minecraft:bone",
+    "#c:foods/raw_pork"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kaleidoscope_cookery:braised_pork_ribs"
+  }
+}

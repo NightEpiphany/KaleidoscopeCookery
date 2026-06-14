@@ -5,12 +5,16 @@ import com.github.ysbbbbbb.kaleidoscopecookery.api.blockentity.IPot;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.blockentity.ServerThreadSafe;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.BaseBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.container.SimpleInput;
+import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.FlexPotRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.PotRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagCommon;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.KitchenShovelItem;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.OilPotItem;
+import com.github.ysbbbbbb.kaleidoscopecookery.item.quality.Quality;
+import com.github.ysbbbbbb.kaleidoscopecookery.item.quality.QualityEvaluator;
+import com.github.ysbbbbbb.kaleidoscopecookery.item.quality.QualityUtils;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -299,22 +303,41 @@ public class PotBlockEntity extends BaseBlockEntity implements IPot {
         SimpleInput simpleInput = new SimpleInput(this.inputs);
         if (level instanceof ServerLevel serverLevel) {
             serverLevel.recipeAccess().getRecipeFor(ModRecipes.POT_RECIPE, simpleInput, level).ifPresentOrElse(recipe -> {
-                // 如果合成表符合，那么进入炒菜阶段
-                PotRecipe value = recipe.value();
-                this.carrier = value.carrier();
-                this.result = value.assemble(simpleInput, level.registryAccess());
-                this.currentTick = value.time();
-                this.stirFryCount = value.stirFryCount();
+                this.applyRecipe(level, simpleInput, recipe);
             }, () -> {
-                // 不符合，进入迷之炒菜阶段
-                this.carrier = Ingredient.of(Items.BOWL);
-                this.result = getItem(SUSPICIOUS_STIR_FRY).getDefaultInstance();
-                this.currentTick = 10 * 20; // 迷之炒菜时间
-                this.stirFryCount = 0; // 迷之炒菜不计翻炒次数
+                serverLevel.recipeAccess().getRecipeFor(ModRecipes.FLEX_POT_RECIPE, simpleInput, level).ifPresentOrElse(recipe -> {
+                    this.applyFlexRecipe(serverLevel, simpleInput, recipe);
+                }, () -> {
+                    // 不符合，进入迷之炒菜阶段
+                    this.carrier = Ingredient.of(Items.BOWL);
+                    this.result = getItem(SUSPICIOUS_STIR_FRY).getDefaultInstance();
+                    this.currentTick = 10 * 20; // 迷之炒菜时间
+                    this.stirFryCount = 0; // 迷之炒菜不计翻炒次数
+                });
             });
             this.status = COOKING;
             this.refresh();
         }
+    }
+
+    private void applyRecipe(Level level, SimpleInput input, RecipeHolder<PotRecipe> recipe) {
+        PotRecipe value = recipe.value();
+        this.carrier = value.carrier();
+        this.result = value.assemble(input, level.registryAccess());
+        this.currentTick = value.time();
+        this.stirFryCount = value.stirFryCount();
+    }
+
+    private void applyFlexRecipe(ServerLevel level, SimpleInput input, RecipeHolder<FlexPotRecipe> recipe) {
+        FlexPotRecipe value = recipe.value();
+        this.carrier = value.carrier();
+        this.result = value.assemble(input, level.registryAccess());
+        this.currentTick = value.time();
+        this.stirFryCount = value.stirFryCount();
+
+        List<ItemStack> nonEmptyInputs = this.inputs.stream().filter(stack -> !stack.isEmpty()).toList();
+        Quality quality = QualityEvaluator.evaluate(nonEmptyInputs, value.ingredients(), recipe.id().identifier(), level.getSeed());
+        QualityUtils.setQuality(this.result, quality);
     }
 
     @Override
@@ -579,6 +602,15 @@ public class PotBlockEntity extends BaseBlockEntity implements IPot {
         }
         ResourceKey<Recipe<?>> recipeKey = ResourceKey.create(Registries.RECIPE, this.automationRecipeId);
         return level.recipeAccess().byKeyTyped(ModRecipes.POT_RECIPE, recipeKey);
+    }
+
+    @Nullable
+    public RecipeHolder<FlexPotRecipe> getAutomationFlexRecipe(ServerLevel level) {
+        if (this.automationRecipeId == null) {
+            return null;
+        }
+        ResourceKey<Recipe<?>> recipeKey = ResourceKey.create(Registries.RECIPE, this.automationRecipeId);
+        return level.recipeAccess().byKeyTyped(ModRecipes.FLEX_POT_RECIPE, recipeKey);
     }
 
     public long getSeed() {

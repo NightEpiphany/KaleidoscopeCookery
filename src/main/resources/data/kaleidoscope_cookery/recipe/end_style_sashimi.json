@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:chorus_fruit",
+    "minecraft:chorus_fruit",
+    "minecraft:chorus_fruit",
+    "kaleidoscope_cookery:sashimi",
+    "kaleidoscope_cookery:sashimi",
+    "kaleidoscope_cookery:sashimi",
+    "kaleidoscope_cookery:sashimi",
+    "minecraft:bowl"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kaleidoscope_cookery:end_style_sashimi"
+  }
+}

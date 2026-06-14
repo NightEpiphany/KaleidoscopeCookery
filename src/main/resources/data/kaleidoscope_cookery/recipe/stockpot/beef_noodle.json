@@ -1,39 +1,16 @@
 {
   "type": "kaleidoscope_cookery:stockpot",
-  "carrier": 
-    "minecraft:bowl"
-  ,
-  "cooking_bubble_color": 16772291,
-  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
-  "finished_bubble_color": 16777215,
-  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_white",
   "ingredients": [
-  
-      "#c:raw_beef"
-    ,
-  
-      "#c:raw_beef"
-    ,
-  
-      "#c:raw_beef"
-    ,
-  
-      "#c:raw_beef"
-    ,
-  
-      "kaleidoscope_cookery:raw_noodles"
-    ,
-  
-      "kaleidoscope_cookery:raw_noodles"
-    ,
-  
-      "kaleidoscope_cookery:raw_noodles"
-
+    "#c:foods/raw_beef",
+    "#c:foods/raw_beef",
+    "#c:foods/raw_beef",
+    "#c:foods/raw_beef",
+    "kaleidoscope_cookery:raw_noodles",
+    "kaleidoscope_cookery:raw_noodles",
+    "kaleidoscope_cookery:raw_noodles"
   ],
   "result": {
-    "count": 3,
+    "count": 1,
     "id": "kaleidoscope_cookery:beef_noodle"
-  },
-  "soup_base": "minecraft:water",
-  "time": 300
+  }
 }

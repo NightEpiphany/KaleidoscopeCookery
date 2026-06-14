@@ -38,6 +38,8 @@ public class PortHelper {
         return new Vec3(d, e, f);
     }
 
+    public static final int DEFAULT_COLOR = -8355712;
+
     public static ResourceKey<Block> createBlockId(String name) {
        return ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, name));
     }

@@ -1,0 +1,12 @@
+{
+  "type": "kaleidoscope_cookery:flex_pot",
+  "carrier": "minecraft:bowl",
+  "ingredients": [
+    "#c:eggs",
+    "minecraft:chorus_fruit"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kaleidoscope_cookery:chorus_fried_egg"
+  }
+}

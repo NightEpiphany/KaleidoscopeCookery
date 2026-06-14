@@ -73,19 +73,37 @@ public final class InitAutomationEvents {
         }
         boolean bound = false;
         if (blockEntity instanceof PotBlockEntity pot) {
-            bound = AutomationRecipeUtils.findPotRecipe(serverLevel, record)
-                    .map(holder -> {
-                        pot.setAutomationRecipeId(holder.id().identifier());
-                        return true;
-                    })
-                    .orElse(false);
+            if (record.flexRecipe()) {
+                bound = AutomationRecipeUtils.findFlexPotRecipe(serverLevel, record)
+                        .map(holder -> {
+                            pot.setAutomationRecipeId(holder.id().identifier());
+                            return true;
+                        })
+                        .orElse(false);
+            } else {
+                bound = AutomationRecipeUtils.findPotRecipe(serverLevel, record)
+                        .map(holder -> {
+                            pot.setAutomationRecipeId(holder.id().identifier());
+                            return true;
+                        })
+                        .orElse(false);
+            }
         } else if (blockEntity instanceof StockpotBlockEntity stockpot) {
-            bound = AutomationRecipeUtils.findStockpotRecipe(serverLevel, record)
-                    .map(holder -> {
-                        stockpot.setAutomationRecipeId(holder.id().identifier());
-                        return true;
-                    })
-                    .orElse(false);
+            if (record.flexRecipe()) {
+                bound = AutomationRecipeUtils.findFlexStockpotRecipe(serverLevel, record)
+                        .map(holder -> {
+                            stockpot.setAutomationRecipeId(holder.id().identifier());
+                            return true;
+                        })
+                        .orElse(false);
+            } else {
+                bound = AutomationRecipeUtils.findStockpotRecipe(serverLevel, record)
+                        .map(holder -> {
+                            stockpot.setAutomationRecipeId(holder.id().identifier());
+                            return true;
+                        })
+                        .orElse(false);
+            }
         }
         if (!bound) {
             return InteractionResult.PASS;
@@ -111,19 +129,37 @@ public final class InitAutomationEvents {
             List<ItemStack> stacks = new ArrayList<>(record.input());
             if (level instanceof ServerLevel serverLevel) {
                 if (record.type().equals(RecipeItem.STOCKPOT)) {
-                    AutomationRecipeUtils.findStockpotRecipe(serverLevel, record)
-                            .map(holder -> holder.value().carrier())
-                            .ifPresent(carrier -> carrier.items()
-                                    .findFirst()
-                                    .map(item -> item.value().getDefaultInstance())
-                                    .ifPresent(stacks::add));
+                    if (record.flexRecipe()) {
+                        AutomationRecipeUtils.findFlexStockpotRecipe(serverLevel, record)
+                                .map(holder -> holder.value().carrier())
+                                .ifPresent(carrier -> carrier.items()
+                                        .findFirst()
+                                        .map(item -> item.value().getDefaultInstance())
+                                        .ifPresent(stacks::add));
+                    } else {
+                        AutomationRecipeUtils.findStockpotRecipe(serverLevel, record)
+                                .map(holder -> holder.value().carrier())
+                                .ifPresent(carrier -> carrier.items()
+                                        .findFirst()
+                                        .map(item -> item.value().getDefaultInstance())
+                                        .ifPresent(stacks::add));
+                    }
                 } else if (record.type().equals(RecipeItem.POT)) {
-                    AutomationRecipeUtils.findPotRecipe(serverLevel, record)
-                            .map(holder -> holder.value().carrier())
-                            .ifPresent(carrier -> carrier.items()
-                                    .findFirst()
-                                    .map(item -> item.value().getDefaultInstance())
-                                    .ifPresent(stacks::add));
+                    if (record.flexRecipe()) {
+                        AutomationRecipeUtils.findFlexPotRecipe(serverLevel, record)
+                                .map(holder -> holder.value().carrier())
+                                .ifPresent(carrier -> carrier.items()
+                                        .findFirst()
+                                        .map(item -> item.value().getDefaultInstance())
+                                        .ifPresent(stacks::add));
+                    } else {
+                        AutomationRecipeUtils.findPotRecipe(serverLevel, record)
+                                .map(holder -> holder.value().carrier())
+                                .ifPresent(carrier -> carrier.items()
+                                        .findFirst()
+                                        .map(item -> item.value().getDefaultInstance())
+                                        .ifPresent(stacks::add));
+                    }
                 }
             }
             List<BigItemStack> requests = stacks.stream()

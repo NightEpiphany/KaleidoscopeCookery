@@ -1,0 +1,16 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "ingredients": [
+    "kaleidoscope_cookery:raw_noodles",
+    "kaleidoscope_cookery:raw_noodles",
+    "kaleidoscope_cookery:raw_noodles",
+    "#c:crops/chilipepper",
+    "#c:crops/chilipepper",
+    "#c:crops/chilipepper"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kaleidoscope_cookery:hot_dry_noodles"
+  },
+  "soup_base": "minecraft:lava"
+}

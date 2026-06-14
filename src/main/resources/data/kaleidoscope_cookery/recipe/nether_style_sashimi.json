@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:crimson_fungus",
+    "minecraft:warped_fungus",
+    "kaleidoscope_cookery:sashimi",
+    "kaleidoscope_cookery:sashimi",
+    "kaleidoscope_cookery:sashimi",
+    "kaleidoscope_cookery:sashimi",
+    "minecraft:bowl"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kaleidoscope_cookery:nether_style_sashimi"
+  }
+}

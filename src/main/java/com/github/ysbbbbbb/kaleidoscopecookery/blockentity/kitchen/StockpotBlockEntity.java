@@ -8,12 +8,16 @@ import com.github.ysbbbbbb.kaleidoscopecookery.api.recipe.soupbase.ISoupBase;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.StockpotBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.BaseBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.container.StockpotInput;
+import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.FlexStockpotRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.StockpotRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.serializer.StockpotRecipeSerializer;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.soupbase.FluidSoupBase;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.soupbase.SoupBaseManager;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
+import com.github.ysbbbbbb.kaleidoscopecookery.item.quality.Quality;
+import com.github.ysbbbbbb.kaleidoscopecookery.item.quality.QualityEvaluator;
+import com.github.ysbbbbbb.kaleidoscopecookery.item.quality.QualityUtils;
 import com.github.ysbbbbbb.kaleidoscopecookery.particle.StockpotParticleOptions;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.BlockDrop;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
@@ -66,9 +70,14 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
     private static final String LID_ITEM = "LidItem";
     private static final String COOKING_TEXTURE = "CookingTexture";
     private static final String FINISHED_TEXTURE = "FinishedTexture";
+    private static final String CARRIER = "Carrier";
+    private static final String COOKING_BUBBLE_COLOR = "CookingBubbleColor";
+    private static final String FINISHED_BUBBLE_COLOR = "FinishedBubbleColor";
+    private static final String FLEX_RECIPE = "FlexRecipe";
     private static final String AUTOMATION_RECIPE_ID = "AutomationRecipeId";
 
     private final RecipeManager.CachedCheck<StockpotInput, StockpotRecipe> quickCheck = RecipeManager.createCheck(ModRecipes.STOCKPOT_RECIPE);
+    private final RecipeManager.CachedCheck<StockpotInput, FlexStockpotRecipe> flexQuickCheck = RecipeManager.createCheck(ModRecipes.FLEX_STOCKPOT_RECIPE);
 
     private NonNullList<ItemStack> inputs = NonNullList.withSize(StockpotRecipe.RECIPES_SIZE, ItemStack.EMPTY);
     private Identifier recipeId = StockpotRecipeSerializer.EMPTY_ID;
@@ -77,8 +86,12 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
     private int status = PUT_SOUP_BASE;
     private int currentTick = -1;
     private int takeoutCount = 0;
+    private Ingredient carrier = StockpotRecipeSerializer.DEFAULT_CARRIER;
     private Identifier cookingTexture = StockpotRecipeSerializer.DEFAULT_COOKING_TEXTURE;
     private Identifier finishedTexture = StockpotRecipeSerializer.DEFAULT_FINISHED_TEXTURE;
+    private int cookingBubbleColor = StockpotRecipeSerializer.DEFAULT_COOKING_BUBBLE_COLOR;
+    private int finishedBubbleColor = StockpotRecipeSerializer.DEFAULT_FINISHED_BUBBLE_COLOR;
+    private boolean flexRecipe = false;
     private @Nullable Identifier automationRecipeId;
 
     // 强制刷新到服务器主线程，用于区块序列化存储
@@ -237,16 +250,17 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
         // 需要检查下 recipe 是否更新
         if (this.level instanceof ServerLevel serverLevel
             && !StockpotRecipeSerializer.EMPTY_ID.equals(this.recipeId)
+            && !this.flexRecipe
             && StockpotRecipeSerializer.EMPTY_ID.equals(this.recipe.id().identifier())) {
             ResourceKey<Recipe<?>> recipeKey = ResourceKey.create(Registries.RECIPE, this.recipeId);
             RecipeHolder<StockpotRecipe> stockpotRecipe = serverLevel.recipeAccess().byKeyTyped(ModRecipes.STOCKPOT_RECIPE, recipeKey);
             this.recipe = Objects.requireNonNullElseGet(stockpotRecipe, StockpotRecipeSerializer::getEmptyRecipe);
         }
         if (status == COOKING) {
-            return this.recipe.value().cookingBubbleColor();
+            return this.cookingBubbleColor;
         }
         if (status == FINISHED) {
-            return this.recipe.value().finishedBubbleColor();
+            return this.finishedBubbleColor;
         }
         ISoupBase soup = this.getSoupBase();
         if (soup != null) {
@@ -307,25 +321,27 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
         }
 
         this.quickCheck.getRecipeFor(container, levelIn).ifPresentOrElse(recipe -> {
-            this.recipeId = recipe.id().identifier();
-            this.recipe = recipe;
-            this.result = recipe.value().assemble(container, levelIn.registryAccess());
-            this.currentTick = recipe.value().time();
-            this.takeoutCount = Math.min(this.result.getCount(), MAX_TAKEOUT_COUNT);
-            this.cookingTexture = recipe.value().cookingTexture();
-            this.finishedTexture = recipe.value().finishedTexture();
+            this.applyRecipe(levelIn, container, recipe);
         }, () -> {
-            this.recipeId = StockpotRecipeSerializer.EMPTY_ID;
-            this.recipe = StockpotRecipeSerializer.getEmptyRecipe();
-            this.result = Items.SUSPICIOUS_STEW.getDefaultInstance();
-            this.currentTick = StockpotRecipeSerializer.DEFAULT_TIME;
-            this.takeoutCount = 1;
-            this.cookingTexture = StockpotRecipeSerializer.DEFAULT_COOKING_TEXTURE;
-            this.finishedTexture = StockpotRecipeSerializer.DEFAULT_FINISHED_TEXTURE;
+            this.flexQuickCheck.getRecipeFor(container, levelIn).ifPresentOrElse(recipe -> {
+                this.applyFlexRecipe(levelIn, container, recipe);
+            }, () -> {
+                this.recipeId = StockpotRecipeSerializer.EMPTY_ID;
+                this.recipe = StockpotRecipeSerializer.getEmptyRecipe();
+                this.flexRecipe = false;
+                this.result = Items.SUSPICIOUS_STEW.getDefaultInstance();
+                this.currentTick = StockpotRecipeSerializer.DEFAULT_TIME;
+                this.takeoutCount = 1;
+                this.carrier = StockpotRecipeSerializer.DEFAULT_CARRIER;
+                this.cookingTexture = StockpotRecipeSerializer.DEFAULT_COOKING_TEXTURE;
+                this.finishedTexture = StockpotRecipeSerializer.DEFAULT_FINISHED_TEXTURE;
+                this.cookingBubbleColor = StockpotRecipeSerializer.DEFAULT_COOKING_BUBBLE_COLOR;
+                this.finishedBubbleColor = StockpotRecipeSerializer.DEFAULT_FINISHED_BUBBLE_COLOR;
+            });
         });
 
         // 触发事件，允许其他 mod 在配方匹配后进行操作
-        StockpotMatchRecipeEvent.Post postEvent = new StockpotMatchRecipeEvent.Post(levelIn, this, container, this.recipe);
+        StockpotMatchRecipeEvent.Post postEvent = new StockpotMatchRecipeEvent.Post(levelIn, this, container, this.recipeId);
         ModEvents.STOCKPOT_RECIPE_POST.invoker().onStockMatchRecipePost(postEvent);
         if (postEvent.getOutput() != null) {
             this.applyRecipe(levelIn, container, postEvent.getOutput());
@@ -335,11 +351,34 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
     private void applyRecipe(Level level, StockpotInput container, RecipeHolder<StockpotRecipe> recipe) {
         this.recipeId = recipe.id().identifier();
         this.recipe = recipe;
+        this.flexRecipe = false;
         this.result = recipe.value().assemble(container, level.registryAccess());
         this.currentTick = recipe.value().time();
         this.takeoutCount = Math.min(this.result.getCount(), MAX_TAKEOUT_COUNT);
+        this.carrier = recipe.value().carrier();
         this.cookingTexture = recipe.value().cookingTexture();
         this.finishedTexture = recipe.value().finishedTexture();
+        this.cookingBubbleColor = recipe.value().cookingBubbleColor();
+        this.finishedBubbleColor = recipe.value().finishedBubbleColor();
+    }
+
+    private void applyFlexRecipe(ServerLevel level, StockpotInput container, RecipeHolder<FlexStockpotRecipe> recipe) {
+        FlexStockpotRecipe value = recipe.value();
+        this.recipeId = recipe.id().identifier();
+        this.recipe = StockpotRecipeSerializer.getEmptyRecipe();
+        this.flexRecipe = true;
+        this.result = value.assemble(container, level.registryAccess());
+        this.currentTick = value.time();
+        this.takeoutCount = Math.min(this.result.getCount(), MAX_TAKEOUT_COUNT);
+        this.carrier = value.carrier();
+        this.cookingTexture = value.cookingTexture();
+        this.finishedTexture = value.finishedTexture();
+        this.cookingBubbleColor = value.cookingBubbleColor();
+        this.finishedBubbleColor = value.finishedBubbleColor();
+
+        List<ItemStack> nonEmptyInputs = this.inputs.stream().filter(stack -> !stack.isEmpty()).toList();
+        Quality quality = QualityEvaluator.evaluate(nonEmptyInputs, value.ingredients(), recipe.id().identifier(), level.getSeed());
+        QualityUtils.setQuality(this.result, quality);
     }
 
     @Override
@@ -481,7 +520,7 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
             return false;
         }
         // 兼容容器是否正确
-        Ingredient carrier = this.recipe.value().carrier();
+        Ingredient carrier = this.carrier;
         if (!carrier.isEmpty() && !carrier.test(stack)) {
             Component carrierName = carrier.items()
                     .findFirst()
@@ -505,8 +544,12 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
             this.result = ItemStack.EMPTY;
             this.currentTick = -1;
             this.renderEntity = null;
+            this.flexRecipe = false;
+            this.carrier = StockpotRecipeSerializer.DEFAULT_CARRIER;
             this.cookingTexture = StockpotRecipeSerializer.DEFAULT_COOKING_TEXTURE;
             this.finishedTexture = StockpotRecipeSerializer.DEFAULT_FINISHED_TEXTURE;
+            this.cookingBubbleColor = StockpotRecipeSerializer.DEFAULT_COOKING_BUBBLE_COLOR;
+            this.finishedBubbleColor = StockpotRecipeSerializer.DEFAULT_FINISHED_BUBBLE_COLOR;
         }
         this.refresh();
         return true;
@@ -531,8 +574,12 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
         valueOutput.putInt(STATUS, this.status);
         valueOutput.putInt(CURRENT_TICK, this.currentTick);
         valueOutput.putInt(TAKEOUT_COUNT, this.takeoutCount);
+        valueOutput.putBoolean(FLEX_RECIPE, this.flexRecipe);
+        valueOutput.store(CARRIER, Ingredient.CODEC, this.carrier);
         valueOutput.putString(COOKING_TEXTURE, this.cookingTexture.toString());
         valueOutput.putString(FINISHED_TEXTURE, this.finishedTexture.toString());
+        valueOutput.putInt(COOKING_BUBBLE_COLOR, this.cookingBubbleColor);
+        valueOutput.putInt(FINISHED_BUBBLE_COLOR, this.finishedBubbleColor);
         if (this.hasLidCached && !this.lidItem.isEmpty())
             valueOutput.storeNullable(LID_ITEM, ItemStack.CODEC, this.lidItem);
         if (this.automationRecipeId != null) {
@@ -561,6 +608,8 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
             this.status = valueInput.getIntOr(STATUS, PUT_SOUP_BASE);
             this.currentTick = valueInput.getIntOr(CURRENT_TICK, 0);
             this.takeoutCount = valueInput.getIntOr(TAKEOUT_COUNT, 0);
+            this.flexRecipe = valueInput.getBooleanOr(FLEX_RECIPE, false);
+            this.carrier = valueInput.read(CARRIER, Ingredient.CODEC).orElse(StockpotRecipeSerializer.DEFAULT_CARRIER);
             this.cookingTexture = Objects.requireNonNullElse(
                     Identifier.tryParse(valueInput.getString(COOKING_TEXTURE).orElse(StockpotRecipeSerializer.DEFAULT_COOKING_TEXTURE.toString())),
                     StockpotRecipeSerializer.DEFAULT_COOKING_TEXTURE
@@ -569,6 +618,8 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
                     Identifier.tryParse(valueInput.getString(FINISHED_TEXTURE).orElse(StockpotRecipeSerializer.DEFAULT_FINISHED_TEXTURE.toString())),
                     StockpotRecipeSerializer.DEFAULT_FINISHED_TEXTURE
             );
+            this.cookingBubbleColor = valueInput.getIntOr(COOKING_BUBBLE_COLOR, StockpotRecipeSerializer.DEFAULT_COOKING_BUBBLE_COLOR);
+            this.finishedBubbleColor = valueInput.getIntOr(FINISHED_BUBBLE_COLOR, StockpotRecipeSerializer.DEFAULT_FINISHED_BUBBLE_COLOR);
             if (valueInput.contains(LID_ITEM)) this.lidItem = valueInput.read(LID_ITEM, ItemStack.CODEC).orElse(ItemStack.EMPTY);
         }
         this.automationRecipeId = valueInput.contains(AUTOMATION_RECIPE_ID)
@@ -639,6 +690,15 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
         }
         ResourceKey<Recipe<?>> recipeKey = ResourceKey.create(Registries.RECIPE, this.automationRecipeId);
         return level.recipeAccess().byKeyTyped(ModRecipes.STOCKPOT_RECIPE, recipeKey);
+    }
+
+    @Nullable
+    public RecipeHolder<FlexStockpotRecipe> getAutomationFlexRecipe(ServerLevel level) {
+        if (this.automationRecipeId == null) {
+            return null;
+        }
+        ResourceKey<Recipe<?>> recipeKey = ResourceKey.create(Registries.RECIPE, this.automationRecipeId);
+        return level.recipeAccess().byKeyTyped(ModRecipes.FLEX_STOCKPOT_RECIPE, recipeKey);
     }
 
     public Identifier getCookingTexture() {

@@ -43,7 +43,7 @@ public class ModRRVPlugin implements ReliableRecipeViewerClientPlugin {
     private static void addMillstoneRecipes(List<ReliableClientRecipe> recipeList) {
         ClientRecipeManager.INSTANCE.getRecipesForType(ModRecipes.MILLSTONE_RECIPE).forEach(holder -> {
             var recipe = holder.value();
-            recipeList.add(new MillstoneViewRecipe(holder.id().identifier(), recipe.getIngredient(), recipe.getResult()));
+            recipeList.add(new MillstoneViewRecipe(holder.id().identifier(), recipe.ingredient(), recipe.results()));
         });
     }
 

@@ -1,0 +1,11 @@
+{
+  "type": "kaleidoscope_cookery:flex_stockpot",
+  "carrier": "minecraft:flower_pot",
+  "ingredients": [
+    "minecraft:warped_fungus"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kaleidoscope_cookery:warped_fungus_pot_soup"
+  }
+}

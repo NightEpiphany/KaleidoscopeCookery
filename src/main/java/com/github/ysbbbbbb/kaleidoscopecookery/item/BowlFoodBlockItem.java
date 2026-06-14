@@ -1,10 +1,14 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.item;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.api.item.ICustomEatEffect;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.config.ClientConfig;
+import com.github.ysbbbbbb.kaleidoscopecookery.item.quality.Quality;
+import com.github.ysbbbbbb.kaleidoscopecookery.item.quality.QualityUtils;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import com.google.common.collect.Lists;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
@@ -12,6 +16,9 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Util;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -41,10 +48,22 @@ import org.jspecify.annotations.NonNull;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
-public class BowlFoodBlockItem extends BlockItem {
+public class BowlFoodBlockItem extends BlockItem implements ICustomEatEffect {
     private final List<MobEffectInstance> effectInstances = Lists.newArrayList();
+    private final Function<Quality, List<MobEffectInstance>> effectCache = Util.memoize(
+            quality -> QualityUtils.modifyEffects(this.effectInstances, quality)
+    );
+    private final BiFunction<Quality, FoodProperties, FoodProperties> foodPropertiesCache = Util.memoize(
+            (quality, raw) -> QualityUtils.modifyFoodProperties(raw, quality)
+    );
+    private final BiFunction<Quality, Consumable, Consumable> foodConsumableCache = Util.memoize(
+            (quality, raw) -> QualityUtils.modifyFoodConsumables(raw, quality)
+    );
+    @SuppressWarnings("all")
     private final Optional<ItemLike> usingConvertsTo;
 
     public BowlFoodBlockItem(Block block, FoodProperties properties, Consumable consumable, @Nullable ItemLike usingConvertsTo, String name) {
@@ -53,10 +72,50 @@ public class BowlFoodBlockItem extends BlockItem {
         );
         this.usingConvertsTo = Optional.ofNullable(usingConvertsTo);
         consumable.onConsumeEffects().forEach(effect -> {
-            if (effect instanceof ApplyStatusEffectsConsumeEffect(List<MobEffectInstance> effects, float probability)) {
+            if (effect instanceof ApplyStatusEffectsConsumeEffect(List<MobEffectInstance> effects, _)) {
                 effectInstances.addAll(effects);
             }
         });
+    }
+
+    @Override
+    public @NonNull InteractionResult use(@NonNull Level level, @NonNull Player player, @NonNull InteractionHand interactionHand) {
+        ItemStack itemStack = player.getItemInHand(interactionHand);
+        FoodProperties foodProperties = itemStack.get(DataComponents.FOOD);
+        if (foodProperties != null) {
+            if (player.canEat(foodProperties.canAlwaysEat())) {
+                itemStack.set(DataComponents.FOOD, modifyFoodProperties(itemStack));
+                itemStack.set(DataComponents.CONSUMABLE, modifyConsumables(itemStack));
+                player.startUsingItem(interactionHand);
+                return InteractionResult.CONSUME;
+            } else {
+                return InteractionResult.FAIL;
+            }
+        } else {
+            return InteractionResult.PASS;
+        }
+    }
+
+    @Override
+    public @Nullable FoodProperties modifyFoodProperties(ItemStack stack) {
+        FoodProperties raw = stack.get(DataComponents.FOOD);
+        if (!QualityUtils.hasQuality(stack) || raw == null) {
+            return raw;
+        }
+        // 如果有品质，那么依据品质
+        Quality quality = QualityUtils.getQuality(stack);
+        return this.foodPropertiesCache.apply(quality, raw);
+    }
+
+    @Override
+    public Consumable modifyConsumables(ItemStack stack) {
+        Consumable raw = stack.get(DataComponents.CONSUMABLE);
+        if (!QualityUtils.hasQuality(stack) || raw == null) {
+            return raw;
+        }
+        // 如果有品质，那么依据品质
+        Quality quality = QualityUtils.getQuality(stack);
+        return this.foodConsumableCache.apply(quality, raw);
     }
 
     @Override
@@ -115,7 +174,19 @@ public class BowlFoodBlockItem extends BlockItem {
                 consumer.accept(CommonComponents.EMPTY);
             }
         }
-        if (!this.effectInstances.isEmpty() && ClientConfig.SHOW_FOOD_EFFECT_TOOLTIPS.get()) {
+
+        boolean showEffect = !this.effectInstances.isEmpty()
+                && ClientConfig.SHOW_FOOD_EFFECT_TOOLTIPS.get();
+
+        // 品质
+        if (QualityUtils.hasQuality(stack)) {
+            Quality quality = QualityUtils.getQuality(stack);
+            consumer.accept(quality.getTooltip());
+            if (showEffect) {
+                consumer.accept(CommonComponents.space());
+                PotionContents.addPotionTooltip(this.effectCache.apply(quality), consumer, 1.0F, tooltip.tickRate());
+            }
+        } else {
             consumer.accept(CommonComponents.space());
             PotionContents.addPotionTooltip(this.effectInstances, consumer, 1.0F, tooltip.tickRate());
         }

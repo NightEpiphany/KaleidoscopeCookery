@@ -1,7 +1,9 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.init.registry;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
+import com.github.ysbbbbbb.kaleidoscopecookery.block.decoration.PlateBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.dispenser.OilPotDispenseBehavior;
+import com.github.ysbbbbbb.kaleidoscopecookery.block.drink.TeacupBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteOneByTwoBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.create.automation.init.AutomationCompat;
@@ -13,6 +15,8 @@ import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModVillager;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.BowlFoodBlockItem;
+import com.github.ysbbbbbb.kaleidoscopecookery.item.PlateBlockItem;
+import com.github.ysbbbbbb.kaleidoscopecookery.item.TeacupItem;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import net.fabricmc.fabric.api.registry.CompostableRegistry;
 import net.fabricmc.fabric.api.registry.FuelValueEvents;
@@ -22,6 +26,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.world.entity.ai.behavior.GiveGiftToHero;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
@@ -38,6 +43,8 @@ public final class CommonRegistry {
         registerDataListeners();
         modCompat();
         addComposter();
+        registerPlateBlocks();
+        registerTeacupBlocks();
         registerFoodBiteBlocks();
         registerServerEvents();
         addVillagerGift();
@@ -76,6 +83,44 @@ public final class CommonRegistry {
         LeftClickEvent.register();
         ExtraLootTableDrop.register();
         PlayerSitEvent.register();
+    }
+
+    private static void registerPlateBlocks() {
+        PlateRegistry.init();
+
+        PlateRegistry.PLATE_DATA_MAP.forEach((resourceLocation, data) -> {
+            PlateBlock plateBlock = new PlateBlock(data.getMaxCount(), data.getServingItems(),
+                    BlockBehaviour.Properties
+                            .of()
+                            .setId(PortHelper.createBlockId(resourceLocation.getPath())));
+            VoxelShape aabb = data.getAABB();
+            if (aabb != null) {
+                plateBlock.setAABB(aabb);
+            }
+            Registry.register(BuiltInRegistries.BLOCK, resourceLocation, plateBlock);
+
+            Block block = BuiltInRegistries.BLOCK.getValue(resourceLocation);
+            Registry.register(BuiltInRegistries.ITEM, resourceLocation, new PlateBlockItem(block, resourceLocation.getPath()));
+        });
+    }
+
+    private static void registerTeacupBlocks() {
+        TeacupRegistry.init();
+
+        TeacupRegistry.TEACUP_DATA_MAP.forEach((resourceLocation, data) -> {
+            TeacupBlock teacupBlock = new TeacupBlock(
+                    BlockBehaviour.Properties
+                            .of()
+                            .setId(PortHelper.createBlockId(resourceLocation.getPath())), data.getMaxCount());
+            VoxelShape aabb = data.getAABB();
+            if (aabb != null) {
+                teacupBlock.setAABB(aabb);
+            }
+            Registry.register(BuiltInRegistries.BLOCK, resourceLocation, teacupBlock);
+
+            Block block = BuiltInRegistries.BLOCK.getValue(resourceLocation);
+            Registry.register(BuiltInRegistries.ITEM, resourceLocation, new TeacupItem(block, data.getEffects(), new Item.Properties().setId(PortHelper.createItemId(resourceLocation.getPath()))));
+        });
     }
 
     private static void registerFoodBiteBlocks() {

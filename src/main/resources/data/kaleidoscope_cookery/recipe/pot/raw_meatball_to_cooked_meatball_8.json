@@ -1,0 +1,17 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "ingredients": [
+    "kaleidoscope_cookery:raw_meatball",
+    "kaleidoscope_cookery:raw_meatball",
+    "kaleidoscope_cookery:raw_meatball",
+    "kaleidoscope_cookery:raw_meatball",
+    "kaleidoscope_cookery:raw_meatball",
+    "kaleidoscope_cookery:raw_meatball",
+    "kaleidoscope_cookery:raw_meatball",
+    "kaleidoscope_cookery:raw_meatball"
+  ],
+  "result": {
+    "count": 8,
+    "id": "kaleidoscope_cookery:cooked_meatball"
+  }
+}

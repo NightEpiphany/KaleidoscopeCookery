@@ -57,10 +57,15 @@ public class FoodBiteThreeByThreeBlock extends FoodBiteBlock implements EntityBl
     public FoodBiteThreeByThreeBlock(BlockBehaviour.Properties p, FoodProperties foodProperties, Consumable consumable, int maxBites,
                                      @Nullable FoodBiteAnimateTicks.AnimateTick animateTick) {
         super(p, foodProperties, consumable, maxBites, animateTick);
-        this.registerDefaultState(this.stateDefinition.any().setValue(bites, 0).setValue(FACING, Direction.SOUTH).setValue(PART, NinePart.CENTER));
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(bites, 0)
+                .setValue(FACING, Direction.SOUTH)
+                .setValue(PART, NinePart.CENTER)
+                .setValue(QUALITY, DEFAULT_QUALITY)
+        );
     }
 
-    public static void handleRemove(Level world, BlockPos pos, BlockState state, @Nullable Player player) {
+    private static void handleRemove(Level world, BlockPos pos, BlockState state, @Nullable Player player) {
         if (world.isClientSide()) {
             return;
         }
@@ -89,7 +94,7 @@ public class FoodBiteThreeByThreeBlock extends FoodBiteBlock implements EntityBl
         BlockPos centerPos = pos.subtract(new Vec3i(part.getPosX(), 0, part.getPosY()));
         BlockState centerState = level.getBlockState(centerPos);
         if (!centerState.is(this)) {
-            return InteractionResult.TRY_WITH_EMPTY_HAND;
+            return InteractionResult.PASS;
         }
 
         // 将使用逻辑全部交给中心部分处理
@@ -111,7 +116,6 @@ public class FoodBiteThreeByThreeBlock extends FoodBiteBlock implements EntityBl
         handleRemove(world, pos, state, player);
         return super.playerWillDestroy(world, pos, state, player);
     }
-
 
     @Override
     public void wasExploded(@NonNull ServerLevel serverLevel, @NonNull BlockPos blockPos, @NonNull Explosion explosion) {
@@ -154,12 +158,12 @@ public class FoodBiteThreeByThreeBlock extends FoodBiteBlock implements EntityBl
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(FACING, PART);
+        pBuilder.add(FACING, QUALITY, PART);
     }
 
     @Override
     protected void createBitesBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(bites, FACING, PART);
+        builder.add(bites, FACING, QUALITY, PART);
     }
 
     @Nullable
@@ -193,7 +197,7 @@ public class FoodBiteThreeByThreeBlock extends FoodBiteBlock implements EntityBl
     }
 
     @Override
-    public @NotNull List<ItemStack> getDrops(BlockState state, LootParams.@NonNull Builder pParams) {
+    public @NotNull List<ItemStack> getDrops(@NonNull BlockState state, LootParams.@NonNull Builder pParams) {
         // 只有中心部分掉落物品
         if (state.getValue(PART) != NinePart.CENTER) {
             return Collections.emptyList();

@@ -40,6 +40,7 @@ public class TeacupItem extends BlockItem implements IHasContainer {
     public TeacupItem(Block block, List<Pair<Supplier<MobEffectInstance>, Float>> effects, Properties properties) {
         super(block, properties
                 .stacksTo(16)
+                .useBlockDescriptionPrefix()
                 .component(DataComponents.CONSUMABLE, Consumables.DEFAULT_DRINK)
         );
         this.effects = effects;

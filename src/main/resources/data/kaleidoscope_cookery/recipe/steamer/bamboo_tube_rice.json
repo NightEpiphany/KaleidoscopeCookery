@@ -1,0 +1,8 @@
+{
+  "type": "kaleidoscope_cookery:steamer",
+  "ingredient": "kaleidoscope_cookery:raw_bamboo_tube_rice",
+  "result": {
+    "count": 1,
+    "id": "kaleidoscope_cookery:bamboo_tube_rice"
+  }
+}

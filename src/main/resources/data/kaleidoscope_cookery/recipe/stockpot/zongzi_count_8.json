@@ -1,0 +1,17 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "ingredients": [
+    "kaleidoscope_cookery:raw_zongzi",
+    "kaleidoscope_cookery:raw_zongzi",
+    "kaleidoscope_cookery:raw_zongzi",
+    "kaleidoscope_cookery:raw_zongzi",
+    "kaleidoscope_cookery:raw_zongzi",
+    "kaleidoscope_cookery:raw_zongzi",
+    "kaleidoscope_cookery:raw_zongzi",
+    "kaleidoscope_cookery:raw_zongzi"
+  ],
+  "result": {
+    "count": 8,
+    "id": "kaleidoscope_cookery:zongzi"
+  }
+}

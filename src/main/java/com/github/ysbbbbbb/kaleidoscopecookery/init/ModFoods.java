@@ -3,6 +3,45 @@ package com.github.ysbbbbbb.kaleidoscopecookery.init;
 import net.minecraft.world.food.FoodProperties;
 
 public interface ModFoods {
+    // 青团
+    FoodProperties QINGTUAN = (new FoodProperties.Builder())
+            .nutrition(5).saturationModifier(0.6F)
+            .alwaysEdible().build();
+
+    // 牛皮糖
+    FoodProperties STICKY_CANDY = (new FoodProperties.Builder())
+            .nutrition(6).saturationModifier(1)
+            .alwaysEdible().build();
+
+    // 糍粑
+    FoodProperties STICKY_RICE_CAKE = (new FoodProperties.Builder())
+            .nutrition(8).saturationModifier(0.875F)
+            .alwaysEdible().build();
+
+    // 粽子
+    FoodProperties ZONGZI = (new FoodProperties.Builder())
+            .nutrition(8).saturationModifier(0.625F)
+            .alwaysEdible().build();
+
+    // 竹筒饭
+    FoodProperties RAW_BAMBOO_TUBE_RICE = (new FoodProperties.Builder())
+            .nutrition(10).saturationModifier(0.5F)
+            .alwaysEdible().build();
+
+    FoodProperties BAMBOO_TUBE_RICE = (new FoodProperties.Builder())
+            .nutrition(10).saturationModifier(0.5F)
+            .alwaysEdible().build();
+
+    // 热干面
+    FoodProperties HOT_DRY_NOODLES = (new FoodProperties.Builder())
+            .nutrition(14).saturationModifier(0.643f)
+            .alwaysEdible().build();
+
+    // 腊八粥
+    FoodProperties LABA_CONGEE = (new FoodProperties.Builder())
+            .nutrition(12).saturationModifier(0.5F)
+            .alwaysEdible().build();
+
     // 番茄
     FoodProperties TOMATO = (new FoodProperties.Builder())
             .nutrition(2).saturationModifier(0.5F)

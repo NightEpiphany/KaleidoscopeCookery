@@ -1,0 +1,12 @@
+{
+  "type": "kaleidoscope_cookery:flex_pot",
+  "carrier": "minecraft:bowl",
+  "ingredients": [
+    "minecraft:rabbit",
+    "#c:crops/chilipepper"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kaleidoscope_cookery:spicy_rabbit_head"
+  }
+}

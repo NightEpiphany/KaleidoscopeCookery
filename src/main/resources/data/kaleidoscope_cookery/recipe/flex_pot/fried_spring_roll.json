@@ -1,0 +1,13 @@
+{
+  "type": "kaleidoscope_cookery:flex_pot",
+  "carrier": "minecraft:bowl",
+  "ingredients": [
+    "minecraft:phantom_membrane",
+    "#c:foods/raw_pork",
+    "#c:mushrooms"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kaleidoscope_cookery:fried_spring_roll"
+  }
+}

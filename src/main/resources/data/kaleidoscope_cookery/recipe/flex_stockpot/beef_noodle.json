@@ -1,0 +1,11 @@
+{
+  "type": "kaleidoscope_cookery:flex_stockpot",
+  "ingredients": [
+    "#c:foods/raw_beef",
+    "kaleidoscope_cookery:raw_noodles"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kaleidoscope_cookery:beef_noodle"
+  }
+}

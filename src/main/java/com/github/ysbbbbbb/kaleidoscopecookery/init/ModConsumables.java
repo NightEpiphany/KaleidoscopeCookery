@@ -11,6 +11,17 @@ import static com.github.ysbbbbbb.kaleidoscopecookery.init.ModEffects.*;
 import static net.minecraft.world.effect.MobEffects.*;
 
 public interface ModConsumables {
+
+    // 腊八粥
+    Consumable LABA_CONGEE = Consumables.defaultFood()
+            .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(WARMTH, 5 * 60 * 20), 1F))
+            .build();
+
+    // 粽子
+    Consumable ZONGZI = Consumables.defaultFood()
+            .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(REGENERATION, 20 * 20), 1F))
+            .build();
+
     // 番茄
     Consumable TOMATO = Consumables.defaultFood()
             .build();
@@ -112,17 +123,22 @@ public interface ModConsumables {
 
     // 牛肉面
     Consumable BEEF_NOODLE = Consumables.defaultFood()
-            .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(WARMTH, 3 * 60 * 20), 1.0F))
+            .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(VITALITY, 8 * 60 * 20), 1.0F))
             .build();
 
     // 烩面
     Consumable HUI_NOODLE = Consumables.defaultFood()
-            .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(WARMTH, 3 * 60 * 20), 1.0F))
+            .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(VITALITY, 8 * 60 * 20), 1.0F))
             .build();
 
     // 乌冬面
     Consumable UDON_NOODLE = Consumables.defaultFood()
-            .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(WARMTH, 3 * 60 * 20), 1.0F))
+            .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(VITALITY, 8 * 60 * 20), 1.0F))
+            .build();
+
+    // 热干面
+    Consumable HOT_DRY_NOODLES = Consumables.defaultFood()
+            .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(VITALITY, 8 * 60 * 20), 1F))
             .build();
 
     // 煎蛋

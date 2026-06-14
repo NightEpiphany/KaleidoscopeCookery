@@ -7,6 +7,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.StockpotBlock
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.create.automation.util.AutomationArmPlayer;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.create.automation.util.ItemHandlerUtils;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.create.automation.util.StackPredicate;
+import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.FlexStockpotRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.StockpotRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.soupbase.SoupBaseManager;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
@@ -16,8 +17,10 @@ import com.zurrtum.create.content.kinetics.mechanicalArm.ArmBlockEntity;
 import com.zurrtum.create.content.kinetics.mechanicalArm.ArmInteractionPointType;
 import net.fabricmc.fabric.api.entity.FakePlayer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -44,10 +47,10 @@ public class StockPotPoint extends AllArmInteractionPointTypes.TopFaceArmInterac
         }
         if (blockEntity instanceof StockpotBlockEntity pot) {
             RecipeHolder<StockpotRecipe> holder = pot.getAutomationRecipe(serverLevel);
-            if (holder == null) return stack;
+            RecipeHolder<FlexStockpotRecipe> flexHolder = holder == null ? pot.getAutomationFlexRecipe(serverLevel) : null;
+            if (holder == null && flexHolder == null) return stack;
             if (pot.hasLid()) return stack;
-            StockpotRecipe recipe = holder.value();
-            ISoupBase iSoupBase = SoupBaseManager.getSoupBase(recipe.soupBase());
+            ISoupBase iSoupBase = SoupBaseManager.getSoupBase(getSoupBase(holder, flexHolder));
             if (iSoupBase == null) {
                 return stack;
             }
@@ -66,7 +69,7 @@ public class StockPotPoint extends AllArmInteractionPointTypes.TopFaceArmInterac
                     }
                     break;
                 case IStockpot.PUT_INGREDIENT: {
-                    List<StackPredicate> required = recipe.ingredients().stream().filter(i -> !i.isEmpty()).map(StackPredicate::new).toList();
+                    List<StackPredicate> required = getIngredients(holder, flexHolder).stream().filter(i -> !i.isEmpty()).map(StackPredicate::new).toList();
                     required = ItemHandlerUtils.getRequired(required, pot.getInputs());
                     if (!required.isEmpty()) {
                         if (required.stream().anyMatch(p -> p.test(stack))) {
@@ -98,7 +101,7 @@ public class StockPotPoint extends AllArmInteractionPointTypes.TopFaceArmInterac
                 case IStockpot.FINISHED: {
                     if (stack.isEmpty()) {
                         return stack;
-                    } else if (recipe.carrier().test(stack)) {
+                    } else if (getCarrier(holder, flexHolder).test(stack)) {
                         if (!simulate) {
                             ItemStack carrierStack = stack.copyWithCount(1);
                             if (!pot.takeOutProduct(level, fakePlayer, carrierStack)) {
@@ -134,5 +137,26 @@ public class StockPotPoint extends AllArmInteractionPointTypes.TopFaceArmInterac
             }
         }
         return ItemStack.EMPTY;
+    }
+
+    private List<Ingredient> getIngredients(RecipeHolder<StockpotRecipe> holder, RecipeHolder<FlexStockpotRecipe> flexHolder) {
+        if (holder != null) {
+            return holder.value().ingredients();
+        }
+        return flexHolder.value().ingredients();
+    }
+
+    private Identifier getSoupBase(RecipeHolder<StockpotRecipe> holder, RecipeHolder<FlexStockpotRecipe> flexHolder) {
+        if (holder != null) {
+            return holder.value().soupBase();
+        }
+        return flexHolder.value().soupBase();
+    }
+
+    private Ingredient getCarrier(RecipeHolder<StockpotRecipe> holder, RecipeHolder<FlexStockpotRecipe> flexHolder) {
+        if (holder != null) {
+            return holder.value().carrier();
+        }
+        return flexHolder.value().carrier();
     }
 }

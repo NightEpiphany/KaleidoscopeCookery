@@ -1,0 +1,18 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "ingredients": [
+    "minecraft:chicken",
+    "minecraft:chicken",
+    "minecraft:chicken",
+    "minecraft:chicken",
+    "minecraft:chicken",
+    "minecraft:chicken",
+    "minecraft:chicken",
+    "minecraft:chicken",
+    "minecraft:chicken"
+  ],
+  "result": {
+    "count": 9,
+    "id": "minecraft:cooked_chicken"
+  }
+}

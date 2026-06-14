@@ -1,27 +1,13 @@
 {
   "type": "kaleidoscope_cookery:pot",
-  "carrier":
-    "minecraft:bowl",
-  
+  "carrier": "minecraft:bowl",
   "ingredients": [
-
-      "kaleidoscope_cookery:green_chili",
-    
-
-      "kaleidoscope_cookery:green_chili",
-    
-
-      "kaleidoscope_cookery:green_chili",
-    
-
-      "#c:raw_pork",
-    
-
-      "#c:raw_pork",
-    
-
-      "#c:raw_pork"
-
+    "kaleidoscope_cookery:green_chili",
+    "kaleidoscope_cookery:green_chili",
+    "kaleidoscope_cookery:green_chili",
+    "#c:foods/raw_pork",
+    "#c:foods/raw_pork",
+    "#c:foods/raw_pork"
   ],
   "result": {
     "count": 1,

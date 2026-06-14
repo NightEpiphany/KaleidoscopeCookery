@@ -1,6 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.tooltip;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.inventory.tooltip.ItemContainerTooltip;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.neo.IItemHandler;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -52,7 +53,7 @@ public class ClientItemContainerTooltip implements ClientTooltipComponent {
     @Override
     public void extractImage(@NonNull Font font, int pX, int pY, int a, int b, @NonNull GuiGraphicsExtractor guiGraphics) {
         if (emptyTip != null) {
-            guiGraphics.text(font, emptyTip, pX, pY, -8355712);
+            guiGraphics.text(font, emptyTip, pX, pY, PortHelper.DEFAULT_COLOR);
         } else {
             int i = 0;
             for (ItemStack stack : this.items) {

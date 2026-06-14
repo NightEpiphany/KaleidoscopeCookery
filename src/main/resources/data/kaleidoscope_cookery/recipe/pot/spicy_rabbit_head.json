@@ -1,27 +1,13 @@
 {
   "type": "kaleidoscope_cookery:pot",
-  "carrier":
-    "minecraft:bowl",
-  
+  "carrier": "minecraft:bowl",
   "ingredients": [
-
-      "minecraft:rabbit",
-    
-
-      "minecraft:rabbit",
-    
-
-      "minecraft:rabbit",
-    
-
-      "#c:crops/chilipepper",
-    
-
-      "#c:crops/chilipepper",
-    
-
-      "#c:crops/chilipepper"
-
+    "minecraft:rabbit",
+    "minecraft:rabbit",
+    "minecraft:rabbit",
+    "#c:crops/chilipepper",
+    "#c:crops/chilipepper",
+    "#c:crops/chilipepper"
   ],
   "result": {
     "count": 1,

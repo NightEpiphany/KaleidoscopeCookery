@@ -1,0 +1,16 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "ingredients": [
+    "minecraft:salmon",
+    "minecraft:salmon",
+    "minecraft:salmon",
+    "minecraft:salmon",
+    "minecraft:salmon",
+    "minecraft:salmon",
+    "minecraft:salmon"
+  ],
+  "result": {
+    "count": 7,
+    "id": "minecraft:cooked_salmon"
+  }
+}

@@ -1,24 +1,12 @@
 {
   "type": "kaleidoscope_cookery:pot",
   "ingredients": [
-
-      "kaleidoscope_cookery:stuffed_dough_food",
-    
-
-      "kaleidoscope_cookery:stuffed_dough_food",
-    
-
-      "kaleidoscope_cookery:stuffed_dough_food",
-    
-
-      "kaleidoscope_cookery:stuffed_dough_food",
-    
-
-      "kaleidoscope_cookery:stuffed_dough_food",
-    
-
-      "kaleidoscope_cookery:stuffed_dough_food"
-
+    "kaleidoscope_cookery:stuffed_dough_food",
+    "kaleidoscope_cookery:stuffed_dough_food",
+    "kaleidoscope_cookery:stuffed_dough_food",
+    "kaleidoscope_cookery:stuffed_dough_food",
+    "kaleidoscope_cookery:stuffed_dough_food",
+    "kaleidoscope_cookery:stuffed_dough_food"
   ],
   "result": {
     "count": 6,

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:sweet_berries",
+    "minecraft:sweet_berries",
+    "minecraft:sweet_berries",
+    "minecraft:sweet_berries",
+    "minecraft:glow_berries",
+    "minecraft:glow_berries",
+    "minecraft:glow_berries",
+    "minecraft:glow_berries",
+    "minecraft:bowl"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kaleidoscope_cookery:berry_platter"
+  }
+}

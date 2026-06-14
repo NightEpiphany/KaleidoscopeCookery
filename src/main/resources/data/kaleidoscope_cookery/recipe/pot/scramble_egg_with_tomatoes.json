@@ -1,27 +1,13 @@
 {
   "type": "kaleidoscope_cookery:pot",
-  "carrier":
-    "minecraft:bowl",
-  
+  "carrier": "minecraft:bowl",
   "ingredients": [
-
-      "#c:foods/cooked_eggs",
-    
-
-      "#c:foods/cooked_eggs",
-    
-
-      "#c:foods/cooked_eggs",
-    
-
-      "#c:crops/tomato",
-    
-
-      "#c:crops/tomato",
-    
-
-      "#c:crops/tomato"
-
+    "#c:eggs",
+    "#c:eggs",
+    "#c:eggs",
+    "#c:crops/tomato",
+    "#c:crops/tomato",
+    "#c:crops/tomato"
   ],
   "result": {
     "count": 1,

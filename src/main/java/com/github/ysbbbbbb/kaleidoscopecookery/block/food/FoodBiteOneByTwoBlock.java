@@ -11,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
@@ -37,9 +38,13 @@ public class FoodBiteOneByTwoBlock extends FoodBiteBlock {
     public FoodBiteOneByTwoBlock(BlockBehaviour.Properties p, FoodProperties foodProperties, Consumable consumable, int maxBites,
                                  @Nullable FoodBiteAnimateTicks.AnimateTick animateTick) {
         super(p, foodProperties, consumable, maxBites, animateTick);
-        this.registerDefaultState(this.stateDefinition.any().setValue(bites, 0).setValue(FACING, Direction.SOUTH).setValue(POSITION, RIGHT));
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(bites, 0)
+                .setValue(FACING, Direction.SOUTH)
+                .setValue(POSITION, RIGHT)
+                .setValue(QUALITY, DEFAULT_QUALITY)
+        );
     }
-
 
     @Override
     protected @NonNull BlockState updateShape(@NonNull BlockState state, @NonNull LevelReader levelReader, @NonNull ScheduledTickAccess scheduledTickAccess, @NonNull BlockPos blockPos, @NonNull Direction direction, @NonNull BlockPos blockPos2, @NonNull BlockState neighborState, @NonNull RandomSource randomSource) {
@@ -48,7 +53,7 @@ public class FoodBiteOneByTwoBlock extends FoodBiteBlock {
 
         // 如果当前方块在左，更新的方向来自于右侧，或者当前方块在右，更新的方向来自于左侧
         if ((position == LEFT && direction == facing.getCounterClockWise())
-            || (position == RIGHT && direction == facing.getClockWise())) {
+                || (position == RIGHT && direction == facing.getClockWise())) {
             // 一侧方块不是同类型或朝向、位置不对，移除当前方块
             if (!neighborState.is(this) || neighborState.getValue(FACING) != facing || neighborState.getValue(POSITION) == position) {
                 return Blocks.AIR.defaultBlockState();
@@ -63,7 +68,7 @@ public class FoodBiteOneByTwoBlock extends FoodBiteBlock {
     }
 
     @Override
-    public @NonNull BlockState playerWillDestroy(Level level, @NonNull BlockPos pos, @NonNull BlockState state, @NonNull Player player) {
+    public @NotNull BlockState playerWillDestroy(Level level, @NonNull BlockPos pos, @NonNull BlockState state, @NonNull Player player) {
         if (!level.isClientSide() && player.isCreative() && state.getValue(POSITION) == LEFT) {
             BlockPos right = pos.relative(state.getValue(FACING).getCounterClockWise());
             BlockState rightState = level.getBlockState(right);
@@ -92,7 +97,7 @@ public class FoodBiteOneByTwoBlock extends FoodBiteBlock {
     }
 
     @Override
-    public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, LivingEntity pPlacer, @NonNull ItemStack pStack) {
+    public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, LivingEntity pPlacer, ItemStack pStack) {
         Direction facing = pState.getValue(FACING);
         BlockPos leftPos = pPos.relative(facing.getClockWise());
         BlockState leftState = pState.setValue(POSITION, LEFT);
@@ -101,16 +106,16 @@ public class FoodBiteOneByTwoBlock extends FoodBiteBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, POSITION);
+        builder.add(FACING, QUALITY, POSITION);
     }
 
     @Override
     protected void createBitesBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(bites, FACING, POSITION);
+        builder.add(bites, FACING, QUALITY, POSITION);
     }
 
     @Override
-    public @NotNull List<ItemStack> getDrops(BlockState state, LootParams.@NonNull Builder pParams) {
+    public @NotNull List<ItemStack> getDrops(@NonNull BlockState state, LootParams.@NonNull Builder pParams) {
         // 左侧不掉落
         if (state.getValue(POSITION) == LEFT) {
             return Collections.emptyList();

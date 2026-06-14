@@ -39,13 +39,16 @@ public class MillstoneViewType implements ReliableClientRecipeType {
 
     @Override
     public int getSlotCount() {
-        return 2;
+        return 5;
     }
 
     @Override
     public void placeSlots(RecipeViewMenu.SlotDefinition slotDefinition) {
         slotDefinition.addItemSlot(0, 16, 21);
         slotDefinition.addItemSlot(1, 91, 30);
+        slotDefinition.addItemSlot(2, 91, 8);
+        slotDefinition.addItemSlot(3, 72, 30);
+        slotDefinition.addItemSlot(4, 91, 52);
     }
 
     @Override

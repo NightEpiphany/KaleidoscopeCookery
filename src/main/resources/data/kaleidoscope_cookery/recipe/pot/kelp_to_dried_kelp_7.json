@@ -1,0 +1,16 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "ingredients": [
+    "minecraft:kelp",
+    "minecraft:kelp",
+    "minecraft:kelp",
+    "minecraft:kelp",
+    "minecraft:kelp",
+    "minecraft:kelp",
+    "minecraft:kelp"
+  ],
+  "result": {
+    "count": 7,
+    "id": "minecraft:dried_kelp"
+  }
+}

@@ -7,7 +7,6 @@ import com.github.ysbbbbbb.kaleidoscopecookery.block.crop.LettuceCropBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.crop.RiceCropBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.decoration.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.drink.EmptyCupBlock;
-import com.github.ysbbbbbb.kaleidoscopecookery.block.drink.TeacupBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteThreeByThreeBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.misc.*;
@@ -17,7 +16,6 @@ import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.RecipeBloc
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.TableBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.food.FoodBiteThreeByThreeBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.*;
-import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.TeacupRegistry;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.core.Registry;
@@ -32,6 +30,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.phys.shapes.Shapes;
 
 import java.util.function.Function;
 
@@ -161,24 +160,6 @@ public final class ModBlocks {
             .noOcclusion()
             .instabreak());
     public static final Block EMPTY_CUP = commonReg("empty_cup", EmptyCupBlock::new, BlockBehaviour.Properties.of());
-    public static final Block BARLEY_TEA = commonReg("barley_tea",
-            properties -> new TeacupBlock(properties, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.BARLEY_TEA).getMaxCount()),
-            BlockBehaviour.Properties.of());
-    public static final Block TIEGUANYIN = commonReg("tieguanyin",
-            properties -> new TeacupBlock(properties, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.TIEGUANYIN).getMaxCount()),
-            BlockBehaviour.Properties.of());
-    public static final Block BILUOCHUN = commonReg("biluochun",
-            properties -> new TeacupBlock(properties, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.BILUOCHUN).getMaxCount()),
-            BlockBehaviour.Properties.of());
-    public static final Block OOLONG = commonReg("oolong",
-            properties -> new TeacupBlock(properties, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.OOLONG).getMaxCount()),
-            BlockBehaviour.Properties.of());
-    public static final Block SAKURA_FUBUKI = commonReg("sakura_fubuki",
-            properties -> new TeacupBlock(properties, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.SAKURA_FUBUKI).getMaxCount()),
-            BlockBehaviour.Properties.of());
-    public static final Block FLOWER_TEA = commonReg("flower_tea",
-            properties -> new TeacupBlock(properties, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.FLOWER_TEA).getMaxCount()),
-            BlockBehaviour.Properties.of());
 
     // Crop blocks
     public static final Block TOMATO_CROP = cropReg("tomato_crop",p -> new BaseCropBlock(p, () -> ModItems.TOMATO, () -> ModItems.TOMATO_SEED));
@@ -236,6 +217,24 @@ public final class ModBlocks {
             .sound(SoundType.WOOD)
             .pushReaction(PushReaction.DESTROY)
             .noOcclusion());
+
+    public static final Block BAMBOO_TUBE_RICE = commonReg("bamboo_tube_rice", p ->
+        StackableFoodBlock.create(p)
+                .maxCount(4)
+                .item(() -> ModItems.BAMBOO_TUBE_RICE)
+                .shapes(
+                        Block.box(4, 0, 4, 12, 10, 12),
+                        Shapes.or(
+                                Block.box(7, 0, 1, 15, 10, 9),
+                                Block.box(1, 0, 7, 9, 10, 15)
+                        ),
+                        Shapes.or(
+                                Block.box(0, 0, 6, 16, 10, 15),
+                                Block.box(4, 0, 0, 12, 10, 15)
+                        ),
+                        Block.box(0, 0, 0, 16, 10, 16)
+                ).build(), BlockBehaviour.Properties.of().setId(PortHelper.createBlockId("bamboo_tube_rice"))
+    );
 
     // Block entities
     public static final BlockEntityType<PotBlockEntity> POT_BE = FabricBlockEntityTypeBuilder.create(PotBlockEntity::new, POT).build();

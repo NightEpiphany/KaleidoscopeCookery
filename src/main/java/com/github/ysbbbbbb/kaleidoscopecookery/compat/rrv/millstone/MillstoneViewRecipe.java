@@ -4,6 +4,7 @@ import cc.cassian.rrv.api.recipe.ReliableClientRecipe;
 import cc.cassian.rrv.api.recipe.ReliableClientRecipeType;
 import cc.cassian.rrv.common.recipe.inventory.RecipeViewMenu;
 import cc.cassian.rrv.common.recipe.inventory.SlotContent;
+import com.github.ysbbbbbb.kaleidoscopecookery.crafting.output.RandomOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -13,12 +14,17 @@ import java.util.List;
 public class MillstoneViewRecipe implements ReliableClientRecipe {
     private final Identifier id;
     private final SlotContent ingredient;
-    private final SlotContent result;
+    private final List<SlotContent> results;
 
-    public MillstoneViewRecipe(Identifier id, Ingredient ingredient, ItemStackTemplate result) {
+    public MillstoneViewRecipe(Identifier id, Ingredient ingredient, List<RandomOutput> results) {
         this.id = id;
         this.ingredient = SlotContent.of(ingredient);
-        this.result = SlotContent.of(result);
+        this.results = results.stream()
+                .filter(output -> !output.isEmpty())
+                .limit(4)
+                .map(RandomOutput::stack)
+                .map(SlotContent::of)
+                .toList();
     }
 
     @Override
@@ -34,7 +40,9 @@ public class MillstoneViewRecipe implements ReliableClientRecipe {
     @Override
     public void bindSlots(RecipeViewMenu.SlotFillContext slotFillContext) {
         slotFillContext.bindSlot(0, this.ingredient);
-        slotFillContext.bindSlot(1, this.result);
+        for (int i = 0; i < this.results.size(); i++) {
+            slotFillContext.bindSlot(i + 1, this.results.get(i));
+        }
     }
 
     @Override
@@ -44,6 +52,6 @@ public class MillstoneViewRecipe implements ReliableClientRecipe {
 
     @Override
     public List<SlotContent> getResults() {
-        return List.of(this.result);
+        return this.results;
     }
 }

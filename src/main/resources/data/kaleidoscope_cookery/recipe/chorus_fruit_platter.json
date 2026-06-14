@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:chorus_fruit",
+    "minecraft:chorus_fruit",
+    "minecraft:chorus_fruit",
+    "minecraft:chorus_fruit",
+    "minecraft:chorus_fruit",
+    "minecraft:bowl"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kaleidoscope_cookery:chorus_fruit_platter"
+  }
+}

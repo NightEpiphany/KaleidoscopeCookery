@@ -2,6 +2,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.init;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.FoodBiteRegistry;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.PlateRegistry;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.TeacupRegistry;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.OilPotItem;
 import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
@@ -26,7 +27,8 @@ public final class ModCreativeTabs {
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, COOKERY_MAIN_TAB, FabricCreativeModeTab.builder()
                 .title(Component.translatable("item_group.kaleidoscope_cookery.cookery_main.name"))
                 .icon(() -> BuiltInRegistries.ITEM.getValue(MAIN_ICON_ID).getDefaultInstance())
-                .displayItems((par, output) -> {
+                .displayItems((_, output) -> {
+                    // 厨具与杂项
                     output.accept(ModItems.STOVE);
                     output.accept(ModItems.SHAWARMA_SPIT);
                     output.accept(ModItems.STRAW_BLOCK);
@@ -48,10 +50,13 @@ public final class ModCreativeTabs {
                     output.accept(ModItems.OIL);
                     output.accept(ModItems.RECIPE_ITEM);
                     output.accept(ModItems.TRANSMUTATION_LUNCH_BAG);
+                    // 原材料
                     output.accept(ModItems.FLOUR);
                     output.accept(ModItems.RAW_DOUGH);
                     output.accept(ModItems.RAW_NOODLES);
                     output.accept(ModItems.STUFFED_DOUGH_FOOD);
+                    output.accept(ModItems.RAW_ZONGZI);
+                    output.accept(ModItems.RAW_BAMBOO_TUBE_RICE);
                     output.accept(ModItems.CHILI_RISTRA);
                     output.accept(ModItems.STRUNG_MUSHROOMS);
                     output.accept(ModItems.RICE_SEED);
@@ -59,18 +64,21 @@ public final class ModCreativeTabs {
                     output.accept(ModItems.TOMATO_SEED);
                     output.accept(ModItems.CHILI_SEED);
                     output.accept(ModItems.LETTUCE_SEED);
+                    // 工具
                     output.accept(ModItems.KITCHEN_SHOVEL);
                     output.accept(ModItems.COPPER_KITCHEN_KNIFE);
-                    output.accept(ModItems.IRON_KITCHEN_KNIFE);
                     output.accept(ModItems.GOLD_KITCHEN_KNIFE);
+                    output.accept(ModItems.IRON_KITCHEN_KNIFE);
                     output.accept(ModItems.DIAMOND_KITCHEN_KNIFE);
                     output.accept(ModItems.NETHERITE_KITCHEN_KNIFE);
                     output.accept(ModItems.SICKLE);
+                    // 服装
                     output.accept(ModItems.STRAW_HAT.get());
                     output.accept(ModItems.STRAW_HAT_FLOWER.get());
                     output.accept(ModItems.FARMER_CHEST_PLATE);
                     output.accept(ModItems.FARMER_LEGGINGS);
                     output.accept(ModItems.FARMER_BOOTS);
+                    // 凳子
                     output.accept(ModItems.COOK_STOOL_OAK);
                     output.accept(ModItems.COOK_STOOL_PALE_OAK);
                     output.accept(ModItems.COOK_STOOL_SPRUCE);
@@ -83,6 +91,7 @@ public final class ModCreativeTabs {
                     output.accept(ModItems.COOK_STOOL_JUNGLE);
                     output.accept(ModItems.COOK_STOOL_MANGROVE);
                     output.accept(ModItems.COOK_STOOL_WARPED);
+                    // 椅子
                     output.accept(ModItems.CHAIR_OAK);
                     output.accept(ModItems.CHAIR_PALE_OAK);
                     output.accept(ModItems.CHAIR_SPRUCE);
@@ -95,6 +104,7 @@ public final class ModCreativeTabs {
                     output.accept(ModItems.CHAIR_JUNGLE);
                     output.accept(ModItems.CHAIR_MANGROVE);
                     output.accept(ModItems.CHAIR_WARPED);
+                    // 桌子
                     output.accept(ModItems.TABLE_OAK);
                     output.accept(ModItems.TABLE_PALE_OAK);
                     output.accept(ModItems.TABLE_SPRUCE);
@@ -112,13 +122,15 @@ public final class ModCreativeTabs {
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, COOKERY_FOOD_TAB, FabricCreativeModeTab.builder()
                 .title(Component.translatable("item_group.kaleidoscope_cookery.cookery_food.name"))
                 .icon(() -> BuiltInRegistries.ITEM.getValue(FOOD_ICON_ID).getDefaultInstance())
-                .displayItems((par, output) -> {
+                .displayItems((_, output) -> {
+                    // 原材料
                     output.accept(ModItems.TOMATO);
                     output.accept(ModItems.RED_CHILI);
                     output.accept(ModItems.GREEN_CHILI);
                     output.accept(ModItems.LETTUCE);
                     output.accept(ModItems.RICE_PANICLE);
                     output.accept(ModItems.CATERPILLAR);
+                    // 肉类
                     output.accept(ModItems.SASHIMI);
                     output.accept(ModItems.RAW_LAMB_CHOPS);
                     output.accept(ModItems.COOKED_LAMB_CHOPS);
@@ -126,19 +138,27 @@ public final class ModCreativeTabs {
                     output.accept(ModItems.COOKED_COW_OFFAL);
                     output.accept(ModItems.RAW_PORK_BELLY);
                     output.accept(ModItems.COOKED_PORK_BELLY);
-                    output.accept(ModItems.RAW_CUT_SMALL_MEATS);
-                    output.accept(ModItems.COOKED_CUT_SMALL_MEATS);
                     output.accept(ModItems.RAW_DONKEY_MEAT);
                     output.accept(ModItems.COOKED_DONKEY_MEAT);
-                    output.accept(ModItems.DONKEY_BURGER);
+                    output.accept(ModItems.RAW_CUT_SMALL_MEATS);
+                    output.accept(ModItems.COOKED_CUT_SMALL_MEATS);
                     output.accept(ModItems.RAW_MEATBALL);
                     output.accept(ModItems.COOKED_MEATBALL);
+                    // 基础食物
+                    output.accept(ModItems.DONKEY_BURGER);
                     output.accept(ModItems.MANTOU);
                     output.accept(ModItems.BAOZI);
+                    output.accept(ModItems.SHENGJIAN_MANTOU);
                     output.accept(ModItems.SAMSA);
                     output.accept(ModItems.MEAT_PIE);
                     output.accept(ModItems.DUMPLING);
                     output.accept(ModItems.FRIED_EGG);
+                    output.accept(ModItems.STICKY_CANDY);
+                    output.accept(ModItems.STICKY_RICE_CAKE);
+                    output.accept(ModItems.BAMBOO_TUBE_RICE);
+                    output.accept(ModItems.ZONGZI);
+                    output.accept(ModItems.QINGTUAN);
+                    // 小碗菜和盖饭
                     output.accept(ModItems.COOKED_RICE);
                     output.accept(ModItems.EGG_FRIED_RICE);
                     output.accept(ModItems.DELICIOUS_EGG_FRIED_RICE);
@@ -158,6 +178,7 @@ public final class ModCreativeTabs {
                     output.accept(ModItems.BRAISED_FISH_RICE_BOWL);
                     output.accept(ModItems.SPICY_CHICKEN_RICE_BOWL);
                     output.accept(ModItems.SUSPICIOUS_STIR_FRY_RICE_BOWL);
+                    // 汤类
                     output.accept(ModItems.PORK_BONE_SOUP);
                     output.accept(ModItems.SEAFOOD_MISO_SOUP);
                     output.accept(ModItems.FEARSOME_THICK_SOUP);
@@ -170,17 +191,26 @@ public final class ModCreativeTabs {
                     output.accept(ModItems.BEEF_MEATBALL_SOUP);
                     output.accept(ModItems.CHICKEN_AND_MUSHROOM_STEW);
                     output.accept(ModItems.DONKEY_SOUP);
+                    output.accept(ModItems.LABA_CONGEE);
+                    // 面条
                     output.accept(ModItems.BEEF_NOODLE);
                     output.accept(ModItems.HUI_NOODLE);
                     output.accept(ModItems.UDON_NOODLE);
-
+                    output.accept(ModItems.HOT_DRY_NOODLES);
+                    // 硬菜
                     FoodBiteRegistry.FOOD_DATA_MAP.keySet().forEach(foodName -> {
-                        // 棕色蘑菇汤之前加入厚切火腿片
-                        if (foodName.equals(FoodBiteRegistry.BROWN_MUSHROOM_POT_SOUP)) {
+                        // 疙瘩汤之前加入厚切火腿片
+                        if (foodName.equals(FoodBiteRegistry.DOUGH_DROP_SOUP)) {
                             output.accept(ModItems.COLD_CUT_HAM_SLICES);
                         }
                         var foodItem = BuiltInRegistries.ITEM.getValue(foodName);
                         output.accept(foodItem);
+                    });
+
+                    // 盘装食物
+                    PlateRegistry.PLATE_DATA_MAP.keySet().forEach(plateName -> {
+                        var plateItem = BuiltInRegistries.ITEM.getValue(plateName);
+                        output.accept(plateItem);
                     });
 
                     // 茶水

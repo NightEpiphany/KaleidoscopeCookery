@@ -1,0 +1,16 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "carrier": "minecraft:bowl",
+  "ingredients": [
+    "minecraft:slime_ball",
+    "minecraft:slime_ball",
+    "minecraft:slime_ball",
+    "minecraft:slime_ball",
+    "minecraft:slime_ball",
+    "minecraft:slime_ball"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kaleidoscope_cookery:slime_ball_meal"
+  }
+}

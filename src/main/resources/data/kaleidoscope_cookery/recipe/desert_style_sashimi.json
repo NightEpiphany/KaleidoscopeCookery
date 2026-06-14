@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:cactus",
+    "minecraft:cactus",
+    "kaleidoscope_cookery:sashimi",
+    "kaleidoscope_cookery:sashimi",
+    "kaleidoscope_cookery:sashimi",
+    "kaleidoscope_cookery:sashimi",
+    "minecraft:bowl"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kaleidoscope_cookery:desert_style_sashimi"
+  }
+}

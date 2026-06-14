@@ -1,0 +1,14 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "ingredients": [
+    "minecraft:chorus_fruit",
+    "minecraft:chorus_fruit",
+    "minecraft:chorus_fruit",
+    "minecraft:chorus_fruit",
+    "minecraft:chorus_fruit"
+  ],
+  "result": {
+    "count": 5,
+    "id": "minecraft:popped_chorus_fruit"
+  }
+}

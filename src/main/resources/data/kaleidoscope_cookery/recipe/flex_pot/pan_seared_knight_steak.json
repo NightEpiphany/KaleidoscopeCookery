@@ -1,0 +1,13 @@
+{
+  "type": "kaleidoscope_cookery:flex_pot",
+  "carrier": "minecraft:bowl",
+  "ingredients": [
+    "minecraft:sweet_berries",
+    "#c:foods/raw_beef",
+    "minecraft:bone"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kaleidoscope_cookery:pan_seared_knight_steak"
+  }
+}

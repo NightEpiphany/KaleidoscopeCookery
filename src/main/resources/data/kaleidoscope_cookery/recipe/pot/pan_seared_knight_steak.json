@@ -1,33 +1,15 @@
 {
   "type": "kaleidoscope_cookery:pot",
-  "carrier":
-    "minecraft:bowl",
-  
+  "carrier": "minecraft:bowl",
   "ingredients": [
-
-      "minecraft:bone",
-    
-
-      "minecraft:bone",
-    
-
-      "minecraft:bone",
-    
-
-      "minecraft:sweet_berries",
-    
-
-      "minecraft:sweet_berries",
-    
-
-      "minecraft:sweet_berries",
-    
-
-      "#c:raw_beef",
-    
-
-      "#c:raw_beef"
-
+    "minecraft:bone",
+    "minecraft:bone",
+    "minecraft:bone",
+    "minecraft:sweet_berries",
+    "minecraft:sweet_berries",
+    "minecraft:sweet_berries",
+    "#c:foods/raw_beef",
+    "#c:foods/raw_beef"
   ],
   "result": {
     "count": 1,

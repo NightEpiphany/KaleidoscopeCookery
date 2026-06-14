@@ -63,18 +63,6 @@ public final class ModItems {
     public static final Item TRASH_CAN = registerItemViaBlock(ModBlocks.TRASH_CAN);
     public static final Item TEAPOT = registerItemViaBlock(ModBlocks.TEAPOT, TeapotItem::new, new Item.Properties().stacksTo(1));
     public static final Item EMPTY_CUP = registerItemViaBlock(ModBlocks.EMPTY_CUP, EmptyCupItem::new);
-    public static final Item BARLEY_TEA = registerItemViaBlock(ModBlocks.BARLEY_TEA,
-            (block, properties) -> new TeacupItem(block, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.BARLEY_TEA).getEffects(), properties));
-    public static final Item TIEGUANYIN = registerItemViaBlock(ModBlocks.TIEGUANYIN,
-            (block, properties) -> new TeacupItem(block, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.TIEGUANYIN).getEffects(), properties));
-    public static final Item BILUOCHUN = registerItemViaBlock(ModBlocks.BILUOCHUN,
-            (block, properties) -> new TeacupItem(block, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.BILUOCHUN).getEffects(), properties));
-    public static final Item OOLONG = registerItemViaBlock(ModBlocks.OOLONG,
-            (block, properties) -> new TeacupItem(block, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.OOLONG).getEffects(), properties));
-    public static final Item SAKURA_FUBUKI = registerItemViaBlock(ModBlocks.SAKURA_FUBUKI,
-            (block, properties) -> new TeacupItem(block, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.SAKURA_FUBUKI).getEffects(), properties));
-    public static final Item FLOWER_TEA = registerItemViaBlock(ModBlocks.FLOWER_TEA,
-            (block, properties) -> new TeacupItem(block, TeacupRegistry.TEACUP_DATA_MAP.get(TeacupRegistry.FLOWER_TEA).getEffects(), properties));
 
     // Feast
     public static final Item COLD_CUT_HAM_SLICES = registerItemViaBlock(ModBlocks.COLD_CUT_HAM_SLICES, (block, properties) -> new LiftBlockItem(block, properties, "cold_cut_ham_slices"), new Item.Properties());
@@ -162,13 +150,21 @@ public final class ModItems {
     public static final Item DONKEY_BURGER = registerItem("donkey_burger", p -> new FoodWithEffectsItem(p, ModFoods.DONKEY_BURGER, ModConsumables.DONKEY_BURGER));
     public static final Item MANTOU = registerItem("mantou", p -> new FoodWithEffectsItem(p, ModFoods.MANTOU, ModConsumables.MANTOU));
     public static final Item BAOZI = registerItem("baozi", p -> new FoodWithEffectsItem(p, ModFoods.BAOZI, ModConsumables.BAOZI));
+    public static final Item SHENGJIAN_MANTOU = registerItem("shengjian_mantou", p -> new FoodWithEffectsItem(p, ModFoods.SHENGJIAN_MANTOU_ITEM, ModConsumables.SHENGJIAN_MANTOU_ITEM));
+    public static final Item QINGTUAN = registerItem("qingtuan", p -> new FoodWithEffectsItem(p, ModFoods.QINGTUAN));
+    public static final Item STICKY_CANDY = registerItem("sticky_candy", p -> new FoodWithEffectsItem(p, ModFoods.STICKY_CANDY));
+    public static final Item STICKY_RICE_CAKE = registerItem("sticky_rice_cake", p -> new FoodWithEffectsItem(p, ModFoods.STICKY_RICE_CAKE));
+    public static final Item ZONGZI = registerItem("zongzi", p -> new FoodWithEffectsItem(p, ModFoods.ZONGZI, ModConsumables.ZONGZI));
+    public static final Item BAMBOO_TUBE_RICE = registerItem("bamboo_tube_rice", p -> new BambooTubeRiceBlockItem(p, ModBlocks.BAMBOO_TUBE_RICE, ModFoods.BAMBOO_TUBE_RICE));
     public static final Item SAMSA = registerItem("samsa", p -> new FoodWithEffectsItem(p, ModFoods.SAMSA, ModConsumables.SAMSA));
     public static final Item MEAT_PIE = registerItem("meat_pie", p -> new FoodWithEffectsItem(p, ModFoods.MEAT_PIE, ModConsumables.MEAT_PIE));
-    public static final Item DUMPLING = registerItem("dumpling", p -> new BowlFoodOnlyItem(p, ModFoods.DUMPLING, ModConsumables.DUMPLING));
+    public static final Item DUMPLING = registerItem("dumpling", p -> new Item(p.food(ModFoods.DUMPLING, ModConsumables.DUMPLING)));
     public static final Item RAW_DOUGH = registerItem("raw_dough", RawDoughItem::new);
     public static final Item FLOUR = registerItem("flour", FlourItem::new);
     public static final Item RAW_NOODLES = registerItem("raw_noodles");
     public static final Item STUFFED_DOUGH_FOOD = registerItem("stuffed_dough_food");
+    public static final Item RAW_ZONGZI = registerItem("raw_zongzi");
+    public static final Item RAW_BAMBOO_TUBE_RICE = registerItem("raw_bamboo_tube_rice");
 
     // Bowl foods
     public static final Item COOKED_RICE = registerItem("cooked_rice", p -> new BowlFoodOnlyItem(p, ModFoods.COOKED_RICE, ModConsumables.COOKED_RICE));
@@ -202,9 +198,11 @@ public final class ModItems {
     public static final Item BEEF_MEATBALL_SOUP = registerItem("beef_meatball_soup", p -> new BowlFoodOnlyItem(p, ModFoods.BEEF_MEATBALL_SOUP, ModConsumables.BEEF_MEATBALL_SOUP));
     public static final Item CHICKEN_AND_MUSHROOM_STEW = registerItem("chicken_and_mushroom_stew", p -> new BowlFoodOnlyItem(p, ModFoods.CHICKEN_AND_MUSHROOM_STEW, ModConsumables.CHICKEN_AND_MUSHROOM_STEW));
     public static final Item DONKEY_SOUP = registerItem("donkey_soup", p -> new BowlFoodOnlyItem(p, ModFoods.DONKEY_SOUP, ModConsumables.DONKEY_SOUP));
+    public static final Item LABA_CONGEE = registerItem("laba_congee", p -> new BowlFoodOnlyItem(p, ModFoods.LABA_CONGEE, ModConsumables.LABA_CONGEE));
     public static final Item BEEF_NOODLE = registerItem("beef_noodle", p -> new BowlFoodOnlyItem(p, ModFoods.BEEF_NOODLE, ModConsumables.BEEF_NOODLE));
     public static final Item HUI_NOODLE = registerItem("hui_noodle", p -> new BowlFoodOnlyItem(p, ModFoods.HUI_NOODLE, ModConsumables.HUI_NOODLE));
     public static final Item UDON_NOODLE = registerItem("udon_noodle", p -> new BowlFoodOnlyItem(p, ModFoods.UDON_NOODLE, ModConsumables.UDON_NOODLE));
+    public static final Item HOT_DRY_NOODLES = registerItem("hot_dry_noodles", p -> new BowlFoodOnlyItem(p, ModFoods.HOT_DRY_NOODLES, ModConsumables.HOT_DRY_NOODLES));
 
     // Raw and cooked foods
     public static final Item SASHIMI = registerItem("sashimi", p -> new Item(p.food(ModFoods.SASHIMI, ModConsumables.SASHIMI)));

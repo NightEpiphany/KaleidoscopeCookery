@@ -1,0 +1,15 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "ingredients": [
+    "minecraft:cod",
+    "minecraft:cod",
+    "minecraft:cod",
+    "minecraft:cod",
+    "minecraft:cod",
+    "minecraft:cod"
+  ],
+  "result": {
+    "count": 6,
+    "id": "minecraft:cooked_cod"
+  }
+}

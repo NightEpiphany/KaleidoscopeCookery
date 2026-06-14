@@ -2,30 +2,14 @@
   "type": "kaleidoscope_cookery:pot",
   "carrier": "minecraft:bowl",
   "ingredients": [
-
-      "kaleidoscope_cookery:raw_pork_belly",
-    
-
-      "kaleidoscope_cookery:raw_pork_belly",
-    
-
-      "kaleidoscope_cookery:raw_pork_belly",
-    
-
-      "kaleidoscope_cookery:raw_pork_belly",
-    
-
-      "minecraft:bone",
-    
-
-      "minecraft:bone",
-    
-
-      "minecraft:bone",
-    
-
-      "minecraft:bone"
-
+    "minecraft:bone",
+    "minecraft:bone",
+    "minecraft:bone",
+    "minecraft:bone",
+    "#c:foods/raw_pork",
+    "#c:foods/raw_pork",
+    "#c:foods/raw_pork",
+    "#c:foods/raw_pork"
   ],
   "result": {
     "count": 1,

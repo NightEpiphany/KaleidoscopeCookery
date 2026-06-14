@@ -1,8 +1,10 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.util.recipes;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.compat.create.automation.init.AutomationCompat;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModRecipes;
 import net.fabricmc.fabric.api.recipe.v1.sync.SynchronizedRecipes;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -31,11 +33,20 @@ public class ModRecipesLibrary {
     }
 
     public List<RecipeHolder<MillstoneRecipe>> millstoneRecipes() {
+        if (FabricLoader.getInstance().isModLoaded("create")) {
+            Minecraft minecraft = Minecraft.getInstance();
+            ClientLevel level = minecraft.level;
+            AutomationCompat.getTransformRecipeForSearch(level, List.copyOf(synchronizedRecipes.getAllOfType(ModRecipes.MILLSTONE_RECIPE)));
+        }
         return List.copyOf(synchronizedRecipes.getAllOfType(ModRecipes.MILLSTONE_RECIPE));
     }
 
     public List<RecipeHolder<PotRecipe>> potRecipes() {
         return List.copyOf(synchronizedRecipes.getAllOfType(ModRecipes.POT_RECIPE));
+    }
+
+    public List<RecipeHolder<FlexPotRecipe>> flexPotRecipes() {
+        return List.copyOf(synchronizedRecipes.getAllOfType(ModRecipes.FLEX_POT_RECIPE));
     }
 
     public List<RecipeHolder<SteamerRecipe>> steamerRecipes() {
@@ -44,6 +55,10 @@ public class ModRecipesLibrary {
 
     public List<RecipeHolder<StockpotRecipe>> stockpotRecipes() {
         return List.copyOf(synchronizedRecipes.getAllOfType(ModRecipes.STOCKPOT_RECIPE));
+    }
+
+    public List<RecipeHolder<FlexStockpotRecipe>> flexStockpotRecipes() {
+        return List.copyOf(synchronizedRecipes.getAllOfType(ModRecipes.FLEX_STOCKPOT_RECIPE));
     }
 
     public List<RecipeHolder<TeapotRecipe>> teapotRecipes() {

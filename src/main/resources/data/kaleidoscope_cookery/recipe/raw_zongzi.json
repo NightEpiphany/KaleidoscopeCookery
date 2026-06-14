@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "kaleidoscope_cookery:rice",
+    "minecraft:lily_pad"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kaleidoscope_cookery:raw_zongzi"
+  }
+}

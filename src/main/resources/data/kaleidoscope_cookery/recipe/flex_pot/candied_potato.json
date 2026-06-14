@@ -1,0 +1,12 @@
+{
+  "type": "kaleidoscope_cookery:flex_pot",
+  "carrier": "minecraft:bowl",
+  "ingredients": [
+    "minecraft:sugar",
+    "minecraft:potato"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kaleidoscope_cookery:candied_potato"
+  }
+}

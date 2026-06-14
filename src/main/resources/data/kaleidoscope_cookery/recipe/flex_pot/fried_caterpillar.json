@@ -1,0 +1,11 @@
+{
+  "type": "kaleidoscope_cookery:flex_pot",
+  "carrier": "minecraft:bowl",
+  "ingredients": [
+    "#kaleidoscope_cookery:caterpillars"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kaleidoscope_cookery:fried_caterpillar"
+  }
+}

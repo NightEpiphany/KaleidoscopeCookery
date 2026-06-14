@@ -1,0 +1,12 @@
+{
+  "type": "kaleidoscope_cookery:flex_pot",
+  "carrier": "minecraft:bowl",
+  "ingredients": [
+    "#c:raw_fishes",
+    "#c:crops/chilipepper"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kaleidoscope_cookery:oil_splashed_fish"
+  }
+}

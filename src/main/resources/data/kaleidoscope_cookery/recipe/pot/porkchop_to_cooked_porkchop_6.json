@@ -1,0 +1,15 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "ingredients": [
+    "minecraft:porkchop",
+    "minecraft:porkchop",
+    "minecraft:porkchop",
+    "minecraft:porkchop",
+    "minecraft:porkchop",
+    "minecraft:porkchop"
+  ],
+  "result": {
+    "count": 6,
+    "id": "minecraft:cooked_porkchop"
+  }
+}

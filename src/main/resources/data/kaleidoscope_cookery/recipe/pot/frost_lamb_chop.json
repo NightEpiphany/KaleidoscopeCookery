@@ -1,27 +1,13 @@
 {
   "type": "kaleidoscope_cookery:pot",
-  "carrier":
-    "minecraft:bowl",
-  
+  "carrier": "minecraft:bowl",
   "ingredients": [
-
-      "#c:raw_mutton",
-    
-
-      "#c:raw_mutton",
-    
-
-      "#c:raw_mutton",
-    
-
-      "minecraft:blue_ice",
-    
-
-      "minecraft:blue_ice",
-    
-
-      "minecraft:blue_ice"
-
+    "minecraft:blue_ice",
+    "minecraft:blue_ice",
+    "minecraft:blue_ice",
+    "#c:foods/raw_mutton",
+    "#c:foods/raw_mutton",
+    "#c:foods/raw_mutton"
   ],
   "result": {
     "count": 1,

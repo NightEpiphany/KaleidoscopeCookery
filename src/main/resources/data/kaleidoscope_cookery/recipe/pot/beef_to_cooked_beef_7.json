@@ -1,0 +1,16 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "ingredients": [
+    "minecraft:beef",
+    "minecraft:beef",
+    "minecraft:beef",
+    "minecraft:beef",
+    "minecraft:beef",
+    "minecraft:beef",
+    "minecraft:beef"
+  ],
+  "result": {
+    "count": 7,
+    "id": "minecraft:cooked_beef"
+  }
+}

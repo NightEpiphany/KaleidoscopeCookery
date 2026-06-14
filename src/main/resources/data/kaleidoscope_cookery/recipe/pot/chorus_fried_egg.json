@@ -2,27 +2,15 @@
   "type": "kaleidoscope_cookery:pot",
   "carrier": "minecraft:bowl",
   "ingredients": [
-
-      "minecraft:chorus_fruit",
-    
-
-      "minecraft:chorus_fruit",
-    
-
-      "minecraft:chorus_fruit",
-    
-
-      "#c:foods/cooked_eggs",
-    
-
-      "#c:foods/cooked_eggs",
-    
-
-      "#c:foods/cooked_eggs"
-
+    "minecraft:chorus_fruit",
+    "minecraft:chorus_fruit",
+    "minecraft:chorus_fruit",
+    "#c:eggs",
+    "#c:eggs",
+    "#c:eggs"
   ],
   "result": {
-    "count": 3,
+    "count": 1,
     "id": "kaleidoscope_cookery:chorus_fried_egg"
   }
 }

@@ -2,19 +2,12 @@
   "type": "kaleidoscope_cookery:pot",
   "carrier": "minecraft:bowl",
   "ingredients": [
-
-    "#c:raw_mutton",
-
-    "#c:raw_mutton",
-
-    "#c:raw_mutton",
-
-    "minecraft:blaze_rod",
-
-    "minecraft:blaze_rod",
-
-    "minecraft:blaze_rod"
-
+    "minecraft:blaze_powder",
+    "minecraft:blaze_powder",
+    "minecraft:blaze_powder",
+    "#c:foods/raw_mutton",
+    "#c:foods/raw_mutton",
+    "#c:foods/raw_mutton"
   ],
   "result": {
     "count": 1,

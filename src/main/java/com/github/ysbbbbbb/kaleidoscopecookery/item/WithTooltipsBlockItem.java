@@ -19,6 +19,10 @@ public class WithTooltipsBlockItem extends BlockItem {
         this.key = "tooltip.kaleidoscope_cookery." + name;
     }
 
+    public String getKey() {
+        return key;
+    }
+
     public WithTooltipsBlockItem(Block block, String name) {
         this(block, new Properties(), name);
     }
