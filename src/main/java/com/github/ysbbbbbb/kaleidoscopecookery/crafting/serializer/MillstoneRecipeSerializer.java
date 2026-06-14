@@ -66,4 +66,9 @@ public class MillstoneRecipeSerializer implements RecipeSerializer<MillstoneReci
         buf.writeVarInt(recipe.results().size());
         recipe.results().forEach(o -> o.toNetwork(buf));
     }
+
+    @Override
+    public String toString() {
+        return "millstone";
+    }
 }

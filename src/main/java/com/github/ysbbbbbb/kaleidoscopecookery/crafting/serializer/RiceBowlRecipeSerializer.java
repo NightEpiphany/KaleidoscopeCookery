@@ -45,4 +45,9 @@ public class RiceBowlRecipeSerializer implements RecipeSerializer<RiceBowlRecipe
         recipe.getIngredients().get(0).toNetwork(buf);
         buf.writeItem(recipe.getResult());
     }
+
+    @Override
+    public String toString() {
+        return "rice_bowl";
+    }
 }
