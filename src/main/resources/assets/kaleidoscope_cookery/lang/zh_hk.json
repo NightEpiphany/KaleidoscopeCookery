@@ -254,7 +254,7 @@
   "tooltip.kaleidoscope_cookery.item_container.empty": "空無一物",
   "tooltip.kaleidoscope_cookery.oil_pot.empty": "空",
   "tooltip.kaleidoscope_cookery.oil_pot.count": "數量：%d",
-  "tooltip.kaleidoscope_cookery.recipe_item": "右鍵炒鍋/湯鍋記錄食材，下次可右鍵一鍵加料",
+  "tooltip.kaleidoscope_cookery.recipe_item": "右鍵炒鍋/湯鍋記錄食材，下次右鍵可一鍵加料",
   "tooltip.kaleidoscope_cookery.recipe_item.ingredient": "原料：",
   "tooltip.kaleidoscope_cookery.recipe_item.output": "輸出：",
   "tooltip.kaleidoscope_cookery.recipe_item.missing": "缺少：",

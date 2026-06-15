@@ -254,7 +254,7 @@
   "tooltip.kaleidoscope_cookery.item_container.empty": "Empty",
   "tooltip.kaleidoscope_cookery.oil_pot.empty": "Empty",
   "tooltip.kaleidoscope_cookery.oil_pot.count": "Oil count: %d",
-  "tooltip.kaleidoscope_cookery.recipe_item": "Right-click a wok or a stockpot to record ingredients for one-click cooking later.",
+  "tooltip.kaleidoscope_cookery.recipe_item": "Right-click a wok or stockpot to record ingredients; right-click later to add them all at once.",
   "tooltip.kaleidoscope_cookery.recipe_item.ingredient": "Ingredient: ",
   "tooltip.kaleidoscope_cookery.recipe_item.output": "Output: ",
   "tooltip.kaleidoscope_cookery.recipe_item.missing": "Missing: ",

@@ -254,7 +254,7 @@
   "tooltip.kaleidoscope_cookery.item_container.empty": "Vacío",
   "tooltip.kaleidoscope_cookery.oil_pot.empty": "Vacío",
   "tooltip.kaleidoscope_cookery.oil_pot.count": "Cantidad: %d",
-  "tooltip.kaleidoscope_cookery.recipe_item": "Clic derecho en la olla/olla sopera para registrar ingredientes; cocina con un clic la próxima vez",
+  "tooltip.kaleidoscope_cookery.recipe_item": "Clic derecho en la wok/olla sopera para registrar ingredientes; clic derecho después para añadirlos de una vez",
   "tooltip.kaleidoscope_cookery.recipe_item.ingredient": "Ingrediente: ",
   "tooltip.kaleidoscope_cookery.recipe_item.output": "Resultado: ",
   "tooltip.kaleidoscope_cookery.recipe_item.missing": "Falta: ",
