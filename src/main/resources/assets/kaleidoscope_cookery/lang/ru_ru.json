@@ -254,7 +254,7 @@
   "tooltip.kaleidoscope_cookery.item_container.empty": "Пусто",
   "tooltip.kaleidoscope_cookery.oil_pot.empty": "Пусто",
   "tooltip.kaleidoscope_cookery.oil_pot.count": "Количество масла: %d",
-  "tooltip.kaleidoscope_cookery.recipe_item": "Нажмите ПКМ на вок или кастрюлю, чтобы записать ингредиенты для быстрого приготовления.",
+  "tooltip.kaleidoscope_cookery.recipe_item": "Нажмите ПКМ на вок или кастрюлю, чтобы записать ингредиенты; затем нажмите ПКМ, чтобы добавить их все сразу.",
   "tooltip.kaleidoscope_cookery.recipe_item.ingredient": "Ингредиент: ",
   "tooltip.kaleidoscope_cookery.recipe_item.output": "Результат: ",
   "tooltip.kaleidoscope_cookery.recipe_item.missing": "Отсутствует: ",

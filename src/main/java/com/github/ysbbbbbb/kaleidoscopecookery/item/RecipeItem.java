@@ -54,6 +54,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NonNull;
@@ -93,6 +94,33 @@ public class RecipeItem extends BlockItem {
 
     public static boolean hasRecipe(ItemStack stack) {
         return stack.has(ModDataComponents.RECIPE_RECORD);
+    }
+
+    public static InteractionResult tryUseOnCookware(ItemStack stack, Level level, Player player, InteractionHand hand, BlockHitResult hitResult) {
+        if (!(stack.getItem() instanceof RecipeItem recipeItem)) {
+            return InteractionResult.PASS;
+        }
+        if (hasRecipe(stack)) {
+            BlockEntity blockEntity = level.getBlockEntity(hitResult.getBlockPos());
+            return tryPutRecipeOnCookware(stack, level, player, blockEntity);
+        }
+        if (level.isClientSide()) {
+            return InteractionResult.SUCCESS;
+        }
+        return recipeItem.useOn(new UseOnContext(player, hand, hitResult));
+    }
+
+    public static InteractionResult tryPutRecipeOnCookware(ItemStack stack, Level level, Player player, BlockEntity blockEntity) {
+        if (!(stack.getItem() instanceof RecipeItem recipeItem) || !hasRecipe(stack)) {
+            return InteractionResult.PASS;
+        }
+        if (!(blockEntity instanceof PotBlockEntity) && !(blockEntity instanceof StockpotBlockEntity) && !(blockEntity instanceof TeapotBlockEntity)) {
+            return InteractionResult.PASS;
+        }
+        if (level.isClientSide()) {
+            return InteractionResult.SUCCESS;
+        }
+        return recipeItem.onPutRecipe(blockEntity, player, stack);
     }
 
     @Deprecated
@@ -179,7 +207,6 @@ public class RecipeItem extends BlockItem {
         }
 
         if (blockEntity instanceof TeapotBlockEntity teapot && teapot.getStatus() == ITeapot.PUT_INGREDIENT && record.type().equals(TEAPOT)) {
-            // 与炒锅/煮锅一致：茶壶内已有原料时不再自动放入
             if (!teapot.getInput().isEmpty()) {
                 return InteractionResult.PASS;
             }
@@ -201,7 +228,6 @@ public class RecipeItem extends BlockItem {
             // 按实际堆叠数量统计，兼容茶壶这类单格多数量的配方
             need.put(item, need.getInt(item) + s.getCount());
         }
-
         // 开始检查身上的物品
         IItemHandler inventory = new PlayerMainInvWrapper(player.getInventory());
         Reference2IntMap<Item> supply = new Reference2IntOpenHashMap<>();

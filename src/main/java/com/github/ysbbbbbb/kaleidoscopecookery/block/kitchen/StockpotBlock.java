@@ -7,6 +7,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTrigger;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
+import com.github.ysbbbbbb.kaleidoscopecookery.item.RecipeItem;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -119,6 +120,10 @@ public class StockpotBlock extends HorizontalDirectionalBlock implements EntityB
     public @NotNull InteractionResult useItemOn(@NonNull ItemStack stack, @NonNull BlockState state, @NonNull Level level, @NonNull BlockPos pos, @NonNull Player player, @NonNull InteractionHand hand, @NonNull BlockHitResult hitResult) {
         if (hand != InteractionHand.MAIN_HAND) {
             return InteractionResult.PASS;
+        }
+        InteractionResult recipeResult = RecipeItem.tryUseOnCookware(stack, level, player, hand, hitResult);
+        if (recipeResult != InteractionResult.PASS) {
+            return recipeResult;
         }
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (!(blockEntity instanceof IStockpot stockpot)) {

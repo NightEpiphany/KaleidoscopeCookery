@@ -2,8 +2,12 @@ package com.github.ysbbbbbb.kaleidoscopecookery.event;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.advancements.critereon.ModEventTriggerType;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.FruitBasketBlockEntity;
+import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.PotBlockEntity;
+import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.StockpotBlockEntity;
+import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.TeapotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTrigger;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
+import com.github.ysbbbbbb.kaleidoscopecookery.item.RecipeItem;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.minecraft.core.BlockPos;
@@ -15,7 +19,9 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.chicken.Chicken;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 
@@ -27,8 +33,16 @@ public class RightClickEvent {
 
     private static InteractionResult onUseBlock(Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
         BlockPos pos = hitResult.getBlockPos();
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (blockEntity instanceof PotBlockEntity || blockEntity instanceof StockpotBlockEntity || blockEntity instanceof TeapotBlockEntity) {
+            ItemStack stack = player.getItemInHand(hand);
+            InteractionResult recipeResult = RecipeItem.tryUseOnCookware(stack, level, player, hand, hitResult);
+            if (recipeResult != InteractionResult.PASS) {
+                return recipeResult;
+            }
+        }
         if (player.isSecondaryUseActive() && hand == InteractionHand.MAIN_HAND
-            && level.getBlockEntity(pos) instanceof FruitBasketBlockEntity fruitBasketBlock) {
+            && blockEntity instanceof FruitBasketBlockEntity fruitBasketBlock) {
             fruitBasketBlock.takeOut(player);
             return InteractionResult.SUCCESS;
         }
