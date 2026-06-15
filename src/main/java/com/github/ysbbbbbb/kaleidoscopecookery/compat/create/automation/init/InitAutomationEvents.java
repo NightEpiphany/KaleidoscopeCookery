@@ -6,6 +6,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.compat.create.automation.util.Aut
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModDataComponents;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.RecipeItem;
+import com.zurrtum.create.content.kinetics.mechanicalArm.ArmBlockEntity;
 import com.zurrtum.create.content.logistics.BigItemStack;
 import com.zurrtum.create.content.logistics.packagePort.PackagePortBlockEntity;
 import com.zurrtum.create.content.logistics.packagerLink.LogisticallyLinkedBehaviour;
@@ -40,13 +41,15 @@ public final class InitAutomationEvents {
 
     private static InteractionResult onUseBlock(Player player, Level level, InteractionHand hand, BlockHitResult hitResult) {
         ItemStack itemStack = player.getItemInHand(hand);
-        if (!itemStack.is(ModItems.RECIPE_ITEM)) {
+        if (!(itemStack.getItem() instanceof RecipeItem)) {
             return InteractionResult.PASS;
         }
         BlockEntity blockEntity = level.getBlockEntity(hitResult.getBlockPos());
         if (blockEntity == null) {
             return InteractionResult.PASS;
         }
+        if (blockEntity instanceof ArmBlockEntity)
+            RecipeItem.setAutoBind(itemStack, true);
         InteractionResult recipeSelectionResult = handleRecipeSelection(player, level, itemStack, blockEntity, hitResult);
         if (recipeSelectionResult != InteractionResult.PASS) {
             return recipeSelectionResult;
@@ -56,6 +59,9 @@ public final class InitAutomationEvents {
 
     private static InteractionResult handleRecipeSelection(Player player, Level level, ItemStack itemStack, BlockEntity blockEntity, BlockHitResult hitResult) {
         if (!RecipeItem.hasRecipe(itemStack)) {
+            return InteractionResult.PASS;
+        }
+        if (!RecipeItem.isAutoBind(itemStack)) {
             return InteractionResult.PASS;
         }
         if (!(blockEntity instanceof PotBlockEntity) && !(blockEntity instanceof StockpotBlockEntity)) {

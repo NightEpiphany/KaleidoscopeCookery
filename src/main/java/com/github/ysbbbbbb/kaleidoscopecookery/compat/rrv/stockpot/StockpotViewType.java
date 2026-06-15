@@ -14,7 +14,7 @@ import java.util.List;
 public class StockpotViewType implements ReliableClientRecipeType {
     public static final StockpotViewType INSTANCE = new StockpotViewType();
 
-    private StockpotViewType() {
+    protected StockpotViewType() {
     }
 
     @Override

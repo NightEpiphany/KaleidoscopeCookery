@@ -14,7 +14,7 @@ import java.util.List;
 public class PotViewType implements ReliableClientRecipeType {
     public static final PotViewType INSTANCE = new PotViewType();
 
-    private PotViewType() {
+    protected PotViewType() {
     }
 
     @Override

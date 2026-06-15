@@ -20,6 +20,7 @@ public class StockpotLidItem extends ShieldItem {
         super(p.durability(120));
     }
 
+    @SuppressWarnings("unused")
     @Deprecated
     public static float getTexture(ItemStack stack, Level level, LivingEntity entity, int seed) {
         if (entity != null && entity.isUsingItem() && entity.getUseItem() == stack) {

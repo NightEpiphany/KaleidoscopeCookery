@@ -40,6 +40,7 @@ public class KitchenShovelItem extends ShovelItem {
         return false;
     }
 
+    @SuppressWarnings("unused")
     @Deprecated
     public static float getTexture(ItemStack stack, Level level, LivingEntity entity, int seed) {
         if (hasOil(stack)) {

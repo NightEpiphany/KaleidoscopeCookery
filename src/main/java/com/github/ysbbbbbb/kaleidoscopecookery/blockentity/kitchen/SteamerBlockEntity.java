@@ -368,6 +368,8 @@ public class SteamerBlockEntity extends BaseBlockEntity implements ISteamer {
         BlockState blockState = this.getBlockState();
         boolean isAllEmpty = true;
 
+        if (blockState.getValue(SteamerBlock.HAS_LID)) return false;
+
         boolean half = blockState.getValue(SteamerBlock.HALF);
         int preferredSlot = user instanceof Player player ? player.getInventory().getSelectedSlot() : -1;
         int endIndex = half ? 4 : 8;

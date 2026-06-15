@@ -13,13 +13,19 @@ import java.util.List;
 
 public class StockpotViewRecipe implements ReliableClientRecipe {
     private final Identifier id;
+    private final ReliableClientRecipeType type;
     private final List<SlotContent> ingredients;
     private final SlotContent soupBase;
     private final SlotContent carrier;
     private final SlotContent result;
 
     public StockpotViewRecipe(Identifier id, List<Ingredient> ingredients, ItemStackTemplate soupBase, Ingredient carrier, ItemStackTemplate result) {
+        this(id, StockpotViewType.INSTANCE, ingredients, soupBase, carrier, result);
+    }
+
+    public StockpotViewRecipe(Identifier id, ReliableClientRecipeType type, List<Ingredient> ingredients, ItemStackTemplate soupBase, Ingredient carrier, ItemStackTemplate result) {
         this.id = id;
+        this.type = type;
         this.ingredients = ingredients.stream()
                 .filter(ingredient -> !ingredient.isEmpty())
                 .limit(9)
@@ -32,7 +38,7 @@ public class StockpotViewRecipe implements ReliableClientRecipe {
 
     @Override
     public ReliableClientRecipeType getType() {
-        return StockpotViewType.INSTANCE;
+        return this.type;
     }
 
     @Override

@@ -55,6 +55,7 @@ public class OilPotItem extends BlockItem {
         return stack;
     }
 
+    @SuppressWarnings("unused")
     @Deprecated
     @Environment(EnvType.CLIENT)
     public static float getTexture(ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity entity, int seed) {

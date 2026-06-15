@@ -28,19 +28,20 @@ public class MillstoneCompat {
     }
     // 供 JEI、REI、EMI 查询的工具类
     public static void getTransformRecipeForSearch(Level level, List<RecipeHolder<MillstoneRecipe>> recipes) {
-        RecipeManager recipeManager = (RecipeManager) level.recipeAccess();
-        RecipeType<MillingRecipe> type = AllRecipeTypes.MILLING;
-        recipeManager.getSynchronizedRecipes().getAllOfType(type).forEach(recipe -> {
-            Ingredient ingredient = recipe.value().ingredient();
-            for (ItemStack stack : ingredient.items().map(s -> s.value().getDefaultInstance()).toList()) {
-                SimpleInput input = new SimpleInput(List.of(stack));
-                // 如果机械动力的配方和本模组配方有重合，优先选择本模组的配方
-                if (recipeManager.getRecipeFor(ModRecipes.MILLSTONE_RECIPE, input, level).isPresent()) {
-                    return;
+        if (level.recipeAccess() instanceof RecipeManager recipeManager && !level.isClientSide()) {
+            RecipeType<MillingRecipe> type = AllRecipeTypes.MILLING;
+            recipeManager.getSynchronizedRecipes().getAllOfType(type).forEach(recipe -> {
+                Ingredient ingredient = recipe.value().ingredient();
+                for (ItemStack stack : ingredient.items().map(s -> s.value().getDefaultInstance()).toList()) {
+                    SimpleInput input = new SimpleInput(List.of(stack));
+                    // 如果机械动力的配方和本模组配方有重合，优先选择本模组的配方
+                    if (recipeManager.getRecipeFor(ModRecipes.MILLSTONE_RECIPE, input, level).isPresent()) {
+                        return;
+                    }
                 }
-            }
-            recipes.add(transformRecipe(recipe));
-        });
+                recipes.add(transformRecipe(recipe));
+            });
+        }
     }
 
     private static RecipeHolder<MillstoneRecipe> transformRecipe(RecipeHolder<MillingRecipe> holder) {

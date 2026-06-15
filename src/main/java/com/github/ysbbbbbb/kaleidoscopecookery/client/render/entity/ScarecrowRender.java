@@ -43,7 +43,7 @@ public class ScarecrowRender extends LivingEntityRenderer<ScarecrowEntity, Scare
     }
 
     @Override
-    public void extractRenderState(ScarecrowEntity livingEntity, ScarecrowEntityRenderState livingEntityRenderState, float f) {
+    public void extractRenderState(@NonNull ScarecrowEntity livingEntity, @NonNull ScarecrowEntityRenderState livingEntityRenderState, float f) {
         super.extractRenderState(livingEntity, livingEntityRenderState, f);
         livingEntityRenderState.headItem = livingEntity.getItemBySlot(EquipmentSlot.HEAD);
         livingEntityRenderState.entityOnShoulder = livingEntity.getShoulderEntity();
@@ -70,13 +70,13 @@ public class ScarecrowRender extends LivingEntityRenderer<ScarecrowEntity, Scare
     }
 
     @Override
-    public ScarecrowEntityRenderState createRenderState() {
+    public @NonNull ScarecrowEntityRenderState createRenderState() {
         return new ScarecrowEntityRenderState();
     }
 
 
     @Override
-    public @NonNull Identifier getTextureLocation(ScarecrowEntityRenderState livingEntityRenderState) {
+    public @NonNull Identifier getTextureLocation(@NonNull ScarecrowEntityRenderState livingEntityRenderState) {
         return TEXTURE;
     }
 }

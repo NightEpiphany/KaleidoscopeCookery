@@ -96,8 +96,23 @@ public class RecipeItem extends BlockItem {
         return stack.has(ModDataComponents.RECIPE_RECORD);
     }
 
+    public static boolean isAutoBind(ItemStack stack) {
+        RecipeRecord record = getRecipe(stack);
+        return record != null && record.autoBind();
+    }
+
+    public static void setAutoBind(ItemStack stack, boolean autoBind) {
+        RecipeRecord record = getRecipe(stack);
+        if (record != null) {
+            setRecipe(stack, new RecipeRecord(record.input(), record.output(), record.type(), record.flexRecipe(), autoBind));
+        }
+    }
+
     public static InteractionResult tryUseOnCookware(ItemStack stack, Level level, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (!(stack.getItem() instanceof RecipeItem recipeItem)) {
+            return InteractionResult.PASS;
+        }
+        if (isAutoBind(stack)) {
             return InteractionResult.PASS;
         }
         if (hasRecipe(stack)) {
@@ -111,7 +126,10 @@ public class RecipeItem extends BlockItem {
     }
 
     public static InteractionResult tryPutRecipeOnCookware(ItemStack stack, Level level, Player player, BlockEntity blockEntity) {
-        if (!(stack.getItem() instanceof RecipeItem recipeItem) || !hasRecipe(stack)) {
+        if (!(stack.getItem() instanceof RecipeItem recipeItem)) {
+            return InteractionResult.PASS;
+        }
+        if (isAutoBind(stack)) {
             return InteractionResult.PASS;
         }
         if (!(blockEntity instanceof PotBlockEntity) && !(blockEntity instanceof StockpotBlockEntity) && !(blockEntity instanceof TeapotBlockEntity)) {
@@ -123,6 +141,7 @@ public class RecipeItem extends BlockItem {
         return recipeItem.onPutRecipe(blockEntity, player, stack);
     }
 
+    @SuppressWarnings("unused")
     @Deprecated
     @Environment(EnvType.CLIENT)
     public static float getTexture(ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity entity, int seed) {
@@ -174,6 +193,9 @@ public class RecipeItem extends BlockItem {
                 return super.useOn(context);
             }
             if (hasRecipe(itemInHand)) {
+                if (isAutoBind(itemInHand)) {
+                    return InteractionResult.PASS;
+                }
                 return this.onPutRecipe(blockEntity, player, itemInHand);
             } else {
                 InteractionHand hand = context.getHand();
@@ -476,19 +498,24 @@ public class RecipeItem extends BlockItem {
     private record RecipeResult(ItemStack output, boolean flexRecipe) {
     }
 
-    public record RecipeRecord(List<ItemStack> input, ItemStack output, Identifier type, boolean flexRecipe) {
+    public record RecipeRecord(List<ItemStack> input, ItemStack output, Identifier type, boolean flexRecipe, boolean autoBind) {
         public RecipeRecord(List<ItemStack> input, ItemStack output, Identifier type) {
-            this(input, output, type, false);
+            this(input, output, type, false, false);
+        }
+
+        public RecipeRecord(List<ItemStack> input, ItemStack output, Identifier type, boolean flexRecipe) {
+            this(input, output, type, flexRecipe, false);
         }
 
         public static final Codec<RecipeRecord> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                 ItemStack.OPTIONAL_CODEC.listOf().fieldOf("input").forGetter(RecipeRecord::input),
                 ItemStack.CODEC.fieldOf("output").forGetter(RecipeRecord::output),
                 Identifier.CODEC.fieldOf("type").forGetter(RecipeRecord::type),
-                Codec.BOOL.optionalFieldOf("flex_recipe", false).forGetter(RecipeRecord::flexRecipe)
+                Codec.BOOL.optionalFieldOf("flex_recipe", false).forGetter(RecipeRecord::flexRecipe),
+                Codec.BOOL.optionalFieldOf("auto_bind", false).forGetter(RecipeRecord::autoBind)
         ).apply(instance, RecipeRecord::new));
 
-        public static final RecipeRecord INSTANCE = new RecipeRecord(List.of(), ItemStack.EMPTY, POT, false);
+        public static final RecipeRecord INSTANCE = new RecipeRecord(List.of(), ItemStack.EMPTY, POT, false, false);
 
         public static final StreamCodec<RegistryFriendlyByteBuf, RecipeRecord> STREAM_CODEC = new StreamCodec<>() {
             @Override
@@ -501,7 +528,8 @@ public class RecipeItem extends BlockItem {
                 ItemStack output = ItemStack.STREAM_CODEC.decode(buffer);
                 Identifier type = buffer.readIdentifier();
                 boolean flexRecipe = buffer.readBoolean();
-                return new RecipeRecord(inputs, output, type, flexRecipe);
+                boolean autoBind = buffer.readBoolean();
+                return new RecipeRecord(inputs, output, type, flexRecipe, autoBind);
             }
 
             @Override
@@ -513,6 +541,7 @@ public class RecipeItem extends BlockItem {
                 ItemStack.STREAM_CODEC.encode(buffer, value.output());
                 buffer.writeIdentifier(value.type());
                 buffer.writeBoolean(value.flexRecipe());
+                buffer.writeBoolean(value.autoBind());
             }
         };
 

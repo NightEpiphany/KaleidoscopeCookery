@@ -7,13 +7,16 @@ import cc.cassian.rrv.client.recipe.ClientRecipeManager;
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.rrv.chopping_board.ChoppingBoardViewRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.rrv.millstone.MillstoneViewRecipe;
+import com.github.ysbbbbbb.kaleidoscopecookery.compat.rrv.pot.FlexPotViewType;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.rrv.pot.PotViewRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.rrv.steamer.SteamerViewRecipe;
+import com.github.ysbbbbbb.kaleidoscopecookery.compat.rrv.stockpot.FlexStockpotViewType;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.rrv.stockpot.StockpotViewRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.rrv.teapot.TeapotViewRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.soupbase.SoupBaseManager;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModRecipes;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.fluids.TeaFluidHelper;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
 
@@ -27,8 +30,10 @@ public class ModRRVPlugin implements ReliableRecipeViewerClientPlugin {
             addChoppingBoardRecipes(recipeList);
             addMillstoneRecipes(recipeList);
             addPotRecipes(recipeList);
+            addFlexPotRecipes(recipeList);
             addSteamerRecipes(recipeList);
             addStockpotRecipes(recipeList);
+            addFlexStockpotRecipes(recipeList);
             addTeapotRecipes(recipeList);
         });
     }
@@ -54,6 +59,19 @@ public class ModRRVPlugin implements ReliableRecipeViewerClientPlugin {
         });
     }
 
+    private static void addFlexPotRecipes(List<ReliableClientRecipe> recipeList) {
+        ClientRecipeManager.INSTANCE.getRecipesForType(ModRecipes.FLEX_POT_RECIPE).forEach(holder -> {
+            var recipe = holder.value();
+            recipeList.add(new PotViewRecipe(
+                    holder.id().identifier(),
+                    FlexPotViewType.INSTANCE,
+                    recipe.ingredients(),
+                    recipe.carrier(),
+                    recipe.result()
+            ));
+        });
+    }
+
     private static void addSteamerRecipes(List<ReliableClientRecipe> recipeList) {
         ClientRecipeManager.INSTANCE.getRecipesForType(ModRecipes.STEAMER_RECIPE).forEach(holder -> {
             var recipe = holder.value();
@@ -64,26 +82,54 @@ public class ModRRVPlugin implements ReliableRecipeViewerClientPlugin {
     private static void addStockpotRecipes(List<ReliableClientRecipe> recipeList) {
         ClientRecipeManager.INSTANCE.getRecipesForType(ModRecipes.STOCKPOT_RECIPE).forEach(holder -> {
             var recipe = holder.value();
-            var soupBase = SoupBaseManager.getSoupBase(recipe.soupBase());
+            ItemStackTemplate soupBase = getSoupBaseDisplayStack(holder.id().identifier(), recipe.soupBase());
             if (soupBase == null) {
-                KaleidoscopeCookery.LOGGER.warn("Skipping RRV stockpot recipe {} because soup base {} is not registered", holder.id().identifier(), recipe.soupBase());
-                return;
-            }
-
-            ItemStack displayStack = soupBase.getDisplayStack();
-            if (displayStack.isEmpty()) {
-                KaleidoscopeCookery.LOGGER.warn("Skipping RRV stockpot recipe {} because soup base {} has no display stack", holder.id().identifier(), recipe.soupBase());
                 return;
             }
 
             recipeList.add(new StockpotViewRecipe(
                     holder.id().identifier(),
                     recipe.ingredients(),
-                    ItemStackTemplate.fromNonEmptyStack(displayStack),
+                    soupBase,
                     recipe.carrier(),
                     recipe.result()
             ));
         });
+    }
+
+    private static void addFlexStockpotRecipes(List<ReliableClientRecipe> recipeList) {
+        ClientRecipeManager.INSTANCE.getRecipesForType(ModRecipes.FLEX_STOCKPOT_RECIPE).forEach(holder -> {
+            var recipe = holder.value();
+            ItemStackTemplate soupBase = getSoupBaseDisplayStack(holder.id().identifier(), recipe.soupBase());
+            if (soupBase == null) {
+                return;
+            }
+
+            recipeList.add(new StockpotViewRecipe(
+                    holder.id().identifier(),
+                    FlexStockpotViewType.INSTANCE,
+                    recipe.ingredients(),
+                    soupBase,
+                    recipe.carrier(),
+                    recipe.result()
+            ));
+        });
+    }
+
+    private static ItemStackTemplate getSoupBaseDisplayStack(Identifier recipeId, Identifier soupBaseId) {
+        var soupBase = SoupBaseManager.getSoupBase(soupBaseId);
+        if (soupBase == null) {
+            KaleidoscopeCookery.LOGGER.warn("Skipping RRV stockpot recipe {} because soup base {} is not registered", recipeId, soupBaseId);
+            return null;
+        }
+
+        ItemStack displayStack = soupBase.getDisplayStack();
+        if (displayStack.isEmpty()) {
+            KaleidoscopeCookery.LOGGER.warn("Skipping RRV stockpot recipe {} because soup base {} has no display stack", recipeId, soupBaseId);
+            return null;
+        }
+
+        return ItemStackTemplate.fromNonEmptyStack(displayStack);
     }
 
     private static void addTeapotRecipes(List<ReliableClientRecipe> recipeList) {

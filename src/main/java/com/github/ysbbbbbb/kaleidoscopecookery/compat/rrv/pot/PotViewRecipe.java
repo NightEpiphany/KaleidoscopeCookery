@@ -14,13 +14,19 @@ import java.util.List;
 
 public class PotViewRecipe implements ReliableClientRecipe {
     private final Identifier id;
+    private final ReliableClientRecipeType type;
     private final List<SlotContent> ingredients;
     private final SlotContent carrier;
     private final SlotContent result;
     private final SlotContent tool;
 
     public PotViewRecipe(Identifier id, List<Ingredient> ingredients, Ingredient carrier, ItemStackTemplate result) {
+        this(id, PotViewType.INSTANCE, ingredients, carrier, result);
+    }
+
+    public PotViewRecipe(Identifier id, ReliableClientRecipeType type, List<Ingredient> ingredients, Ingredient carrier, ItemStackTemplate result) {
         this.id = id;
+        this.type = type;
         this.ingredients = ingredients.stream()
                 .filter(ingredient -> !ingredient.isEmpty())
                 .limit(9)
@@ -33,7 +39,7 @@ public class PotViewRecipe implements ReliableClientRecipe {
 
     @Override
     public ReliableClientRecipeType getType() {
-        return PotViewType.INSTANCE;
+        return this.type;
     }
 
     @Override
