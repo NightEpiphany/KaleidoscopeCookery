@@ -3,8 +3,6 @@ package com.github.ysbbbbbb.kaleidoscopecookery.api.client.render;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates.StockpotBlockEntityRenderState;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
@@ -12,54 +10,39 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Contract;
-import org.joml.Matrix4f;
 import org.jspecify.annotations.NonNull;
 
 public interface ISoupBaseRender {
-    Minecraft MC = Minecraft.getInstance();
     /**
      * 工具方法，用于渲染流体贴图
      *
      * @param sprite    TextureAtlasSprite
      * @param color     流体颜色
      * @param poseStack PoseStack
+     * @param submitNodeCollector 节点收集器
      * @param light     PackedLight
      * @param y         汤底的高度
      */
     @Contract(pure = true)
-    static void renderSurface(TextureAtlasSprite sprite, int color, PoseStack poseStack, int light, float y) {
-        MultiBufferSource.BufferSource bufferSource = MC.renderBuffers().bufferSource();
-        VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderTypes.entityTranslucentEmissive(sprite.atlasLocation()));
-        Matrix4f matrix = poseStack.last().pose();
+    static void renderSurface(TextureAtlasSprite sprite, int color, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int light, float y) {
+        // 26.2 起自定义几何需要先提交到收集器，再由底层新渲染管线统一分组执行。
+        submitNodeCollector.submitCustomGeometry(poseStack, RenderTypes.entityTranslucentEmissive(sprite.atlasLocation()), (pose, vertexConsumer) -> {
+            float min = 3 / 16f;
+            float max = 1 - 3 / 16f;
+            renderVertex(vertexConsumer, pose, min, y, min, color, sprite.getU0(), sprite.getV0(), light);
+            renderVertex(vertexConsumer, pose, min, y, max, color, sprite.getU0(), sprite.getV(10 / 16f), light);
+            renderVertex(vertexConsumer, pose, max, y, max, color, sprite.getU(10 / 16f), sprite.getV(10 / 16f), light);
+            renderVertex(vertexConsumer, pose, max, y, min, color, sprite.getU(10 / 16f), sprite.getV0(), light);
+        });
+    }
 
-        // 锅内水面的位置和大小（根据实际锅模型调整）
-        float min = 3 / 16f, max = 1 - 3 / 16f;
-
-        // 渲染一个平面
-        vertexConsumer.addVertex(matrix, min, y, min)
+    private static void renderVertex(VertexConsumer vertexConsumer, PoseStack.Pose pose, float x, float y, float z, int color, float u, float v, int light) {
+        vertexConsumer.addVertex(pose, x, y, z)
                 .setColor(color)
-                .setUv(sprite.getU0(), sprite.getV0())
+                .setUv(u, v)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setLight(light)
-                .setNormal(0, 1, 0);
-        vertexConsumer.addVertex(matrix, min, y, max)
-                .setColor(color)
-                .setUv(sprite.getU0(), sprite.getV(10 / 16f))
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(light)
-                .setNormal(0, 1, 0);
-        vertexConsumer.addVertex(matrix, max, y, max)
-                .setColor(color)
-                .setUv(sprite.getU(10 / 16f), sprite.getV(10 / 16f))
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(light)
-                .setNormal(0, 1, 0);
-        vertexConsumer.addVertex(matrix, max, y, min)
-                .setColor(color)
-                .setUv(sprite.getU(10 / 16f), sprite.getV0())
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(light)
-                .setNormal(0, 1, 0);
+                .setNormal(pose, 0, 1, 0);
     }
     /**
      * 还没有放入原料时的汤底的渲染
@@ -88,6 +71,6 @@ public interface ISoupBaseRender {
      * @param soupHeight      汤底的高度
      */
     void renderWhenFinished(StockpotBlockEntityRenderState stockpot, float partialTick, PoseStack poseStack,
-                            SubmitNodeCollector buffer, int packedLight, int packedOverlay,
+                            SubmitNodeCollector submitNodeCollector, int packedLight, int packedOverlay,
                             Identifier finishedTexture, float soupHeight, @NonNull CameraRenderState cameraRenderState);
 }

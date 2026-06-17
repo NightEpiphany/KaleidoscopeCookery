@@ -16,8 +16,8 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.BlockItemTags;
 import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemStackWithSlot;
@@ -85,7 +85,7 @@ public class ScarecrowEntity extends LivingEntity {
     @Override
     public void tick() {
         super.tick();
-        if (this.handItems.stream().anyMatch(i -> i.is(ItemTags.LANTERNS)))
+        if (this.handItems.stream().anyMatch(i -> i.is(BlockItemTags.LANTERNS.item())))
             this.level().setBlock(this.blockPosition().above(), Blocks.LIGHT.defaultBlockState().setValue(LightBlock.LEVEL, 12), Block.UPDATE_ALL);
         else this.level().setBlock(this.blockPosition().above(), Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
         if (this.cooldown > 0) {

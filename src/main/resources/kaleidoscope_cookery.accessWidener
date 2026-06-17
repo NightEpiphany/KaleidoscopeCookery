@@ -3,7 +3,7 @@ accessWidener v2 official
 accessible field net/minecraft/world/entity/Mob goalSelector Lnet/minecraft/world/entity/ai/goal/GoalSelector;
 accessible field net/minecraft/world/item/MobBucketItem type Lnet/minecraft/world/entity/EntityType;
 accessible method net/minecraft/world/entity/Entity getEncodeId ()Ljava/lang/String;
-accessible field net/minecraft/client/gui/Gui overlayMessageTime I
+accessible field net/minecraft/client/gui/Hud overlayMessageTime I
 mutable field net/minecraft/world/level/block/Block stateDefinition Lnet/minecraft/world/level/block/state/StateDefinition;
 accessible field net/minecraft/world/item/BucketItem content Lnet/minecraft/world/level/material/Fluid;
 accessible field net/minecraft/world/level/levelgen/structure/pools/StructureTemplatePool templates Lit/unimi/dsi/fastutil/objects/ObjectArrayList;

@@ -37,7 +37,7 @@ public class MillstoneScenes {
 
         BlockPos millstonePos = grid.at(2, 1, 2);
         Selection millstoneSel = select.position(millstonePos);
-        scene.world().modifyBlock(millstonePos, (s) -> ModBlocks.MILLSTONE.defaultBlockState()
+        scene.world().modifyBlock(millstonePos, (_) -> ModBlocks.MILLSTONE.defaultBlockState()
                 .setValue(MillstoneBlock.FACING, Direction.WEST), false);
 
         scene.idle(20);
@@ -77,9 +77,9 @@ public class MillstoneScenes {
                 .placeNearTarget();
         scene.idle(25);
         ElementLink<EntityElement> donkey = scene.world().createEntity(
-                (lvl) -> new Donkey(EntityType.DONKEY, lvl));
+                (lvl) -> new Donkey(EntityTypes.DONKEY, lvl));
         scene.world().modifyEntity(donkey, (e) -> {
-            e.setPos(grid.at(2, 5, 2).getCenter());
+            e.setPos(Vec3.atCenterOf(grid.at(2, 5, 2)));
             e.setDeltaMovement(0, -0.2f, 0);
             Donkey d = (Donkey) e;
             d.setTamed(true);
@@ -102,7 +102,7 @@ public class MillstoneScenes {
 
             scene.world().modifyEntity(donkey, (e) -> {
                 float rot = getCacheRot();
-                Vec3 center = millstonePos.getCenter();
+                Vec3 center = Vec3.atCenterOf(millstonePos);
                 center = new Vec3(center.x, center.y - 0.5f, center.z);
                 Vec3 pos = new Vec3(0.0F, 0.0F, 2.0F)
                         .yRot(rot * ((float) Math.PI / 180F))

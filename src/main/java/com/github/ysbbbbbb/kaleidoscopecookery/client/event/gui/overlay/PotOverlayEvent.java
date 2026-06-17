@@ -63,7 +63,7 @@ public class PotOverlayEvent {
         int screenHeight = minecraft.getWindow().getGuiScaledHeight();
         int x = screenWidth / 2;
         int y = screenHeight - 72;
-        if (minecraft.gui.overlayMessageTime > 0) {
+        if (minecraft.gui.hud.overlayMessageTime > 0) {
             y = y - 12;
         }
 

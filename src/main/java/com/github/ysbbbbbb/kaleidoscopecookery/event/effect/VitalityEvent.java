@@ -3,10 +3,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.event.effect;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModEffects;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.zombie.Zombie;
 import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.level.Level;
@@ -44,7 +41,7 @@ public class VitalityEvent {
             if (entity instanceof Zombie mob && !mob.isBaby()) {
                 // 5% 概率生成小村民
                 if (level.getRandom().nextInt(20) == 0) {
-                    Villager villager = new Villager(EntityType.VILLAGER, level);
+                    Villager villager = new Villager(EntityTypes.VILLAGER, level);
                     villager.setBaby(true);
                     villager.setPos(pos);
                     level.addFreshEntity(villager);

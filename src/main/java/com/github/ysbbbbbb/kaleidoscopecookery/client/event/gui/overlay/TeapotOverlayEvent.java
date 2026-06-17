@@ -73,7 +73,7 @@ public final class TeapotOverlayEvent {
         Font font = minecraft.font;
         int x = minecraft.getWindow().getGuiScaledWidth() / 2;
         int y = minecraft.getWindow().getGuiScaledHeight() - 72;
-        if (minecraft.gui.overlayMessageTime > 0) {
+        if (minecraft.gui.hud.overlayMessageTime > 0) {
             y -= 12;
         }
 

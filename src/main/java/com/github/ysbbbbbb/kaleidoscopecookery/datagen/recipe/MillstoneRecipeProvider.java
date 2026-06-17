@@ -17,7 +17,7 @@ public class MillstoneRecipeProvider extends ModRecipeProvider {
     public void buildRecipes(RecipeOutput consumer) {
         MillstoneRecipeBuilder.builder()
                 .setIngredient(Items.ALLIUM)
-                .setResult(Items.MAGENTA_DYE, 2)
+                .setResult(Items.DYE.magenta(), 2)
                 .save(consumer, "magenta_dye_from_allium");
 
         MillstoneRecipeBuilder.builder()
@@ -27,7 +27,7 @@ public class MillstoneRecipeProvider extends ModRecipeProvider {
 
         MillstoneRecipeBuilder.builder()
                 .setIngredient(Items.AZURE_BLUET)
-                .setResult(Items.LIGHT_GRAY_DYE, 2)
+                .setResult(Items.DYE.lightGray(), 2)
                 .save(consumer, "light_gray_dye_from_azure_bluet");
 
         MillstoneRecipeBuilder.builder()
@@ -37,11 +37,11 @@ public class MillstoneRecipeProvider extends ModRecipeProvider {
 
         MillstoneRecipeBuilder.builder()
                 .setIngredient(Items.BEETROOT)
-                .setResult(Items.RED_DYE, 2)
+                .setResult(Items.DYE.red(), 2)
                 .save(consumer, "red_dye_from_beetroot");
 
         MillstoneRecipeBuilder.builder()
-                .setIngredient(Items.BLACK_WOOL)
+                .setIngredient(Items.WOOL.black())
                 .setResult(Items.STRING, 3)
                 .save(consumer, "string_from_black_wool");
 
@@ -52,11 +52,11 @@ public class MillstoneRecipeProvider extends ModRecipeProvider {
 
         MillstoneRecipeBuilder.builder()
                 .setIngredient(Items.BLUE_ORCHID)
-                .setResult(Items.LIGHT_BLUE_DYE, 2)
+                .setResult(Items.DYE.lightBlue(), 2)
                 .save(consumer, "light_blue_dye_from_blue_orchid");
 
         MillstoneRecipeBuilder.builder()
-                .setIngredient(Items.BLUE_WOOL)
+                .setIngredient(Items.WOOL.blue())
                 .setResult(Items.STRING, 3)
                 .save(consumer, "string_from_blue_wool");
 
@@ -66,13 +66,13 @@ public class MillstoneRecipeProvider extends ModRecipeProvider {
                 .save(consumer, "bone_meal_from_bone");
 
         MillstoneRecipeBuilder.builder()
-                .setIngredient(Items.BROWN_WOOL)
+                .setIngredient(Items.WOOL.brown())
                 .setResult(Items.STRING, 3)
                 .save(consumer, "string_from_brown_wool");
 
         MillstoneRecipeBuilder.builder()
                 .setIngredient(Items.CACTUS)
-                .setResult(Items.GREEN_DYE, 2)
+                .setResult(Items.DYE.green(), 2)
                 .save(consumer, "green_dye_from_cactus");
 
         MillstoneRecipeBuilder.builder()
@@ -102,17 +102,17 @@ public class MillstoneRecipeProvider extends ModRecipeProvider {
 
         MillstoneRecipeBuilder.builder()
                 .setIngredient(Items.CORNFLOWER)
-                .setResult(Items.BLUE_DYE, 2)
+                .setResult(Items.DYE.blue(), 2)
                 .save(consumer, "blue_dye_from_cornflower");
 
         MillstoneRecipeBuilder.builder()
-                .setIngredient(Items.CYAN_WOOL)
+                .setIngredient(Items.WOOL.cyan())
                 .setResult(Items.STRING, 3)
                 .save(consumer, "string_from_cyan_wool");
 
         MillstoneRecipeBuilder.builder()
                 .setIngredient(Items.DANDELION)
-                .setResult(Items.YELLOW_DYE, 2)
+                .setResult(Items.DYE.yellow(), 2)
                 .save(consumer, "yellow_dye_from_dandelion");
 
         MillstoneRecipeBuilder.builder()
@@ -201,12 +201,12 @@ public class MillstoneRecipeProvider extends ModRecipeProvider {
                 .save(consumer, "sand_from_gravel");
 
         MillstoneRecipeBuilder.builder()
-                .setIngredient(Items.GRAY_WOOL)
+                .setIngredient(Items.WOOL.gray())
                 .setResult(Items.STRING, 3)
                 .save(consumer, "string_from_gray_wool");
 
         MillstoneRecipeBuilder.builder()
-                .setIngredient(Items.GREEN_WOOL)
+                .setIngredient(Items.WOOL.green())
                 .setResult(Items.STRING, 3)
                 .save(consumer, "string_from_green_wool");
 
@@ -222,36 +222,36 @@ public class MillstoneRecipeProvider extends ModRecipeProvider {
 
         MillstoneRecipeBuilder.builder()
                 .setIngredient(Items.LARGE_FERN)
-                .setResult(Items.GREEN_DYE, 3)
+                .setResult(Items.DYE.green(), 3)
                 .save(consumer, "green_dye_from_large_fern");
 
         MillstoneRecipeBuilder.builder()
-                .setIngredient(Items.LIGHT_BLUE_WOOL)
+                .setIngredient(Items.WOOL.lightBlue())
                 .setResult(Items.STRING, 3)
                 .save(consumer, "string_from_light_blue_wool");
 
         MillstoneRecipeBuilder.builder()
-                .setIngredient(Items.LIGHT_GRAY_WOOL)
+                .setIngredient(Items.WOOL.lightGray())
                 .setResult(Items.STRING, 3)
                 .save(consumer, "string_from_light_gray_wool");
 
         MillstoneRecipeBuilder.builder()
                 .setIngredient(Items.LILAC)
-                .setResult(Items.MAGENTA_DYE, 3)
+                .setResult(Items.DYE.magenta(), 3)
                 .save(consumer, "magenta_dye_from_lilac");
 
         MillstoneRecipeBuilder.builder()
                 .setIngredient(Items.LILY_OF_THE_VALLEY)
-                .setResult(Items.WHITE_DYE, 2)
+                .setResult(Items.DYE.white(), 2)
                 .save(consumer, "white_dye_from_lily_of_the_valley");
 
         MillstoneRecipeBuilder.builder()
-                .setIngredient(Items.LIME_WOOL)
+                .setIngredient(Items.WOOL.lime())
                 .setResult(Items.STRING, 3)
                 .save(consumer, "string_from_lime_wool");
 
         MillstoneRecipeBuilder.builder()
-                .setIngredient(Items.MAGENTA_WOOL)
+                .setIngredient(Items.WOOL.magenta())
                 .setResult(Items.STRING, 3)
                 .save(consumer, "string_from_magenta_wool");
 
@@ -267,51 +267,51 @@ public class MillstoneRecipeProvider extends ModRecipeProvider {
 
         MillstoneRecipeBuilder.builder()
                 .setIngredient(Items.ORANGE_TULIP)
-                .setResult(Items.ORANGE_DYE, 2)
+                .setResult(Items.DYE.orange(), 2)
                 .save(consumer, "orange_dye_from_orange_tulip");
 
         MillstoneRecipeBuilder.builder()
-                .setIngredient(Items.ORANGE_WOOL)
+                .setIngredient(Items.WOOL.orange())
                 .setResult(Items.STRING, 3)
                 .save(consumer, "string_from_orange_wool");
 
         MillstoneRecipeBuilder.builder()
                 .setIngredient(Items.OXEYE_DAISY)
-                .setResult(Items.LIGHT_GRAY_DYE, 2)
+                .setResult(Items.DYE.lightGray(), 2)
                 .save(consumer, "light_gray_dye_from_oxeye_daisy");
 
         MillstoneRecipeBuilder.builder()
                 .setIngredient(Items.PEONY)
-                .setResult(Items.PINK_DYE, 3)
+                .setResult(Items.DYE.pink(), 3)
                 .save(consumer, "pink_dye_from_peony");
 
         MillstoneRecipeBuilder.builder()
                 .setIngredient(Items.PINK_PETALS)
-                .setResult(Items.PINK_DYE, 2)
+                .setResult(Items.DYE.pink(), 2)
                 .save(consumer, "pink_dye_from_pink_petals");
 
         MillstoneRecipeBuilder.builder()
                 .setIngredient(Items.PINK_TULIP)
-                .setResult(Items.PINK_DYE, 2)
+                .setResult(Items.DYE.pink(), 2)
                 .save(consumer, "pink_dye_from_pink_tulip");
 
         MillstoneRecipeBuilder.builder()
-                .setIngredient(Items.PINK_WOOL)
+                .setIngredient(Items.WOOL.pink())
                 .setResult(Items.STRING, 3)
                 .save(consumer, "string_from_pink_wool");
 
         MillstoneRecipeBuilder.builder()
                 .setIngredient(Items.PITCHER_PLANT)
-                .setResult(Items.CYAN_DYE, 2)
+                .setResult(Items.DYE.cyan(), 2)
                 .save(consumer, "cyan_dye_from_pitcher_plant");
 
         MillstoneRecipeBuilder.builder()
                 .setIngredient(Items.POPPY)
-                .setResult(Items.RED_DYE, 2)
+                .setResult(Items.DYE.red(), 2)
                 .save(consumer, "red_dye_from_poppy");
 
         MillstoneRecipeBuilder.builder()
-                .setIngredient(Items.PURPLE_WOOL)
+                .setIngredient(Items.WOOL.purple())
                 .setResult(Items.STRING, 3)
                 .save(consumer, "string_from_purple_wool");
 
@@ -342,11 +342,11 @@ public class MillstoneRecipeProvider extends ModRecipeProvider {
 
         MillstoneRecipeBuilder.builder()
                 .setIngredient(Items.RED_TULIP)
-                .setResult(Items.RED_DYE, 2)
+                .setResult(Items.DYE.red(), 2)
                 .save(consumer, "red_dye_from_red_tulip");
 
         MillstoneRecipeBuilder.builder()
-                .setIngredient(Items.RED_WOOL)
+                .setIngredient(Items.WOOL.red())
                 .setResult(Items.STRING, 3)
                 .save(consumer, "string_from_red_wool");
 
@@ -357,7 +357,7 @@ public class MillstoneRecipeProvider extends ModRecipeProvider {
 
         MillstoneRecipeBuilder.builder()
                 .setIngredient(Items.ROSE_BUSH)
-                .setResult(Items.RED_DYE, 3)
+                .setResult(Items.DYE.red(), 3)
                 .save(consumer, "red_dye_from_rose_bush");
 
         MillstoneRecipeBuilder.builder()
@@ -372,7 +372,7 @@ public class MillstoneRecipeProvider extends ModRecipeProvider {
 
         MillstoneRecipeBuilder.builder()
                 .setIngredient(Items.FERN)
-                .setResult(Items.GREEN_DYE, 1)
+                .setResult(Items.DYE.green(), 1)
                 .save(consumer, "green_dye_from_fern");
 
         MillstoneRecipeBuilder.builder()
@@ -397,31 +397,31 @@ public class MillstoneRecipeProvider extends ModRecipeProvider {
 
         MillstoneRecipeBuilder.builder()
                 .setIngredient(Items.SUNFLOWER)
-                .setResult(Items.YELLOW_DYE, 3)
+                .setResult(Items.DYE.yellow(), 3)
                 .save(consumer, "yellow_dye_from_sunflower");
 
         MillstoneRecipeBuilder.builder()
                 .setIngredient(Items.TORCHFLOWER)
-                .setResult(Items.ORANGE_DYE, 2)
+                .setResult(Items.DYE.orange(), 2)
                 .save(consumer, "orange_dye_from_torchflower");
 
         MillstoneRecipeBuilder.builder()
                 .setIngredient(Items.WHITE_TULIP)
-                .setResult(Items.WHITE_DYE, 2)
+                .setResult(Items.DYE.white(), 2)
                 .save(consumer, "white_dye_from_white_tulip");
 
         MillstoneRecipeBuilder.builder()
-                .setIngredient(Items.WHITE_WOOL)
+                .setIngredient(Items.WOOL.white())
                 .setResult(Items.STRING, 3)
                 .save(consumer, "string_from_white_wool");
 
         MillstoneRecipeBuilder.builder()
                 .setIngredient(Items.WITHER_ROSE)
-                .setResult(Items.BLACK_DYE, 2)
+                .setResult(Items.DYE.black(), 2)
                 .save(consumer, "black_dye_from_wither_rose");
 
         MillstoneRecipeBuilder.builder()
-                .setIngredient(Items.YELLOW_WOOL)
+                .setIngredient(Items.WOOL.yellow())
                 .setResult(Items.STRING, 3)
                 .save(consumer, "string_from_yellow_wool");
 

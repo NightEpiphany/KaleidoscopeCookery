@@ -8,6 +8,7 @@ plugins {
 version = providers.gradleProperty("mod_version").get()
 group = providers.gradleProperty("maven_group").get()
 
+
 base {
 	archivesName = providers.gradleProperty("archives_base_name")
 }
@@ -41,7 +42,7 @@ repositories {
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft("com.mojang:minecraft:${providers.gradleProperty("minecraft_version").get()}")
-	implementation("maven.modrinth:farmers-delight-refabricated:${providers.gradleProperty("fdrf_version").get()}") {
+	compileOnly("maven.modrinth:farmers-delight-refabricated:${providers.gradleProperty("fdrf_version").get()}") {
 		exclude(group = "net.fabricmc")
 	}
 	implementation("maven.modrinth:rrv:${providers.gradleProperty("rrv_version").get()}") {
@@ -51,7 +52,6 @@ dependencies {
 	implementation ("maven.modrinth:create-fly:${providers.gradleProperty("create_version").get()}")
 	implementation("net.fabricmc:fabric-loader:${providers.gradleProperty("loader_version").get()}")
 	implementation("maven.modrinth:jade:${providers.gradleProperty("jade_version").get()}")
-	// Fabric API. This is technically optional, but you probably want it anyway.
 	implementation("net.fabricmc.fabric-api:fabric-api:${providers.gradleProperty("fabric_api_version").get()}")
 	implementation ("fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${providers.gradleProperty("forge_config_api_version").get()}")
 	compileOnly("mezz.jei:jei-${providers.gradleProperty("jei_version").get()}")

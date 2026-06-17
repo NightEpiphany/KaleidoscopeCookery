@@ -7,10 +7,15 @@ import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.FoodBiteRegistry;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementRequirements;
-import net.minecraft.advancements.criterion.*;
+import net.minecraft.advancements.predicates.*;
+import net.minecraft.advancements.predicates.entity.EntityEquipmentPredicate;
+import net.minecraft.advancements.predicates.entity.EntityPredicate;
+import net.minecraft.advancements.triggers.InventoryChangeTrigger;
+import net.minecraft.advancements.triggers.KilledTrigger;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
@@ -61,7 +66,7 @@ public class BaseAdvancement {
         AdvancementHolder dangerousChef = makeChallenge(ModItems.OIL, "dangerous_chef")
                 .parent(oil)
                 .addCriterion("kill_piglin_brute", KilledTrigger.TriggerInstance.playerKilledEntity(
-                        EntityPredicate.Builder.entity().of(entityLookup, EntityType.PIGLIN_BRUTE),
+                        EntityPredicate.Builder.entity().of(entityLookup, EntityTypes.PIGLIN_BRUTE),
                         DamageSourcePredicate.Builder.damageType().direct(EntityPredicate.Builder.entity().equipment(
                                 EntityEquipmentPredicate.Builder.equipment().mainhand(
                                         ItemPredicate.Builder.item().of(itemLookup, TagMod.KITCHEN_KNIFE))

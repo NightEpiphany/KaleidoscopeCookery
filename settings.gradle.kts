@@ -14,4 +14,4 @@ pluginManagement {
 }
 
 // Should match your modid
-rootProject.name = "kaleidoscope_cookery"
+rootProject.name = "kaleidoscopecookery-refabricated"

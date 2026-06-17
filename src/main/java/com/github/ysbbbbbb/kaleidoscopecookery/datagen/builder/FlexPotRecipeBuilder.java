@@ -4,7 +4,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.FlexPotRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.datagen.DatagenIngredients;
 import com.google.common.collect.Lists;
-import net.minecraft.advancements.Criterion;
+import net.minecraft.advancements.triggers.Criterion;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeBuilder;

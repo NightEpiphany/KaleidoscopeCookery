@@ -27,20 +27,20 @@ public class SimpleSoupBaseRender implements ISoupBaseRender {
 
     @Override
     public void renderWhenPutIngredient(StockpotBlockEntityRenderState stockpot, float partialTick, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, int packedOverlay, float soupHeight, @NonNull CameraRenderState cameraRenderState) {
-        ISoupBaseRender.renderSurface(this.getSprite(), 0xFFFFFFFF, poseStack, packedLight, soupHeight);
+        ISoupBaseRender.renderSurface(this.getSprite(), 0xFFFFFFFF, poseStack, submitNodeCollector, packedLight, soupHeight);
     }
 
     @Override
     public void renderWhenCooking(StockpotBlockEntityRenderState stockpot, float partialTick, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, int packedOverlay, Identifier cookingTexture, float soupHeight, @NonNull CameraRenderState cameraRenderState) {
         var atlas = Minecraft.getInstance().getModelManager().atlasManager.getAtlasOrThrow(TextureAtlas.LOCATION_BLOCKS);
         TextureAtlasSprite sprite = atlas.getSprite(cookingTexture);
-        ISoupBaseRender.renderSurface(sprite, 0xFFFFFFFF, poseStack, packedLight, soupHeight);
+        ISoupBaseRender.renderSurface(sprite, 0xFFFFFFFF, poseStack, submitNodeCollector, packedLight, soupHeight);
     }
 
     @Override
-    public void renderWhenFinished(StockpotBlockEntityRenderState stockpot, float partialTick, PoseStack poseStack, SubmitNodeCollector buffer, int packedLight, int packedOverlay, Identifier finishedTexture, float soupHeight, @NonNull CameraRenderState cameraRenderState) {
+    public void renderWhenFinished(StockpotBlockEntityRenderState stockpot, float partialTick, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, int packedOverlay, Identifier finishedTexture, float soupHeight, @NonNull CameraRenderState cameraRenderState) {
         var atlas = Minecraft.getInstance().getModelManager().atlasManager.getAtlasOrThrow(TextureAtlas.LOCATION_BLOCKS);
         TextureAtlasSprite sprite = atlas.getSprite(finishedTexture);
-        ISoupBaseRender.renderSurface(sprite, 0xFFFFFFFF, poseStack, packedLight, soupHeight);
+        ISoupBaseRender.renderSurface(sprite, 0xFFFFFFFF, poseStack, submitNodeCollector, packedLight, soupHeight);
     }
 }

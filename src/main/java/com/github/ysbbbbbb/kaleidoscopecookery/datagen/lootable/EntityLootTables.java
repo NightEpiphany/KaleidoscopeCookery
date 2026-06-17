@@ -2,10 +2,9 @@ package com.github.ysbbbbbb.kaleidoscopecookery.datagen.lootable;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
-import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
 import com.github.ysbbbbbb.kaleidoscopecookery.loot.AdvanceEntityMatchTool;
 import com.google.common.collect.Sets;
-import net.minecraft.advancements.criterion.ItemPredicate;
+import net.minecraft.advancements.predicates.ItemPredicate;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.EntityLootSubProvider;
@@ -26,7 +25,6 @@ import org.jspecify.annotations.NonNull;
 
 import java.util.Set;
 import java.util.function.BiConsumer;
-import java.util.stream.Stream;
 
 public class EntityLootTables extends EntityLootSubProvider {
     public final Set<EntityType<?>> knownEntities = Sets.newHashSet();

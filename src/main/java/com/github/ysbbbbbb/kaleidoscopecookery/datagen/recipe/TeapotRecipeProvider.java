@@ -4,6 +4,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.datagen.builder.TeapotBuilder;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.TeacupRegistry;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.tags.BlockItemTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluids;
@@ -18,7 +19,7 @@ public class TeapotRecipeProvider extends ModRecipeProvider {
     public void buildRecipes(RecipeOutput consumer) {
         TeapotBuilder.builder()
                 .setTeaFluid(Fluids.WATER)
-                .setIngredient(ItemTags.SMALL_FLOWERS)
+                .setIngredient(BlockItemTags.SMALL_FLOWERS.item())
                 .setResult(TeacupRegistry.getItem(TeacupRegistry.FLOWER_TEA))
                 .setTime(240)
                 .save(consumer);

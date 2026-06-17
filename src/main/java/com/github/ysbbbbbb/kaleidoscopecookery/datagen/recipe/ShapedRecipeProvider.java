@@ -5,6 +5,8 @@ import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.tags.BlockItemTags;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import com.github.ysbbbbbb.kaleidoscopecookery.datagen.CommonTags;
@@ -111,7 +113,7 @@ public class ShapedRecipeProvider extends ModRecipeProvider {
                 .pattern("FFF")
                 .pattern("FHF")
                 .pattern("FFF")
-                .define('F', ItemTags.FLOWERS)
+                .define('F', BlockItemTags.FLOWERS.item())
                 .define('H', ModItems.STRAW_HAT.get())
                 .unlockedBy("has_ingot_iron", has(Items.IRON_INGOT))
                 .save(consumer);

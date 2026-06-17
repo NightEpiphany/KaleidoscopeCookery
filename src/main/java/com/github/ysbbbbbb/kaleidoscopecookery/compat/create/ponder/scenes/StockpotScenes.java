@@ -13,6 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.pig.Pig;
 import net.minecraft.world.item.ItemStack;
@@ -41,7 +42,7 @@ public class StockpotScenes {
         Selection litSel = select.position(litPos);
         BlockPos potPos = grid.at(2, 2, 2);
         Selection potSel = select.position(potPos);
-        LivingEntity pig = new Pig(EntityType.PIG, level);
+        LivingEntity pig = new Pig(EntityTypes.PIG, level);
 
         scene.world().modifyBlock(litPos, (s) -> ModBlocks.STOVE.defaultBlockState()
                 .setValue(StoveBlock.FACING, Direction.NORTH)
