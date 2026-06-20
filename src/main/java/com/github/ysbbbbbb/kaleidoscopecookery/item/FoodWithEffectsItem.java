@@ -31,13 +31,22 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class FoodWithEffectsItem extends Item implements ICustomEatEffect {
-    private final List<MobEffectInstance> effectInstances = Lists.newArrayList();
+    protected final List<MobEffectInstance> effectInstances = Lists.newArrayList();
     private final Function<Quality, List<MobEffectInstance>> effectCache = Util.memoize(
             quality -> QualityUtils.modifyEffects(this.effectInstances, quality)
     );
     private final BiFunction<Quality, FoodProperties, FoodProperties> foodPropertiesCache = Util.memoize(
             (quality, raw) -> QualityUtils.modifyFoodProperties(raw, quality)
     );
+
+    public FoodWithEffectsItem(FoodProperties properties, Item craftingItem) {
+        super(new Item.Properties().food(properties).craftRemainder(craftingItem));
+        properties.effects().forEach(effect -> {
+            if (effect.probability() >= 1F) {
+                effectInstances.add(effect.effect());
+            }
+        });
+    }
 
     public FoodWithEffectsItem(FoodProperties properties) {
         super(new Properties().food(properties));

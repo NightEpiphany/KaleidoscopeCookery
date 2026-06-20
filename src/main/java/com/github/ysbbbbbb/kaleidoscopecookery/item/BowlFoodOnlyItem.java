@@ -19,15 +19,13 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class BowlFoodOnlyItem extends FoodWithEffectsItem implements IHasContainer {
-    private final List<MobEffectInstance> effectInstances = Lists.newArrayList();
 
     public BowlFoodOnlyItem(FoodProperties properties) {
         super(properties);
-        properties.effects().forEach(effect -> {
-            if (effect.probability() >= 1F) {
-                effectInstances.add(effect.effect());
-            }
-        });
+    }
+
+    public BowlFoodOnlyItem(FoodProperties properties, Item craftingItem) {
+        super(properties, craftingItem);
     }
 
     @Override

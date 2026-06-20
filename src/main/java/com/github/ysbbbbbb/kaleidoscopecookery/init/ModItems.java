@@ -132,7 +132,7 @@ public final class ModItems {
 
 
     // Bowl foods
-    public static final Item COOKED_RICE = new BowlFoodOnlyItem(ModFoods.COOKED_RICE);
+    public static final Item COOKED_RICE = new BowlFoodOnlyItem(ModFoods.COOKED_RICE, Items.BOWL);
     public static final Item SCRAMBLE_EGG_WITH_TOMATOES = new BowlFoodOnlyItem(ModFoods.SCRAMBLE_EGG_WITH_TOMATOES);
     public static final Item SCRAMBLE_EGG_WITH_TOMATOES_RICE_BOWL = new BowlFoodOnlyItem(ModFoods.SCRAMBLE_EGG_WITH_TOMATOES_RICE_BOWL);
     public static final Item STIR_FRIED_BEEF_OFFAL = new BowlFoodOnlyItem(ModFoods.STIR_FRIED_BEEF_OFFAL);
