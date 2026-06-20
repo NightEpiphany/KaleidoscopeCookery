@@ -3,7 +3,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.client.render.block;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.client.render.ICustomModel;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.decoration.TableBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.TableBlockEntity;
-import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates.TableBlockEntityRenderState;
+import com.github.ysbbbbbb.kaleidoscopecookery.client.render.renderstate.TableBlockEntityRenderState;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.fabricmc.api.EnvType;

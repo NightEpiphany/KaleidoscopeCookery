@@ -20,16 +20,15 @@ import org.jspecify.annotations.NonNull;
 import java.util.List;
 
 public class BowlFoodOnlyItem extends FoodWithEffectsItem implements IHasContainer {
-    private final List<MobEffectInstance> effectInstances = Lists.newArrayList();
 
     public BowlFoodOnlyItem(Properties p, FoodProperties properties, Consumable consumable) {
         super(p.food(properties, consumable), properties, consumable);
-        consumable.onConsumeEffects().forEach(consumeEffect -> {
-            if (consumeEffect instanceof ApplyStatusEffectsConsumeEffect(List<MobEffectInstance> effects, float probability)) {
-                effectInstances.addAll(effects);
-            }
-        });
     }
+
+    public BowlFoodOnlyItem(Properties p, FoodProperties properties, Consumable consumable, Item craftingItem) {
+        super(p.food(properties, consumable), properties, consumable, craftingItem);
+    }
+
     public ItemStack finishUsingItemRaw(ItemStack itemStack, Level level, LivingEntity livingEntity) {
         Consumable consumable = itemStack.get(DataComponents.CONSUMABLE);
         return consumable != null ? consumable.onConsume(level, livingEntity, itemStack) : itemStack;

@@ -1,12 +1,9 @@
-package com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates;
+package com.github.ysbbbbbb.kaleidoscopecookery.client.render.renderstate;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
 
 @Environment(EnvType.CLIENT)
 public class ChairBlockEntityRenderState extends BlockEntityRenderState {

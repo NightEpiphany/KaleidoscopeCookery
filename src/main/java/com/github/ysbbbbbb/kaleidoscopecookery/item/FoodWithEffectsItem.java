@@ -36,7 +36,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class FoodWithEffectsItem extends Item implements ICustomEatEffect {
-    private final List<MobEffectInstance> effectInstances = Lists.newArrayList();
+
+    protected final List<MobEffectInstance> effectInstances = Lists.newArrayList();
 
     private final Function<Quality, List<MobEffectInstance>> effectCache = Util.memoize(
             quality -> QualityUtils.modifyEffects(this.effectInstances, quality)
@@ -50,6 +51,15 @@ public class FoodWithEffectsItem extends Item implements ICustomEatEffect {
 
     public FoodWithEffectsItem(Properties p, FoodProperties properties) {
         this(p, properties, Consumable.builder().build());
+    }
+
+    public FoodWithEffectsItem(Properties p, FoodProperties properties, Consumable consumable, Item craftingItem) {
+        super(p.food(properties).craftRemainder(craftingItem));
+        consumable.onConsumeEffects().forEach(effect -> {
+            if (effect instanceof ApplyStatusEffectsConsumeEffect(List<MobEffectInstance> effects,float probability) && probability >= 1F) {
+                effectInstances.addAll(effects);
+            }
+        });
     }
 
     public FoodWithEffectsItem(Properties p, FoodProperties properties, Consumable consumable) {

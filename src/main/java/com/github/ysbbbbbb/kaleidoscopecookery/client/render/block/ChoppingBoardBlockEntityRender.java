@@ -3,7 +3,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.client.render.block;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.client.render.ICustomModel;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.ChoppingBoardBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.ChoppingBoardBlockEntity;
-import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates.ChoppingBoardBlockEntityRenderState;
+import com.github.ysbbbbbb.kaleidoscopecookery.client.render.renderstate.ChoppingBoardBlockEntityRenderState;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.fabricmc.api.EnvType;
