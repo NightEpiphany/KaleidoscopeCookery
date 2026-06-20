@@ -143,7 +143,7 @@ public final class ModItems {
     public static final Item BAMBOO_TUBE_RICE = new BambooTubeRiceBlockItem(ModBlocks.BAMBOO_TUBE_RICE, ModFoods.BAMBOO_TUBE_RICE);
 
     // 小碗菜和盖饭
-    public static final Item COOKED_RICE = new BowlFoodOnlyItem(ModFoods.COOKED_RICE);
+    public static final Item COOKED_RICE = new BowlFoodOnlyItem(ModFoods.COOKED_RICE, Items.BOWL);
     public static final Item EGG_FRIED_RICE = new BowlFoodOnlyItem(ModFoods.EGG_FRIED_RICE);
     public static final Item DELICIOUS_EGG_FRIED_RICE = new BowlFoodOnlyItem(ModFoods.DELICIOUS_EGG_FRIED_RICE);
     public static final Item SCRAMBLE_EGG_WITH_TOMATOES = new BowlFoodOnlyItem(ModFoods.SCRAMBLE_EGG_WITH_TOMATOES);
