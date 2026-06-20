@@ -2,7 +2,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.client.render.block;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.SteamerBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.SteamerBlockEntity;
-import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates.SteamerBlockEntityRenderState;
+import com.github.ysbbbbbb.kaleidoscopecookery.client.render.renderstate.SteamerBlockEntityRenderState;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.fabricmc.api.EnvType;

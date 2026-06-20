@@ -1,7 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.render.soupbase;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.api.client.render.ISoupBaseRender;
-import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates.StockpotBlockEntityRenderState;
+import com.github.ysbbbbbb.kaleidoscopecookery.client.render.renderstate.StockpotBlockEntityRenderState;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.SubmitNodeCollector;

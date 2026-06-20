@@ -1,7 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.render.block;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.PotBlockEntity;
-import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates.PotBlockEntityRenderState;
+import com.github.ysbbbbbb.kaleidoscopecookery.client.render.renderstate.PotBlockEntityRenderState;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModDataComponents;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
 import com.mojang.blaze3d.vertex.PoseStack;

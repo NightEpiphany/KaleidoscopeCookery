@@ -167,7 +167,7 @@ public final class ModItems {
     public static final Item RAW_BAMBOO_TUBE_RICE = registerItem("raw_bamboo_tube_rice");
 
     // Bowl foods
-    public static final Item COOKED_RICE = registerItem("cooked_rice", p -> new BowlFoodOnlyItem(p, ModFoods.COOKED_RICE, ModConsumables.COOKED_RICE));
+    public static final Item COOKED_RICE = registerItem("cooked_rice", p -> new BowlFoodOnlyItem(p, ModFoods.COOKED_RICE, ModConsumables.COOKED_RICE, Items.BOWL));
     public static final Item SCRAMBLE_EGG_WITH_TOMATOES = registerItem("scramble_egg_with_tomatoes", p -> new BowlFoodOnlyItem(p, ModFoods.SCRAMBLE_EGG_WITH_TOMATOES, ModConsumables.SCRAMBLE_EGG_WITH_TOMATOES));
     public static final Item SCRAMBLE_EGG_WITH_TOMATOES_RICE_BOWL = registerItem("scramble_egg_with_tomatoes_rice_bowl", p -> new BowlFoodOnlyItem(p, ModFoods.SCRAMBLE_EGG_WITH_TOMATOES_RICE_BOWL, ModConsumables.SCRAMBLE_EGG_WITH_TOMATOES_RICE_BOWL));
     public static final Item STIR_FRIED_BEEF_OFFAL = registerItem("stir_fried_beef_offal", p -> new BowlFoodOnlyItem(p, ModFoods.STIR_FRIED_BEEF_OFFAL, ModConsumables.STIR_FRIED_BEEF_OFFAL));

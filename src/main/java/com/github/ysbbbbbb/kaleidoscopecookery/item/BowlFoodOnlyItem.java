@@ -1,7 +1,6 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.item;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.api.item.IHasContainer;
-import com.google.common.collect.Lists;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -12,23 +11,18 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.Consumable;
-import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 
-import java.util.List;
-
 public class BowlFoodOnlyItem extends FoodWithEffectsItem implements IHasContainer {
-    private final List<MobEffectInstance> effectInstances = Lists.newArrayList();
 
     public BowlFoodOnlyItem(Properties p, FoodProperties properties, Consumable consumable) {
         super(p.food(properties, consumable), properties, consumable);
-        consumable.onConsumeEffects().forEach(consumeEffect -> {
-            if (consumeEffect instanceof ApplyStatusEffectsConsumeEffect(List<MobEffectInstance> effects, float probability)) {
-                effectInstances.addAll(effects);
-            }
-        });
+    }
+
+    public BowlFoodOnlyItem(Properties p, FoodProperties properties, Consumable consumable, Item craftingItem) {
+        super(p.food(properties, consumable), properties, consumable, craftingItem);
     }
     public ItemStack finishUsingItemRaw(ItemStack itemStack, Level level, LivingEntity livingEntity) {
         Consumable consumable = itemStack.get(DataComponents.CONSUMABLE);

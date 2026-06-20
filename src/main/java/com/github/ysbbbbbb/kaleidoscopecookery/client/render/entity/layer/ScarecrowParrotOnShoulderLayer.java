@@ -1,7 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.client.render.entity.layer;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.client.model.ScarecrowModel;
-import com.github.ysbbbbbb.kaleidoscopecookery.client.renderstates.ScarecrowEntityRenderState;
+import com.github.ysbbbbbb.kaleidoscopecookery.client.render.renderstate.ScarecrowEntityRenderState;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
