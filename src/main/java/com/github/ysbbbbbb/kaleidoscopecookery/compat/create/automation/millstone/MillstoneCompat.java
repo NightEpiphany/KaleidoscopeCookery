@@ -44,7 +44,7 @@ public class MillstoneCompat {
         }
     }
 
-    private static RecipeHolder<MillstoneRecipe> transformRecipe(RecipeHolder<MillingRecipe> holder) {
+    public static RecipeHolder<MillstoneRecipe> transformRecipe(RecipeHolder<MillingRecipe> holder) {
         List<RandomOutput> outputs = holder.value()
                 .results()
                 .stream()
