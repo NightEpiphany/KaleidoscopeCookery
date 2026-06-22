@@ -36,6 +36,8 @@ repositories {
 		name = "Nucleoid"
 		url = URI("https://maven.nucleoid.xyz/releases")
 	}
+
+	maven { url = URI("https://maven.shedaniel.me") }
 }
 
 dependencies {
@@ -48,6 +50,10 @@ dependencies {
 		exclude(group = "net.fabricmc.fabric-api")
 		exclude(group = "eu.pb4")
 	}
+	compileOnly("me.shedaniel:RoughlyEnoughItems-fabric:${providers.gradleProperty("rei_version").get()}")
+	compileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${providers.gradleProperty("rei_version").get()}")
+	compileOnly ("me.shedaniel.cloth:cloth-config-fabric:26.1.154")
+	compileOnly ("dev.architectury:architectury-fabric:20.0.7")
 	implementation ("maven.modrinth:create-fly:${providers.gradleProperty("create_version").get()}")
 	implementation("net.fabricmc:fabric-loader:${providers.gradleProperty("loader_version").get()}")
 	implementation("maven.modrinth:jade:${providers.gradleProperty("jade_version").get()}")
