@@ -4,6 +4,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.rei.ReiUtil;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.TeapotRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.fluids.TeaFluidHelper;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import me.shedaniel.math.Point;
@@ -22,15 +23,13 @@ import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -58,12 +57,12 @@ public class ReiTeapotRecipeCategory implements DisplayCategory<ReiTeapotRecipeC
 
         widgets.add(Widgets.createRecipeBase(bounds));
         widgets.add(Widgets.createTexturedWidget(BG, startX, startY, 0, 0, WIDTH, HEIGHT));
-        widgets.add(Widgets.withTranslate(Widgets.createDrawableWidget((guiGraphics, mouseX, mouseY, v) -> drawCenteredString(guiGraphics, brewTime)), startX, startY));
+        widgets.add(Widgets.withTranslate(Widgets.createDrawableWidget((guiGraphics, _, _, _) -> drawCenteredString(guiGraphics, brewTime)), startX, startY));
         widgets.add(Widgets.createSlot(new Point(startX + 65, startY + 3))
-                .entries(display.getInputEntries().get(0))
+                .entries(display.getFluidInput().getFirst())
                 .markInput());
         widgets.add(Widgets.createSlot(new Point(startX + 83, startY + 3))
-                .entries(display.getInputEntries().get(1))
+                .entries(display.getIngredientInput().getFirst())
                 .markInput());
         widgets.add(Widgets.createSlot(new Point(startX + 128, startY + 30))
                 .entries(display.getOutputEntries().getFirst())
@@ -103,30 +102,16 @@ public class ReiTeapotRecipeCategory implements DisplayCategory<ReiTeapotRecipeC
         registry.addWorkstations(ReiTeapotRecipeCategory.ID, ReiUtil.ofItem(ModItems.TEAPOT));
     }
 
-//    public static void registerDisplays(DisplayRegistry registry) {
-//        registry.getRecipeManager().getAllRecipesFor(ModRecipes.TEAPOT_RECIPE)
-//                .forEach(r -> {
-//                    Fluid fluid = BuiltInRegistries.FLUID.get(r.value().teaFluid());
-//                    Item bucket = fluid.getBucket();
-//                    List<EntryIngredient> fluidInput = ReiUtil.ofItems(bucket);
-//                    List<EntryIngredient> inputs = List.of(EntryIngredient.of(Arrays.stream(r.value().ingredient().getItems())
-//                            .map(stack -> EntryStacks.of(stack.copyWithCount(r.value().ingredientCount())))
-//                            .toList()));
-//                    List<EntryIngredient> output = ReiUtil.ofItemStacks(r.value().result().copyWithCount(TeapotRecipe.OUTPUT_COUNT));
-//
-//                    registry.add(new TeapotRecipeDisplay(r.id(), fluidInput, inputs, output, r.value().time()));
-//                });
-//    }
-
     public static class TeapotRecipeDisplay extends BasicDisplay {
         public final int brewTime;
         protected final List<EntryIngredient> fluidInput;
+        protected final List<EntryIngredient> ingredientInput;
 
         public static final DisplaySerializer<TeapotRecipeDisplay> SERIALIZER = DisplaySerializer.of(
                 RecordCodecBuilder.mapCodec(inst -> inst.group(
                         Identifier.CODEC.fieldOf("location").forGetter(r -> r.getDisplayLocation().orElse(Identifier.withDefaultNamespace("air"))),
                         EntryIngredient.codec().listOf().fieldOf("tea_fluid").forGetter(TeapotRecipeDisplay::getFluidInput),
-                        EntryIngredient.codec().listOf().fieldOf("inputs").forGetter(TeapotRecipeDisplay::getInputEntries),
+                        EntryIngredient.codec().listOf().fieldOf("inputs").forGetter(TeapotRecipeDisplay::getIngredientInput),
                         EntryIngredient.codec().listOf().fieldOf("outputs").forGetter(TeapotRecipeDisplay::getOutputEntries),
                         Codec.INT.fieldOf("brew_time").forGetter(TeapotRecipeDisplay::getBrewTime)
 
@@ -134,7 +119,7 @@ public class ReiTeapotRecipeCategory implements DisplayCategory<ReiTeapotRecipeC
                 StreamCodec.composite(
                         Identifier.STREAM_CODEC, r -> r.getDisplayLocation().orElse(Identifier.withDefaultNamespace("air")),
                         EntryIngredient.streamCodec().apply(ByteBufCodecs.list()), TeapotRecipeDisplay::getFluidInput,
-                        EntryIngredient.streamCodec().apply(ByteBufCodecs.list()), TeapotRecipeDisplay::getInputEntries,
+                        EntryIngredient.streamCodec().apply(ByteBufCodecs.list()), TeapotRecipeDisplay::getIngredientInput,
                         EntryIngredient.streamCodec().apply(ByteBufCodecs.list()), TeapotRecipeDisplay::getOutputEntries,
                         ByteBufCodecs.INT, TeapotRecipeDisplay::getBrewTime,
                         TeapotRecipeDisplay::new
@@ -144,26 +129,38 @@ public class ReiTeapotRecipeCategory implements DisplayCategory<ReiTeapotRecipeC
                                    List<EntryIngredient> fluidInput,
                                    List<EntryIngredient> inputs,
                                    List<EntryIngredient> outputs, int brewTime) {
-            super(List.of(fluidInput.getFirst(), inputs.getFirst()), outputs, Optional.of(location));
+            super(List.of(fluidInput.getFirst(), getRecipeIngredientInput(inputs)), outputs, Optional.of(location));
             this.fluidInput = fluidInput;
+            this.ingredientInput = List.of(getRecipeIngredientInput(inputs));
             this.brewTime = brewTime;
         }
 
         public TeapotRecipeDisplay(RecipeHolder<TeapotRecipe> holder) {
-            this(holder.id().identifier(), ReiUtil.ofIngredients(getBucket(holder.value().teaFluid())), ReiUtil.ofIngredients(holder.value().ingredient()), ReiUtil.ofItemStacks(holder.value().result().create()), holder.value().time());
-        }
-
-        private static Ingredient getBucket(Identifier id) {
-            Fluid f = BuiltInRegistries.FLUID.getValue(id);
-            return Ingredient.of(f.getBucket());
+            this(holder.id().identifier(), ReiUtil.ofItemStacks(TeaFluidHelper.getFilledContainer(holder.value().teaFluid())), getIngredientInputs(holder.value()), ReiUtil.ofItemStacks(holder.value().result().create().copyWithCount(TeapotRecipe.OUTPUT_COUNT)), holder.value().time());
         }
 
         public List<EntryIngredient> getFluidInput() {
             return fluidInput;
         }
 
+        public List<EntryIngredient> getIngredientInput() {
+            return ingredientInput;
+        }
+
         public int getBrewTime() {
             return brewTime;
+        }
+
+        private static EntryIngredient getRecipeIngredientInput(List<EntryIngredient> inputs) {
+            return inputs.size() > 1 ? inputs.get(1) : inputs.getFirst();
+        }
+
+        @SuppressWarnings("deprecation")
+        private static List<EntryIngredient> getIngredientInputs(TeapotRecipe recipe) {
+            List<ItemStack> inputs = recipe.ingredient().items()
+                    .map(stack -> stack.value().getDefaultInstance().copyWithCount(recipe.ingredientCount()))
+                    .toList();
+            return ReiUtil.ofItemStacks(inputs.toArray(ItemStack[]::new));
         }
 
         @Override
