@@ -1,6 +1,7 @@
 {
   "values": [
     "kaleidoscope_cookery:cook_stool_oak",
+    "kaleidoscope_cookery:cook_stool_poplar",
     "kaleidoscope_cookery:cook_stool_pale_oak",
     "kaleidoscope_cookery:cook_stool_spruce",
     "kaleidoscope_cookery:cook_stool_acacia",
@@ -13,6 +14,7 @@
     "kaleidoscope_cookery:cook_stool_mangrove",
     "kaleidoscope_cookery:cook_stool_warped",
     "kaleidoscope_cookery:chair_oak",
+    "kaleidoscope_cookery:chair_poplar",
     "kaleidoscope_cookery:chair_pale_oak",
     "kaleidoscope_cookery:chair_spruce",
     "kaleidoscope_cookery:chair_acacia",
@@ -25,6 +27,7 @@
     "kaleidoscope_cookery:chair_mangrove",
     "kaleidoscope_cookery:chair_warped",
     "kaleidoscope_cookery:table_oak",
+    "kaleidoscope_cookery:table_poplar",
     "kaleidoscope_cookery:table_pale_oak",
     "kaleidoscope_cookery:table_spruce",
     "kaleidoscope_cookery:table_acacia",

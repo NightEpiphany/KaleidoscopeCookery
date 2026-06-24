@@ -169,6 +169,7 @@ public final class ModBlocks {
 
     // Cook stools
     public static final Block COOK_STOOL_OAK = stoolReg("cook_stool_oak");
+    public static final Block COOK_STOOL_POPLAR = stoolReg("cook_stool_poplar");
     public static final Block COOK_STOOL_PALE_OAK = stoolReg("cook_stool_pale_oak");
     public static final Block COOK_STOOL_SPRUCE = stoolReg("cook_stool_spruce");
     public static final Block COOK_STOOL_ACACIA = stoolReg("cook_stool_acacia");
@@ -183,6 +184,7 @@ public final class ModBlocks {
 
     // Chairs
     public static final Block CHAIR_OAK = chairReg("chair_oak");
+    public static final Block CHAIR_POPLAR = chairReg("chair_poplar");
     public static final Block CHAIR_PALE_OAK = chairReg("chair_pale_oak");
     public static final Block CHAIR_SPRUCE = chairReg("chair_spruce");
     public static final Block CHAIR_ACACIA = chairReg("chair_acacia");
@@ -197,6 +199,7 @@ public final class ModBlocks {
 
     // Tables
     public static final Block TABLE_OAK = tableReg("table_oak");
+    public static final Block TABLE_POPLAR = tableReg("table_poplar");
     public static final Block TABLE_PALE_OAK = tableReg("table_pale_oak");
     public static final Block TABLE_SPRUCE = tableReg("table_spruce");
     public static final Block TABLE_ACACIA = tableReg("table_acacia");
@@ -254,13 +257,13 @@ public final class ModBlocks {
     public static final BlockEntityType<ChairBlockEntity> CHAIR_BE = FabricBlockEntityTypeBuilder.create(ChairBlockEntity::new,
             CHAIR_OAK, CHAIR_SPRUCE, CHAIR_ACACIA, CHAIR_BAMBOO,
             CHAIR_BIRCH, CHAIR_CHERRY, CHAIR_CRIMSON, CHAIR_DARK_OAK,
-            CHAIR_JUNGLE, CHAIR_MANGROVE, CHAIR_WARPED, CHAIR_PALE_OAK
+            CHAIR_JUNGLE, CHAIR_MANGROVE, CHAIR_WARPED, CHAIR_PALE_OAK, CHAIR_POPLAR
     ).build();
 
     public static final BlockEntityType<TableBlockEntity> TABLE_BE = FabricBlockEntityTypeBuilder.create(TableBlockEntity::new,
             TABLE_OAK, TABLE_SPRUCE, TABLE_ACACIA, TABLE_BAMBOO,
             TABLE_BIRCH, TABLE_CHERRY, TABLE_CRIMSON, TABLE_DARK_OAK,
-            TABLE_JUNGLE, TABLE_MANGROVE, TABLE_WARPED, TABLE_PALE_OAK
+            TABLE_JUNGLE, TABLE_MANGROVE, TABLE_WARPED, TABLE_PALE_OAK, TABLE_POPLAR
     ).build();
 
     public static void registerBlocks() {

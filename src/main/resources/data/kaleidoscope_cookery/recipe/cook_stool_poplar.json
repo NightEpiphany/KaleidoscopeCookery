@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": "minecraft:poplar_planks"
+  },
+  "pattern": [
+    "   ",
+    "###",
+    "# #"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kaleidoscope_cookery:cook_stool_poplar"
+  }
+}

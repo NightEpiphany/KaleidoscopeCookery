@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "F": "minecraft:poplar_fence",
+    "S": "minecraft:poplar_slab"
+  },
+  "pattern": [
+    "F  ",
+    "SSS",
+    "F F"
+  ],
+  "result": {
+    "count": 1,
+    "id": "kaleidoscope_cookery:chair_poplar"
+  }
+}
