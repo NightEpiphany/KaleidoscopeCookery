@@ -1,6 +1,5 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.block.misc;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.RandomSource;
@@ -15,11 +14,6 @@ import org.jspecify.annotations.NonNull;
 public class OilBlock extends Block {
     public OilBlock(BlockBehaviour.Properties p) {
         super(p);
-    }
-
-    @Override
-    protected @NonNull MapCodec<? extends Block> codec() {
-        return simpleCodec(OilBlock::new);
     }
 
     @Deprecated

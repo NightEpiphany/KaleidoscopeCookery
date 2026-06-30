@@ -73,8 +73,7 @@ public class FoodBiteThreeByThreeBlockEntityRender implements BlockEntityRendere
                 renderType,
                 blockEntityRenderState.lightCoords,
                 OverlayTexture.NO_OVERLAY,
-                0,
-                null
+                0
         );
         poseStack.popPose();
     }

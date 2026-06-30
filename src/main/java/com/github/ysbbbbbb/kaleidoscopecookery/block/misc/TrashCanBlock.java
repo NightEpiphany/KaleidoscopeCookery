@@ -3,7 +3,6 @@ package com.github.ysbbbbbb.kaleidoscopecookery.block.misc;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.misc.TrashCanBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.entity.SitEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -48,7 +47,6 @@ import org.jspecify.annotations.NonNull;
 import java.util.List;
 
 public class TrashCanBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock {
-    public static final MapCodec<TrashCanBlock> CODEC = simpleCodec(TrashCanBlock::new);
     public static final VoxelShape SUCK_ZONE = Block.box(0, 15, 0, 16, 16, 16);
     public static final VoxelShape AABB = Shapes.or(
             Block.box(2, 0, 2, 14, 15, 14),
@@ -63,11 +61,6 @@ public class TrashCanBlock extends HorizontalDirectionalBlock implements SimpleW
                 .setValue(FACING, Direction.NORTH)
                 .setValue(POWERED, false)
                 .setValue(WATERLOGGED, false));
-    }
-
-    @Override
-    protected @NotNull MapCodec<? extends HorizontalDirectionalBlock> codec() {
-        return CODEC;
     }
 
     @Nullable

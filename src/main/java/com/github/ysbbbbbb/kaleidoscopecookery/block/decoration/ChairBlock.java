@@ -3,7 +3,6 @@ package com.github.ysbbbbbb.kaleidoscopecookery.block.decoration;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.entity.ISittable;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.ChairBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.BlockDrop;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
@@ -43,7 +42,6 @@ import static com.github.ysbbbbbb.kaleidoscopecookery.util.CarpetColor.getCarpet
 import static com.github.ysbbbbbb.kaleidoscopecookery.util.CarpetColor.getColorByCarpet;
 
 public class ChairBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, EntityBlock, ISittable {
-    public static final MapCodec<ChairBlock> CODEC = simpleCodec(ChairBlock::new);
     public static final BooleanProperty HAS_CARPET = BooleanProperty.create("has_carpet");
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
@@ -59,11 +57,6 @@ public class ChairBlock extends HorizontalDirectionalBlock implements SimpleWate
                 .setValue(FACING, Direction.SOUTH)
                 .setValue(HAS_CARPET, false)
                 .setValue(WATERLOGGED, false));
-    }
-
-    @Override
-    protected @NonNull MapCodec<? extends HorizontalDirectionalBlock> codec() {
-        return CODEC;
     }
 
 

@@ -3,7 +3,6 @@ package com.github.ysbbbbbb.kaleidoscopecookery.block.decoration;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.decoration.TableBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.BlockDrop;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -65,11 +64,6 @@ public class TableBlock extends Block implements SimpleWaterloggedBlock, EntityB
                 .setValue(POSITION, SINGLE)
                 .setValue(HAS_CARPET, false)
                 .setValue(WATERLOGGED, false));
-    }
-
-    @Override
-    protected @NonNull MapCodec<? extends Block> codec() {
-        return simpleCodec(TableBlock::new);
     }
 
     @Override

@@ -45,8 +45,7 @@ public class StrawHatArmorRenderer implements ArmorRenderer {
                 RenderTypes.entityCutout(texture),
                 bipedEntityRenderState.lightCoords,
                 OverlayTexture.NO_OVERLAY,
-                0,
-                null
+                0
         );
         matrices.popPose();
     }

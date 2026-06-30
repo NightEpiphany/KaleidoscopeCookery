@@ -5,7 +5,6 @@ import com.github.ysbbbbbb.kaleidoscopecookery.init.ModParticles;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.TeacupItem;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.TeapotItem;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -38,7 +37,6 @@ import org.jspecify.annotations.NonNull;
 import java.util.List;
 
 public class EmptyCupBlock extends HorizontalDirectionalBlock {
-    public static final MapCodec<EmptyCupBlock> CODEC = simpleCodec(EmptyCupBlock::new);
     public static final VoxelShape AABB = Block.box(1, 0, 1, 15, 2, 15);
     public static final int MAX_COUNT = 4;
     public static final IntegerProperty CUP_COUNT = IntegerProperty.create("cup_count", 1, MAX_COUNT);
@@ -55,11 +53,6 @@ public class EmptyCupBlock extends HorizontalDirectionalBlock {
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(CUP_COUNT, 1)
                 .setValue(FACING, Direction.SOUTH));
-    }
-
-    @Override
-    protected @NonNull MapCodec<? extends HorizontalDirectionalBlock> codec() {
-        return CODEC;
     }
 
     @Override

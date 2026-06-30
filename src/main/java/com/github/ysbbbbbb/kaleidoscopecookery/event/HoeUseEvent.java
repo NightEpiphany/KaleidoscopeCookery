@@ -7,11 +7,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -30,7 +30,7 @@ public class HoeUseEvent {
         ItemStack stack = player.getItemInHand(hand);
 
         // 判断是否为锄头
-        if (!(stack.getItem() instanceof HoeItem)) {
+        if (!(stack.is(ItemTags.HOES))) {
             return InteractionResult.PASS;
         }
 
@@ -54,7 +54,7 @@ public class HoeUseEvent {
         // 替换为耕地
         if (!level.isClientSide()) {
             level.setBlockAndUpdate(pos, Blocks.FARMLAND.defaultBlockState());
-            level.playSound(null, pos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+            level.playSound(null, pos, SoundEvents.HOE_TILL.value(), SoundSource.BLOCKS, 1.0F, 1.0F);
             stack.hurtAndBreak(1, player, hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
             ModTrigger.EVENT.trigger(player, ModEventTriggerType.USE_HOE_ON_WATER_FIELD);
         }

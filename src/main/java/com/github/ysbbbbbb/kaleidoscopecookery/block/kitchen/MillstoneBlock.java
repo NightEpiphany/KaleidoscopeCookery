@@ -6,7 +6,6 @@ import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.MillstoneBloc
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTrigger;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
@@ -40,7 +39,6 @@ import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NonNull;
 
 public class MillstoneBlock extends HorizontalDirectionalBlock implements EntityBlock {
-    public static final MapCodec<MillstoneBlock> CODEC = simpleCodec(MillstoneBlock::new);
     public static final EnumProperty<NinePart> PART = EnumProperty.create("part", NinePart.class);
 
     private static final VoxelShape CENTER = Block.box(-2, 0, -2, 18, 15, 18);
@@ -273,10 +271,5 @@ public class MillstoneBlock extends HorizontalDirectionalBlock implements Entity
             case DOWN -> DOWN;
             case RIGHT_DOWN -> RIGHT_DOWN;
         };
-    }
-
-    @Override
-    protected @NotNull MapCodec<? extends HorizontalDirectionalBlock> codec() {
-        return CODEC;
     }
 }

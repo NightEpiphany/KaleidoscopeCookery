@@ -2,7 +2,6 @@ package com.github.ysbbbbbb.kaleidoscopecookery.block.decoration;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
 import com.google.common.collect.Lists;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
@@ -38,7 +37,6 @@ import java.util.function.Supplier;
 
 public class PlateBlock extends HorizontalDirectionalBlock {
     public static final VoxelShape AABB = Block.box(1, 0, 1, 15, 2, 15);
-    protected static final MapCodec<PlateBlock> PLATE_BLOCK_CODEC = simpleCodec(p -> new PlateBlock(1, List.of(), p));
 
     protected final IntegerProperty servings;
     protected final List<Supplier<Item>> items;
@@ -153,10 +151,5 @@ public class PlateBlock extends HorizontalDirectionalBlock {
             drops.addAll(stacks);
         }
         return drops;
-    }
-
-    @Override
-    protected @NotNull MapCodec<? extends HorizontalDirectionalBlock> codec() {
-        return PLATE_BLOCK_CODEC;
     }
 }

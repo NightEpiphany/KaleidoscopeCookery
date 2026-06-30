@@ -109,8 +109,7 @@ public class MillstoneBlockEntityRender implements BlockEntityRenderer<Millstone
                 renderType,
                 blockEntityRenderState.lightCoords,
                 OverlayTexture.NO_OVERLAY,
-                0,
-                null
+                0
         );
         poseStack.popPose();
         this.bodyModel.getWheel().yRot = 0;

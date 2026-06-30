@@ -1,7 +1,6 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.block.misc;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -19,11 +18,6 @@ public class StrawBlocks extends RotatedPillarBlock {
     public StrawBlocks(Properties p) {
         super(p);
         this.registerDefaultState(this.stateDefinition.any().setValue(AXIS, Direction.Axis.Y));
-    }
-
-    @Override
-    public @NonNull MapCodec<? extends RotatedPillarBlock> codec() {
-        return simpleCodec(StrawBlocks::new);
     }
 
     @Override

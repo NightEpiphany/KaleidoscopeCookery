@@ -7,7 +7,6 @@ import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTrigger;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.SteamerItem;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -50,7 +49,6 @@ import org.jspecify.annotations.NonNull;
 import java.util.List;
 
 public class SteamerBlock extends FallingBlock implements EntityBlock, SimpleWaterloggedBlock {
-    public static final MapCodec<SteamerBlock> CODEC = simpleCodec(SteamerBlock::new);
     public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty HALF = BooleanProperty.create("half");
     public static final BooleanProperty HAS_LID = BooleanProperty.create("has_lid");
@@ -115,11 +113,6 @@ public class SteamerBlock extends FallingBlock implements EntityBlock, SimpleWat
     @Override
     public int getDustColor(@NonNull BlockState blockState, @NonNull BlockGetter blockGetter, @NonNull BlockPos blockPos) {
         return 0;
-    }
-
-    @Override
-    protected @NonNull MapCodec<? extends FallingBlock> codec() {
-        return CODEC;
     }
 
     @Override

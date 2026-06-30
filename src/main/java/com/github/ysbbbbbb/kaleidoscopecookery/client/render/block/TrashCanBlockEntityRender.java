@@ -77,8 +77,7 @@ public class TrashCanBlockEntityRender implements BlockEntityRenderer<TrashCanBl
                 renderType,
                 blockEntityRenderState.lightCoords,
                 OverlayTexture.NO_OVERLAY,
-                0,
-                null
+                0
         );
         poseStack.popPose();
     }

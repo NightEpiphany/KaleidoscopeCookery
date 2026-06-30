@@ -7,7 +7,6 @@ import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTrigger;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.RecipeItem;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -47,7 +46,6 @@ import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NonNull;
 
 public class PotBlock extends HorizontalDirectionalBlock implements EntityBlock, SimpleWaterloggedBlock {
-    public static final MapCodec<PotBlock> CODEC = simpleCodec(PotBlock::new);
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final BooleanProperty HAS_OIL = BooleanProperty.create("has_oil");
     public static final BooleanProperty SHOW_OIL = BooleanProperty.create("show_oil");
@@ -64,11 +62,6 @@ public class PotBlock extends HorizontalDirectionalBlock implements EntityBlock,
                 .setValue(SHOW_OIL, false)
                 .setValue(WATERLOGGED, false)
                 .setValue(HAS_BASE, false));
-    }
-
-    @Override
-    protected @NonNull MapCodec<? extends HorizontalDirectionalBlock> codec() {
-        return CODEC;
     }
 
     @Override
@@ -183,7 +176,7 @@ public class PotBlock extends HorizontalDirectionalBlock implements EntityBlock,
             return null;
         }
         return createTickerHelper(blockEntityType, ModBlocks.POT_BE,
-                (levelIn, pos, stateIn, pot) -> pot.tick(levelIn));
+                (levelIn, _, _, pot) -> pot.tick(levelIn));
     }
 
     @Override

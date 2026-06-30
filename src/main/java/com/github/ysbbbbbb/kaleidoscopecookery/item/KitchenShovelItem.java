@@ -7,10 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ShovelItem;
-import net.minecraft.world.item.ToolMaterial;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
@@ -21,12 +18,12 @@ import java.util.function.Consumer;
 
 import static com.github.ysbbbbbb.kaleidoscopecookery.init.ModDataComponents.KITCHEN_SHOVEL_HAS_OIL;
 
-public class KitchenShovelItem extends ShovelItem {
+public class KitchenShovelItem extends Item {
     private static final int NO_OIL = 0;
     private static final int HAS_OIL = 1;
 
     public KitchenShovelItem(Properties p) {
-        super(ToolMaterial.IRON, 1.5F, -3.0F, p);
+        super(p.shovel(ToolMaterial.IRON, 1.5F, -3.0F));
     }
 
     public static void setHasOil(ItemStack stack, boolean hasOil) {

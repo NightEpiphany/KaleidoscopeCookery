@@ -53,8 +53,7 @@ public class ScarecrowParrotOnShoulderLayer extends RenderLayer<ScarecrowEntityR
                     renderType,
                     i,
                     OverlayTexture.NO_OVERLAY,
-                    0,
-                    null
+                    0
             );
             poseStack.popPose();
             poseStack.popPose();

@@ -1,7 +1,6 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.block.misc;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -40,11 +39,6 @@ public class StrungMushroomsBlock extends Block {
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(IS_HEAD, true)
                 .setValue(SHEARED, false));
-    }
-
-    @Override
-    protected @NonNull MapCodec<? extends Block> codec() {
-        return simpleCodec(StrungMushroomsBlock::new);
     }
 
     @Override

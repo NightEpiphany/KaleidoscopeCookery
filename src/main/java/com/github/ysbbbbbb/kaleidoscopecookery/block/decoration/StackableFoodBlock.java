@@ -2,7 +2,6 @@ package com.github.ysbbbbbb.kaleidoscopecookery.block.decoration;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.VoxelShapeUtils;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvent;
@@ -12,7 +11,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -37,7 +35,6 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class StackableFoodBlock extends HorizontalDirectionalBlock {
-    protected static final MapCodec<StackableFoodBlock> STACKABLE_FOOD_CODEC = simpleCodec(p -> new StackableFoodBlock(p, 1, () -> Items.AIR));
 
     protected final IntegerProperty countProperty;
     protected final int maxCount;
@@ -136,11 +133,6 @@ public class StackableFoodBlock extends HorizontalDirectionalBlock {
         }
         Direction direction = state.getValue(FACING);
         return this.shapes[count - 1].getOrDefault(direction, super.getShape(state, level, pos, context));
-    }
-
-    @Override
-    protected @NotNull MapCodec<? extends HorizontalDirectionalBlock> codec() {
-        return STACKABLE_FOOD_CODEC;
     }
 
     public static Builder create(BlockBehaviour.Properties properties) {

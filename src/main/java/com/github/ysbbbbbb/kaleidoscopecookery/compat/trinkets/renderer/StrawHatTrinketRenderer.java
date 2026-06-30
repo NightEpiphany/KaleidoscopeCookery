@@ -58,8 +58,7 @@ public class StrawHatTrinketRenderer implements TrinketRenderer {
                 RenderTypes.entityCutout(texture),
                 state.lightCoords,
                 OverlayTexture.NO_OVERLAY,
-                0,
-                null
+                0
         );
         poseStack.popPose();
     }

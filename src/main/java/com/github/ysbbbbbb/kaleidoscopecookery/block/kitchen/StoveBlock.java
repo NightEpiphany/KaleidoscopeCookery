@@ -5,7 +5,6 @@ import com.github.ysbbbbbb.kaleidoscopecookery.config.GeneralConfig;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTrigger;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -42,7 +41,6 @@ import static com.github.ysbbbbbb.kaleidoscopecookery.item.KitchenShovelItem.has
 import static com.github.ysbbbbbb.kaleidoscopecookery.item.KitchenShovelItem.setHasOil;
 
 public class StoveBlock extends HorizontalDirectionalBlock {
-    public static final MapCodec<StoveBlock> CODEC = simpleCodec(StoveBlock::new);
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
 
     public StoveBlock(BlockBehaviour.Properties p) {
@@ -50,11 +48,6 @@ public class StoveBlock extends HorizontalDirectionalBlock {
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.SOUTH)
                 .setValue(LIT, false));
-    }
-
-    @Override
-    protected @NonNull MapCodec<? extends HorizontalDirectionalBlock> codec() {
-        return CODEC;
     }
 
     @Override

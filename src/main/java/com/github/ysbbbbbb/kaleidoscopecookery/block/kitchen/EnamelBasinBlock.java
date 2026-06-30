@@ -2,7 +2,6 @@ package com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.KitchenShovelItem;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
@@ -56,11 +55,6 @@ public class EnamelBasinBlock extends Block implements SimpleWaterloggedBlock {
                 .setValue(WATERLOGGED, false)
                 .setValue(HAS_LID, true)
                 .setValue(OIL_COUNT, 0));
-    }
-
-    @Override
-    protected @NonNull MapCodec<? extends Block> codec() {
-        return simpleCodec(EnamelBasinBlock::new);
     }
 
     @Override

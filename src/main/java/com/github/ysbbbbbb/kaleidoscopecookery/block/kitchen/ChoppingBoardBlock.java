@@ -5,7 +5,6 @@ import com.github.ysbbbbbb.kaleidoscopecookery.api.blockentity.IChoppingBoard;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.ChoppingBoardBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTrigger;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -37,7 +36,6 @@ import org.jspecify.annotations.NonNull;
 import java.util.List;
 
 public class ChoppingBoardBlock extends HorizontalDirectionalBlock implements EntityBlock, SimpleWaterloggedBlock {
-    public static final MapCodec<ChoppingBoardBlock> CODEC = simpleCodec(ChoppingBoardBlock::new);
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final VoxelShape NORTH_SOUTH = Block.box(1, 0, 2, 15, 2, 14);
     public static final VoxelShape EAST_WEST = Block.box(2, 0, 1, 14, 2, 15);
@@ -46,11 +44,6 @@ public class ChoppingBoardBlock extends HorizontalDirectionalBlock implements En
     public ChoppingBoardBlock(BlockBehaviour.Properties p) {
         super(p);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.SOUTH).setValue(WATERLOGGED, false));
-    }
-
-    @Override
-    protected @NotNull MapCodec<? extends HorizontalDirectionalBlock> codec() {
-        return CODEC;
     }
 
     @Override

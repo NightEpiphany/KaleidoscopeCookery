@@ -88,8 +88,7 @@ public class TeapotBlockEntityRender implements BlockEntityRenderer<TeapotBlockE
                 renderType,
                 blockEntityRenderState.lightCoords,
                 OverlayTexture.NO_OVERLAY,
-                0,
-                null
+                0
         );
         poseStack.popPose();
     }
