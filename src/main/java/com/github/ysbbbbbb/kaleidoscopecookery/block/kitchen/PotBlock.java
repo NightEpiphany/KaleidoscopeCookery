@@ -183,7 +183,7 @@ public class PotBlock extends HorizontalDirectionalBlock implements EntityBlock,
             return null;
         }
         return createTickerHelper(blockEntityType, ModBlocks.POT_BE,
-                (levelIn, pos, stateIn, pot) -> pot.tick(levelIn));
+                (levelIn, _, _, pot) -> pot.tick(levelIn));
     }
 
     @Override
