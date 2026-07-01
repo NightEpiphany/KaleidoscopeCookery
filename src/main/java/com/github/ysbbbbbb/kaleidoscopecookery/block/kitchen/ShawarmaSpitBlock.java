@@ -102,7 +102,7 @@ public class ShawarmaSpitBlock extends HorizontalDirectionalBlock implements Sim
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NonNull Level level, @NonNull BlockState state, @NonNull BlockEntityType<T> blockEntityType) {
-        return createTickerHelper(blockEntityType, ModBlocks.SHAWARMA_SPIT_BE, (levelIn, blockPos, blockState, spit) -> {
+        return createTickerHelper(blockEntityType, ModBlocks.SHAWARMA_SPIT_BE, (_, _, blockState, spit) -> {
             if (blockState.getValue(POWERED)) {
                 spit.tick();
             }
