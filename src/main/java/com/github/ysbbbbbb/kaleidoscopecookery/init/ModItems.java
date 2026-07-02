@@ -1,7 +1,6 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.init;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
-import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.TeacupRegistry;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
 import net.fabricmc.loader.api.FabricLoader;

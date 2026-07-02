@@ -23,10 +23,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.component.TooltipDisplay;
@@ -60,7 +57,7 @@ public class BowlFoodBlockItem extends BlockItem implements ICustomEatEffect {
     private final Optional<ItemLike> usingConvertsTo;
 
     public BowlFoodBlockItem(Block block, FoodProperties properties, Consumable consumable, @Nullable ItemLike usingConvertsTo, String name) {
-        super(block, new Item.Properties().stacksTo(16).useBlockDescriptionPrefix()
+        super(block, new Item.Properties().stacksTo(16).useBlockDescriptionPrefix().usingConvertsTo(Items.BOWL)
                 .food(properties, consumable).setId(PortHelper.createItemId(name))
         );
         this.usingConvertsTo = Optional.ofNullable(usingConvertsTo);
@@ -169,11 +166,8 @@ public class BowlFoodBlockItem extends BlockItem implements ICustomEatEffect {
         if (QualityUtils.hasQuality(stack)) {
             Quality quality = QualityUtils.getQuality(stack);
             consumer.accept(quality.getTooltip());
-            if (showEffect) {
-                consumer.accept(CommonComponents.space());
-                PotionContents.addPotionTooltip(effects, consumer, 1.0F, tooltip.tickRate());
-            }
-        } else if (showEffect) {
+        }
+        if (showEffect) {
             consumer.accept(CommonComponents.space());
             PotionContents.addPotionTooltip(effects, consumer, 1.0F, tooltip.tickRate());
         }

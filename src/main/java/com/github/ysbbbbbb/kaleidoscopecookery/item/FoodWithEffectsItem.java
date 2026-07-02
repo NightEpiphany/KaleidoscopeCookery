@@ -110,6 +110,7 @@ public class FoodWithEffectsItem extends Item implements ICustomEatEffect {
         if (!QualityUtils.hasQuality(stack) || raw == null) {
             return raw;
         }
+        // 如果有品质，那么依据品质
         Quality quality = QualityUtils.getQuality(stack);
         return this.foodPropertiesCache.apply(quality, raw);
     }
@@ -120,6 +121,7 @@ public class FoodWithEffectsItem extends Item implements ICustomEatEffect {
         if (!QualityUtils.hasQuality(stack) || raw == null) {
             return raw;
         }
+        // 如果有品质，那么依据品质
         Quality quality = QualityUtils.getQuality(stack);
         return this.foodConsumableCache.apply(quality, raw);
     }
