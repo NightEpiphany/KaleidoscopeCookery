@@ -6,7 +6,6 @@ import com.github.ysbbbbbb.kaleidoscopecookery.config.ClientConfig;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.quality.Quality;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.quality.QualityUtils;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
-import com.google.common.collect.Lists;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -25,13 +24,12 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.component.TooltipDisplay;
-import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -50,13 +48,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 public class BowlFoodBlockItem extends BlockItem implements ICustomEatEffect {
-    private final List<MobEffectInstance> effectInstances = Lists.newArrayList();
-    private final Function<Quality, List<MobEffectInstance>> effectCache = Util.memoize(
-            quality -> QualityUtils.modifyEffects(this.effectInstances, quality)
-    );
     private final BiFunction<Quality, FoodProperties, FoodProperties> foodPropertiesCache = Util.memoize(
             (quality, raw) -> QualityUtils.modifyFoodProperties(raw, quality)
     );
@@ -67,15 +60,10 @@ public class BowlFoodBlockItem extends BlockItem implements ICustomEatEffect {
     private final Optional<ItemLike> usingConvertsTo;
 
     public BowlFoodBlockItem(Block block, FoodProperties properties, Consumable consumable, @Nullable ItemLike usingConvertsTo, String name) {
-        super(block, new Item.Properties().stacksTo(16).useBlockDescriptionPrefix()
+        super(block, new Properties().stacksTo(16).useBlockDescriptionPrefix().usingConvertsTo(Items.BOWL)
                 .food(properties, consumable).setId(PortHelper.createItemId(name))
         );
         this.usingConvertsTo = Optional.ofNullable(usingConvertsTo);
-        consumable.onConsumeEffects().forEach(effect -> {
-            if (effect instanceof ApplyStatusEffectsConsumeEffect(List<MobEffectInstance> effects, _)) {
-                effectInstances.addAll(effects);
-            }
-        });
     }
 
     @Override
@@ -113,7 +101,7 @@ public class BowlFoodBlockItem extends BlockItem implements ICustomEatEffect {
         if (!QualityUtils.hasQuality(stack) || raw == null) {
             return raw;
         }
-        // 如果有品质，那么依据品质
+        // 需要剔除 usingConvertsTo，因为已经给过了
         Quality quality = QualityUtils.getQuality(stack);
         return this.foodConsumableCache.apply(quality, raw);
     }
@@ -132,7 +120,6 @@ public class BowlFoodBlockItem extends BlockItem implements ICustomEatEffect {
                 if (itemStack.isEmpty()) {
                     return;
                 }
-                // 需要剔除 usingConvertsTo，因为已经给过了
                 if (this.usingConvertsTo.isPresent() && ItemStack.isSameItemSameComponents(itemStack, this.usingConvertsTo.get().asItem().getDefaultInstance())) {
                     return;
                 }
@@ -165,7 +152,6 @@ public class BowlFoodBlockItem extends BlockItem implements ICustomEatEffect {
         Identifier id = BuiltInRegistries.ITEM.getKey(stack.getItem());
         String key = "tooltip.%s.%s.maxim".formatted(id.getNamespace(), id.getPath());
         MutableComponent full = Component.translatable(key).withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC);
-        // 先拿到纯文本，再按 \n 切
         String text = full.getString();
         for (String line : text.split("\n")) {
             if (!line.isEmpty()) {
@@ -175,20 +161,18 @@ public class BowlFoodBlockItem extends BlockItem implements ICustomEatEffect {
             }
         }
 
-        boolean showEffect = !this.effectInstances.isEmpty()
+        Consumable consumable = modifyConsumables(stack);
+        List<MobEffectInstance> effects = QualityUtils.getStatusEffects(consumable);
+        boolean showEffect = !effects.isEmpty()
                 && ClientConfig.SHOW_FOOD_EFFECT_TOOLTIPS.get();
 
-        // 品质
         if (QualityUtils.hasQuality(stack)) {
             Quality quality = QualityUtils.getQuality(stack);
             consumer.accept(quality.getTooltip());
-            if (showEffect) {
-                consumer.accept(CommonComponents.space());
-                PotionContents.addPotionTooltip(this.effectCache.apply(quality), consumer, 1.0F, tooltip.tickRate());
-            }
-        } else {
+        }
+        if (showEffect) {
             consumer.accept(CommonComponents.space());
-            PotionContents.addPotionTooltip(this.effectInstances, consumer, 1.0F, tooltip.tickRate());
+            PotionContents.addPotionTooltip(effects, consumer, 1.0F, tooltip.tickRate());
         }
     }
 }
