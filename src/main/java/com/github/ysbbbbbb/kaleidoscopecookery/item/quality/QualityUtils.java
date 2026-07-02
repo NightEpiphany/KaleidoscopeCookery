@@ -27,14 +27,16 @@ public final class QualityUtils {
         return food.has(ModDataComponents.QUALITY);
     }
 
-    public static List<MobEffectInstance> modifyEffects(List<MobEffectInstance> effectInstances, Quality quality) {
+    public static List<MobEffectInstance> getStatusEffects(Consumable consumable) {
         List<MobEffectInstance> list = Lists.newArrayList();
-        for (MobEffectInstance instance : effectInstances) {
-            int duration = (int) Math.round(quality.getRatio() * instance.getDuration());
-            if (duration > 0) {
-                list.add(new MobEffectInstance(instance.getEffect(), duration, instance.getAmplifier()));
-            }
+        if (consumable == null) {
+            return list;
         }
+        consumable.onConsumeEffects().forEach(consumeEffect -> {
+            if (consumeEffect instanceof ApplyStatusEffectsConsumeEffect(List<MobEffectInstance> instances, _)) {
+                list.addAll(instances);
+            }
+        });
         return list;
     }
 
@@ -47,13 +49,17 @@ public final class QualityUtils {
             )) {
                 List<MobEffectInstance> list = Lists.newArrayList();
                 for (var instance : instances) {
-                    if (probability >= 1F) {
-                        int duration = (int) Math.round(ratio * instance.getDuration());
-                        int amplifier = instance.getAmplifier();
-                        if (duration > 0) {
-                            MobEffectInstance newEffect = new MobEffectInstance(instance.getEffect(), duration, amplifier);
-                            list.add(newEffect);
-                        }
+                    int duration = (int) Math.round(ratio * instance.getDuration());
+                    if (duration > 0) {
+                        MobEffectInstance newEffect = new MobEffectInstance(
+                                instance.getEffect(),
+                                duration,
+                                instance.getAmplifier(),
+                                instance.isAmbient(),
+                                instance.isVisible(),
+                                instance.showIcon()
+                        );
+                        list.add(newEffect);
                     }
                 }
                 effects.add(new ApplyStatusEffectsConsumeEffect(list, probability));
