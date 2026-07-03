@@ -13,14 +13,20 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.storage.loot.LootParams;
@@ -29,14 +35,15 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.apache.commons.compress.utils.Lists;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumMap;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class StackableFoodBlock extends HorizontalDirectionalBlock {
+public class StackableFoodBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock {
     protected static final MapCodec<StackableFoodBlock> STACKABLE_FOOD_CODEC = simpleCodec(p -> new StackableFoodBlock(p, 1, () -> Items.AIR));
-
+    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     protected final IntegerProperty countProperty;
     protected final int maxCount;
     protected final Supplier<Item> item;
@@ -59,15 +66,8 @@ public class StackableFoodBlock extends HorizontalDirectionalBlock {
         this.stateDefinition = builder.create(Block::defaultBlockState, BlockState::new);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(countProperty, 1)
+                .setValue(WATERLOGGED, false)
                 .setValue(FACING, Direction.NORTH));
-    }
-
-    public IntegerProperty getCountProperty() {
-        return countProperty;
-    }
-
-    public int getMaxCount() {
-        return maxCount;
     }
 
     @Override
@@ -119,8 +119,27 @@ public class StackableFoodBlock extends HorizontalDirectionalBlock {
         return drops;
     }
 
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, BlockState> builder) {
+        builder.add(FACING, WATERLOGGED);
+    }
+
     protected void createCountBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, countProperty);
+        builder.add(FACING, countProperty, WATERLOGGED);
+    }
+
+    @Override
+    @Nullable
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
+        return this.defaultBlockState()
+                .setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER)
+                .setValue(FACING, context.getHorizontalDirection().getOpposite());
+    }
+
+    @Override
+    public @NotNull FluidState getFluidState(BlockState state) {
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @Override

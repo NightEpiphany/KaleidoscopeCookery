@@ -2,6 +2,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.client.init;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.FoodBiteRegistry;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.PlateRegistry;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.TeacupRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -14,6 +15,9 @@ public final class ModBlockRenderLayerMap {
     public static void register() {
         TeacupRegistry.TEACUP_DATA_MAP.forEach((resourceLocation, data) -> {
             BlockRenderLayerMap.INSTANCE.putBlock(TeacupRegistry.getBlock(resourceLocation), RenderType.cutout());
+        });
+        PlateRegistry.PLATE_DATA_MAP.forEach((resourceLocation, data) -> {
+            BlockRenderLayerMap.INSTANCE.putBlock(PlateRegistry.getBlock(resourceLocation), RenderType.cutout());
         });
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderType.cutout(),
                 ModBlocks.POT,

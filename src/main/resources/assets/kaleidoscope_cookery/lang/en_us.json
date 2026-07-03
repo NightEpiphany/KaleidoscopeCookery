@@ -1,4 +1,6 @@
 {
+  "modmenu.nameTranslation.kaleidoscope_cookery": "Kaleidoscope Cookery Refabricated",
+  "modmenu.descriptionTranslation.kaleidoscope_cookery": "Cook all kinds of delicious food!",
   "block.kaleidoscope_cookery.fruit_platter": "Fruit Platter",
   "block.kaleidoscope_cookery.braised_fish": "Braised Fish",
   "block.kaleidoscope_cookery.yakitori": "Yakitori",
@@ -24,6 +26,7 @@
   "tooltip.kaleidoscope_cookery.tomato_beef_brisket_soup.maxim": "Tangy tomato flavor, dominant beef brisket taste, an appetitzing soup.",
   "tooltip.kaleidoscope_cookery.country_style_mixed_vegetables.maxim": "Simple, plain, yet nutritious and wholesome.",
   "tooltip.kaleidoscope_cookery.yakitori.maxim": "Charcoal aroma lingering, juicy chicken, soul of the izakaya.",
+  "tooltip.kaleidoscope_cookery.donkey_soup.maxim": "Tender meat & puree with rich flavor surrounded in your tongue.",
   "jade.kaleidoscope_cookery.teapot.fluid": "Fluid: %s",
   "jade.kaleidoscope_cookery.teapot.ingredient": "Ingredient: %s",
   "jade.kaleidoscope_cookery.teapot.result": "Result: %s",
@@ -353,7 +356,6 @@
   "tooltip.kaleidoscope_cookery.sticky_candy.maxim": "A sweet, chewy snack made with sugar and sesame.",
   "tooltip.kaleidoscope_cookery.sticky_rice_cake.maxim": "A symbol of harvest and reunion in Hakka culture and festivals.\nOften eaten during Double Ninth Festival and other holidays.",
   "tooltip.kaleidoscope_cookery.zongzi.maxim": "A Dragon Boat Festival food said to commemorate the poet Qu Yuan.",
-  "tooltip.kaleidoscope_cookery.raw_bamboo_tube_rice.maxim": "A traditional southern Chinese dish made by filling bamboo tubes\nwith fragrant rice, glutinous rice, meat, and vegetables before cooking.",
   "tooltip.kaleidoscope_cookery.bamboo_tube_rice.maxim": "A traditional southern Chinese dish made by filling bamboo tubes\nwith fragrant rice, glutinous rice, meat, and vegetables before cooking.",
   "tooltip.kaleidoscope_cookery.hot_dry_noodles.maxim": "Alkaline noodles mixed with sesame paste and seasonings,\nyellow, glossy, savory, and one of Wuhan's most famous snacks.",
   "tooltip.kaleidoscope_cookery.laba_congee.maxim": "A Laba Festival snack simmered from grains and beans.",
