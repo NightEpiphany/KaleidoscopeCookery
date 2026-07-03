@@ -22,10 +22,11 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -54,7 +55,7 @@ public class FoodBiteThreeByThreeBlock extends FoodBiteBlock implements EntityBl
     private static final VoxelShape DOWN = Block.box(0, 0, 0, 16, 2, 12);
     private static final VoxelShape RIGHT_DOWN = Block.box(0, 0, 0, 12, 2, 12);
 
-    public FoodBiteThreeByThreeBlock(BlockBehaviour.Properties p, FoodProperties foodProperties, Consumable consumable, int maxBites,
+    public FoodBiteThreeByThreeBlock(Properties p, FoodProperties foodProperties, Consumable consumable, int maxBites,
                                      @Nullable FoodBiteAnimateTicks.AnimateTick animateTick) {
         super(p, foodProperties, consumable, maxBites, animateTick);
         this.registerDefaultState(this.stateDefinition.any()
@@ -126,8 +127,9 @@ public class FoodBiteThreeByThreeBlock extends FoodBiteBlock implements EntityBl
 
     @Nullable
     @Override
-    public BlockState getStateForPlacement(BlockPlaceContext context) {
+    public BlockState getStateForPlacement(@NonNull BlockPlaceContext context) {
         BlockPos centerPos = context.getClickedPos();
+        FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
                 BlockPos searchPos = centerPos.offset(i, 0, j);
@@ -136,7 +138,9 @@ public class FoodBiteThreeByThreeBlock extends FoodBiteBlock implements EntityBl
                 }
             }
         }
-        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+        return this.defaultBlockState()
+                .setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER)
+                .setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
     @Override
@@ -157,13 +161,13 @@ public class FoodBiteThreeByThreeBlock extends FoodBiteBlock implements EntityBl
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(FACING, QUALITY, PART);
+    protected void createBlockStateDefinition(StateDefinition.@NonNull Builder<Block, BlockState> pBuilder) {
+        pBuilder.add(FACING, QUALITY, PART, WATERLOGGED);
     }
 
     @Override
     protected void createBitesBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(bites, FACING, QUALITY, PART);
+        builder.add(bites, FACING, QUALITY, PART, WATERLOGGED);
     }
 
     @Nullable

@@ -1,4 +1,6 @@
 {
+  "modmenu.nameTranslation.kaleidoscope_cookery": "森罗物语：厨房-重织",
+  "modmenu.descriptionTranslation.kaleidoscope_cookery": "一个为Minecraft带来沉浸式烹饪的模组。",
   "item_group.kaleidoscope_cookery.cookery_main.name": "森罗物语：厨房",
   "item_group.kaleidoscope_cookery.cookery_food.name": "森罗物语：美食",
   "block.kaleidoscope_cookery.stove": "炉灶",
