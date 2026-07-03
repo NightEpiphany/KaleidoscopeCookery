@@ -101,13 +101,13 @@ public class FoodBiteOneByTwoBlock extends FoodBiteBlock {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, QUALITY, POSITION);
+    protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, BlockState> builder) {
+        builder.add(FACING, QUALITY, POSITION, WATERLOGGED);
     }
 
     @Override
     protected void createBitesBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(bites, FACING, QUALITY, POSITION);
+        builder.add(bites, FACING, QUALITY, POSITION, WATERLOGGED);
     }
 
     @Override

@@ -16,11 +16,16 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.pathfinder.PathComputationType;
@@ -35,9 +40,9 @@ import java.util.List;
 import java.util.function.Supplier;
 
 @SuppressWarnings("deprecation")
-public class PlateBlock extends HorizontalDirectionalBlock {
+public class PlateBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock {
     public static final VoxelShape AABB = Block.box(1, 0, 1, 15, 2, 15);
-
+    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     protected final IntegerProperty servings;
     protected final List<Supplier<Item>> items;
     protected final int maxCount;
@@ -61,20 +66,13 @@ public class PlateBlock extends HorizontalDirectionalBlock {
         this.stateDefinition = builder.create(Block::defaultBlockState, BlockState::new);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.SOUTH)
+                .setValue(WATERLOGGED, false)
                 .setValue(servings, maxCount));
     }
 
     public PlateBlock setAABB(VoxelShape aabb) {
         this.aabb = aabb;
         return this;
-    }
-
-    public int getMaxCount() {
-        return maxCount;
-    }
-
-    public IntegerProperty getServingsProperty() {
-        return servings;
     }
 
     @Override
@@ -121,7 +119,7 @@ public class PlateBlock extends HorizontalDirectionalBlock {
     }
 
     protected void createServingBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, servings);
+        builder.add(FACING, servings, WATERLOGGED);
     }
 
     @Override
@@ -135,9 +133,17 @@ public class PlateBlock extends HorizontalDirectionalBlock {
     }
 
     @Override
+    public @NotNull FluidState getFluidState(BlockState state) {
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+    }
+
+    @Override
     @Nullable
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+        FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
+        return this.defaultBlockState()
+                .setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER)
+                .setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
     @Override
