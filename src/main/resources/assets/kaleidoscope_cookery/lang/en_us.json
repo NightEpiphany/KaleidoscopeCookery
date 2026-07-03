@@ -1,4 +1,6 @@
 {
+  "modmenu.nameTranslation.kaleidoscope_cookery": "Kaleidoscope Cookery Refabricated",
+  "modmenu.descriptionTranslation.kaleidoscope_cookery": "Cook all kinds of delicious food!",
   "item_group.kaleidoscope_cookery.cookery_main.name": "Kaleidoscope: Cookery",
   "item_group.kaleidoscope_cookery.cookery_food.name": "Kaleidoscope: Food",
   "block.kaleidoscope_cookery.stove": "Stove",
@@ -571,7 +573,6 @@
   "tooltip.kaleidoscope_cookery.sticky_candy.maxim": "A sweet, chewy snack made with sugar and sesame.",
   "tooltip.kaleidoscope_cookery.sticky_rice_cake.maxim": "A symbol of harvest and reunion in Hakka culture and festivals.\nOften eaten during Double Ninth Festival and other holidays.",
   "tooltip.kaleidoscope_cookery.zongzi.maxim": "A Dragon Boat Festival food said to commemorate the poet Qu Yuan.",
-  "tooltip.kaleidoscope_cookery.raw_bamboo_tube_rice.maxim": "A traditional southern Chinese dish made by filling bamboo tubes\nwith fragrant rice, glutinous rice, meat, and vegetables before cooking.",
   "tooltip.kaleidoscope_cookery.bamboo_tube_rice.maxim": "A traditional southern Chinese dish made by filling bamboo tubes\nwith fragrant rice, glutinous rice, meat, and vegetables before cooking.",
   "tooltip.kaleidoscope_cookery.hot_dry_noodles.maxim": "Alkaline noodles mixed with sesame paste and seasonings,\nyellow, glossy, savory, and one of Wuhan's most famous snacks.",
   "tooltip.kaleidoscope_cookery.laba_congee.maxim": "A Laba Festival snack simmered from grains and beans.",

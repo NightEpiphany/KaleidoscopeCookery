@@ -11,15 +11,20 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.storage.loot.LootParams;
@@ -28,14 +33,15 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.apache.commons.compress.utils.Lists;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jspecify.annotations.NonNull;
 
 import java.util.EnumMap;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class StackableFoodBlock extends HorizontalDirectionalBlock {
-
+public class StackableFoodBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock {
+    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     protected final IntegerProperty countProperty;
     protected final int maxCount;
     protected final Supplier<Item> item;
@@ -58,6 +64,7 @@ public class StackableFoodBlock extends HorizontalDirectionalBlock {
         this.stateDefinition = builder.create(Block::defaultBlockState, BlockState::new);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(countProperty, 1)
+                .setValue(WATERLOGGED, false)
                 .setValue(FACING, Direction.NORTH));
     }
 
@@ -118,8 +125,22 @@ public class StackableFoodBlock extends HorizontalDirectionalBlock {
         return drops;
     }
 
+    @Override
+    public @NonNull FluidState getFluidState(BlockState state) {
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+    }
+
+    @Override
+    @Nullable
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
+        return this.defaultBlockState()
+                .setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER)
+                .setValue(FACING, context.getHorizontalDirection().getOpposite());
+    }
+
     protected void createCountBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, countProperty);
+        builder.add(FACING, countProperty, WATERLOGGED);
     }
 
     @Override
@@ -135,7 +156,7 @@ public class StackableFoodBlock extends HorizontalDirectionalBlock {
         return this.shapes[count - 1].getOrDefault(direction, super.getShape(state, level, pos, context));
     }
 
-    public static Builder create(BlockBehaviour.Properties properties) {
+    public static Builder create(Properties properties) {
         return new Builder(properties);
     }
 
@@ -145,7 +166,7 @@ public class StackableFoodBlock extends HorizontalDirectionalBlock {
         private VoxelShape[] shapes;
         private Properties properties;
 
-        private Builder(BlockBehaviour.Properties properties) {
+        private Builder(Properties properties) {
             this.properties = properties
                     .forceSolidOn()
                     .instabreak()
