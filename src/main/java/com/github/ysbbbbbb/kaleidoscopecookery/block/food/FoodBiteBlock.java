@@ -30,6 +30,8 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.BlockHitResult;
@@ -76,6 +78,7 @@ public class FoodBiteBlock extends FoodBlock {
         );
     }
 
+    @SuppressWarnings("unused")
     public FoodBiteBlock(BlockBehaviour.Properties p, FoodProperties foodProperties) {
         this(p, foodProperties, Consumable.builder().build(), 3, null);
     }
@@ -154,12 +157,13 @@ public class FoodBiteBlock extends FoodBlock {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.@NonNull Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder);
         builder.add(FACING, QUALITY);
     }
 
     protected void createBitesBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(bites, FACING, QUALITY);
+        builder.add(bites, FACING, QUALITY, WATERLOGGED);
     }
 
     @Override
@@ -180,9 +184,9 @@ public class FoodBiteBlock extends FoodBlock {
 
     @Override
     @Nullable
-    public BlockState getStateForPlacement(BlockPlaceContext context) {
+    public BlockState getStateForPlacement(@NonNull BlockPlaceContext context) {
         Direction opposite = context.getHorizontalDirection().getOpposite();
-
+        FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
         int quality = DEFAULT_QUALITY;
         ItemStack itemInHand = context.getItemInHand();
         if (QualityUtils.hasQuality(itemInHand)) {
@@ -191,6 +195,7 @@ public class FoodBiteBlock extends FoodBlock {
 
         return this.defaultBlockState()
                 .setValue(FACING, opposite)
+                .setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER)
                 .setValue(QUALITY, quality);
     }
 

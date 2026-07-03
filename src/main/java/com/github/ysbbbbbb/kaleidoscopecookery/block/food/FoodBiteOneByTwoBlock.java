@@ -11,7 +11,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
@@ -83,7 +82,7 @@ public class FoodBiteOneByTwoBlock extends FoodBiteBlock {
 
     @Nullable
     @Override
-    public BlockState getStateForPlacement(BlockPlaceContext context) {
+    public BlockState getStateForPlacement(@NonNull BlockPlaceContext context) {
         BlockPos rightPos = context.getClickedPos();
         Direction facing = context.getHorizontalDirection().getOpposite();
         Level level = context.getLevel();
@@ -105,13 +104,13 @@ public class FoodBiteOneByTwoBlock extends FoodBiteBlock {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, QUALITY, POSITION);
+    protected void createBlockStateDefinition(StateDefinition.@NonNull Builder<Block, BlockState> builder) {
+        builder.add(FACING, QUALITY, POSITION, WATERLOGGED);
     }
 
     @Override
     protected void createBitesBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(bites, FACING, QUALITY, POSITION);
+        builder.add(bites, FACING, QUALITY, POSITION, WATERLOGGED);
     }
 
     @Override
