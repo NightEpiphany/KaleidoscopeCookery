@@ -51,9 +51,9 @@ public class BlockLootTables extends BlockLootSubProvider {
     public final Set<Block> knownBlocks = new HashSet<>();
     public final HolderLookup.RegistryLookup<Enchantment> enchantment;
 
-    public BlockLootTables(HolderLookup.Provider registries) {
+    public BlockLootTables(Context registries) {
         super(Set.of(), FeatureFlags.REGISTRY.allFlags(), registries);
-        this.enchantment = this.registries.lookupOrThrow(Registries.ENCHANTMENT);
+        this.enchantment = (HolderLookup.RegistryLookup<Enchantment>) registries.lookup(Registries.ENCHANTMENT);
     }
 
     @Override
@@ -196,9 +196,9 @@ public class BlockLootTables extends BlockLootSubProvider {
                 .setProperties(property);
     }
 
-    @Override
+
     public void generate(@NonNull BiConsumer<ResourceKey<LootTable>, LootTable.Builder> output) {
-        super.generate(output);
+
 
         var tomato = getSeed(ModItems.TOMATO_SEED);
         var chili = getSeed(ModItems.CHILI_SEED);

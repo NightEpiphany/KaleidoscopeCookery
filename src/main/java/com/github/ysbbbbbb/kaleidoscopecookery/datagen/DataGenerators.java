@@ -10,7 +10,6 @@ public class DataGenerators implements DataGeneratorEntrypoint {
 
 
         pack.addProvider(AdvancementGenerator::new);
-        pack.addProvider(LootTableGenerator::new);
         pack.addProvider(ModRecipeGenerator::new);
         pack.addProvider(SoundDefinitionsGenerator::new);
     }

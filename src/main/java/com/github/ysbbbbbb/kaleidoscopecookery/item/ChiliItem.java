@@ -7,6 +7,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.loot.providers.number.NumberProviders;
 import org.jspecify.annotations.NonNull;
 
 public abstract class ChiliItem extends Item {
@@ -26,13 +27,13 @@ public abstract class ChiliItem extends Item {
 
     public static class GreenChiliItem extends ChiliItem {
         public GreenChiliItem(Properties p) {
-            super(p.setId(PortHelper.createItemId("green_chili")), 1);
+            super(p.setId(PortHelper.createItemId("green_chili")).compostable(NumberProviders.COMPOSTABLE_LOW_MEDIUM), 1);
         }
     }
 
     public static class RedChiliItem extends ChiliItem {
         public RedChiliItem(Properties p) {
-            super(p.setId(PortHelper.createItemId("red_chili")), 2);
+            super(p.setId(PortHelper.createItemId("red_chili")).compostable(NumberProviders.COMPOSTABLE_LOW_MEDIUM), 2);
         }
     }
 }

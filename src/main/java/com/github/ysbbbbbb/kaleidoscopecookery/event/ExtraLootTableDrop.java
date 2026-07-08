@@ -4,7 +4,6 @@ import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
 import com.github.ysbbbbbb.kaleidoscopecookery.loot.AdvanceBlockMatchTool;
 import com.github.ysbbbbbb.kaleidoscopecookery.loot.AdvanceEntityMatchTool;
-import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.minecraft.advancements.predicates.ItemPredicate;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -35,20 +34,20 @@ public class ExtraLootTableDrop {
     private static final Identifier GRASS = Identifier.fromNamespaceAndPath("minecraft", "blocks/short_grass");
 
     public static void register() {
-        LootTableEvents.MODIFY.register((key, tableBuilder, source, wrapperLookup) -> {
-            Identifier id = key.identifier();
-            if (id.equals(HOGLIN)) {
-                addOilDrop(tableBuilder, 2, wrapperLookup);
-            } else if (id.equals(PIG)) {
-                addOilDrop(tableBuilder, 1, wrapperLookup);
-            } else if (id.equals(PIGLIN)) {
-                addOilDrop(tableBuilder, 2, wrapperLookup);
-            } else if (id.equals(PIGLIN_BRUTE)) {
-                addOilDrop(tableBuilder, 2, wrapperLookup);
-            } else if (id.equals(GRASS)) {
-                addSeedDrop(tableBuilder, wrapperLookup);
-            }
-        });
+//        LootTableEvents.MODIFY.register((key, tableBuilder, source, wrapperLookup) -> {
+//            Identifier id = key.identifier();
+//            if (id.equals(HOGLIN)) {
+//                addOilDrop(tableBuilder, 2, wrapperLookup);
+//            } else if (id.equals(PIG)) {
+//                addOilDrop(tableBuilder, 1, wrapperLookup);
+//            } else if (id.equals(PIGLIN)) {
+//                addOilDrop(tableBuilder, 2, wrapperLookup);
+//            } else if (id.equals(PIGLIN_BRUTE)) {
+//                addOilDrop(tableBuilder, 2, wrapperLookup);
+//            } else if (id.equals(GRASS)) {
+//                addSeedDrop(tableBuilder, wrapperLookup);
+//            }
+//        });
     }
 
     private static void addOilDrop(LootTable.Builder tableBuilder, int rolls, HolderLookup.Provider registries) {
@@ -57,7 +56,7 @@ public class ExtraLootTableDrop {
         ItemPredicate hasKnife = ItemPredicate.Builder.item().of(holderLookup, TagMod.KITCHEN_KNIFE).build();
         LootItemCondition.Builder toolMatches = AdvanceEntityMatchTool.toolMatches(EquipmentSlot.MAINHAND, hasKnife);
         var count = SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F));
-        var looting = EnchantedCountIncreaseFunction.lootingMultiplier(registries, UniformGenerator.between(0.0F, 1.0F));
+        var looting = EnchantedCountIncreaseFunction.lootingMultiplier(registries.lookupOrThrow(Registries.ENCHANTMENT), UniformGenerator.between(0.0F, 1.0F));
         var oil = LootItem.lootTableItem(ModItems.OIL).apply(count).apply(looting);
         var empty = EmptyLootItem.emptyItem();
 

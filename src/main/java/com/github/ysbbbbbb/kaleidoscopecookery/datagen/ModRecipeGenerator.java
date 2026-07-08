@@ -16,10 +16,13 @@ import com.github.ysbbbbbb.kaleidoscopecookery.datagen.recipe.TeapotRecipeProvid
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.world.item.crafting.Recipe;
 import org.jspecify.annotations.NonNull;
 
 import java.util.List;
@@ -31,21 +34,21 @@ public class ModRecipeGenerator extends FabricRecipeProvider {
     }
 
     @Override
-    protected @NonNull RecipeProvider createRecipeProvider(HolderLookup.@NonNull Provider registries, @NonNull RecipeOutput output) {
-        return new ModRecipeProvider(registries, output) {
+    protected @NonNull RecipeProvider createRecipeProvider(HolderLookup.@NonNull Provider registries, @NonNull BootstrapContext<Recipe<?>> recipes, @NonNull BootstrapContext<Advancement> advancements) {
+        return new ModRecipeProvider(recipes, advancements) {
             private final List<ModRecipeProvider> providers = List.of(
-                    new ChoppingBoardRecipeProvider(registries, output),
-                    new DecorationRecipeProvider(registries, output),
-                    new FoodBiteRecipeProvider(registries, output),
-                    new PotRecipeProvider(registries, output),
-                    new ShapedRecipeProvider(registries, output),
-                    new ShapelessRecipeProvider(registries, output),
-                    new SimpleCookingRecipeProvider(registries, output),
-                    new SimplePotRecipeProvider(registries, output),
-                    new StockpotRecipeProvider(registries, output),
-                    new MillstoneRecipeProvider(registries, output),
-                    new SteamerRecipeProvider(registries, output),
-                    new TeapotRecipeProvider(registries, output)
+                    new ChoppingBoardRecipeProvider(recipes, advancements),
+                    new DecorationRecipeProvider(recipes, advancements),
+                    new FoodBiteRecipeProvider(recipes, advancements),
+                    new PotRecipeProvider(recipes, advancements),
+                    new ShapedRecipeProvider(recipes, advancements),
+                    new ShapelessRecipeProvider(recipes, advancements),
+                    new SimpleCookingRecipeProvider(recipes, advancements),
+                    new SimplePotRecipeProvider(recipes, advancements),
+                    new StockpotRecipeProvider(recipes, advancements),
+                    new MillstoneRecipeProvider(recipes, advancements),
+                    new SteamerRecipeProvider(recipes, advancements),
+                    new TeapotRecipeProvider(recipes, advancements)
             );
 
             @Override

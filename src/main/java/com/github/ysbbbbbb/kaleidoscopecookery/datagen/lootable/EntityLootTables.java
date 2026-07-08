@@ -5,7 +5,6 @@ import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.loot.AdvanceEntityMatchTool;
 import com.google.common.collect.Sets;
 import net.minecraft.advancements.predicates.ItemPredicate;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.EntityLootSubProvider;
 import net.minecraft.resources.ResourceKey;
@@ -29,18 +28,21 @@ import java.util.function.BiConsumer;
 public class EntityLootTables extends EntityLootSubProvider {
     public final Set<EntityType<?>> knownEntities = Sets.newHashSet();
 
-    public EntityLootTables(HolderLookup.Provider registries) {
+    private final Context registries;
+
+    public EntityLootTables(Context registries) {
         super(FeatureFlags.REGISTRY.allFlags(), registries);
+        this.registries = registries;
     }
 
-    @Override
+
     public void generate(@NonNull BiConsumer<ResourceKey<LootTable>, LootTable.Builder> output) {
-        super.generate(output);
+
 
         ItemPredicate hasKnife = ItemPredicate.Builder.item().build();
         LootItemCondition.Builder toolMatches = AdvanceEntityMatchTool.toolMatches(EquipmentSlot.MAINHAND, hasKnife);
         var count = SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F));
-        var looting = EnchantedCountIncreaseFunction.lootingMultiplier(this.registries, UniformGenerator.between(0.0F, 1.0F));
+        var looting = EnchantedCountIncreaseFunction.lootingMultiplier(this.registries.lookup(Registries.ENCHANTMENT), UniformGenerator.between(0.0F, 1.0F));
         var oil = LootItem.lootTableItem(ModItems.OIL).apply(count).apply(looting);
 
         LootTable.Builder lessOil = LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1)).add(oil).when(toolMatches));

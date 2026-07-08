@@ -18,7 +18,6 @@ import com.github.ysbbbbbb.kaleidoscopecookery.item.BowlFoodBlockItem;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.PlateBlockItem;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.TeacupItem;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
-import net.fabricmc.fabric.api.registry.CompostableRegistry;
 import net.fabricmc.fabric.api.registry.FuelValueEvents;
 import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
 import net.minecraft.core.Registry;
@@ -42,7 +41,6 @@ public final class CommonRegistry {
     public static void init() {
         registerDataListeners();
         modCompat();
-        addComposter();
         registerPlateBlocks();
         registerTeacupBlocks();
         registerFoodBiteBlocks();
@@ -161,19 +159,7 @@ public final class CommonRegistry {
         return biteBlock;
     }
 
-    private static void addComposter() {
-        CompostableRegistry.INSTANCE.add(ModItems.TOMATO_SEED, 0.3F);
-        CompostableRegistry.INSTANCE.add(ModItems.CHILI_SEED, 0.3F);
-        CompostableRegistry.INSTANCE.add(ModItems.LETTUCE_SEED, 0.3F);
-        CompostableRegistry.INSTANCE.add(ModItems.WILD_RICE_SEED, 0.3F);
-        CompostableRegistry.INSTANCE.add(ModItems.RICE_SEED, 0.3F);
-        CompostableRegistry.INSTANCE.add(ModItems.TOMATO, 0.65F);
-        CompostableRegistry.INSTANCE.add(ModItems.RED_CHILI, 0.65F);
-        CompostableRegistry.INSTANCE.add(ModItems.GREEN_CHILI, 0.65F);
-        CompostableRegistry.INSTANCE.add(ModItems.LETTUCE, 0.65F);
-        CompostableRegistry.INSTANCE.add(ModItems.RICE_PANICLE, 0.65F);
-        CompostableRegistry.INSTANCE.add(ModItems.CATERPILLAR, 1.0F);
-    }
+
 
     private static void modCompat() {
         TrinketsCompatServer.init();

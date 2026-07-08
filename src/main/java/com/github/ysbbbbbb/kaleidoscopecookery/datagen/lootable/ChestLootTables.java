@@ -22,10 +22,10 @@ public class ChestLootTables implements LootTableSubProvider {
     public static final Identifier VILLAGE_CHEST = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "chest/village_chest");
     public static final Identifier VILLAGE_HIDE_CHEST = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "chest/village_hide_chest");
 
-    public ChestLootTables(HolderLookup.Provider registries) {
+    public ChestLootTables(Context registries) {
     }
 
-    @Override
+
     public void generate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> output) {
         output.accept(ResourceKey.create(Registries.LOOT_TABLE, VILLAGE_CHEST), LootTable.lootTable().withPool(LootPool.lootPool()
                 .setRolls(UniformGenerator.between(3, 8))
@@ -74,5 +74,10 @@ public class ChestLootTables implements LootTableSubProvider {
                 .add(LootItem.lootTableItem(ModItems.EGG_FRIED_RICE).setWeight(10))
                 .add(LootItem.lootTableItem(FoodBiteRegistry.getItem(FoodBiteRegistry.SLIME_BALL_MEAL)).setWeight(10))
         ));
+    }
+
+    @Override
+    public void run() {
+
     }
 }
