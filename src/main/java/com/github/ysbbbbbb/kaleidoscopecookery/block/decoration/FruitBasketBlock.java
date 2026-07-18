@@ -82,7 +82,7 @@ public class FruitBasketBlock extends HorizontalDirectionalBlock implements Enti
             }
             ItemStack mainHandItem = player.getMainHandItem();
             if (!mainHandItem.isEmpty() && !mainHandItem.is(ModItems.TRANSMUTATION_LUNCH_BAG)) {
-                fruitBasket.putOn(mainHandItem);
+                fruitBasket.putOn(mainHandItem, player.isCreative());
                 return InteractionResult.SUCCESS;
             }
         }

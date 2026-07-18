@@ -22,13 +22,14 @@ public class FruitBasketBlockEntity extends BaseBlockEntity {
     }
 
     @SuppressWarnings("all")
-    public void putOn(ItemStack stack) {
+    public void putOn(ItemStack stack, boolean isCreative) {
         if (!stack.getItem().canFitInsideContainerItems()) {
             return;
         }
         ItemStack reminder = ItemHandlerHelper.insertItemStacked(this.items, stack.copy(), false);
         if (stack.getCount() != reminder.getCount()) {
-            stack.shrink(stack.getCount() - reminder.getCount());
+            if (!isCreative)
+                stack.shrink(stack.getCount() - reminder.getCount());
             if (this.level != null) {
                 this.level.playSound(null, this.worldPosition, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS);
             }

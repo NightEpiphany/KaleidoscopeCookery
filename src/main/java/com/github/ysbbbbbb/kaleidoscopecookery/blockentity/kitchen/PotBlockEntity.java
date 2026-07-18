@@ -224,7 +224,8 @@ public class PotBlockEntity extends BaseBlockEntity implements IPot {
         if (stack.is(TagMod.OIL)) {
             // 普通情况油脂
             placeOil(level, user, level.random);
-            stack.shrink(1);
+            if (user instanceof Player player && !player.isCreative())
+                stack.shrink(1);
             ModTrigger.EVENT.trigger(user, ModEventTriggerType.PUT_OIL_IN_POT);
             return true;
         } else if (stack.is(ModItems.KITCHEN_SHOVEL) && KitchenShovelItem.hasOil(stack)) {

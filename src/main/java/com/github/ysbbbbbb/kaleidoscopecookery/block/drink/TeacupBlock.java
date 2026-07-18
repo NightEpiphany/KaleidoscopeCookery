@@ -126,7 +126,8 @@ public class TeacupBlock extends HorizontalDirectionalBlock implements SimpleWat
             if (count < this.maxCount) {
                 level.setBlockAndUpdate(pos, state.setValue(cupCount, count + 1));
                 level.playSound(player, pos, this.soundType.getPlaceSound(), SoundSource.BLOCKS, 1.0F, 1.0F);
-                itemInHand.shrink(1);
+                if (!player.isCreative())
+                    itemInHand.shrink(1);
                 return InteractionResult.SUCCESS;
             }
             return InteractionResult.CONSUME;
@@ -145,7 +146,8 @@ public class TeacupBlock extends HorizontalDirectionalBlock implements SimpleWat
                         .setValue(cupCount, cupCountNum + 1)
                         .setValue(teaCount, teaCountNum + 1));
                 level.playSound(player, pos, this.soundType.getPlaceSound(), SoundSource.BLOCKS, 1.0F, 1.0F);
-                itemInHand.shrink(1);
+                if (!player.isCreative())
+                    itemInHand.shrink(1);
                 return InteractionResult.SUCCESS;
             }
             return InteractionResult.CONSUME;

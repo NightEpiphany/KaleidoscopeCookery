@@ -47,6 +47,7 @@ public class ThrowBaoziMessage implements FabricPacket, ServerPlayNetworking.Pla
         baozi.setItem(stack.copyWithCount(1));
         baozi.shootFromRotation(player, player.getXRot(), player.getYRot(), 0, 1.5F, 1);
         level.addFreshEntity(baozi);
-        stack.shrink(1);
+        if (!player.isCreative())
+            stack.shrink(1);
     }
 }

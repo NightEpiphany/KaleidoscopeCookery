@@ -23,6 +23,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public class ScarecrowItem extends Item {
     }
 
     @Override
-    public InteractionResult useOn(UseOnContext context) {
+    public @NotNull InteractionResult useOn(UseOnContext context) {
         Direction face = context.getClickedFace();
         if (face == Direction.DOWN) {
             return InteractionResult.FAIL;
@@ -59,14 +60,15 @@ public class ScarecrowItem extends Item {
                 scarecrow.gameEvent(GameEvent.ENTITY_PLACE, context.getPlayer());
                 ModTrigger.EVENT.trigger(context.getPlayer(), ModEventTriggerType.PLACE_SCARECROW);
             }
-            stack.shrink(1);
+            if (context.getPlayer() == null || !context.getPlayer().isCreative())
+                stack.shrink(1);
             return InteractionResult.sidedSuccess(level.isClientSide);
         }
         return InteractionResult.FAIL;
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.kaleidoscope_cookery.scarecrow").withStyle(ChatFormatting.GRAY));
     }
 }
