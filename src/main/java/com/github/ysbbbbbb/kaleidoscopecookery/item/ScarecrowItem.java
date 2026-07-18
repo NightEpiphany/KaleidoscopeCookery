@@ -64,7 +64,8 @@ public class ScarecrowItem extends Item {
                 scarecrow.gameEvent(GameEvent.ENTITY_PLACE, context.getPlayer());
                 ModTrigger.EVENT.trigger(context.getPlayer(), ModEventTriggerType.PLACE_SCARECROW);
             }
-            stack.shrink(1);
+            if (context.getPlayer() == null || !context.getPlayer().isCreative())
+                stack.shrink(1);
             return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.CONSUME;
         }
         return InteractionResult.FAIL;
