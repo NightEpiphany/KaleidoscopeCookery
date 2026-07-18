@@ -151,7 +151,8 @@ public class StoveBlock extends HorizontalDirectionalBlock {
                         SoundEvents.FIRECHARGE_USE,
                         SoundSource.BLOCKS, 1.0F,
                         level.getRandom().nextFloat() * 0.4F + 0.8F);
-                itemInHand.shrink(1);
+                if (!player.isCreative())
+                    itemInHand.shrink(1);
             } else {
                 level.playSound(player, pos,
                         SoundEvents.FLINTANDSTEEL_USE,

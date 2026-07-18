@@ -30,6 +30,7 @@ import net.minecraft.util.ProblemReporter;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -321,7 +322,6 @@ public class TeapotBlockEntity extends BaseBlockEntity implements ITeapot {
                 this.input = itemStack.copyWithCount(count);
                 this.currentTick = INGREDIENT_TIME;
                 this.refresh();
-
                 itemStack.shrink(count);
                 return true;
             }

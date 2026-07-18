@@ -61,7 +61,10 @@ public final class CommonRegistry {
     }
 
     public static void fuelRegister() {
-        FuelValueEvents.BUILD.register((registry, i) -> registry.add(ModItems.OIL, i.baseSmeltTime() * 8));
+        FuelValueEvents.BUILD.register((registry, i) -> {
+            registry.add(ModItems.OIL, i.baseSmeltTime() * 8);
+            registry.add(ModItems.OIL_BLOCK, i.baseSmeltTime() * 72);
+        });
     }
 
     public static void registerServerEvents() {
