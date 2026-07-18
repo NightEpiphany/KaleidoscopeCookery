@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kaleidoscope_cookery:strung_mushrooms"
+        "recipes": "kaleidoscope_cookery:strung_mushrooms"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -49,7 +49,7 @@ public final class ModItems {
             )
             .component(DataComponents.BREAK_SOUND, SoundEvents.SHIELD_BREAK)
     ));
-    public static final Item OIL_BLOCK = registerItemViaBlock(ModBlocks.OIL_BLOCK);
+    public static final Item OIL_BLOCK = registerItemViaBlock(ModBlocks.OIL_BLOCK, new Item.Properties().cookingFuel(NumberProviders.COOKING_TIME_COAL_BLOCK));
     public static final Item CHOPPING_BOARD = registerItemViaBlock(ModBlocks.CHOPPING_BOARD);
     public static final Item ENAMEL_BASIN = registerItemViaBlock(ModBlocks.ENAMEL_BASIN);
     public static final Item KITCHENWARE_RACKS = registerItemViaBlock(ModBlocks.KITCHENWARE_RACKS, (block, properties) -> new WithTooltipsBlockItem(block, properties, "kitchenware_racks"));
@@ -76,7 +76,7 @@ public final class ModItems {
     public static final Item SICKLE = registerItem("sickle", SickleItem::new, new Item.Properties());
 
     // Special items
-    public static final Item OIL = registerItem("oil", p -> new WithTooltipsItem(p, "oil"));
+    public static final Item OIL = registerItem("oil", p -> new WithTooltipsItem(p.cookingFuel(NumberProviders.COOKING_TIME_COAL), "oil"));
     public static final Item RECIPE_ITEM = registerItem("recipe_item", p -> new RecipeItem(ModBlocks.RECIPE_BLOCK, p.useItemDescriptionPrefix()));
     public static final Item KITCHEN_SHOVEL = registerItem("kitchen_shovel", KitchenShovelItem::new);
     public static final Item FRUIT_BASKET = registerItemViaBlock(ModBlocks.FRUIT_BASKET, FruitBasketItem::new);
@@ -284,6 +284,10 @@ public final class ModItems {
 
     public static Item registerItemViaBlock(Block block, BiFunction<Block, Item.Properties, Item> biFunction) {
         return registerItemViaBlock(block, biFunction, new Item.Properties());
+    }
+
+    public static Item registerItemViaBlock(Block block, Item.Properties properties) {
+        return registerItemViaBlock(block, BlockItem::new, properties);
     }
 
     public static Item registerItemViaBlock(Block block) {

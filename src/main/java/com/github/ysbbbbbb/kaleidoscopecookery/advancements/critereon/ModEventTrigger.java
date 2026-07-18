@@ -4,13 +4,13 @@ import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTrigger;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.advancements.predicates.ContextAwarePredicate;
-import net.minecraft.advancements.predicates.entity.EntityPredicate;
 import net.minecraft.advancements.triggers.Criterion;
 import net.minecraft.advancements.triggers.SimpleCriterionTrigger;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -33,9 +33,9 @@ public class ModEventTrigger extends SimpleCriterionTrigger<ModEventTrigger.Inst
         return ModEventTrigger.Instance.CODEC;
     }
 
-    public record Instance(Optional<ContextAwarePredicate> player, String eventName) implements SimpleInstance {
+    public record Instance(Optional<Holder<LootItemCondition>> player, String eventName) implements SimpleInstance {
         public static final Codec<ModEventTrigger.Instance> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                        EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(ModEventTrigger.Instance::player),
+                        LootItemCondition.CODEC.optionalFieldOf("player").forGetter(ModEventTrigger.Instance::player),
                         Codec.STRING.fieldOf("event").forGetter(ModEventTrigger.Instance::eventName))
                 .apply(instance, ModEventTrigger.Instance::new));
 

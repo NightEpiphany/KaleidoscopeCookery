@@ -64,7 +64,7 @@ public class SteamerBlock extends FallingBlock implements EntityBlock, SimpleWat
                 .instrument(NoteBlockInstrument.BASEDRUM)
                 .instabreak()
                 .noOcclusion()
-                .pushReaction(PushReaction.DESTROY)
+                .pushReaction(PushReaction.POPPED)
                 .sound(SoundType.BAMBOO));
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)
@@ -116,9 +116,9 @@ public class SteamerBlock extends FallingBlock implements EntityBlock, SimpleWat
     }
 
     @Override
-    protected @NonNull BlockState updateShape(BlockState state, @NonNull LevelReader levelAccessor, @NonNull ScheduledTickAccess scheduledTickAccess, @NonNull BlockPos pos, @NonNull Direction direction, @NonNull BlockPos blockPos2, @NonNull BlockState blockState2, @NonNull RandomSource randomSource) {
+    protected @NonNull BlockState updateShape(BlockState state, @NonNull LevelReader levelReader, @NonNull ScheduledTickAccess scheduledTickAccess, @NonNull BlockPos pos, @NonNull Direction direction, @NonNull BlockPos blockPos2, @NonNull BlockState blockState2, @NonNull RandomSource randomSource) {
         if (state.getValue(WATERLOGGED)) {
-            scheduledTickAccess.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(levelAccessor));
+            scheduledTickAccess.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(levelReader));
         }
         scheduledTickAccess.scheduleTick(pos, this, this.getDelayAfterPlace());
         // 如果下方是不完整方块，则添加基座
@@ -127,7 +127,7 @@ public class SteamerBlock extends FallingBlock implements EntityBlock, SimpleWat
             if (isFree(blockState2)) {
                 state = state.setValue(HAS_BASE, false);
             } else {
-                state = state.setValue(HAS_BASE, shouldHasBase(levelAccessor, pos));
+                state = state.setValue(HAS_BASE, shouldHasBase(levelReader, pos));
             }
         }
         // 如果是上方方块是蒸笼，那么把盖子去掉

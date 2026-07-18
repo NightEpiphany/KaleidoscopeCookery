@@ -18,7 +18,6 @@ import com.github.ysbbbbbb.kaleidoscopecookery.item.BowlFoodBlockItem;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.PlateBlockItem;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.TeacupItem;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
-import net.fabricmc.fabric.api.registry.FuelValueEvents;
 import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -47,7 +46,6 @@ public final class CommonRegistry {
         registerServerEvents();
         addVillagerGift();
         addDispenserBehavior();
-        fuelRegister();
     }
 
     public static void registerDataListeners() {
@@ -58,8 +56,8 @@ public final class CommonRegistry {
         GiveGiftToHero.GIFTS.put(ModVillager.CHEF, ModVillager.CHEF_GIFT_LOOT_KEY);
     }
 
+    @Deprecated(forRemoval = true)
     public static void fuelRegister() {
-        FuelValueEvents.BUILD.register((registry, i) -> registry.add(ModItems.OIL, i.baseSmeltTime() * 8));
     }
 
     public static void registerServerEvents() {
@@ -143,7 +141,7 @@ public final class CommonRegistry {
                 .instabreak()
                 .mapColor(MapColor.WOOD)
                 .sound(SoundType.WOOD)
-                .pushReaction(PushReaction.DESTROY)
+                .pushReaction(PushReaction.POPPED)
                 .noOcclusion();
 
         if (data.blockType() == FoodBiteRegistry.BlockType.ONE_BY_TWO) {

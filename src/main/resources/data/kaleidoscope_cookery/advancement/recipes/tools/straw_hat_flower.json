@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kaleidoscope_cookery:straw_hat_flower"
+        "recipes": "kaleidoscope_cookery:straw_hat_flower"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

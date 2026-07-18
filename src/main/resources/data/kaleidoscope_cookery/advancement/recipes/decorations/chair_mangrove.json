@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kaleidoscope_cookery:chair_mangrove"
+        "recipes": "kaleidoscope_cookery:chair_mangrove"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

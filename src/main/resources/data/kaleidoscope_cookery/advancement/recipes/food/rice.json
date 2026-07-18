@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kaleidoscope_cookery:rice"
+        "recipes": "kaleidoscope_cookery:rice"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

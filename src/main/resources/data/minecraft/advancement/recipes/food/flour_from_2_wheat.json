@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:flour_from_2_wheat"
+        "recipes": "minecraft:flour_from_2_wheat"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

@@ -11,6 +11,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
@@ -28,6 +29,7 @@ import org.jspecify.annotations.NonNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @SuppressWarnings("all")
 public class RecipeRandomlyFunction extends LootItemConditionalFunction {
@@ -38,7 +40,7 @@ public class RecipeRandomlyFunction extends LootItemConditionalFunction {
     );
     private final List<RecipeItem.RecipeRecord> possibleRecipes;
 
-    protected RecipeRandomlyFunction(List<LootItemCondition> predicates, List<RecipeItem.RecipeRecord> possibleRecipes) {
+    protected RecipeRandomlyFunction(final Optional<Holder<LootItemCondition>> predicates, List<RecipeItem.RecipeRecord> possibleRecipes) {
         super(predicates);
         this.possibleRecipes = ImmutableList.copyOf(possibleRecipes);
     }
@@ -163,7 +165,7 @@ public class RecipeRandomlyFunction extends LootItemConditionalFunction {
 
         @Override
         public @NonNull LootItemFunction build() {
-            return new RecipeRandomlyFunction(this.getConditions(), this.recipes);
+            return new RecipeRandomlyFunction(this.getCondition(), this.recipes);
         }
     }
 }

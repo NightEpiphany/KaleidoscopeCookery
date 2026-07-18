@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kaleidoscope_cookery:gold_kitchen_knife"
+        "recipes": "kaleidoscope_cookery:gold_kitchen_knife"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

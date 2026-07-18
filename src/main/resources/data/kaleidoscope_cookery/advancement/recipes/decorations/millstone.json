@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kaleidoscope_cookery:millstone"
+        "recipes": "kaleidoscope_cookery:millstone"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

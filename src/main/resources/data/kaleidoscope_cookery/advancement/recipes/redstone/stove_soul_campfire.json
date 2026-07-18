@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kaleidoscope_cookery:stove_soul_campfire"
+        "recipes": "kaleidoscope_cookery:stove_soul_campfire"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

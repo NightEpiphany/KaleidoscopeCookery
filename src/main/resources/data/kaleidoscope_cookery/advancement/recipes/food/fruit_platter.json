@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kaleidoscope_cookery:fruit_platter"
+        "recipes": "kaleidoscope_cookery:fruit_platter"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

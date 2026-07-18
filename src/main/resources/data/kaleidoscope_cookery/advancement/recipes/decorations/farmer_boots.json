@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kaleidoscope_cookery:farmer_boots"
+        "recipes": "kaleidoscope_cookery:farmer_boots"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

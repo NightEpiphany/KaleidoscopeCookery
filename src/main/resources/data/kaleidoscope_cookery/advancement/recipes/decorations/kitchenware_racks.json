@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kaleidoscope_cookery:kitchenware_racks"
+        "recipes": "kaleidoscope_cookery:kitchenware_racks"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

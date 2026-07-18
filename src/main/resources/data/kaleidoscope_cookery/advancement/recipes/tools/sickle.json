@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kaleidoscope_cookery:sickle"
+        "recipes": "kaleidoscope_cookery:sickle"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

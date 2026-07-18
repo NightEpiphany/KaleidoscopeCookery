@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kaleidoscope_cookery:chair_acacia"
+        "recipes": "kaleidoscope_cookery:chair_acacia"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

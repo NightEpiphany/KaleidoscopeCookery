@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kaleidoscope_cookery:table_birch"
+        "recipes": "kaleidoscope_cookery:table_birch"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -3,15 +3,13 @@
   "criteria": {
     "kill_pig": {
       "conditions": {
-        "entity": [
-          {
-            "condition": "minecraft:entity_properties",
-            "entity": "this",
-            "predicate": {
-              "minecraft:entity_type": "#kaleidoscope_cookery:pig_oil_source"
-            }
+        "entity": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:entity_type": "#kaleidoscope_cookery:pig_oil_source"
           }
-        ],
+        },
         "killing_blow": {
           "direct_entity": {
             "equipment": {

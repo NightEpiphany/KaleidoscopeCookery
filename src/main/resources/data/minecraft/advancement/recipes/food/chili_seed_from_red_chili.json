@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:chili_seed_from_red_chili"
+        "recipes": "minecraft:chili_seed_from_red_chili"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

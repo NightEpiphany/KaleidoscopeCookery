@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kaleidoscope_cookery:cook_stool_crimson"
+        "recipes": "kaleidoscope_cookery:cook_stool_crimson"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kaleidoscope_cookery:oil_block"
+        "recipes": "kaleidoscope_cookery:oil_block"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

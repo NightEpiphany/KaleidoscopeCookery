@@ -4,6 +4,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.RecipeItem;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -11,7 +12,7 @@ import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunct
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import org.jspecify.annotations.NonNull;
 
-import java.util.List;
+import java.util.Optional;
 
 public class ChefRecipeTradeFunction extends LootItemConditionalFunction {
     public static final Identifier ID = Identifier.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID, "trade_custom_recipe");
@@ -22,7 +23,7 @@ public class ChefRecipeTradeFunction extends LootItemConditionalFunction {
     );
     private final RecipeItem.RecipeTemplate recipe;
 
-    protected ChefRecipeTradeFunction(List<LootItemCondition> predicates, RecipeItem.RecipeTemplate recipe) {
+    protected ChefRecipeTradeFunction(final Optional<Holder<LootItemCondition>> predicates, RecipeItem.RecipeTemplate recipe) {
         super(predicates);
         this.recipe = recipe;
     }

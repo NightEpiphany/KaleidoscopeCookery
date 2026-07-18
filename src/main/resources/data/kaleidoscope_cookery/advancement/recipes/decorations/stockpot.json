@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kaleidoscope_cookery:stockpot"
+        "recipes": "kaleidoscope_cookery:stockpot"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

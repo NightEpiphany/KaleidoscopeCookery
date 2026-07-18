@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kaleidoscope_cookery:chair_spruce"
+        "recipes": "kaleidoscope_cookery:chair_spruce"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -15,12 +15,14 @@
     "LayeredCauldronBlockMixin",
     "LivingEntityMixin",
     "LlamaSpitMixin",
+    "LootTableRegistryLoadMixin",
     "MobBucketItemMixin",
     "MobMixin",
     "PowderSnowBlockMixin",
     "ShulkerBulletMixin",
     "ThrowableProjectileMixin",
-    "VillagerMixin"
+    "VillagerMixin",
+    "accessor.LootTableAccessor"
   ],
   "client": [
     "client.BlockEntityRendererMixin",

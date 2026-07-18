@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kaleidoscope_cookery:cook_stool_bamboo"
+        "recipes": "kaleidoscope_cookery:cook_stool_bamboo"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

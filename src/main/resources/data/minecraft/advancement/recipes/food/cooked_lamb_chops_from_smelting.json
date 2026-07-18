@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:cooked_lamb_chops_from_smelting"
+        "recipes": "minecraft:cooked_lamb_chops_from_smelting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

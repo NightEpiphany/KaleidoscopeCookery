@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:cooked_cut_small_meats_from_smoking"
+        "recipes": "minecraft:cooked_cut_small_meats_from_smoking"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

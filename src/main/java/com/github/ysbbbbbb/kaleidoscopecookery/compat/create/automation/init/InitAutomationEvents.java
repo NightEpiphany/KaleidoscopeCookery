@@ -26,6 +26,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.world.level.block.entity.SignText;
+import net.minecraft.world.level.block.entity.SignTextSlot;
 import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.ArrayList;
@@ -208,8 +209,8 @@ public final class InitAutomationEvents {
 
     private static String readSignAddress(SignBlockEntity sign) {
         StringBuilder builder = new StringBuilder();
-        appendSignText(builder, sign.getText(true));
-        appendSignText(builder, sign.getText(false));
+        appendSignText(builder, sign.getText(SignTextSlot.FRONT));
+        appendSignText(builder, sign.getText(SignTextSlot.BACK));
         return builder.toString().trim();
     }
 

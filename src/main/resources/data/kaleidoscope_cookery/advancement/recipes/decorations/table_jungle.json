@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kaleidoscope_cookery:table_jungle"
+        "recipes": "kaleidoscope_cookery:table_jungle"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kaleidoscope_cookery:chair_warped"
+        "recipes": "kaleidoscope_cookery:chair_warped"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kaleidoscope_cookery:pot"
+        "recipes": "kaleidoscope_cookery:pot"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

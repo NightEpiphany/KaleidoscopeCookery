@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kaleidoscope_cookery:chili_ristra"
+        "recipes": "kaleidoscope_cookery:chili_ristra"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

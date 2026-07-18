@@ -49,7 +49,7 @@ public class EmptyCupBlock extends HorizontalDirectionalBlock implements SimpleW
                 .instabreak()
                 .mapColor(MapColor.WOOD)
                 .sound(SoundType.WOOD)
-                .pushReaction(PushReaction.DESTROY)
+                .pushReaction(PushReaction.POPPED)
                 .noOcclusion());
 
         this.registerDefaultState(this.stateDefinition.any()
@@ -99,7 +99,8 @@ public class EmptyCupBlock extends HorizontalDirectionalBlock implements SimpleW
             if (count < MAX_COUNT) {
                 level.setBlockAndUpdate(pos, state.setValue(CUP_COUNT, count + 1));
                 level.playSound(player, pos, this.soundType.getPlaceSound(), SoundSource.BLOCKS, 1.0F, 1.0F);
-                itemInHand.shrink(1);
+                if (!player.isCreative())
+                    itemInHand.shrink(1);
                 return InteractionResult.SUCCESS;
             }
             return InteractionResult.CONSUME;

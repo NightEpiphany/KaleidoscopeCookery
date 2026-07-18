@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kaleidoscope_cookery:stuffed_dough_food"
+        "recipes": "kaleidoscope_cookery:stuffed_dough_food"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

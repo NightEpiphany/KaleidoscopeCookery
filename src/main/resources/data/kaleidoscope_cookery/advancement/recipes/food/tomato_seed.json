@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kaleidoscope_cookery:tomato_seed"
+        "recipes": "kaleidoscope_cookery:tomato_seed"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

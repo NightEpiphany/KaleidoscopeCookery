@@ -54,7 +54,7 @@ public class PlateBlock extends HorizontalDirectionalBlock implements SimpleWate
                 .instabreak()
                 .mapColor(MapColor.WOOD)
                 .sound(SoundType.WOOD)
-                .pushReaction(PushReaction.DESTROY)
+                .pushReaction(PushReaction.POPPED)
                 .noOcclusion());
 
         this.servings = IntegerProperty.create("servings", 0, maxCount);
@@ -90,7 +90,8 @@ public class PlateBlock extends HorizontalDirectionalBlock implements SimpleWate
         // 尝试放回物品
         if (!itemInHand.isEmpty()) {
             if (count < getMaxCount() && canRefill(itemInHand)) {
-                itemInHand.shrink(1);
+                if (!player.isCreative())
+                    itemInHand.shrink(1);
                 level.playSound(player, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 1.0F, 1.0F);
                 level.setBlockAndUpdate(pos, state.cycle(servings));
                 return InteractionResult.SUCCESS;

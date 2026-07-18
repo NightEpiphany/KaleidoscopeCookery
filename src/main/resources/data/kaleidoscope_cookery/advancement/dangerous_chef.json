@@ -3,15 +3,13 @@
   "criteria": {
     "kill_piglin_brute": {
       "conditions": {
-        "entity": [
-          {
-            "condition": "minecraft:entity_properties",
-            "entity": "this",
-            "predicate": {
-              "minecraft:entity_type": "minecraft:piglin_brute"
-            }
+        "entity": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:entity_type": "minecraft:piglin_brute"
           }
-        ],
+        },
         "killing_blow": {
           "direct_entity": {
             "equipment": {

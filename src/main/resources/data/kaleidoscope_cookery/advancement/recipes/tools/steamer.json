@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kaleidoscope_cookery:steamer"
+        "recipes": "kaleidoscope_cookery:steamer"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

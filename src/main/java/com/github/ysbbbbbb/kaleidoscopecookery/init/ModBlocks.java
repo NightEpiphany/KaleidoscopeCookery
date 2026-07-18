@@ -93,14 +93,14 @@ public final class ModBlocks {
             .noCollision()
             .instabreak()
             .sound(SoundType.GRASS)
-            .pushReaction(PushReaction.DESTROY));
+            .pushReaction(PushReaction.POPPED));
 
     public static final Block STRUNG_MUSHROOMS  = commonReg("strung_mushrooms", StrungMushroomsBlock::new, BlockBehaviour.Properties.of()
             .mapColor(MapColor.COLOR_BROWN)
             .noCollision()
             .instabreak()
             .sound(SoundType.GRASS)
-            .pushReaction(PushReaction.DESTROY));
+            .pushReaction(PushReaction.POPPED));
 
     public static final Block STRAW_BLOCK = commonReg("straw_block", StrawBlocks::new, BlockBehaviour.Properties.of()
             .mapColor(MapColor.COLOR_YELLOW)
@@ -130,7 +130,7 @@ public final class ModBlocks {
             .instrument(NoteBlockInstrument.BASEDRUM)
             .instabreak()
             .noOcclusion()
-            .pushReaction(PushReaction.DESTROY)
+            .pushReaction(PushReaction.POPPED)
             .sound(SoundType.BAMBOO));
 
     public static final Block RECIPE_BLOCK = commonReg("recipe_block", RecipeBlock::new, BlockBehaviour.Properties.of()
@@ -143,7 +143,7 @@ public final class ModBlocks {
             .mapColor(MapColor.METAL)
             .instrument(NoteBlockInstrument.BELL)
             .instabreak()
-            .pushReaction(PushReaction.DESTROY)
+            .pushReaction(PushReaction.POPPED)
             .sound(SoundType.LANTERN));
 
     public static final Block TRASH_CAN = commonReg("trash_can", TrashCanBlock::new, BlockBehaviour.Properties.of()
@@ -218,7 +218,7 @@ public final class ModBlocks {
             .instabreak()
             .mapColor(MapColor.WOOD)
             .sound(SoundType.WOOD)
-            .pushReaction(PushReaction.DESTROY)
+            .pushReaction(PushReaction.POPPED)
             .noOcclusion());
 
     public static final Block BAMBOO_TUBE_RICE = commonReg("bamboo_tube_rice", p ->
@@ -340,6 +340,6 @@ public final class ModBlocks {
                 .randomTicks()
                 .instabreak()
                 .sound(SoundType.CROP)
-                .pushReaction(PushReaction.DESTROY));
+                .pushReaction(PushReaction.POPPED));
     }
 }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kaleidoscope_cookery:chair_oak"
+        "recipes": "kaleidoscope_cookery:chair_oak"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

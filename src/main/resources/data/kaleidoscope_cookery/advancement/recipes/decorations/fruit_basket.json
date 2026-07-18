@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kaleidoscope_cookery:fruit_basket"
+        "recipes": "kaleidoscope_cookery:fruit_basket"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

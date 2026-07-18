@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "kaleidoscope_cookery:cook_stool_mangrove"
+        "recipes": "kaleidoscope_cookery:cook_stool_mangrove"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
