@@ -72,6 +72,7 @@ public final class CommonRegistry {
 
     public static void fuelRegister() {
         FuelRegistry.INSTANCE.add(ModItems.OIL, 1600);
+        FuelRegistry.INSTANCE.add(ModItems.OIL_BLOCK, 14400);
     }
 
     private static void registerPlateBlocks() {

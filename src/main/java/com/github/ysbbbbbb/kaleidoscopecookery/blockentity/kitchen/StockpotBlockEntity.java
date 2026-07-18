@@ -40,6 +40,7 @@ import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -362,7 +363,8 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
                 this.refresh();
 
                 ItemStack container = soupBase.getReturnContainer(level, user, bucket);
-                bucket.shrink(1);
+                if (user instanceof Player player && !player.isCreative())
+                    bucket.shrink(1);
                 ItemUtils.getItemToLivingEntity(user, container);
                 return true;
             }
@@ -384,7 +386,8 @@ public class StockpotBlockEntity extends BaseBlockEntity implements IStockpot {
             this.refresh();
 
             ItemStack container = soupBase.getReturnSoupBase(level, user, bucket);
-            bucket.shrink(1);
+            if (user instanceof Player player && !player.isCreative())
+                bucket.shrink(1);
             ItemUtils.getItemToLivingEntity(user, container);
             return true;
         }

@@ -143,7 +143,8 @@ public class TableBlock extends Block implements SimpleWaterloggedBlock, EntityB
                 level.playSound(null, pos, SoundType.WOOL.getPlaceSound(), player.getSoundSource(), 1.0F, 1.0F);
                 tableBlockEntity.setColor(dyeColor);
                 tableBlockEntity.refresh();
-                itemInHand.shrink(1);
+                if (!player.isCreative())
+                    itemInHand.shrink(1);
                 return ItemInteractionResult.SUCCESS;
             }
         }
@@ -159,7 +160,8 @@ public class TableBlock extends Block implements SimpleWaterloggedBlock, EntityB
             tableBlockEntity.setColor(dyeColor);
             tableBlockEntity.refresh();
             level.setBlockAndUpdate(pos, state.setValue(HAS_CARPET, true));
-            itemInHand.shrink(1);
+            if (!player.isCreative())
+                itemInHand.shrink(1);
             return ItemInteractionResult.SUCCESS;
         }
 

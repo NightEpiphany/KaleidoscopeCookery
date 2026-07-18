@@ -129,7 +129,8 @@ public class ChairBlock extends HorizontalDirectionalBlock implements SimpleWate
                 level.playSound(null, pos, SoundType.WOOL.getPlaceSound(), player.getSoundSource(), 1.0F, 1.0F);
                 chairBlockEntity.setColor(dyeColor);
                 chairBlockEntity.refresh();
-                itemInHand.shrink(1);
+                if (!player.isCreative())
+                    itemInHand.shrink(1);
                 return ItemInteractionResult.SUCCESS;
             }
         }
@@ -145,7 +146,8 @@ public class ChairBlock extends HorizontalDirectionalBlock implements SimpleWate
             chairBlockEntity.setColor(dyeColor);
             chairBlockEntity.refresh();
             level.setBlockAndUpdate(pos, state.setValue(HAS_CARPET, true));
-            itemInHand.shrink(1);
+            if (!player.isCreative())
+                itemInHand.shrink(1);
             return ItemInteractionResult.SUCCESS;
         }
 
