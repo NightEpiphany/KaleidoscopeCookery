@@ -100,8 +100,9 @@ dependencies {
     modApi("me.shedaniel.cloth:basic-math:+")
     modImplementation "curse.maven:architectury-api-419699:5786326"
     modImplementation "dev.emi:trinkets:${trinkets_version}"
-    modCompileOnly "dev.emi:emi-fabric:${emi_version}:api"
-    modCompileOnly "dev.emi:emi-fabric:${emi_version}"
+    //modCompileOnly "dev.emi:emi-fabric:${emi_version}:api"
+    //modCompileOnly "dev.emi:emi-fabric:${emi_version}"
+    modCompileOnly "maven.modrinth:emi:${emi_version}"
 
     // delight family compact
     modImplementation("vectorwing:FarmersDelight:${fdrf_version}") {
