@@ -2,51 +2,43 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "bonus_rolls": 0.0,
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ],
+      "bonus_rolls": 0,
       "entries": [
         {
           "type": "minecraft:alternatives",
           "children": [
             {
               "type": "minecraft:item",
-              "conditions": [
-                {
-                  "block": "kaleidoscope_cookery:chili_ristra",
-                  "condition": "minecraft:block_state_property",
-                  "properties": {
-                    "sheared": "true"
-                  }
+              "name": "kaleidoscope_cookery:red_chili",
+              "condition": {
+                "type": "minecraft:match_block",
+                "blocks": "kaleidoscope_cookery:chili_ristra",
+                "state": {
+                  "sheared": "true"
                 }
-              ],
-              "functions": [
-                {
-                  "add": false,
-                  "count": 3.0,
-                  "function": "minecraft:set_count"
-                }
-              ],
-              "name": "kaleidoscope_cookery:red_chili"
+              },
+              "modifier": {
+                "add": false,
+                "count": 3,
+                "type": "minecraft:set_count"
+              }
             },
             {
               "type": "minecraft:item",
-              "functions": [
-                {
-                  "add": false,
-                  "count": 6.0,
-                  "function": "minecraft:set_count"
-                }
-              ],
-              "name": "kaleidoscope_cookery:red_chili"
+              "name": "kaleidoscope_cookery:red_chili",
+              "modifier": {
+                "add": false,
+                "count": 6,
+                "type": "minecraft:set_count"
+              }
             }
           ]
         }
       ],
-      "rolls": 1.0
+      "rolls": 1,
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      }
     }
   ],
   "random_sequence": "kaleidoscope_cookery:blocks/chili_ristra"

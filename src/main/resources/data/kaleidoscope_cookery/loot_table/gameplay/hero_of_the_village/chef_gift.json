@@ -2,7 +2,7 @@
   "type": "minecraft:gift",
   "pools": [
     {
-      "bonus_rolls": 0.0,
+      "bonus_rolls": 0,
       "entries": [
         {
           "type": "minecraft:item",
@@ -41,7 +41,7 @@
           "name": "kaleidoscope_cookery:delicious_egg_fried_rice"
         }
       ],
-      "rolls": 1.0
+      "rolls": 1
     }
   ],
   "random_sequence": "kaleidoscope_cookery:gameplay/hero_of_the_village/chef_gift"

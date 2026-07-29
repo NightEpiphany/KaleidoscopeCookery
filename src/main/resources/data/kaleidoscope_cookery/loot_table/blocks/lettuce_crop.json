@@ -1,29 +1,22 @@
 {
   "type": "minecraft:block",
-  "functions": [
-    {
-      "function": "minecraft:explosion_decay"
-    }
-  ],
   "pools": [
     {
-      "bonus_rolls": 0.0,
+      "bonus_rolls": 0,
       "entries": [
         {
           "type": "minecraft:alternatives",
           "children": [
             {
               "type": "minecraft:item",
-              "conditions": [
-                {
-                  "block": "kaleidoscope_cookery:lettuce_crop",
-                  "condition": "minecraft:block_state_property",
-                  "properties": {
-                    "age": "7"
-                  }
+              "name": "kaleidoscope_cookery:lettuce",
+              "condition": {
+                "type": "minecraft:match_block",
+                "blocks": "kaleidoscope_cookery:lettuce_crop",
+                "state": {
+                  "age": "7"
                 }
-              ],
-              "name": "kaleidoscope_cookery:lettuce"
+              }
             },
             {
               "type": "minecraft:item",
@@ -32,63 +25,58 @@
           ]
         }
       ],
-      "rolls": 1.0
+      "rolls": 1
     },
     {
-      "bonus_rolls": 0.0,
-      "conditions": [
-        {
-          "block": "kaleidoscope_cookery:lettuce_crop",
-          "condition": "minecraft:block_state_property",
-          "properties": {
-            "age": "7"
-          }
-        }
-      ],
+      "bonus_rolls": 0,
       "entries": [
         {
           "type": "minecraft:item",
-          "functions": [
-            {
-              "enchantment": "minecraft:fortune",
-              "formula": "minecraft:binomial_with_bonus_count",
-              "function": "minecraft:apply_bonus",
-              "parameters": {
-                "extra": 3,
-                "probability": 0.5714286
-              }
-            }
-          ],
-          "name": "kaleidoscope_cookery:lettuce_seed"
-        }
-      ],
-      "rolls": 1.0
-    },
-    {
-      "bonus_rolls": 0.0,
-      "conditions": [
-        {
-          "block": "kaleidoscope_cookery:lettuce_crop",
-          "condition": "minecraft:block_state_property",
-          "properties": {
-            "age": "7"
+          "name": "kaleidoscope_cookery:lettuce_seed",
+          "modifier": {
+            "enchantment": "minecraft:fortune",
+            "formula": "minecraft:binomial_with_bonus_count",
+            "parameters": {
+              "extra": 3,
+              "probability": 0.5714286
+            },
+            "type": "minecraft:apply_bonus"
           }
         }
       ],
+      "rolls": 1,
+      "condition": {
+        "type": "minecraft:match_block",
+        "blocks": "kaleidoscope_cookery:lettuce_crop",
+        "state": {
+          "age": "7"
+        }
+      }
+    },
+    {
+      "bonus_rolls": 0,
       "entries": [
         {
           "type": "minecraft:item",
-          "conditions": [
-            {
-              "chance": 0.1,
-              "condition": "minecraft:random_chance"
-            }
-          ],
-          "name": "kaleidoscope_cookery:caterpillar"
+          "name": "kaleidoscope_cookery:caterpillar",
+          "condition": {
+            "chance": 0.1,
+            "type": "minecraft:random_chance"
+          }
         }
       ],
-      "rolls": 1.0
+      "rolls": 1,
+      "condition": {
+        "type": "minecraft:match_block",
+        "blocks": "kaleidoscope_cookery:lettuce_crop",
+        "state": {
+          "age": "7"
+        }
+      }
     }
   ],
-  "random_sequence": "kaleidoscope_cookery:blocks/lettuce_crop"
+  "random_sequence": "kaleidoscope_cookery:blocks/lettuce_crop",
+  "modifier": {
+    "type": "minecraft:explosion_decay"
+  }
 }

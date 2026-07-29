@@ -2,28 +2,21 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "bonus_rolls": 0.0,
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ],
+      "bonus_rolls": 0,
       "entries": [
         {
           "type": "minecraft:alternatives",
           "children": [
             {
               "type": "minecraft:item",
-              "conditions": [
-                {
-                  "block": "kaleidoscope_cookery:stargazy_pie",
-                  "condition": "minecraft:block_state_property",
-                  "properties": {
-                    "bites": "0"
-                  }
+              "name": "kaleidoscope_cookery:stargazy_pie",
+              "condition": {
+                "type": "minecraft:match_block",
+                "blocks": "kaleidoscope_cookery:stargazy_pie",
+                "state": {
+                  "bites": "0"
                 }
-              ],
-              "name": "kaleidoscope_cookery:stargazy_pie"
+              }
             },
             {
               "type": "minecraft:item",
@@ -32,7 +25,10 @@
           ]
         }
       ],
-      "rolls": 1.0
+      "rolls": 1,
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      }
     }
   ],
   "random_sequence": "kaleidoscope_cookery:blocks/stargazy_pie"

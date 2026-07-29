@@ -2,28 +2,21 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "bonus_rolls": 0.0,
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ],
+      "bonus_rolls": 0,
       "entries": [
         {
           "type": "minecraft:alternatives",
           "children": [
             {
               "type": "minecraft:item",
-              "conditions": [
-                {
-                  "block": "kaleidoscope_cookery:cold_style_sashimi",
-                  "condition": "minecraft:block_state_property",
-                  "properties": {
-                    "bites": "0"
-                  }
+              "name": "kaleidoscope_cookery:cold_style_sashimi",
+              "condition": {
+                "type": "minecraft:match_block",
+                "blocks": "kaleidoscope_cookery:cold_style_sashimi",
+                "state": {
+                  "bites": "0"
                 }
-              ],
-              "name": "kaleidoscope_cookery:cold_style_sashimi"
+              }
             },
             {
               "type": "minecraft:item",
@@ -32,30 +25,26 @@
           ]
         }
       ],
-      "rolls": 1.0
+      "rolls": 1,
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      }
     },
     {
-      "bonus_rolls": 0.0,
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ],
+      "bonus_rolls": 0,
       "entries": [
         {
           "type": "minecraft:alternatives",
           "children": [
             {
               "type": "minecraft:empty",
-              "conditions": [
-                {
-                  "block": "kaleidoscope_cookery:cold_style_sashimi",
-                  "condition": "minecraft:block_state_property",
-                  "properties": {
-                    "bites": "0"
-                  }
+              "condition": {
+                "type": "minecraft:match_block",
+                "blocks": "kaleidoscope_cookery:cold_style_sashimi",
+                "state": {
+                  "bites": "0"
                 }
-              ]
+              }
             },
             {
               "type": "minecraft:item",
@@ -64,30 +53,26 @@
           ]
         }
       ],
-      "rolls": 1.0
+      "rolls": 1,
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      }
     },
     {
-      "bonus_rolls": 0.0,
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ],
+      "bonus_rolls": 0,
       "entries": [
         {
           "type": "minecraft:alternatives",
           "children": [
             {
               "type": "minecraft:empty",
-              "conditions": [
-                {
-                  "block": "kaleidoscope_cookery:cold_style_sashimi",
-                  "condition": "minecraft:block_state_property",
-                  "properties": {
-                    "bites": "0"
-                  }
+              "condition": {
+                "type": "minecraft:match_block",
+                "blocks": "kaleidoscope_cookery:cold_style_sashimi",
+                "state": {
+                  "bites": "0"
                 }
-              ]
+              }
             },
             {
               "type": "minecraft:item",
@@ -96,7 +81,10 @@
           ]
         }
       ],
-      "rolls": 1.0
+      "rolls": 1,
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      }
     }
   ],
   "random_sequence": "kaleidoscope_cookery:blocks/cold_style_sashimi"
