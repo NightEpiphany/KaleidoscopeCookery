@@ -14,6 +14,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
+import net.minecraft.util.Prediction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -90,7 +91,7 @@ public class TeacupItem extends BlockItem implements IHasContainer {
             return container;
         }
         if (entity instanceof Player player) {
-            player.getInventory().placeItemBackInInventory(container);
+            player.getInventory().placeItemBackInInventory(container, Prediction.PREDICTED);
         } else {
             ItemEntity itemEntity = new ItemEntity(level, entity.getX(), entity.getY(), entity.getZ(), container);
             level.addFreshEntity(itemEntity);

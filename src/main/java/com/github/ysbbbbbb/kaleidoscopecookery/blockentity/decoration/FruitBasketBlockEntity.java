@@ -10,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Prediction;
 import net.minecraft.world.ItemStackWithSlot;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Player;
@@ -60,7 +61,7 @@ public class FruitBasketBlockEntity extends BaseBlockEntity {
                 long extracted = storage.extract(itemVariant, stack.getCount(), tx);
                 if (extracted > 0) {
                     tx.commit();
-                    player.getInventory().placeItemBackInInventory(itemVariant.toStack((int) extracted));
+                    player.getInventory().placeItemBackInInventory(itemVariant.toStack((int) extracted), Prediction.PREDICTED);
                     if (this.level != null) {
                         this.level.playSound(null, this.worldPosition, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.BLOCKS);
                     }

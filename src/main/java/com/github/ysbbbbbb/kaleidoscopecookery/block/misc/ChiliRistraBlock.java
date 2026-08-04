@@ -9,6 +9,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.util.Prediction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -81,7 +82,7 @@ public class ChiliRistraBlock extends Block implements SimpleWaterloggedBlock {
         if (mainHandItem.isEmpty()) {
             player.setItemInHand(InteractionHand.MAIN_HAND, redChili);
         } else {
-            player.getInventory().placeItemBackInInventory(redChili);
+            player.getInventory().placeItemBackInInventory(redChili, Prediction.PREDICTED);
         }
         level.playSound(null, pos,
                 SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES,

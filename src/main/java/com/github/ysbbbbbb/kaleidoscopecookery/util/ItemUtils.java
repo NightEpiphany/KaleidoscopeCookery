@@ -9,6 +9,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Prediction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
@@ -31,7 +32,7 @@ public class ItemUtils {
             entity.setItemInHand(InteractionHand.MAIN_HAND, stack);
             entity.playSound(SoundEvents.ITEM_PICKUP, 0.2F, ((random.nextFloat() - random.nextFloat()) * 0.7F + 1.0F) * 2.0F);
         } else if (entity instanceof Player player) {
-            player.getInventory().placeItemBackInInventory(stack);
+            player.getInventory().placeItemBackInInventory(stack, Prediction.PREDICTED);
         } else if (entity.level() instanceof ServerLevel serverLevel) {
             // 否则直接在实体所处位置生成物品
             ItemEntity dropItem = entity.spawnAtLocation(serverLevel, stack);

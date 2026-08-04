@@ -13,8 +13,8 @@
             "predicate_type": "minecraft:always_true"
           },
           "output_state": {
-            "Name": "kaleidoscope_cookery:chili_crop",
-            "Properties": {
+            "id": "kaleidoscope_cookery:chili_crop",
+            "properties": {
               "age": "7"
             }
           }
@@ -29,8 +29,8 @@
             "predicate_type": "minecraft:always_true"
           },
           "output_state": {
-            "Name": "kaleidoscope_cookery:lettuce_crop",
-            "Properties": {
+            "id": "kaleidoscope_cookery:lettuce_crop",
+            "properties": {
               "age": "7"
             }
           }

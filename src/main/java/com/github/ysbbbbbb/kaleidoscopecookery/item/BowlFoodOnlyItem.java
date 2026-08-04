@@ -1,6 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.item;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.api.item.IHasContainer;
+import net.minecraft.util.Prediction;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -31,7 +32,7 @@ public class BowlFoodOnlyItem extends FoodWithEffectsItem implements IHasContain
             return bowl;
         }
         if (entity instanceof Player player) {
-            player.getInventory().placeItemBackInInventory(bowl);
+            player.getInventory().placeItemBackInInventory(bowl, Prediction.PREDICTED);
         } else if (!level.isClientSide()) {
             ItemEntity itemEntity = new ItemEntity(level, entity.getX(), entity.getY(), entity.getZ(), bowl);
             level.addFreshEntity(itemEntity);

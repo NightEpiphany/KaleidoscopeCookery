@@ -21,7 +21,7 @@ public class LeftClickMixin {
     @Nullable
     public LocalPlayer player;
 
-    @Inject(method = "startAttack", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;swing(Lnet/minecraft/world/InteractionHand;)V", shift = At.Shift.BY))
+    @Inject(method = "startAttack", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;swing(Lnet/minecraft/world/InteractionHand;Lnet/minecraft/world/item/component/SwingAnimation;Z)Z", shift = At.Shift.BY))
     private void ATTACK(CallbackInfoReturnable<Boolean> cir) {
         ModEvents.PLAYER_LEFT_CLICK.invoker().onPlayerLeftClick(this.player, InteractionHand.MAIN_HAND);
     }

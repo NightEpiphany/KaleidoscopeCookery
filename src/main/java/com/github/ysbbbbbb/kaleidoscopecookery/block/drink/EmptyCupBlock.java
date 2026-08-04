@@ -15,6 +15,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.SwingAnimation;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -64,7 +65,7 @@ public class EmptyCupBlock extends HorizontalDirectionalBlock implements SimpleW
             return InteractionResult.PASS;
         }
         ItemStack itemInHand = player.getItemInHand(hand);
-        player.swing(hand);
+        player.swing(hand, SwingAnimation.DEFAULT, false);
         // 如果是茶壶
         if (itemInHand.is(ModItems.TEAPOT)) {
             ItemStack pourOut = TeapotItem.getPourOut(itemInHand, level);

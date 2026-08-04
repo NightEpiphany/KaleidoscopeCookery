@@ -15,6 +15,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Prediction;
 import net.minecraft.util.Util;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -124,7 +125,7 @@ public class BowlFoodBlockItem extends BlockItem implements ICustomEatEffect {
                     return;
                 }
                 if (entity instanceof Player player) {
-                    player.getInventory().placeItemBackInInventory(itemStack);
+                    player.getInventory().placeItemBackInInventory(itemStack, Prediction.PREDICTED);
                 } else {
                     ItemEntity itemEntity = new ItemEntity(level, entity.getX(), entity.getY(), entity.getZ(), itemStack);
                     level.addFreshEntity(itemEntity);
