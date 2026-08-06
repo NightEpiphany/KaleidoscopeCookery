@@ -13,6 +13,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -65,7 +66,15 @@ public class KitchenwareRacksBlock extends HorizontalDirectionalBlock implements
         if (state.getValue(WATERLOGGED)) {
             levelAccessor.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(levelAccessor));
         }
-        return super.updateShape(state, direction, neighborState, levelAccessor, pos, neighborPos);
+        return direction == state.getValue(FACING).getOpposite() && !state.canSurvive(levelAccessor, pos) ?
+                Blocks.AIR.defaultBlockState() : super.updateShape(state, direction, neighborState, levelAccessor, pos, neighborPos);
+    }
+
+    @Override
+    protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+        Direction direction = state.getValue(FACING);
+        BlockPos adjacentPos = pos.relative(direction.getOpposite());
+        return level.getBlockState(adjacentPos).isFaceSturdy(level, adjacentPos, direction);
     }
 
     @Override
@@ -94,9 +103,11 @@ public class KitchenwareRacksBlock extends HorizontalDirectionalBlock implements
     @Override
     @Nullable
     public BlockState getStateForPlacement(BlockPlaceContext context) {
+        Direction clickedFace = context.getClickedFace();
         FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
+        if (clickedFace.getAxis().isVertical()) return null;
         return this.defaultBlockState()
-                .setValue(FACING, context.getHorizontalDirection().getOpposite())
+                .setValue(FACING, clickedFace)
                 .setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER);
     }
 
