@@ -59,7 +59,15 @@ public class KitchenwareRacksBlock extends HorizontalDirectionalBlock implements
         if (state.getValue(WATERLOGGED)) {
             scheduledTickAccess.scheduleTick(blockPos, Fluids.WATER, Fluids.WATER.getTickDelay(levelReader));
         }
-        return super.updateShape(state, levelReader, scheduledTickAccess, blockPos, direction, neighborPos, neighborState, randomSource);
+        return direction == state.getValue(FACING).getOpposite() && !state.canSurvive(levelReader, blockPos) ?
+                Blocks.AIR.defaultBlockState() : super.updateShape(state, levelReader, scheduledTickAccess, blockPos, direction, neighborPos, neighborState, randomSource);
+    }
+
+    @Override
+    protected boolean canSurvive(final BlockState state, final @NonNull LevelReader level, final @NonNull BlockPos pos) {
+        Direction direction = state.getValue(FACING);
+        BlockPos adjacentPos = pos.relative(direction.getOpposite());
+        return level.getBlockState(adjacentPos).isFaceSturdy(level, adjacentPos, direction);
     }
 
     @Override
@@ -88,9 +96,11 @@ public class KitchenwareRacksBlock extends HorizontalDirectionalBlock implements
     @Override
     @Nullable
     public BlockState getStateForPlacement(BlockPlaceContext context) {
+        Direction clickedFace = context.getClickedFace();
         FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
+        if (clickedFace.getAxis().isVertical()) return null;
         return this.defaultBlockState()
-                .setValue(FACING, context.getHorizontalDirection().getOpposite())
+                .setValue(FACING, clickedFace)
                 .setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER);
     }
 
