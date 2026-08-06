@@ -1,0 +1,48 @@
+{
+  "replace": false,
+  "values": [
+    "kaleidoscope_cookery:pork_bone_soup",
+    "kaleidoscope_cookery:seafood_miso_soup",
+    "kaleidoscope_cookery:fearsome_thick_soup",
+    "kaleidoscope_cookery:lamb_and_radish_soup",
+    "kaleidoscope_cookery:braised_beef_with_potatoes",
+    "kaleidoscope_cookery:wild_mushroom_rabbit_soup",
+    "kaleidoscope_cookery:tomato_beef_brisket_soup",
+    "kaleidoscope_cookery:pufferfish_soup",
+    "kaleidoscope_cookery:beef_meatball_soup",
+    "kaleidoscope_cookery:chicken_and_mushroom_stew",
+    "kaleidoscope_cookery:donkey_soup",
+    {
+		"id":"kaleidoscope_nether:blaze_soup",
+		"required": false
+	},
+    {
+		"id":"kaleidoscope_nether:wither_bone_soup",
+		"required": false
+	},
+    {
+		"id":"kaleidoscope_nether:star_stew",
+		"required": false
+	},
+    {
+		"id":"kaleidoscope_nether:soul_soup",
+		"required": false
+	},
+    {
+		"id":"kaleidoscope_nether:poisonous_soup",
+		"required": false
+	},
+    {
+		"id":"kaleidoscope_nether:magma_cream_soup",
+		"required": false
+	},
+    {
+		"id":"kaleidoscope_nether:glowing_soup",
+		"required": false
+	},
+    {
+		"id":"kaleidoscope_end:dragon_breath_chorus_soup",
+		"required": false
+	}
+  ]
+}
