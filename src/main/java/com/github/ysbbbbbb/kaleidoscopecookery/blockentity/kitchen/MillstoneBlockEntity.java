@@ -18,6 +18,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.neo.IItemHandler;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.neo.ItemStackHandler;
+import net.fabricmc.fabric.impl.serialization.SpecialCodecs;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -414,6 +415,7 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
         valueOutput.putInt(PROGRESS_KEY, this.progress);
     }
 
+    @SuppressWarnings({"deprecation", "UnstableApiUsage"})
     @ServerThreadSafe
     @Override
     protected void loadAdditional(@NonNull ValueInput valueInput) {
@@ -426,14 +428,14 @@ public class MillstoneBlockEntity extends BaseBlockEntity implements IMillstone 
         this.input = valueInput.read(INPUT_ITEM_KEY, ItemStack.CODEC).orElse(ItemStack.EMPTY);
         this.outputs.setSize(OUTPUT_SLOT_COUNT);
         if (valueInput.contains(OUTPUT_ITEM_KEY)) {
-            valueInput.child(OUTPUT_ITEM_KEY).ifPresent(outputInput -> {
-                if (outputInput.contains("Items") || outputInput.contains("Size")) {
+            valueInput.child(OUTPUT_ITEM_KEY).ifPresentOrElse(outputInput -> {
+                if (outputInput.read(SpecialCodecs.contains("Items")).orElse(false) || outputInput.read(SpecialCodecs.contains("Size")).orElse(false)) {
                     this.outputs.deserializeNBT(outputInput);
                 } else {
                     valueInput.read(OUTPUT_ITEM_KEY, ItemStack.CODEC)
                             .ifPresent(stack -> this.outputs.setStackInSlot(0, stack));
                 }
-            });
+            }, () -> {});
         }
         this.progress = valueInput.getIntOr(PROGRESS_KEY, 0);
     }
