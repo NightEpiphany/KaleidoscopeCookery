@@ -11,6 +11,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -85,7 +86,7 @@ public class ProjectileDodgeEvent {
 
             Vec3 previousPos = living.position();
             level.gameEvent(GameEvent.TELEPORT, previousPos, GameEvent.Context.of(living));
-            if (living.randomTeleport(targetX, targetY, targetZ, true)) {
+            if (living.randomTeleport(targetX, targetY, targetZ, true, state -> !state.is(Blocks.AIR))) {
                 SoundEvent soundEvent = SoundEvents.ENDERMAN_TELEPORT;
                 level.playSound(null, x, y, z, soundEvent, SoundSource.PLAYERS, 1.0F, 1.0F);
                 living.playSound(soundEvent, 1.0F, 1.0F);

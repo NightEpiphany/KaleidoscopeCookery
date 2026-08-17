@@ -43,7 +43,6 @@
     }
   },
   "display": {
-    "background": "kaleidoscope_cookery:gui/advancements/backgrounds/background",
     "description": {
       "translate": "advancements.kaleidoscope_cookery.farmer_set.description"
     },

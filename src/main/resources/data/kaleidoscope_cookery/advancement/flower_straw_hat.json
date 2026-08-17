@@ -13,7 +13,6 @@
     }
   },
   "display": {
-    "background": "kaleidoscope_cookery:gui/advancements/backgrounds/background",
     "description": {
       "translate": "advancements.kaleidoscope_cookery.flower_straw_hat.description"
     },

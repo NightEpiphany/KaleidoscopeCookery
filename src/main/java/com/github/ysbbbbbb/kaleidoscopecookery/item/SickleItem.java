@@ -113,7 +113,8 @@ public class SickleItem extends Item {
             }
             if (cropBlock.isMaxAge(blockState)) {
                 // 成熟则收割
-                cropBlock.playerDestroy(level, player, newPos, blockState, null, ItemStack.EMPTY);
+                if (player instanceof ServerPlayer serverPlayer)
+                    cropBlock.playerDestroy(level, serverPlayer, newPos, blockState, null, ItemStack.EMPTY);
                 BlockState stateForAge = cropBlock.getStateForAge(0);
                 // 同步水属性状态
                 BooleanProperty waterlogged = BlockStateProperties.WATERLOGGED;

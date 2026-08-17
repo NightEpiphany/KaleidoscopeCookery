@@ -15,7 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeverBlock;
-import net.minecraft.world.level.block.RedStoneWireBlock;
+import net.minecraft.world.level.block.RedstoneWireBlock;
 import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.RedstoneSide;
@@ -41,9 +41,9 @@ public class ShawarmaSpitScenes {
         BlockPos triggerPos = grid.at(0, 1, 2);
         Selection triggerSel = select.position(triggerPos);
         scene.world().setBlock(redPos, Blocks.REDSTONE_WIRE.defaultBlockState()
-                .setValue(RedStoneWireBlock.EAST, RedstoneSide.SIDE)
-                .setValue(RedStoneWireBlock.WEST, RedstoneSide.SIDE)
-                .setValue(RedStoneWireBlock.POWER, 0), false);
+                .setValue(RedstoneWireBlock.EAST, RedstoneSide.SIDE)
+                .setValue(RedstoneWireBlock.WEST, RedstoneSide.SIDE)
+                .setValue(RedstoneWireBlock.POWER, 0), false);
         scene.world().setBlock(triggerPos, Blocks.LEVER.defaultBlockState()
                 .setValue(LeverBlock.FACING, Direction.EAST)
                 .setValue(LeverBlock.POWERED, false)
@@ -97,9 +97,9 @@ public class ShawarmaSpitScenes {
                 .setValue(LeverBlock.POWERED, true)
                 .setValue(LeverBlock.FACE, AttachFace.FLOOR), false);
         scene.world().modifyBlock(redPos, (s) -> Blocks.REDSTONE_WIRE.defaultBlockState()
-                .setValue(RedStoneWireBlock.EAST, RedstoneSide.SIDE)
-                .setValue(RedStoneWireBlock.WEST, RedstoneSide.SIDE)
-                .setValue(RedStoneWireBlock.POWER, 15), false);
+                .setValue(RedstoneWireBlock.EAST, RedstoneSide.SIDE)
+                .setValue(RedstoneWireBlock.WEST, RedstoneSide.SIDE)
+                .setValue(RedstoneWireBlock.POWER, 15), false);
         scene.world().modifyBlock(spitPos, (s) -> ModBlocks.SHAWARMA_SPIT.defaultBlockState()
                 .setValue(ShawarmaSpitBlock.FACING, Direction.NORTH)
                 .setValue(ShawarmaSpitBlock.HALF, DoubleBlockHalf.LOWER)
@@ -178,9 +178,9 @@ public class ShawarmaSpitScenes {
                 .setValue(LeverBlock.POWERED, false)
                 .setValue(LeverBlock.FACE, AttachFace.FLOOR), false);
         scene.world().modifyBlock(redPos, (s) -> Blocks.REDSTONE_WIRE.defaultBlockState()
-                .setValue(RedStoneWireBlock.EAST, RedstoneSide.SIDE)
-                .setValue(RedStoneWireBlock.WEST, RedstoneSide.SIDE)
-                .setValue(RedStoneWireBlock.POWER, 0), false);
+                .setValue(RedstoneWireBlock.EAST, RedstoneSide.SIDE)
+                .setValue(RedstoneWireBlock.WEST, RedstoneSide.SIDE)
+                .setValue(RedstoneWireBlock.POWER, 0), false);
         scene.world().modifyBlock(spitPos, (s) -> ModBlocks.SHAWARMA_SPIT.defaultBlockState()
                 .setValue(ShawarmaSpitBlock.FACING, Direction.NORTH)
                 .setValue(ShawarmaSpitBlock.HALF, DoubleBlockHalf.LOWER)
