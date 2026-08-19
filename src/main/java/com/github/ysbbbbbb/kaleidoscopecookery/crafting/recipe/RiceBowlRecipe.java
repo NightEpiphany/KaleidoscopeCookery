@@ -69,7 +69,22 @@ public class RiceBowlRecipe extends CustomRecipe {
 
 
     public @NotNull NonNullList<Ingredient> getIngredients() {
-        return NonNullList.of(this.ingredient, COOKED_RICE);
+        NonNullList<Ingredient> ingredients = NonNullList.create();
+        ingredients.add(this.ingredient);
+        ingredients.add(COOKED_RICE);
+        return ingredients;
+    }
+
+    @Override
+    public @NotNull NonNullList<ItemStack> getRemainingItems(@NonNull CraftingInput container) {
+        NonNullList<ItemStack> remainingItems = CraftingRecipe.defaultCraftingReminder(container);
+        for (int i = 0; i < container.size(); i++) {
+            if (COOKED_RICE.test(container.getItem(i))) {
+                // 米饭的碗成为盖浇饭容器，不应作为合成剩余物返还。
+                remainingItems.set(i, ItemStack.EMPTY);
+            }
+        }
+        return remainingItems;
     }
 
 
