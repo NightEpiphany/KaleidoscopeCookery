@@ -6,6 +6,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.item.quality.Quality;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.quality.QualityUtils;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
@@ -23,6 +24,32 @@ public class RiceBowlRecipe extends CustomRecipe {
         super(category);
         this.ingredient = ingredient;
         this.result = result;
+    }
+
+    static NonNullList<ItemStack> defaultCraftingReminder(final CraftingInput input) {
+        NonNullList<ItemStack> result = NonNullList.withSize(input.size(), ItemStack.EMPTY);
+
+        for(int slot = 0; slot < result.size(); ++slot) {
+            Item item = input.getItem(slot).getItem();
+            if (item.getCraftingRemainingItem() != null) {
+                var remainder = item.getCraftingRemainingItem().getDefaultInstance();
+                result.set(slot, remainder);
+            }
+        }
+
+        return result;
+    }
+
+    @Override
+    public @NotNull NonNullList<ItemStack> getRemainingItems(CraftingInput container) {
+        NonNullList<ItemStack> remainingItems = defaultCraftingReminder(container);
+        for (int i = 0; i < container.size(); i++) {
+            if (COOKED_RICE.test(container.getItem(i))) {
+                // 米饭的碗成为盖浇饭容器，不应作为合成剩余物返还。
+                remainingItems.set(i, ItemStack.EMPTY);
+            }
+        }
+        return remainingItems;
     }
 
     @Override
