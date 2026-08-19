@@ -1,5 +1,6 @@
 {
   "values": [
-    "kaleidoscope_cookery:rice"
+    "kaleidoscope_cookery:rice",
+    { "id": "farmersdelight:rice", "required":false }
   ]
 }
