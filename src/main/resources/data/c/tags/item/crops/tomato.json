@@ -1,5 +1,6 @@
 {
   "values": [
-    "kaleidoscope_cookery:tomato"
+    "kaleidoscope_cookery:tomato",
+    { "id": "farmersdelight:tomato", "required":false }
   ]
 }
