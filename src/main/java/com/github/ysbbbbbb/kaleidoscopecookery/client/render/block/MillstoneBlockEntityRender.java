@@ -99,8 +99,8 @@ public class MillstoneBlockEntityRender implements BlockEntityRenderer<Millstone
         this.bodyModel.setupAnim(state);
         poseStack.pushPose();
         poseStack.translate(0.5, 1.5, 0.5);
-        poseStack.mulPose(Axis.ZN.rotationDegrees(180));
-        poseStack.mulPose(Axis.YN.rotationDegrees(180 - facingDeg));
+        poseStack.rotateDegrees(Axis.ZN, 180);
+        poseStack.rotateDegrees(Axis.YN, 180 - facingDeg);
         RenderType renderType = RenderTypes.entityCutout(TEXTURE);
         submitNodeCollector.submitModel(
                 bodyModel,
@@ -138,8 +138,8 @@ public class MillstoneBlockEntityRender implements BlockEntityRenderer<Millstone
             poseStack.pushPose();
             poseStack.translate(0, 0.875, 0);
             poseStack.rotateAround(Axis.YP.rotationDegrees(i * 45 + source.nextInt(15)), 0.5f, 0, 0.5f);
-            poseStack.mulPose(Axis.YP.rotationDegrees(source.nextInt(20)));
-            poseStack.mulPose(Axis.XN.rotationDegrees(80 + source.nextInt(20)));
+            poseStack.rotateDegrees(Axis.YP, source.nextInt(20));
+            poseStack.rotateDegrees(Axis.XN, 80 + source.nextInt(20));
             poseStack.scale(0.65F, 0.65F, 0.65F);
             itemStackRenderState.submit(
                     poseStack,

@@ -67,7 +67,7 @@ public class ChoppingBoardBlockEntityRender implements BlockEntityRenderer<Chopp
     public void submit(ChoppingBoardBlockEntityRenderState blockEntityRenderState, @NonNull PoseStack poseStack, @NonNull SubmitNodeCollector submitNodeCollector, @NonNull CameraRenderState cameraRenderState) {
         if (blockEntityRenderState.contentModel.isEmpty()) return;
         poseStack.pushPose();
-        poseStack.mulPose(Axis.YP.rotationDegrees(blockEntityRenderState.rotation * 90));
+        poseStack.rotateDegrees(Axis.YP, blockEntityRenderState.rotation * 90);
         poseStack.translate(0, 0.625, 0);
         if (blockEntityRenderState.rotation == 0 || blockEntityRenderState.rotation == 3) {
             int i = blockEntityRenderState.rotation == 3 ? -1 : 1;

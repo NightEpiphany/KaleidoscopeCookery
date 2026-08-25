@@ -87,8 +87,8 @@ public class PotBlockEntityRender implements BlockEntityRenderer<PotBlockEntity,
 
         poseStack.pushPose();
         poseStack.translate(0.5, 0.1, 0.5);
-        poseStack.mulPose(Axis.YN.rotationDegrees(blockEntityRenderState.rotation));
-        poseStack.mulPose(Axis.XN.rotationDegrees(90));
+        poseStack.rotateDegrees(Axis.YN, blockEntityRenderState.rotation);
+        poseStack.rotateDegrees(Axis.XN, 90);
         poseStack.scale(0.5f, 0.5f, 0.5f);
 
         // 炒菜阶段，或者炒完，但是需要碗才能装的菜，只渲染原材料
@@ -101,10 +101,10 @@ public class PotBlockEntityRender implements BlockEntityRenderer<PotBlockEntity,
                     poseStack.pushPose();
 
                     int count = 90 + source.nextInt(90);
-                    poseStack.mulPose(Axis.ZN.rotationDegrees(i * count));
+                    poseStack.rotateDegrees(Axis.ZN, i * count);
                     if (time < 1000) {
                         poseStack.translate(0, 0, data.randomHeights[i] * Mth.sin(Mth.PI * time / 1000f));
-                        poseStack.mulPose(Axis.XN.rotationDegrees(720f / 1000 * time));
+                        poseStack.rotateDegrees(Axis.XN, 720f / 1000 * time);
                     }
                     // 焦糊程度，菜变黑
                     if (blockEntityRenderState.status == PotBlockEntity.BURNT) {
@@ -129,10 +129,10 @@ public class PotBlockEntityRender implements BlockEntityRenderer<PotBlockEntity,
             // 结束阶段，并且不需要碗的菜，直接渲染结果
             poseStack.pushPose();
 
-            poseStack.mulPose(Axis.ZN.rotationDegrees(0));
+            poseStack.rotateDegrees(Axis.ZN, 0);
             if (time < 1000) {
                 poseStack.translate(0, 0, data.randomHeights[0] * Mth.sin(Mth.PI * time / 1000f));
-                poseStack.mulPose(Axis.XN.rotationDegrees(720f / 1000 * time));
+                poseStack.rotateDegrees(Axis.XN, 720f / 1000 * time);
             }
             // 焦糊程度，菜变黑
             if (blockEntityRenderState.status == PotBlockEntity.BURNT) {

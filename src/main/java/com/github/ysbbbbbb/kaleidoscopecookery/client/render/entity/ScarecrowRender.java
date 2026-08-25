@@ -62,10 +62,10 @@ public class ScarecrowRender extends LivingEntityRenderer<ScarecrowEntity, Scare
 
     @Override
     protected void setupRotations(ScarecrowEntityRenderState livingEntityRenderState, PoseStack poseStack, float f, float g) {
-        poseStack.mulPose(Axis.YP.rotationDegrees(180.0F - f));
+        poseStack.rotateDegrees(Axis.YP, 180.0F - f);
         float time = (float) (livingEntityRenderState.time - livingEntityRenderState.lastHit) + livingEntityRenderState.partialTicks;
         if (time < 5.0F) {
-            poseStack.mulPose(Axis.YP.rotationDegrees(Mth.sin(time / 1.5F * Mth.PI) * 3.0F));
+            poseStack.rotateDegrees(Axis.YP, Mth.sin(time / 1.5F * Mth.PI) * 3.0F);
         }
     }
 

@@ -59,9 +59,9 @@ public class TableBlockEntityRender implements BlockEntityRenderer<TableBlockEnt
 
     private void rotation(PoseStack poseStack, Direction.Axis axis) {
         if (axis == Direction.Axis.X) {
-            poseStack.mulPose(Axis.YP.rotationDegrees(180));
+            poseStack.rotateDegrees(Axis.YP, 180);
         } else {
-            poseStack.mulPose(Axis.YP.rotationDegrees(90));
+            poseStack.rotateDegrees(Axis.YP, 90);
         }
     }
 
@@ -95,7 +95,7 @@ public class TableBlockEntityRender implements BlockEntityRenderer<TableBlockEnt
             poseStack.pushPose();
             if (blockEntityRenderState.axis == Direction.Axis.X)
                 poseStack.translate(0, 0, 1);
-            poseStack.mulPose(Axis.YP.rotationDegrees(-rotation));
+            poseStack.rotateDegrees(Axis.YP, -rotation);
             poseStack.translate(-0.5f, 0.5f, 0.5f);
             if (!blockEntityRenderState.carpetModel.isEmpty()) {
                 blockEntityRenderState.carpetModel.submit(

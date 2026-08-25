@@ -78,8 +78,8 @@ public class TeapotBlockEntityRender implements BlockEntityRenderer<TeapotBlockE
 
         poseStack.pushPose();
         poseStack.translate(0.5, 1.5, 0.5);
-        poseStack.mulPose(Axis.ZN.rotationDegrees(180));
-        poseStack.mulPose(Axis.YN.rotationDegrees(180 - blockEntityRenderState.facingDeg));
+        poseStack.rotateDegrees(Axis.ZN, 180);
+        poseStack.rotateDegrees(Axis.YN, 180 - blockEntityRenderState.facingDeg);
         RenderType renderType = RenderTypes.entityCutout(TEXTURE);
         submitNodeCollector.submitModel(
                 model,

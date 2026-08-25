@@ -47,15 +47,15 @@ public class KitchenwareRacksBlockEntityRender implements BlockEntityRenderer<Ki
         var rightState = blockEntityRenderState.right;
 
         poseStack.translate(0.5, 0, 0.5);
-        poseStack.mulPose(Axis.YN.rotationDegrees(blockEntityRenderState.rotation));
+        poseStack.rotateDegrees(Axis.YN, blockEntityRenderState.rotation);
 
         if (!leftState.isEmpty()) {
             poseStack.pushPose();
             poseStack.translate(-0.2, 0.4375, -0.3);
             poseStack.scale(0.75f, 0.75f, 0.75f);
-            poseStack.mulPose(Axis.XN.rotationDegrees(180));
-            poseStack.mulPose(Axis.YN.rotationDegrees(-25));
-            poseStack.mulPose(Axis.ZN.rotationDegrees(45));
+            poseStack.rotateDegrees(Axis.XN, 180);
+            poseStack.rotateDegrees(Axis.YN, -25);
+            poseStack.rotateDegrees(Axis.ZN, 45);
             leftState.submit(poseStack, submitNodeCollector, blockEntityRenderState.lightCoords, OverlayTexture.NO_OVERLAY, 0);
             poseStack.popPose();
         }
@@ -64,9 +64,9 @@ public class KitchenwareRacksBlockEntityRender implements BlockEntityRenderer<Ki
             poseStack.pushPose();
             poseStack.translate(0.2, 0.4375, -0.3);
             poseStack.scale(0.75f, 0.75f, 0.75f);
-            poseStack.mulPose(Axis.XN.rotationDegrees(180));
-            poseStack.mulPose(Axis.YN.rotationDegrees(-25));
-            poseStack.mulPose(Axis.ZN.rotationDegrees(45));
+            poseStack.rotateDegrees(Axis.XN, 180);
+            poseStack.rotateDegrees(Axis.YN, -25);
+            poseStack.rotateDegrees(Axis.ZN, 45);
             rightState.submit(poseStack, submitNodeCollector, blockEntityRenderState.lightCoords, OverlayTexture.NO_OVERLAY, 0);
             poseStack.popPose();
         }

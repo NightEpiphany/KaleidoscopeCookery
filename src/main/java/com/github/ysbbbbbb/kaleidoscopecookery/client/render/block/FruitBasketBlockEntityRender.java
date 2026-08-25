@@ -53,7 +53,7 @@ public class FruitBasketBlockEntityRender implements BlockEntityRenderer<FruitBa
         var items = blockEntityRenderState.items;
         poseStack.pushPose();
         poseStack.translate(0.5, 0, 0.5);
-        poseStack.mulPose(Axis.YN.rotationDegrees(blockEntityRenderState.rotation));
+        poseStack.rotateDegrees(Axis.YN, blockEntityRenderState.rotation);
         poseStack.translate(-0.5, 0, -0.5);
         poseStack.translate(0.1, 0.3, 0.35);
         for (int i = 0; i < 2; i++) {
@@ -65,8 +65,8 @@ public class FruitBasketBlockEntityRender implements BlockEntityRenderer<FruitBa
                     poseStack.translate(0.15, 0, 0);
                     poseStack.pushPose();
                     poseStack.translate(0, 0, index % 2 == 0 ? -0.01f : 0.01f);
-                    poseStack.mulPose(Axis.YN.rotationDegrees(90));
-                    poseStack.mulPose(Axis.XN.rotationDegrees(-30));
+                    poseStack.rotateDegrees(Axis.YN, 90);
+                    poseStack.rotateDegrees(Axis.XN, -30);
                     poseStack.scale(0.375f, 0.375f, 0.375f);
                     itemRenderState.submit(
                             poseStack,

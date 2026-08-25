@@ -130,11 +130,11 @@ public class StockpotBlockEntityRender implements BlockEntityRenderer<StockpotBl
                 float offsetY = random % 50 * 0.004f;
                 float yRot = (random % 2 == 0 ? -1 : 1) * 20 + random % 10;
                 poseStack.pushPose();
-                poseStack.mulPose(Axis.XP.rotationDegrees(85 + random % 10));
+                poseStack.rotateDegrees(Axis.XP, 85 + random % 10);
                 poseStack.scale(0.5f, 0.5f, 0.5f);
                 poseStack.translate(0.9 + offsetX, 0.9 + offsetY, -0.5 + offsetZ);
-                poseStack.mulPose(Axis.YP.rotationDegrees(yRot));
-                poseStack.mulPose(Axis.ZP.rotationDegrees(random % 360));
+                poseStack.rotateDegrees(Axis.YP, yRot);
+                poseStack.rotateDegrees(Axis.ZP, random % 360);
                 itemStackRenderState.submit(
                         poseStack,
                         submitNodeCollector,

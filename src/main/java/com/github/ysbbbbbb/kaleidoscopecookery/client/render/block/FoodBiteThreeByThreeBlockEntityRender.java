@@ -63,8 +63,8 @@ public class FoodBiteThreeByThreeBlockEntityRender implements BlockEntityRendere
         poseStack.pushPose();
         coldCutHamSlicesModel.updateBites(bites);
         poseStack.translate(0.5, 1.5, 0.5);
-        poseStack.mulPose(Axis.ZN.rotationDegrees(180));
-        poseStack.mulPose(Axis.YN.rotationDegrees(180 - facingDeg));
+        poseStack.rotateDegrees(Axis.ZN, 180);
+        poseStack.rotateDegrees(Axis.YN, 180 - facingDeg);
         RenderType renderType = RenderTypes.entityCutout(COLD_CUT_HAM_SLICES_TEXTURE);
         submitNodeCollector.submitModel(
                 coldCutHamSlicesModel,

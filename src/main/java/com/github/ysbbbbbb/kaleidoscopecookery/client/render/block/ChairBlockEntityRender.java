@@ -50,7 +50,7 @@ public class ChairBlockEntityRender implements BlockEntityRenderer<ChairBlockEnt
     public void submit(ChairBlockEntityRenderState blockEntityRenderState, @NonNull PoseStack poseStack, @NonNull SubmitNodeCollector submitNodeCollector, @NonNull CameraRenderState cameraRenderState) {
         if (!blockEntityRenderState.hasCarpet) return;
         poseStack.pushPose();
-        poseStack.mulPose(Axis.YP.rotationDegrees(-blockEntityRenderState.rotation * 90));
+        poseStack.rotateDegrees(Axis.YP, -blockEntityRenderState.rotation * 90);
         int i;
         float j;
         switch (blockEntityRenderState.rotation) {

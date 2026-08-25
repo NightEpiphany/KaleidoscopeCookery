@@ -37,13 +37,13 @@ public class ScarecrowHandLayer extends ItemInHandLayer<ScarecrowEntityRenderSta
         if (!(armedEntityRenderState.leftHandItemStack.isEmpty() && armedEntityRenderState.rightHandItemStack.isEmpty())) {
             poseStack.pushPose();
             this.getParentModel().translateToHand(armedEntityRenderState, arm, poseStack);
-            poseStack.mulPose(Axis.XP.rotationDegrees(-90.0F));
-            poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
+            poseStack.rotateDegrees(Axis.XP, -90.0F);
+            poseStack.rotateDegrees(Axis.YP, 180.0F);
             boolean isLeft = arm == HumanoidArm.LEFT;
             if (isLeft) {
                 if (stack.getItem() instanceof BlockItem blockItem && blockItem.getBlock() instanceof LanternBlock && !armedEntityRenderState.leftHandLantern.isEmpty()) {
                     poseStack.translate(-1.865, 0.375, -2);
-                    poseStack.mulPose(Axis.XP.rotationDegrees(90));
+                    poseStack.rotateDegrees(Axis.XP, 90);
                     poseStack.scale(0.75F, 0.75F, 0.75F);
                     armedEntityRenderState.leftHandLantern.submit(
                             poseStack,
@@ -55,8 +55,8 @@ public class ScarecrowHandLayer extends ItemInHandLayer<ScarecrowEntityRenderSta
                 }
             } else {
                 poseStack.translate(0.125, 0, -1.375);
-                poseStack.mulPose(Axis.ZP.rotationDegrees(-90));
-                poseStack.mulPose(Axis.XP.rotationDegrees(85));
+                poseStack.rotateDegrees(Axis.ZP, -90);
+                poseStack.rotateDegrees(Axis.XP, 85);
                 poseStack.scale(0.75F, 0.75F, 0.75F);
                 itemStackRenderState.submit(
                         poseStack,
