@@ -26,8 +26,8 @@ import net.minecraft.world.level.storage.loot.functions.EnchantedCountIncreaseFu
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.minecraft.world.level.storage.loot.providers.number.floats.ContextFloatProviders;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,13 +90,13 @@ public final class ExtraLootTableDrop {
         HolderGetter<Enchantment> enchantmentLookup = registries.getter(Registries.ENCHANTMENT).orElseThrow();
         ItemPredicate hasKnife = ItemPredicate.Builder.item().of(itemLookup, TagMod.KITCHEN_KNIFE).build();
         LootItemCondition.Builder toolMatches = AdvanceEntityMatchTool.toolMatches(EquipmentSlot.MAINHAND, hasKnife);
-        var count = SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F));
-        var looting = EnchantedCountIncreaseFunction.lootingMultiplier(enchantmentLookup, UniformGenerator.between(0.0F, 1.0F));
+        var count = SetItemCountFunction.setCount(ContextIntProviders.between(1, 2));
+        var looting = EnchantedCountIncreaseFunction.lootingMultiplier(enchantmentLookup, ContextFloatProviders.between(0.0F, 1.0F));
         var oil = LootItem.lootTableItem(ModItems.OIL).apply(count).apply(looting);
         var empty = EmptyLootItem.emptyItem();
 
         return LootPool.lootPool()
-                .setRolls(ConstantValue.exactly(rolls))
+                .setRolls(ContextIntProviders.exactly(rolls))
                 .add(oil).add(empty).when(toolMatches);
     }
 
@@ -111,7 +111,7 @@ public final class ExtraLootTableDrop {
         var empty = EmptyLootItem.emptyItem().setWeight(2);
 
         return LootPool.lootPool()
-                .setRolls(ConstantValue.exactly(1))
+                .setRolls(ContextIntProviders.exactly(1))
                 .add(tomato).add(chili)
                 .add(lettuce).add(rice)
                 .add(empty);

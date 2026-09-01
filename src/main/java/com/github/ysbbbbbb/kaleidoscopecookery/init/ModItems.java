@@ -17,7 +17,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.BlocksAttacks;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.storage.loot.providers.number.NumberProviders;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
 
 import java.util.List;
 import java.util.Optional;
@@ -49,7 +49,7 @@ public final class ModItems {
             )
             .component(DataComponents.BREAK_SOUND, SoundEvents.SHIELD_BREAK)
     ));
-    public static final Item OIL_BLOCK = registerItemViaBlock(ModBlocks.OIL_BLOCK, new Item.Properties().cookingFuel(NumberProviders.COOKING_TIME_COAL_BLOCK));
+    public static final Item OIL_BLOCK = registerItemViaBlock(ModBlocks.OIL_BLOCK, new Item.Properties().cookingFuel(ContextIntProviders.COOKING_TIME_COAL_BLOCK));
     public static final Item CHOPPING_BOARD = registerItemViaBlock(ModBlocks.CHOPPING_BOARD);
     public static final Item ENAMEL_BASIN = registerItemViaBlock(ModBlocks.ENAMEL_BASIN);
     public static final Item KITCHENWARE_RACKS = registerItemViaBlock(ModBlocks.KITCHENWARE_RACKS, (block, properties) -> new WithTooltipsBlockItem(block, properties, "kitchenware_racks"));
@@ -76,7 +76,7 @@ public final class ModItems {
     public static final Item SICKLE = registerItem("sickle", SickleItem::new, new Item.Properties());
 
     // Special items
-    public static final Item OIL = registerItem("oil", p -> new WithTooltipsItem(p.cookingFuel(NumberProviders.COOKING_TIME_COAL), "oil"));
+    public static final Item OIL = registerItem("oil", p -> new WithTooltipsItem(p.cookingFuel(ContextIntProviders.COOKING_TIME_COAL), "oil"));
     public static final Item RECIPE_ITEM = registerItem("recipe_item", p -> new RecipeItem(ModBlocks.RECIPE_BLOCK, p.useItemDescriptionPrefix()));
     public static final Item KITCHEN_SHOVEL = registerItem("kitchen_shovel", KitchenShovelItem::new);
     public static final Item FRUIT_BASKET = registerItemViaBlock(ModBlocks.FRUIT_BASKET, FruitBasketItem::new);
@@ -94,8 +94,8 @@ public final class ModItems {
     public static final Item TOMATO_SEED = registerItem("tomato_seed", createBlockItemWithCustomItemName(ModBlocks.TOMATO_CROP));
     public static final Item CHILI_SEED = registerItem("chili_seed", createBlockItemWithCustomItemName(ModBlocks.CHILI_CROP));
     public static final Item LETTUCE_SEED = registerItem("lettuce_seed", createBlockItemWithCustomItemName(ModBlocks.LETTUCE_CROP));
-    public static final Item RICE_SEED = registerItem("rice", p -> new RiceItem(p.useItemDescriptionPrefix().compostable(NumberProviders.COMPOSTABLE_LOW)));
-    public static final Item WILD_RICE_SEED = registerItem("wild_rice", p -> new RiceItem(p.useItemDescriptionPrefix().compostable(NumberProviders.COMPOSTABLE_LOW)));
+    public static final Item RICE_SEED = registerItem("rice", p -> new RiceItem(p.useItemDescriptionPrefix().compostable(ContextIntProviders.COMPOSTABLE_LOW)));
+    public static final Item WILD_RICE_SEED = registerItem("wild_rice", p -> new RiceItem(p.useItemDescriptionPrefix().compostable(ContextIntProviders.COMPOSTABLE_LOW)));
 
     // Cook stools
     public static final Item COOK_STOOL_OAK = registerItemViaBlock(ModBlocks.COOK_STOOL_OAK);
@@ -143,12 +143,12 @@ public final class ModItems {
     public static final Item TABLE_WARPED = registerItemViaBlock(ModBlocks.TABLE_WARPED);
 
     // Food items
-    public static final Item TOMATO = registerItem("tomato", p -> new Item(p.food(ModFoods.TOMATO, ModConsumables.TOMATO).compostable(NumberProviders.COMPOSTABLE_LOW_MEDIUM)));
+    public static final Item TOMATO = registerItem("tomato", p -> new Item(p.food(ModFoods.TOMATO, ModConsumables.TOMATO).compostable(ContextIntProviders.COMPOSTABLE_LOW_MEDIUM)));
     public static final Item RED_CHILI = registerItem("red_chili", ChiliItem.RedChiliItem::new);
     public static final Item GREEN_CHILI = registerItem("green_chili", ChiliItem.GreenChiliItem::new);
-    public static final Item LETTUCE = registerItem("lettuce", p -> new Item(p.food(ModFoods.LETTUCE, ModConsumables.LETTUCE).compostable(NumberProviders.COMPOSTABLE_LOW_MEDIUM)));
-    public static final Item RICE_PANICLE = registerItem("rice_panicle", p -> new Item(p.compostable(NumberProviders.COMPOSTABLE_LOW_MEDIUM)));
-    public static final Item CATERPILLAR = registerItem("caterpillar", p -> new WithTooltipsItem(p.food(ModFoods.CATERPILLAR, ModConsumables.CATERPILLAR).compostable(NumberProviders.COMPOSTABLE_MEDIUM_HIGH), "caterpillar"));
+    public static final Item LETTUCE = registerItem("lettuce", p -> new Item(p.food(ModFoods.LETTUCE, ModConsumables.LETTUCE).compostable(ContextIntProviders.COMPOSTABLE_LOW_MEDIUM)));
+    public static final Item RICE_PANICLE = registerItem("rice_panicle", p -> new Item(p.compostable(ContextIntProviders.COMPOSTABLE_LOW_MEDIUM)));
+    public static final Item CATERPILLAR = registerItem("caterpillar", p -> new WithTooltipsItem(p.food(ModFoods.CATERPILLAR, ModConsumables.CATERPILLAR).compostable(ContextIntProviders.COMPOSTABLE_MEDIUM_HIGH), "caterpillar"));
     public static final Item FRIED_EGG = registerItem("fried_egg", p -> new Item(p.food(ModFoods.FRIED_EGG, ModConsumables.FRIED_EGG)));
     public static final Item DONKEY_BURGER = registerItem("donkey_burger", p -> new FoodWithEffectsItem(p, ModFoods.DONKEY_BURGER, ModConsumables.DONKEY_BURGER));
     public static final Item MANTOU = registerItem("mantou", p -> new FoodWithEffectsItem(p, ModFoods.MANTOU, ModConsumables.MANTOU));
@@ -248,7 +248,7 @@ public final class ModItems {
     }
 
     private static Function<Item.Properties, Item> createBlockItemWithCustomItemName(Block block) {
-        return properties -> new BlockItem(block, properties.useItemDescriptionPrefix().compostable(NumberProviders.COMPOSTABLE_LOW));
+        return properties -> new BlockItem(block, properties.useItemDescriptionPrefix().compostable(ContextIntProviders.COMPOSTABLE_LOW));
     }
 
     public static Item registerItem(String string) {

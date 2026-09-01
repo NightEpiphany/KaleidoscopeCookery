@@ -21,7 +21,7 @@ import net.minecraft.world.level.storage.loot.entries.EmptyLootItem;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
 import org.jetbrains.annotations.Contract;
 
 import java.util.function.Supplier;
@@ -45,7 +45,7 @@ public class ModTrinketsCompat {
                         var chance = LootItemRandomChanceCondition.randomChance(0.125F);
                         var match = StrawHatTrinketsLootCondition.toolMatches(predicate);
                         tableBuilder.withPool(LootPool.lootPool()
-                                .setRolls(ConstantValue.exactly(1))
+                                .setRolls(ContextIntProviders.exactly(1))
                                 .add(LootItem.lootTableItem(ModItems.TOMATO_SEED)
                                         .when(chance).when(match)
                                         .apply(enchantments))
