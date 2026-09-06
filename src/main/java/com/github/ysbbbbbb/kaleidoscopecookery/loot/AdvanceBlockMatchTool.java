@@ -41,7 +41,7 @@ public class AdvanceBlockMatchTool implements LootItemCondition {
     @Override
     public boolean test(LootContext context) {
         if (context.hasParameter(LootContextParams.THIS_ENTITY)) {
-            Entity entity = context.getOptionalParameter(LootContextParams.THIS_ENTITY);
+            Entity entity = context.getOptional(LootContextParams.THIS_ENTITY);
             if (entity instanceof LivingEntity livingEntity) {
                 ItemStack stack = livingEntity.getItemBySlot(this.slot);
                 return this.predicate.test(stack);

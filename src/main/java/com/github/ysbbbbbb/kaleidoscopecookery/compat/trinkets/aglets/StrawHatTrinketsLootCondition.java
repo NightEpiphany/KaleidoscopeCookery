@@ -43,7 +43,7 @@ public class StrawHatTrinketsLootCondition implements LootItemCondition {
     @Override
     public boolean test(LootContext lootContext) {
         if (lootContext.hasParameter(LootContextParams.THIS_ENTITY)) {
-            Entity entity = lootContext.getParameter(LootContextParams.THIS_ENTITY);
+            Entity entity = lootContext.getOptional(LootContextParams.THIS_ENTITY);
             if (entity instanceof LivingEntity livingEntity) {
                 Optional<TrinketAttachment> optionalComponent = Optional.ofNullable(TrinketsApi.getAttachment(livingEntity));
                 if (optionalComponent.isPresent()) {

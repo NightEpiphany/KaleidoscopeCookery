@@ -41,7 +41,9 @@ public class AdvanceEntityMatchTool implements LootItemCondition {
     @Override
     public boolean test(LootContext context) {
         if (context.hasParameter(LootContextParams.LAST_DAMAGE_PLAYER)) {
-            Player player = context.getParameter(LootContextParams.LAST_DAMAGE_PLAYER);
+            Player player = context.getOptional(LootContextParams.LAST_DAMAGE_PLAYER);
+            if (player == null)
+                return false;
             ItemStack stack = player.getItemBySlot(this.slot);
             return this.predicate.test(stack);
         }
