@@ -59,6 +59,7 @@ public class RecipeBlock extends FaceAttachedHorizontalDirectionalBlock implemen
                 .setValue(WATERLOGGED, false));
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult) {
         // 空手右击取下来
@@ -94,6 +95,7 @@ public class RecipeBlock extends FaceAttachedHorizontalDirectionalBlock implemen
         return super.updateShape(state, direction, neighborState, levelAccessor, pos, neighborPos);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public @NotNull VoxelShape getShape(BlockState state, @NotNull BlockGetter pLevel, @NotNull BlockPos pPos, @NotNull CollisionContext pContext) {
         Direction facing = state.getValue(FACING);
@@ -114,6 +116,9 @@ public class RecipeBlock extends FaceAttachedHorizontalDirectionalBlock implemen
         FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
         BlockState stateForPlacement = super.getStateForPlacement(context);
         if (stateForPlacement != null) {
+            if (stateForPlacement.getValue(FACE) == AttachFace.FLOOR || stateForPlacement.getValue(FACE) == AttachFace.CEILING)
+                stateForPlacement = stateForPlacement.setValue(FACING,
+                        context.getHorizontalDirection().getOpposite());
             return stateForPlacement.setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER);
         }
         return null;
@@ -148,11 +153,13 @@ public class RecipeBlock extends FaceAttachedHorizontalDirectionalBlock implemen
         pBuilder.add(FACING, FACE, WATERLOGGED);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public @NotNull FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public @NotNull List<ItemStack> getDrops(@NotNull BlockState state, LootParams.@NotNull Builder lootParamsBuilder) {
         List<ItemStack> drops = super.getDrops(state, lootParamsBuilder);
