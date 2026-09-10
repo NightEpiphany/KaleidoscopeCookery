@@ -21,6 +21,7 @@ public final class ModRecipes {
     public static final RecipeSerializer<SteamerRecipe> STEAMER_SERIALIZER = new SteamerRecipeSerializer();
     public static final RecipeSerializer<TeapotRecipe> TEAPOT_SERIALIZER = new TeapotRecipeSerializer();
     public static final RecipeSerializer<RiceBowlRecipe> RICE_BOWL_SERIALIZER = new RiceBowlRecipeSerializer();
+    public static final RecipeSerializer<BambooTrayRecipe> BAMBOO_TRAY_SERIALIZER = new BambooTrayRecipeSerializer();
 
     public static final RecipeType<PotRecipe> POT_RECIPE = simple(new ResourceLocation(KaleidoscopeCookery.MOD_ID, "pot"));
     public static final RecipeType<FlexPotRecipe> FLEX_POT_RECIPE = simple(new ResourceLocation(KaleidoscopeCookery.MOD_ID, "flex_pot"));
@@ -30,6 +31,7 @@ public final class ModRecipes {
     public static final RecipeType<MillstoneRecipe> MILLSTONE_RECIPE = simple(new ResourceLocation(KaleidoscopeCookery.MOD_ID, "millstone"));
     public static final RecipeType<SteamerRecipe> STEAMER_RECIPE = simple(new ResourceLocation(KaleidoscopeCookery.MOD_ID, "steamer"));
     public static final RecipeType<TeapotRecipe> TEAPOT_RECIPE = simple(new ResourceLocation(KaleidoscopeCookery.MOD_ID, "teapot"));
+    public static final RecipeType<BambooTrayRecipe> BAMBOO_TRAY_RECIPE = simple(new ResourceLocation(KaleidoscopeCookery.MOD_ID, "bamboo_tray"));
 
     public static void registerRecipes() {
         Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "pot"), POT_SERIALIZER);
@@ -40,6 +42,7 @@ public final class ModRecipes {
         Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "millstone"), MILLSTONE_SERIALIZER);
         Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "steamer"), STEAMER_SERIALIZER);
         Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "teapot"), TEAPOT_SERIALIZER);
+        Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "bamboo_tray"), BAMBOO_TRAY_SERIALIZER);
         Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "rice_bowl"), RICE_BOWL_SERIALIZER);
 
         Registry.register(BuiltInRegistries.RECIPE_TYPE, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "pot"), POT_RECIPE);
@@ -50,6 +53,7 @@ public final class ModRecipes {
         Registry.register(BuiltInRegistries.RECIPE_TYPE, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "millstone"), MILLSTONE_RECIPE);
         Registry.register(BuiltInRegistries.RECIPE_TYPE, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "steamer"), STEAMER_RECIPE);
         Registry.register(BuiltInRegistries.RECIPE_TYPE, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "teapot"), TEAPOT_RECIPE);
+        Registry.register(BuiltInRegistries.RECIPE_TYPE, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "bamboo_tray"), BAMBOO_TRAY_RECIPE);
     }
 
     private static <T extends Recipe<?>> RecipeType<T> simple(final ResourceLocation id) {

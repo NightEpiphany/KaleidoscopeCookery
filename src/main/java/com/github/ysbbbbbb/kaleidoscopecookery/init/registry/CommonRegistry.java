@@ -151,6 +151,8 @@ public final class CommonRegistry {
     }
 
     private static void addComposter() {
+        CompostingChanceRegistry.INSTANCE.add(ModItems.FRESH_TEA_LEAVES, 0.65F);
+        CompostingChanceRegistry.INSTANCE.add(ModItems.TEA_SEED, 0.3F);
         CompostingChanceRegistry.INSTANCE.add(ModItems.TOMATO_SEED, 0.3F);
         CompostingChanceRegistry.INSTANCE.add(ModItems.CHILI_SEED, 0.3F);
         CompostingChanceRegistry.INSTANCE.add(ModItems.LETTUCE_SEED, 0.3F);

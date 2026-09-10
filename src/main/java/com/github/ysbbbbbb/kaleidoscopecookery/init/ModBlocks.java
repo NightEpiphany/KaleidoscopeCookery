@@ -1,10 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.init;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
-import com.github.ysbbbbbb.kaleidoscopecookery.block.crop.BaseCropBlock;
-import com.github.ysbbbbbb.kaleidoscopecookery.block.crop.ChiliCropBlock;
-import com.github.ysbbbbbb.kaleidoscopecookery.block.crop.LettuceCropBlock;
-import com.github.ysbbbbbb.kaleidoscopecookery.block.crop.RiceCropBlock;
+import com.github.ysbbbbbb.kaleidoscopecookery.block.crop.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.decoration.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.drink.EmptyCupBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteThreeByThreeBlock;
@@ -39,6 +36,7 @@ public final class ModBlocks {
     public static final Block SHAWARMA_SPIT = new ShawarmaSpitBlock();
 
     // Tea
+    public static final Block TEA_TREE = new TeaTreeBlock();
     public static final Block TEAPOT = new TeapotBlock();
     public static final Block EMPTY_CUP = new EmptyCupBlock();
 
@@ -165,6 +163,7 @@ public final class ModBlocks {
         Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "trash_can"), TRASH_CAN);
 
         // Tea
+        Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "tea_tree"), TEA_TREE);
         Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "teapot"), TEAPOT);
         Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "empty_cup"), EMPTY_CUP);
 

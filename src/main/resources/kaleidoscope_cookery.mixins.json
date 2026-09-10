@@ -7,6 +7,7 @@
   "refmap": "kaleidoscopecookery-refmap.json",
   "mixins": [
     "BlockMixin",
+    "CropBlockMixin",
     "FallingBlockEntityMixin",
     "FarmBlockMixin",
     "ItemEntityMixin",
@@ -19,10 +20,10 @@
   ],
   "client": [
     "client.GameRendererMixin",
+    "client.HumanoidModelMixin",
     "client.ItemRendererMixin",
     "client.ModelBakeryMixin",
-    "client.PlayerRendererMixin",
-    "client.HumanoidModelMixin"
+    "client.PlayerRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -71,6 +71,7 @@ public final class ModItems {
     public static final Item LETTUCE_SEED = new ItemNameBlockItem(ModBlocks.LETTUCE_CROP, new Item.Properties());
     public static final Item RICE_SEED = new ItemNameBlockItem(ModBlocks.RICE_CROP, new Item.Properties());
     public static final Item WILD_RICE_SEED = new ItemNameBlockItem(ModBlocks.RICE_CROP, new Item.Properties());
+    public static final Item TEA_SEED = new ItemNameBlockItem(ModBlocks.TEA_TREE, new Item.Properties());
 
     // 凳子
     public static final Item COOK_STOOL_OAK = new BlockItem(ModBlocks.COOK_STOOL_OAK, new Item.Properties());
@@ -117,6 +118,8 @@ public final class ModItems {
     public static final Item GREEN_CHILI = new ChiliItem(1);
     public static final Item LETTUCE = new Item(new Item.Properties().food(ModFoods.LETTUCE));
     public static final Item RICE_PANICLE = new Item(new Item.Properties());
+    public static final Item FRESH_TEA_LEAVES = new Item(new Item.Properties());
+    public static final Item DRIED_TEA_LEAVES = new Item(new Item.Properties());
     public static final Item CATERPILLAR = new WithTooltipsItem(new Item.Properties().food(ModFoods.CATERPILLAR), "caterpillar");
 
     // 面类食材
@@ -259,6 +262,7 @@ public final class ModItems {
         Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "lettuce_seed"), LETTUCE_SEED);
         Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "rice"), RICE_SEED);
         Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "wild_rice"), WILD_RICE_SEED);
+        Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "tea_seed"), TEA_SEED);
 
         // 凳子
         Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "cook_stool_oak"), COOK_STOOL_OAK);
@@ -305,6 +309,8 @@ public final class ModItems {
         Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "green_chili"), GREEN_CHILI);
         Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "lettuce"), LETTUCE);
         Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "rice_panicle"), RICE_PANICLE);
+        Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "fresh_tea_leaves"), FRESH_TEA_LEAVES);
+        Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "dried_tea_leaves"), DRIED_TEA_LEAVES);
         Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(KaleidoscopeCookery.MOD_ID, "caterpillar"), CATERPILLAR);
 
         // 面类食材

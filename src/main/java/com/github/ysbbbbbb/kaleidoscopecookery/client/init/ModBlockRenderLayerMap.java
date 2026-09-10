@@ -31,7 +31,8 @@ public final class ModBlockRenderLayerMap {
                 ModBlocks.STEAMER,
                 ModBlocks.STOCKPOT,
                 ModBlocks.STRUNG_MUSHROOMS,
-                ModBlocks.TEAPOT
+                ModBlocks.TEAPOT,
+                ModBlocks.TEA_TREE
         );
 
         FoodBiteRegistry.FOOD_DATA_MAP.keySet().forEach(id -> {

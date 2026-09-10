@@ -19,6 +19,7 @@ public class ModKubeJSPlugin extends KubeJSPlugin {
         event.namespace(KaleidoscopeCookery.MOD_ID).register(ModRecipes.FLEX_STOCKPOT_SERIALIZER.toString(), StockpotRecipeSchema.SCHEMA);
         event.namespace(KaleidoscopeCookery.MOD_ID).register(ModRecipes.MILLSTONE_SERIALIZER.toString(), MillstoneRecipeSchema.SCHEMA);
         event.namespace(KaleidoscopeCookery.MOD_ID).register(ModRecipes.STEAMER_SERIALIZER.toString(), SteamerRecipeSchema.SCHEMA);
+        event.namespace(KaleidoscopeCookery.MOD_ID).register(ModRecipes.BAMBOO_TRAY_SERIALIZER.toString(), BambooTrayRecipeSchema.SCHEMA);
     }
 
     @Override
