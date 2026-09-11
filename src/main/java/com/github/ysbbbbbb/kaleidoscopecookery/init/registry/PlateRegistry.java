@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public class PlateRegistry {
+public final class PlateRegistry {
     public static final Map<Identifier, PlateData> PLATE_DATA_MAP = Maps.newLinkedHashMap();
 
     public static Identifier SHENGJIAN_MANTOU_PLATE;
