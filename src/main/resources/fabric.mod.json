@@ -32,7 +32,7 @@
   "mixins": ["kaleidoscope_cookery.mixins.json"],
   "accessWidener": "kaleidoscope_cookery.accessWidener",
   "depends": {
-    "fabricloader": ">=0.18",
+    "fabricloader": ">=0.19.3",
     "fabric-api": ">=0.160",
     "minecraft": "~26.3-",
     "java": ">=25"
