@@ -1,7 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.item;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.api.item.ICustomEatEffect;
-import com.github.ysbbbbbb.kaleidoscopecookery.config.ClientConfig;
+import com.github.ysbbbbbb.kaleidoscopecookery.config.ConfigGetter;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.quality.Quality;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.quality.QualityUtils;
 import net.minecraft.ChatFormatting;
@@ -88,7 +88,7 @@ public class FoodWithEffectsItem extends Item implements ICustomEatEffect {
         Consumable consumable = modifyConsumables(stack);
         List<MobEffectInstance> effects = QualityUtils.getStatusEffects(consumable);
         boolean showEffect = !effects.isEmpty()
-                && ClientConfig.SHOW_FOOD_EFFECT_TOOLTIPS.get();
+                && ConfigGetter.Client.getShowFoodEffectTooltips();
 
         // 品质
         if (QualityUtils.hasQuality(stack)) {

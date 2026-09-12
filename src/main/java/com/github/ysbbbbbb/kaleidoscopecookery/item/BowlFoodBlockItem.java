@@ -2,7 +2,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery.item;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.api.item.ICustomEatEffect;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteBlock;
-import com.github.ysbbbbbb.kaleidoscopecookery.config.ClientConfig;
+import com.github.ysbbbbbb.kaleidoscopecookery.config.ConfigGetter;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.quality.Quality;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.quality.QualityUtils;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.PortHelper;
@@ -161,7 +161,7 @@ public class BowlFoodBlockItem extends BlockItem implements ICustomEatEffect {
         Consumable consumable = modifyConsumables(stack);
         List<MobEffectInstance> effects = QualityUtils.getStatusEffects(consumable);
         boolean showEffect = !effects.isEmpty()
-                && ClientConfig.SHOW_FOOD_EFFECT_TOOLTIPS.get();
+                && ConfigGetter.Client.getShowFoodEffectTooltips();
 
         if (QualityUtils.hasQuality(stack)) {
             Quality quality = QualityUtils.getQuality(stack);

@@ -8,9 +8,7 @@ import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-/**
- * 一个很奇怪的bug，如果在开发环境出现由MobEffectInstance导致的NPE，请加上这个mixin
- */
+@Deprecated
 @SuppressWarnings("all")
 @Mixin(ApplyStatusEffectsConsumeEffect.class)
 public class EffectInstanceMixin {
