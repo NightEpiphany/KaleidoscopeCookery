@@ -10,4 +10,4 @@ pluginManagement {
 }
 
 // Title for the project
-rootProject.name = "KC-1.21.1-fabric"
+rootProject.name = "KC-1.20.1-fabric"
