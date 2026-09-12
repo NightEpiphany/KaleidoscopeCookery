@@ -13,5 +13,5 @@ pluginManagement {
 	}
 }
 
-// Should match your modid
-rootProject.name = "kaleidoscopecookery-refabricated"
+// Title for the project
+rootProject.name = "KC-26.2-fabric"
