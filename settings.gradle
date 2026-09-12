@@ -8,3 +8,6 @@ pluginManagement {
 		gradlePluginPortal()
 	}
 }
+
+// Title for the project
+rootProject.name = "KC-1.21.1-fabric"
