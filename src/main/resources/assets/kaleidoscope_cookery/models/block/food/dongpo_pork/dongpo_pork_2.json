@@ -1,4 +1,5 @@
 {
+	"ambientocclusion": false,
 	"format_version": "1.21.11",
 	"credit": "Made with Blockbench",
 	"render_type": "minecraft:cutout",
@@ -38,7 +39,7 @@
 			"name": "leaf",
 			"from": [8.75, 2.5, 7],
 			"to": [15.75, 2.5, 14],
-			"shade": false,
+			"shade_direction_override": "up",
 			"rotation": {"angle": 22.5, "axis": "y", "origin": [12.25, 2.5, 10.5]},
 			"faces": {
 				"up": {"uv": [5, 11, 8.5, 14.5], "texture": "#3"},
@@ -49,7 +50,7 @@
 			"name": "leaf",
 			"from": [4.75, 2.5, 9],
 			"to": [11.75, 2.5, 16],
-			"shade": false,
+			"shade_direction_override": "up",
 			"rotation": {"angle": -22.5, "axis": "y", "origin": [8.25, 2.5, 12.5]},
 			"faces": {
 				"up": {"uv": [5, 11, 8.5, 14.5], "texture": "#3"},
@@ -60,7 +61,7 @@
 			"name": "leaf",
 			"from": [2.75, 2.5, 0],
 			"to": [9.75, 2.5, 7],
-			"shade": false,
+			"shade_direction_override": "up",
 			"rotation": {"angle": 22.5, "axis": "y", "origin": [6.25, 2.5, 3.5]},
 			"faces": {
 				"up": {"uv": [11.5, 3.5, 15, 0], "rotation": 180, "texture": "#3"},

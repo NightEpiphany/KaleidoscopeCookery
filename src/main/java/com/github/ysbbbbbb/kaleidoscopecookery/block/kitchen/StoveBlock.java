@@ -1,7 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.advancements.critereon.ModEventTriggerType;
-import com.github.ysbbbbbb.kaleidoscopecookery.config.GeneralConfig;
+import com.github.ysbbbbbb.kaleidoscopecookery.config.ConfigGetter;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTrigger;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
@@ -96,7 +96,7 @@ public class StoveBlock extends HorizontalDirectionalBlock {
     @SuppressWarnings("deprecation")
     @Override
     public void stepOn(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Entity entity) {
-        if (GeneralConfig.STOVE_FIRING_ENABLED.get()
+        if (ConfigGetter.getStoveFiringEnabled()
                 && state.getValue(LIT)
                 && level instanceof ServerLevel serverLevel
                 && entity instanceof LivingEntity livingEntity

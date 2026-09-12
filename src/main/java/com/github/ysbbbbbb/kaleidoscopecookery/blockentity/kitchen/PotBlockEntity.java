@@ -303,19 +303,13 @@ public class PotBlockEntity extends BaseBlockEntity implements IPot {
     private void startCooking(Level level) {
         SimpleInput simpleInput = new SimpleInput(this.inputs);
         if (level instanceof ServerLevel serverLevel) {
-            serverLevel.recipeAccess().getRecipeFor(ModRecipes.POT_RECIPE, simpleInput, level).ifPresentOrElse(recipe -> {
-                this.applyRecipe(level, simpleInput, recipe);
-            }, () -> {
-                serverLevel.recipeAccess().getRecipeFor(ModRecipes.FLEX_POT_RECIPE, simpleInput, level).ifPresentOrElse(recipe -> {
-                    this.applyFlexRecipe(serverLevel, simpleInput, recipe);
-                }, () -> {
-                    // 不符合，进入迷之炒菜阶段
-                    this.carrier = Ingredient.of(Items.BOWL);
-                    this.result = getItem(SUSPICIOUS_STIR_FRY).getDefaultInstance();
-                    this.currentTick = 10 * 20; // 迷之炒菜时间
-                    this.stirFryCount = 0; // 迷之炒菜不计翻炒次数
-                });
-            });
+            serverLevel.recipeAccess().getRecipeFor(ModRecipes.POT_RECIPE, simpleInput, level).ifPresentOrElse(recipe -> this.applyRecipe(level, simpleInput, recipe), () -> serverLevel.recipeAccess().getRecipeFor(ModRecipes.FLEX_POT_RECIPE, simpleInput, level).ifPresentOrElse(recipe -> this.applyFlexRecipe(serverLevel, simpleInput, recipe), () -> {
+                // 不符合，进入迷之炒菜阶段
+                this.carrier = Ingredient.of(Items.BOWL);
+                this.result = getItem(SUSPICIOUS_STIR_FRY).getDefaultInstance();
+                this.currentTick = 10 * 20; // 迷之炒菜时间
+                this.stirFryCount = 0; // 迷之炒菜不计翻炒次数
+            }));
             this.status = COOKING;
             this.refresh();
         }

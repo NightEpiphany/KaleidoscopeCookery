@@ -3,7 +3,7 @@ package com.github.ysbbbbbb.kaleidoscopecookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.init.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.init.registry.ClientRegistry;
 import com.github.ysbbbbbb.kaleidoscopecookery.config.ClientConfig;
-import fuzs.forgeconfigapiport.fabric.api.v5.ConfigRegistry;
+import com.github.ysbbbbbb.kaleidoscopecookery.config.ConfigGetter;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -12,7 +12,6 @@ import net.fabricmc.fabric.api.resource.v1.pack.PackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.neoforged.fml.config.ModConfig;
 
 import static com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery.MOD_ID;
 
@@ -20,7 +19,9 @@ import static com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery.MOD_ID
 public final class KaleidoscopeCookeryClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        ConfigRegistry.INSTANCE.register(MOD_ID, ModConfig.Type.CLIENT, ClientConfig.init());
+        if (FabricLoader.getInstance().isModLoaded(ConfigGetter.ID)
+                && FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
+            ClientConfig.init();
         ClientRegistry.init();
         ModClientTooltip.register();
         ModEntitiesRender.register();
