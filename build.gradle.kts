@@ -17,6 +17,20 @@ loom {
 	accessWidenerPath = file("src/main/resources/kaleidoscope_cookery.accessWidener")
 }
 
+fabricApi {
+	configureTests {
+		createSourceSet = true
+		modId = "kaleidoscope_cookery_test"
+		enableClientGameTests = false
+	}
+}
+
+loom.runs.named("gameTest") {
+	// Reproduce RRV initializing our recipe integration before our main entrypoint.
+	property("fabric.debug.disableModShuffle", "true")
+	property("fabric.debug.loadLate", "kaleidoscope_cookery")
+}
+
 repositories {
 	maven {
 		name = "Fuzs Mod Resources"
@@ -62,6 +76,15 @@ dependencies {
 	compileOnly ("fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${providers.gradleProperty("forge_config_api_version").get()}")
 	compileOnly("mezz.jei:jei-${providers.gradleProperty("jei_version").get()}")
 	compileOnly("eu.pb4:trinkets:${providers.gradleProperty("trinkets_version").get()}")
+	testImplementation("net.fabricmc:fabric-loader-junit:${providers.gradleProperty("loader_version").get()}")
+}
+
+tasks.test {
+	useJUnitPlatform()
+	workingDir(layout.buildDirectory.dir("run/unitTest"))
+	doFirst {
+		workingDir.mkdirs()
+	}
 }
 
 tasks.processResources {

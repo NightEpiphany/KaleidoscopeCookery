@@ -17,6 +17,7 @@ import static com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery.MOD_ID
 
 @Environment(EnvType.CLIENT)
 public final class KaleidoscopeCookeryClient implements ClientModInitializer {
+
     @Override
     public void onInitializeClient() {
         if (FabricLoader.getInstance().isModLoaded(ConfigGetter.ID)
