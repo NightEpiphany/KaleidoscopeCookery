@@ -125,7 +125,7 @@ public class RecipeBlock extends FaceAttachedHorizontalDirectionalBlock implemen
         FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
         BlockState stateForPlacement = super.getStateForPlacement(context);
         if (stateForPlacement != null) {
-            if (stateForPlacement.getValue(FACE) == AttachFace.FLOOR || stateForPlacement.getValue(FACE) == AttachFace.CEILING)
+            if (stateForPlacement.getValue(FACE) == AttachFace.FLOOR)
                 stateForPlacement = stateForPlacement.setValue(FACING,
                         context.getHorizontalDirection().getOpposite());
             return stateForPlacement.setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER);

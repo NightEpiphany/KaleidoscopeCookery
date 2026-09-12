@@ -1,7 +1,7 @@
 package com.github.ysbbbbbb.kaleidoscopecookery.compat.create.automation.init;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.create.automation.millstone.MillstoneCompat;
-import com.github.ysbbbbbb.kaleidoscopecookery.config.GeneralConfig;
+import com.github.ysbbbbbb.kaleidoscopecookery.config.ConfigGetter;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.MillstoneRecipe;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -15,7 +15,7 @@ public class AutomationCompat {
     public static boolean AUTOMATION_LOADED = false;
 
     public static void init() {
-        if (FabricLoader.getInstance().isModLoaded(ID) && GeneralConfig.CREATE_AUTOMATION_ENABLED.get()) {
+        if (FabricLoader.getInstance().isModLoaded(ID) && ConfigGetter.getCreateAutomationEnabled()) {
             AUTOMATION_LOADED = true;
             KitchenAutomationPlugin.init();
             MillstoneCompat.register();
