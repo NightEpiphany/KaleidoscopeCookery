@@ -10,6 +10,7 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
@@ -58,7 +59,7 @@ public class RiceBowlRecipe extends CustomRecipe {
         for (int i = 0; i < container.size(); i++) {
             if (COOKED_RICE.test(container.getItem(i))) {
                 // 米饭的碗成为盖浇饭容器，不应作为合成剩余物返还。
-                remainingItems.set(i, ItemStack.EMPTY);
+                remainingItems.set(i, Items.BOWL.getDefaultInstance());
             }
         }
         return remainingItems;
